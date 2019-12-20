@@ -1,0 +1,88 @@
+
+
+#master {
+  
+}
+.master__progress {
+  position: fixed;
+  top: 0;
+  z-index: 1501;
+  width: 100%;
+}
+
+.master__loading {
+  position: fixed;
+  top: 67px;
+  z-index: 1501;
+  width: 100%;
+  justify-content: center;
+  div.title {
+    color: rgb(255, 255, 255);
+    font-size: 11px;
+    text-align: center;
+    font-weight: 500;
+    white-space: nowrap;
+    -webkit-flex-shrink: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #db4437;
+    padding: 7px;
+    border-radius: 40px;
+  }
+}
+
+.master__message {
+  position: fixed;
+  top: 5;
+  left: 0;
+  text-align: center;
+  z-index: 1001;
+  width: 100%;
+}
+//*************************//
+//****** Calling CSS ******//
+//*************************//
+.calling {
+  background: #fff;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: relative;
+  margin: 0 auto;
+  border-radius: 90px ;
+  border: solid 5px #fff;
+  animation: play 1.5s ease infinite;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.calling:hover {
+  animation: none;
+  transform: scale(1.2);
+  transition: 0.5s;
+}
+
+@keyframes play {
+  0% {
+    transform: scale(1);
+  }
+  15% {
+    box-shadow: 0 0 0 15px rgba(255, 255, 255, 0.2);
+  }
+  25% {
+    box-shadow: 0 0 0 15px rgba(255, 255, 255, 0.2), 0 0 0 35px rgba(255, 255, 255, 0.2);
+  }
+  30% {
+    transform: scale(1.2);
+  }
+  50% {
+    box-shadow: 0 0 0 15px rgba(255, 255, 255, 0.2), 0 0 0 35px rgba(255, 255, 255, 0.2), 0 0 0 55px rgba(255, 255, 255, 0.2);
+  }
+  80% {
+    transform: scale(1);
+  }
+}
