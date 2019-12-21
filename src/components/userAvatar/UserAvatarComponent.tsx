@@ -69,8 +69,8 @@ export class UserAvatarComponent extends Component<IUserAvatarComponentProps,IUs
     return (
       <div style={{display: 'inherit'}}>
        {(fileName && fileName !== '' && fileName !== 'noImage' )
-       ? ( <Avatar variant="rounded" className={className || ''} src={fileName ? fileName : ' '} style={{...style, backgroundColor: theme.palette.secondary.main, width: size || 36, height: size || 36}} onClick={onClick} />)
-        : (<Avatar variant="rounded" className={className || ''} style={{...style, backgroundColor: theme.palette.secondary.main , width: size || 36, height: size || 36}} onClick={onClick}>{fullName ? fullName.slice(0, 1) : ''}</Avatar>) }
+       ? ( <Avatar variant="rounded" className={className || ''} src={fileName ? fileName : ' '} style={{...style, backgroundColor: theme.palette.common.white, width: size || 36, height: size || 36}} onClick={onClick} />)
+        : (<Avatar variant="rounded" className={className || ''} style={{...style , width: size || 36, height: size || 36}} onClick={onClick}>{fullName ? fullName.slice(0, 1) : ''}</Avatar>) }
       </div>
     )
   }
