@@ -1,0 +1,7 @@
+{
+    "extends": "./tsconfig.json",
+    "allowSyntheticDefaultImports": true,
+    "compilerOptions": {
+    "module": "commonjs"
+    }
+}
