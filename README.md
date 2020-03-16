@@ -9,10 +9,10 @@
 
 **Compatible with OpenFaaS**
 
-## Support with buying a coffee 
+## Support with buying a coffee ☕️☕️☕️
 Our top backers [Become a backer](https://www.patreon.com/qolzam)
 
-## Sponsors
+## Sponsors 🥉🥈🥇
 Our top sponsors [Become a sponsor](https://www.patreon.com/qolzam)
 
 ## Demo
@@ -36,10 +36,6 @@ https://red-gold.o6s.io/auth/login
   * [Sass](http://sass-lang.com/) CSS with superpowers. Sass boasts more features and abilities than any other CSS extension language out there.
   * [InversifyJS](http://inversify.io/) InversifyJS is a lightweight (4KB) inversion of control (IoC) container for TypeScript and JavaScript apps. A IoC container uses a class constructor to identify and inject its dependencies.
   * [create-react-app](https://github.com/facebook/create-react-app) Create React App is a tool built by developers at Facebook to help you build React applications. It saves you from time-consuming setup and configuration. You simply run one command and create react app sets up the tools you need to start your React project.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Qolzam/react-social-network/tags). 
 
 ## Author
   - Amir Movahedi
