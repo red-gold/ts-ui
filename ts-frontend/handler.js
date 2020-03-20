@@ -20,9 +20,9 @@ module.exports = (event, context) => {
     return handleLogout(context);
   }
 
+  const gatewayUrl = process.env.gateway_url.replace(/\/$/, '');
   if (/^\/api\/(list-functions|system-metrics|pipeline-log).*/.test(path)) {
     // proxy api requests to the gateway
-    const gatewayUrl = process.env.gateway_url.replace(/\/$/, '');
     const proxyPath = path.replace(/^\/api\//, '');
     const url = `${gatewayUrl}/function/${proxyPath}`;
     var reqHeaders = event.headers;
@@ -99,6 +99,7 @@ module.exports = (event, context) => {
       content = content.replace(/__PRETTY_URL__/g, pretty_url);
       content = content.replace(/__QUERY_PRETTY_URL__/g, query_pretty_url);
       content = content.replace(/__WEBSOCKET_URL__/g, websocket_url);
+      content = content.replace(/__GATEWAY__/g, gatewayUrl);
       // content = content.replace(/__IS_SIGNED_IN__/g, isSignedIn);
     }
 

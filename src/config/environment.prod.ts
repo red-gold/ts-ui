@@ -15,7 +15,7 @@ export const environment = {
     apiKey: 'c283440030db1f9446e8b410f7352479'
   },
   websocket: {
-    url: (window as any).WEBSOCKET_URL || "wss://red-gold-socket.herokuapp.com"
+    url: (window as any).WEBSOCKET_URL
   },
   data: {
     imageFolderPath: 'images',
@@ -51,7 +51,7 @@ export const environment = {
     androidAppLink: 'https://github.com/Qolzam/react-mobile-social',
     iosAppLink: 'https://github.com/Qolzam/react-mobile-social',
     api: '/',
-    gateway: 'https://red-gold.o6s.io',
+    gateway: (window as any).GATEWAY,
     prettyURL: true,
     maxVideoFileSize: 20,
     maxGalley: 10
