@@ -10,7 +10,9 @@
 **Compatible with OpenFaaS**
 
 ## Demo
-https://red-gold.o6s.io/auth/login
+Looking for new place to host demo!!😓
+_https://red-gold.o6s.io/auth/login_**DEPRECATED**
+
 
 ### Video Tutorial
 - [![Telar Social one-click setup: OpenFaaS Cloud Community Cluster](https://img.youtube.com/vi/M-vjKGIvzWM/0.jpg)](https://www.youtube.com/watch?v=M-vjKGIvzWM)
