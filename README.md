@@ -11,7 +11,8 @@
 
 ## Demo
 Looking for new place to host demo!!😓
-_https://red-gold.o6s.io/auth/login_**DEPRECATED**
+
+_https://red-gold.o6s.io/auth/login_ **DEPRECATED**
 
 
 ### Video Tutorial
