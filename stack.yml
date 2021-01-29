@@ -1,21 +1,30 @@
-provider:
-  name: openfaas
-  gateway: http://127.0.0.1:8080
-
 functions:
   web:
     lang: node10-express
     handler: ./ts-frontend
     image: qolzam/web:0.4.5
-    annotations:
-      linkerd.io/inject: disabled
+    fprocess: ""
+    environment:
+      base_href: /web/
+      gateway_url: https://telarpress.o6s.io
+      query_pretty_url: "true"
+      websocket_url: https://red-gold-socket.herokuapp.com
+      write_debug: "true"
+    secrets: []
+    skip_build: false
+    constraints: null
+    environment_file: []
     labels:
+      com.openfaas.scale.zero: "false"
       openfaas-cloud: "1"
       role: openfaas-system
-      com.openfaas.scale.zero: false
-    environment:
-      write_debug: true
-      gateway_url: https://red-gold.o6s.io
-      base_href: '/web/'
-      websocket_url: "wss://red-gold-socket.herokuapp.com"
-      query_pretty_url: true
+    limits: null
+    requests: null
+    readonly_root_filesystem: false
+    build_options: []
+    annotations:
+      linkerd.io/inject: disabled
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+  network: ""
