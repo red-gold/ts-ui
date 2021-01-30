@@ -6,7 +6,7 @@ functions:
     fprocess: ""
     environment:
       base_href: /web/
-      gateway_url: https://telarpress.o6s.io
+      gateway_url: https://telarpress.cloud.telar.dev
       query_pretty_url: "true"
       websocket_url: https://red-gold-socket.herokuapp.com
       write_debug: "true"
