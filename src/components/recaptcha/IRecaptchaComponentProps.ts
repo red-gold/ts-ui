@@ -1,26 +1,26 @@
 export interface IRecaptchaComponentProps {
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any) => any
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any) => any;
 
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * Styles
+     */
+    classes?: any;
 
-  /**
-   * On successful solved captcha
-   */
-  onSuccess: (value: any) => void
+    /**
+     * On successful solved captcha
+     */
+    onSuccess: (value: any) => void;
 
-  /**
-   * On expired captcha
-   */
-  onExpired: () => void
+    /**
+     * On expired captcha
+     */
+    onExpired: () => void;
 
-  /**
-   * Handle captcha render error
-   */
-  onRenderError: (error: string) => void
+    /**
+     * Handle captcha render error
+     */
+    onRenderError: (error: string) => void;
 }

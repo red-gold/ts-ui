@@ -1,59 +1,57 @@
-
 export interface IPostComponentState {
-
     /**
      * Post text
      */
-    text: string
+    text: string;
     /**
      * It's true if whole the text post is visible
      */
-    readMoreState: boolean
+    readMoreState: boolean;
     /**
      * Handle open comment from parent component
      */
-    openComments: boolean
+    openComments: boolean;
     /**
      * If it's true, share dialog will be open
      */
-    shareOpen: boolean
+    shareOpen: boolean;
     /**
      * Whether video is displayed or not
      */
-    showVideo: boolean
+    showVideo: boolean;
     /**
      * If it's true comment will be disabled on post
      */
-    disableComments: boolean
+    disableComments: boolean;
     /**
      * If it's true share will be disabled on post
      */
-    disableSharing: boolean
+    disableSharing: boolean;
     /**
      * Title of share post
      */
-    shareTitle: string
+    shareTitle: string;
     /**
      * If it's true, post link will be visible in share post dialog
      */
-    openCopyLink: boolean
+    openCopyLink: boolean;
     /**
      * If it's true, post write will be open
      */
-    openPostWrite: boolean
+    openPostWrite: boolean;
 
     /**
      * Open the comment group
      */
-    openCommentGroup?: () => void
+    openCommentGroup?: () => void;
 
     /**
      * Post menu anchor element
      */
-    postMenuAnchorEl?: any
+    postMenuAnchorEl?: any;
 
     /**
      * Whether post menu open
      */
-    isPostMenuOpen?: boolean
+    isPostMenuOpen?: boolean;
 }

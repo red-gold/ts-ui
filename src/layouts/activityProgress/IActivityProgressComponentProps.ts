@@ -2,15 +2,15 @@ export interface IActivityProgressComponentProps {
     /**
      * Styles
      */
-    classes?: any
+    classes?: any;
 
     /**
      * Progress caption
      */
-    caption?: any 
+    caption?: any;
 
     /**
      * Display value
      */
-    value?: any
+    value?: any;
 }

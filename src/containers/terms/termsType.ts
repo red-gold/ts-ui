@@ -1,5 +1,5 @@
 export enum TermsType {
     Terms,
     Cookie,
-    Privacy
+    Privacy,
 }

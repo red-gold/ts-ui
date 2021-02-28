@@ -1,4 +1,1 @@
-
-export interface ISignupWrapperState {
-
-}
+export interface ISignupWrapperState {}

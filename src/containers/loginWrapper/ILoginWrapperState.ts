@@ -1,4 +1,1 @@
-
-export interface ILoginWrapperState {
-
-}
+export interface ILoginWrapperState {}

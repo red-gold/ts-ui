@@ -1,8 +1,8 @@
-export const activityProgressStyles = (theme: any) => ({
+export const activityProgressStyles = () => ({
     progressLineContainer: {
         maxWidth: 200,
         position: 'relative',
-        marginBottom: 10, 
+        marginBottom: 10,
     },
     progressLine: {
         height: 24,
@@ -14,4 +14,4 @@ export const activityProgressStyles = (theme: any) => ({
         left: '10%',
         top: '20%',
     },
-})
+});

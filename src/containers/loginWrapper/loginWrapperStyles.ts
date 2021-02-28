@@ -6,7 +6,7 @@ export const loginWrapperStyles = (theme: any) => ({
         fontSize: '21px',
         transition: 'fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
         userSelect: 'none',
-        flexShrink: 0
+        flexShrink: 0,
     },
     pageContainer: {
         position: 'relative',
@@ -16,8 +16,7 @@ export const loginWrapperStyles = (theme: any) => ({
         flex: '1 0 auto',
         padding: '55px 0 11px 0',
         [theme.breakpoints.down('xs')]: {
-            padding: '0px 0 11px 0'
-    
+            padding: '0px 0 11px 0',
         },
         '&:before': {
             position: 'absolute',
@@ -34,14 +33,14 @@ export const loginWrapperStyles = (theme: any) => ({
             transition: 'background .4s',
             backgroundPositionY: 'initial',
             backgroundPositionX: 'center',
-        }
+        },
     },
     pageItem: {
         zIndex: 1,
         minWidth: 435,
         [theme.breakpoints.down('xs')]: {
-            minWidth: '100%'
-          },
+            minWidth: '100%',
+        },
     },
     appbar: {
         position: 'relative',
@@ -72,17 +71,17 @@ export const loginWrapperStyles = (theme: any) => ({
     },
     loginSide: {
         maxWidth: 260,
-        minWidth: 260
+        minWidth: 260,
     },
     sideTitle: {
         color: 'white',
         textAlign: 'center',
-        fontWeight: 300
+        fontWeight: 300,
     },
     sideBody: {
         color: 'white',
         textAlign: 'center',
-        fontWeight: 300
+        fontWeight: 300,
     },
     sideContain: {
         position: 'absolute',
@@ -92,17 +91,17 @@ export const loginWrapperStyles = (theme: any) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-around',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     sideButton: {
         border: '1px solid rgba(255, 255, 255, 0.72)',
-        color: 'rgba(255, 255, 255, 0.87)'
+        color: 'rgba(255, 255, 255, 0.87)',
     },
     colorCover: {
         position: 'absolute',
         width: '100%',
         height: '100%',
-        backgroundColor: '#3366ff'
+        backgroundColor: '#3366ff',
     },
     centerRoot: {
         maxWidth: 1240,
@@ -113,8 +112,8 @@ export const loginWrapperStyles = (theme: any) => ({
         [theme.breakpoints.down('xs')]: {
             margin: 0,
             padding: 0,
-            height: 330
-        }
+            height: 330,
+        },
     },
     centerContainer: {
         display: 'flex',
@@ -129,10 +128,10 @@ export const loginWrapperStyles = (theme: any) => ({
             margin: 0,
             padding: 0,
             width: '100% !important',
-            borderRadius: 0
+            borderRadius: 0,
         },
         [theme.breakpoints.down('sm')]: {
-            width: 435
-        }
-    }
-})
+            width: 435,
+        },
+    },
+});

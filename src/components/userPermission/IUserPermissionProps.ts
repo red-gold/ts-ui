@@ -1,46 +1,44 @@
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
-import { User } from 'core/domain/users'
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
+import { User } from 'core/domain/users/user';
 
 export interface IUserPermissionProps {
+    /**
+     * Whether add video modal is open
+     */
+    open: boolean;
 
-  /**
-   * Whether add video modal is open
-   */
-  open: boolean
+    /**
+     * Handle close add video modal
+     */
+    onClose: any;
 
-  /**
-   * Handle close add video modal
-   */
-  onClose: any
+    /**
+     * On Adding user accecc list
+     */
+    onAddAccessList: (accessList: string[], selectedAccess: UserPermissionType) => void;
 
-  /**
-   * On Adding user accecc list
-   */
-  onAddAccessList: (accessList: string[], selectedAccess: UserPermissionType) => void
+    /**
+     * User following search filter
+     */
+    followingIds?: string[];
 
-  /**
-   * User following search filter
-   */
-  followingIds?: string[]
+    /**
+     * Current user
+     */
+    currentUser?: User;
 
-  /**
-   * Current user
-   */
-  currentUser?: User
+    /**
+     * Default permission
+     */
+    access: UserPermissionType;
 
-  /**
-   * Default permission
-   */
-  access: UserPermissionType
+    /**
+     * Styles
+     */
+    classes?: any;
 
-  /**
-   * Styles
-   */
-  classes?: any
-
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any) => any
-
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any) => any;
 }

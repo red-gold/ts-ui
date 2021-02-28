@@ -1,4 +1,1 @@
-
-export interface ISponserState {
-
-}
+export interface ISponserState {}

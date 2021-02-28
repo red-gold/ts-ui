@@ -1,41 +1,38 @@
-import { UserTie } from 'core/domain/circles'
-import {Map, List} from 'immutable'
+import { Map, List } from 'immutable';
 
 export interface ISearchUserProps {
+    /**
+     * Search posts
+     */
+    search: (query: string, page: number, limit: number) => any;
 
-  /**
-   * Search posts
-   */
-  search: (query: string, page: number, limit: number) => any
-  
-  /**
-   * Theme
-   */
-  history?: any
-  
-  /**
-   * Router match
-   */
-  location: any
+    /**
+     * Theme
+     */
+    history?: any;
 
-  /**
-   * Users' profile
-   */
-  peopleInfo?: List<Map<string, any>>
+    /**
+     * Router match
+     */
+    location: any;
 
-  /**
-   * If there are more people {true} or not {false}
-   */
-  hasMorePeople?: boolean
+    /**
+     * Users' profile
+     */
+    peopleInfo?: List<Map<string, any>>;
 
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * If there are more people {true} or not {false}
+     */
+    hasMorePeople?: boolean;
 
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any, params?: any) => any
+    /**
+     * Styles
+     */
+    classes?: any;
 
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any, params?: any) => any;
 }

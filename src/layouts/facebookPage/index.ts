@@ -1,2 +1,2 @@
-import FacebookPageComponent from './FacebookPageComponent'
-export default FacebookPageComponent
+import FacebookPageComponent from './FacebookPageComponent';
+export default FacebookPageComponent;

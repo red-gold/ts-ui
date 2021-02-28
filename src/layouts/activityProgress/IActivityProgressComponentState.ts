@@ -1,4 +1,1 @@
-
-export interface IActivityProgressComponentState {
-
-}
+export interface IActivityProgressComponentState {}

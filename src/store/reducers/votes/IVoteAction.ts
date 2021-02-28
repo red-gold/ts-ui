@@ -1,4 +1,4 @@
-import { VoteActionType } from 'constants/voteActionType'
+import { VoteActionType } from 'constants/voteActionType';
 
 /**
  *  Vote action interface
@@ -6,8 +6,7 @@ import { VoteActionType } from 'constants/voteActionType'
  * @export
  * @interface IVoteAction
  */
-export interface IVoteAction  {
-  payload: any,
-  type: VoteActionType
-
+export interface IVoteAction {
+    payload: any;
+    type: VoteActionType;
 }

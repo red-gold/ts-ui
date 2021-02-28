@@ -1,5 +1,5 @@
 // - Import action types
-import { AuthorizeActionType } from 'constants/authorizeActionType'
+import { AuthorizeActionType } from 'constants/authorizeActionType';
 
 /**
  *  Authorize action interface
@@ -8,7 +8,6 @@ import { AuthorizeActionType } from 'constants/authorizeActionType'
  * @interface IAuthorizeAction
  */
 export interface IAuthorizeAction {
-  payload: any
-  type: AuthorizeActionType
-
+    payload: any;
+    type: AuthorizeActionType;
 }

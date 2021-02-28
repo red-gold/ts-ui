@@ -1,4 +1,1 @@
-
-export interface IYourCirclesComponentState {
-
-}
+export interface IYourCirclesComponentState {}

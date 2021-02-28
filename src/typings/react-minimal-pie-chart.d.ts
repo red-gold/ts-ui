@@ -1,1 +1,1 @@
-declare module 'react-minimal-pie-chart'
+declare module 'react-minimal-pie-chart';

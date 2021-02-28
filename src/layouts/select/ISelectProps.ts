@@ -1,19 +1,18 @@
-import { InputProps } from '@material-ui/core/Input'
+import { InputProps } from '@material-ui/core/Input';
 
-export interface ISelectProps extends InputProps  {
-
+export interface ISelectProps extends InputProps {
     /**
      * Styles
      */
-    classes?: any
+    classes?: any;
 
     /**
      * Select options
      */
-    options: {label: string, value: string}[]
+    options: { label: string; value: string }[];
 
     /**
      * Helper text
      */
-    helper?: string
+    helper?: string;
 }

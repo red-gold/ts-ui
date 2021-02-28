@@ -1,4 +1,1 @@
-
-export interface IRecentChatItemState {
-
-}
+export interface IRecentChatItemState {}

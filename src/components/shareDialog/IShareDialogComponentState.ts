@@ -1,4 +1,1 @@
-
-export interface IShareDialogComponentState {
-
-}
+export interface IShareDialogComponentState {}

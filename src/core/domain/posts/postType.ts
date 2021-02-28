@@ -3,5 +3,5 @@ export enum PostType {
     Photo = 1,
     Video = 2,
     PhotoGallery = 3,
-    Album = 4
+    Album = 4,
 }

@@ -3,7 +3,7 @@ export const webPageStyles = (theme: any) => ({
         position: 'relative',
     },
     doneIcon: {
-        color: 'green'
+        color: 'green',
     },
     flex: {
         flex: 1,
@@ -15,23 +15,23 @@ export const webPageStyles = (theme: any) => ({
         padding: 20,
     }),
     fullPageXs: {
-        overflowY: 'auto', 
+        overflowY: 'auto',
         [theme.breakpoints.down('xs')]: {
             width: '100%',
             height: '100%',
-            margin: 0
-        }
+            margin: 0,
+        },
     },
     table: {
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
     },
     cell: {
         border: 'none',
         '&:nth-of-type(even)': {
             fontWeight: 'bold',
         },
-        padding: '4px 1px 3px 20px'
+        padding: '4px 1px 3px 20px',
     },
     row: {
         '&:hover': {
@@ -56,11 +56,10 @@ export const webPageStyles = (theme: any) => ({
         borderRadius: '2px',
     },
     contentModal: {
-        height: '100%'
-
+        height: '100%',
     },
     paperDialog: {
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
-    iosDialog: {overflow: 'auto', WebkitOverflowScrolling: 'touch', width: '100%', height: '100%'}
-})
+    iosDialog: { overflow: 'auto', WebkitOverflowScrolling: 'touch', width: '100%', height: '100%' },
+});

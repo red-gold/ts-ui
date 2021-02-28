@@ -1,4 +1,1 @@
-
-export interface IWebPageState {
-
-}
+export interface IWebPageState {}

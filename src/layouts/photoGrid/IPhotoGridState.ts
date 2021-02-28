@@ -1,4 +1,3 @@
-
 export interface IPhotoGridState {
-    pictureDialogOpen: boolean
+    pictureDialogOpen: boolean;
 }

@@ -1,7 +1,7 @@
 {
-  "name": "react-social",
+  "name": "telar-social-engine",
   "version": "0.7.0",
-  "description": "Simple react socail app",
+  "description": "Telar cloud social engine",
   "main": "index.js",
   "private": true,
   "scripts": {
@@ -13,13 +13,14 @@
     "postbuild": "rm -rf ts-frontend/dist && mv build ts-frontend/dist",
     "build": "GENERATE_SOURCEMAP=false npm-run-all build-css build-js",
     "test": "NODE_ENV=test craco test --env=jsdom --modulePaths=src --moduleNameMapper='{\"^src/(.*)$\": \"<rootDir>/src/$1\", \"^models/(.*)$\": \"<rootDir>/src/models/$1\", \"^locales/(.*)$\": \"<rootDir>/src/locales/$1\", \"^config$\": \"<rootDir>/src/config/index\"}'",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "lint": "eslint '*/**/*.{js,ts,tsx}'",
+    "format": "prettier --write src/**/*.{js,ts,tsx}",
+    "lint:fix": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "author": "Amir Movahedi",
   "license": "MIT",
   "dependencies": {
-    "@craco/craco": "5.5.0",
+    "@craco/craco": "6.1.1",
     "@material-ui/core": "4.6.1",
     "@material-ui/icons": "4.5.1",
     "@types/socket.io-client": "^1.4.32",
@@ -31,6 +32,8 @@
     "emoji-mart": "^2.11.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "faker": "^4.1.0",
     "formik": "1.5.4",
     "http-proxy-middleware": "^0.20.0",
@@ -40,7 +43,7 @@
     "immutable": "^4.0.0-rc.12",
     "install": "0.12.2",
     "inversify": "5.0.1",
-    "jest": "24.9.0",
+    "jest": "26.6.0",
     "jss-rtl": "^0.2.3",
     "jwt-decode": "^2.2.0",
     "keycode": "^2.2.0",
@@ -52,6 +55,7 @@
     "npm": "^6.11.2",
     "npm-run-all": "^4.1.5",
     "numbro": "^2.1.2",
+    "prettier": "^2.2.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.5.0",
     "ramda": "^0.26.1",
@@ -87,7 +91,7 @@
     "react-resize-detector": "4.1.3",
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
-    "react-scripts": "^3.2.0",
+    "react-scripts": "4.0.2",
     "react-select": "2.4.3",
     "react-share": "^2.4.0",
     "react-stack-grid": "^0.7.1",
@@ -150,8 +154,11 @@
     "@types/redux-immutable": "4.0.1",
     "@types/redux-logger": "^3.0.7",
     "@types/uuid": "^3.4.4",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "@typescript-eslint/parser": "^4.14.2",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
+    "eslint": "^7.19.0",
     "redux-devtools": "^3.5.0",
     "redux-devtools-dock-monitor": "^1.1.3",
     "redux-devtools-extension": "^2.13.8",
@@ -159,9 +166,7 @@
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.3",
     "ts-node": "8.5.4",
-    "tslint": "5.16.0",
-    "tslint-config-standard": "8.0.1",
-    "typescript": "3.7.3"
+    "typescript": "^4.1.3"
   },
   "directories": {
     "doc": "docs"
@@ -192,5 +197,5 @@
     "not op_mini all"
   ],
   "lint:fix": "eslint src/**/*.js --fix",
-  "homepage": "/web"
+  "homepage": "/function/web"
 }

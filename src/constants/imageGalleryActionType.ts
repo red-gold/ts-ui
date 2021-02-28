@@ -1,5 +1,4 @@
 export enum ImageGalleryActionType {
-
     ADD_IMAGE = 'ADD_IMAGE',
     ADD_VIDEO_GALLERY = 'ADD_VIDEO_GALLERY',
     DELETE_ALBUM = 'DELETE_ALBUM',
@@ -31,5 +30,5 @@ export enum ImageGalleryActionType {
     DB_UPLOAD_IMAGE = 'DB_UPLOAD_IMAGE',
     DB_UPLOAD_AVATAR = 'DB_UPLOAD_AVATAR',
     DB_UPLOAD_COVER = 'DB_UPLOAD_COVER',
-    DB_DELETE_VIDEO = 'DB_DELETE_VIDEO'
-}   
+    DB_DELETE_VIDEO = 'DB_DELETE_VIDEO',
+}

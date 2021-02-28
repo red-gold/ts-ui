@@ -1,4 +1,16 @@
-.PHONY: build
+.PHONY: build-dist build push deploy
+
+all:
+	make build-dist build push deploy
+
+build-dist:
+	( docker run -v $(shell pwd):/ts-ui node:12-alpine /bin/sh -c "cd ts-ui && yarn && yarn build")
 
 build:
-	( docker run -v $(shell pwd):/dashboard node:10.12.0-alpine /bin/sh -c "cd dashboard/client && yarn && yarn build")
+	faas-cli build
+
+push:
+	faas-cli push
+
+deploy:
+	faas-cli deploy

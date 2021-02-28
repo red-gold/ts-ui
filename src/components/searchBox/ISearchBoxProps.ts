@@ -1,27 +1,26 @@
-import StringAPI from 'api/StringAPI'
 export interface ISearchBoxProps {
-  /**
-   * Material ui theme style
-   */
-  classes?: any
-    
-  /**
-   * Theme
-   */
-  theme?: any
+    /**
+     * Material ui theme style
+     */
+    classes?: any;
 
-  /**
-   * Router location
-   */
-  location?: any
+    /**
+     * Theme
+     */
+    theme?: any;
 
-  /**
-   * Redirect to another URL 
-   */
-  goTo?: (url: string) => any
+    /**
+     * Router location
+     */
+    location?: any;
 
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any, params?: any) => any
+    /**
+     * Redirect to another URL
+     */
+    goTo?: (url: string) => any;
+
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any, params?: any) => any;
 }

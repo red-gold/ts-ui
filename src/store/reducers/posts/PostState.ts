@@ -7,25 +7,23 @@ import { Map } from 'immutable';
  * @class PostState
  */
 export class PostState {
-
     /**
      * The list of user posts
      */
-  userPosts = Map({})
+    userPosts = Map({});
 
     /**
      * If user posts are loaded {true} or not {false}
      */
-  loaded: Boolean = false
+    loaded = false;
 
-  /**
-   * Stream data storage
-   */
-  stream?: Map<string,any> = Map({list: Map({})})
+    /**
+     * Stream data storage
+     */
+    stream?: Map<string, any> = Map({ list: Map({}) });
 
-  /**
-   * Profile posts data storage
-   */
-  profile?: Map<string, any> =
-  Map({})
+    /**
+     * Profile posts data storage
+     */
+    profile?: Map<string, any> = Map({});
 }

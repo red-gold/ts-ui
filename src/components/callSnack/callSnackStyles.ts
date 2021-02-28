@@ -1,4 +1,3 @@
-
 export const callSnackStyles = (theme: any) => ({
     paper: theme.mixins.gutters({
         maxWith: 900,
@@ -7,7 +6,7 @@ export const callSnackStyles = (theme: any) => ({
         padding: 20,
     }),
     disableComponent: {
-        opacity:'0.2',  
-        'pointer-events': 'none'
-    }
-})
+        opacity: '0.2',
+        'pointer-events': 'none',
+    },
+});

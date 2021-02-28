@@ -1,4 +1,1 @@
-
-export interface IPhotoAlbumState {
-
-}
+export interface IPhotoAlbumState {}

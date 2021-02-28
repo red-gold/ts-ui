@@ -2,9 +2,9 @@
 
 export const postStreamStyles = (theme: any) => ({
     root: {
-        position: 'relative'
-      },
-      container: {
+        position: 'relative',
+    },
+    container: {
         maxWidth: 1200,
         textAlign: 'center',
         whiteSpace: 'nowrap',
@@ -18,20 +18,20 @@ export const postStreamStyles = (theme: any) => ({
         padding: '10px 0',
         width: '100%',
         ['@media (min-width: 440px)']: {
-          width: '90%'
+            width: '90%',
         },
         ['@media only screen and (min-width: 860px)']: {
-          width: '90%'
+            width: '90%',
         },
         ['@media (min-width: 1600px)']: {
-          width: '94%'
+            width: '94%',
         },
         ['@media (max-width: 440px)']: {
-          width: 'calc(100% - 16px)',
-          margin: '0 8px'
+            width: 'calc(100% - 16px)',
+            margin: '0 8px',
         },
-      },
-      postBox: {
+    },
+    postBox: {
         flexGrow: 1,
         WebkitBoxFlex: 1,
         flex: '0 1 auto',
@@ -44,17 +44,16 @@ export const postStreamStyles = (theme: any) => ({
         whiteSpace: 'normal',
         lineHeight: 'normal',
         ['& + &']: {
-          marginLeft: 24
-        }
-      },
-      spaceBox: {
-        height: 24
-      },
+            marginLeft: 24,
+        },
+    },
+    spaceBox: {
+        height: 24,
+    },
     gridCell: {
         [theme.breakpoints.down('sm')]: {
-
             maxWidth: '100% !important',
-            width: '100%'
-        }
-    }
-})
+            width: '100%',
+        },
+    },
+});

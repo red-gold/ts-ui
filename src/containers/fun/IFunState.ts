@@ -1,4 +1,1 @@
-
-export interface IFunState {
-
-}
+export interface IFunState {}

@@ -1,3 +1,1 @@
-
-export interface IPostPhotoGridState {
-}
+export interface IPostPhotoGridState {}

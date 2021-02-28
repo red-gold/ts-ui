@@ -19,10 +19,10 @@ export const circleActivityStyles = (theme: any) => ({
         left: 25,
         width: 72,
         bottom: 26,
-        height: 63
+        height: 63,
     },
     guideline: {
         paddingTop: '3px',
         textAlign: 'center',
     },
-})
+});

@@ -1,40 +1,38 @@
-import { BaseDomain } from 'core/domain/common'
+import { BaseDomain } from 'core/domain/common/baseDomain';
 
 export class FileGallery extends BaseDomain {
+    /**
+     * Image identifier
+     */
+    public id?: string | null;
 
-  /**
-   * Image identifier
-   */
-  public id?: string | null
+    /**
+     * Image creation date
+     */
+    public creationDate!: number;
 
-  /**
-   * Image creation date
-   */
-  public creationDate!: number
+    /**
+     * Image delete date
+     */
+    public deleteDate!: string;
 
-  /**
-   * Image delete date
-   */
-  public deleteDate!: string
+    /**
+     * Image URL address
+     */
+    public URL!: string;
 
-  /**
-   * Image URL address
-   */
-  public URL!: string
+    /**
+     * Image owner identifier
+     */
+    public ownerUserId!: string;
 
-  /**
-   * Image owner identifier
-   */
-  public ownerUserId!: string
+    /**
+     * Last edit date
+     */
+    public lastEditDate!: number;
 
-  /**
-   * Last edit date
-   */
-  public lastEditDate!: number
-
-  /**
-   * If the image was deleted {true} or not {false}
-   */
-  public deleted!: boolean
-
+    /**
+     * If the image was deleted {true} or not {false}
+     */
+    public deleted!: boolean;
 }

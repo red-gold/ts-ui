@@ -1,4 +1,1 @@
-
-export const createSelectFormStyles = (theme: any) => ({
-  
-})
+export const createSelectFormStyles = () => ({});

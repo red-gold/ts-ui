@@ -1,17 +1,16 @@
 export interface IFooterComponentProps {
+    /**
+     * Styles
+     */
+    classes?: any;
 
-/**
- * Styles
- */
-classes?: any
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any, param?: {}) => any;
 
-/**
- * Translate to locale string
- */
-  t?: (state: any, param?: {}) => any
-
-  /**
-   * Current locale language
-   */
-  currentLanguage?: string
+    /**
+     * Current locale language
+     */
+    currentLanguage?: string;
 }

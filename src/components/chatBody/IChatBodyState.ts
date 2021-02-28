@@ -1,3 +1,1 @@
-
-export interface IChatBodyState {
-}
+export interface IChatBodyState {}

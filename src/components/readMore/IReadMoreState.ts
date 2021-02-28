@@ -1,4 +1,4 @@
 export interface IReadMoreState {
-    truncated: boolean
-    expanded: boolean
+    truncated: boolean;
+    expanded: boolean;
 }

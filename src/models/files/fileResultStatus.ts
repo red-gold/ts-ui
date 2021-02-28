@@ -1,14 +1,14 @@
-import { FileResult } from './fileResult'
-import { SocialError } from 'core/domain/common'
+import { FileResult } from './fileResult';
+import { SocialError } from 'core/domain/common/socialError';
 
 export class FileResultStatus {
-  progress: number
+    progress: number;
 
-  success: FileResult
+    success: FileResult;
 
-  error: SocialError
+    error: SocialError;
 
-  fileName: string
-  
-  meta: any
+    fileName: string;
+
+    meta: any;
 }

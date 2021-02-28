@@ -19,8 +19,6 @@ export class Media {
         public meta: string = '',
         public deleted: boolean = false,
         public accessUserList: Array<string> = [],
-        public permission:  UserPermissionType = UserPermissionType.Public,
-    ) {
-        
-    }
+        public permission: UserPermissionType = UserPermissionType.Public,
+    ) {}
 }

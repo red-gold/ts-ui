@@ -1,1 +1,1 @@
-declare module 'react-lightbox-component'
+declare module 'react-lightbox-component';

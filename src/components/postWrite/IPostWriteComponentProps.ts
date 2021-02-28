@@ -1,100 +1,99 @@
-import { Post } from 'core/domain/posts'
-import {Map} from 'immutable'
-import { Album } from 'core/domain/imageGallery/album'
+import { Post } from 'core/domain/posts/post';
+import { Map } from 'immutable';
+import { Album } from 'core/domain/imageGallery/album';
 
 export interface IPostWriteComponentProps {
-
     /**
      * If it's true post writing page will be open
      */
-  open: boolean
+    open: boolean;
     /**
      * Recieve request close function
      */
-  onRequestClose: () => void
+    onRequestClose: () => void;
     /**
      * Post write style
      */
-  style?: {}
+    style?: {};
     /**
      * If it's true, post will be in edit view
      */
-  edit?: boolean
+    edit?: boolean;
     /**
      * The text of post in editing state
      */
-  text?: string
+    text?: string;
     /**
      * The image of post in editing state
      */
-  image?: string
+    image?: string;
     /**
      * If post state is editing this id sould be filled with post identifier
      */
-  id?: string
+    id?: string;
 
-  /**
-   * The post has image {true} or not {false}
-   */
-  postImageState?: boolean
+    /**
+     * The post has image {true} or not {false}
+     */
+    postImageState?: boolean;
 
-  /**
-   * User avatar address
-   */
-  ownerAvatar?: string
+    /**
+     * User avatar address
+     */
+    ownerAvatar?: string;
 
-  /**
-   * The post owner name
-   */
-  ownerDisplayName?: string
+    /**
+     * The post owner name
+     */
+    ownerDisplayName?: string;
 
-  /**
-   * Post model
-   */
-  postModel?: Map<string, any>
+    /**
+     * Post model
+     */
+    postModel?: Map<string, any>;
 
-  /**
-   * Save a post
-   */
-  post?: (post: Post, callback: Function) => any
+    /**
+     * Save a post
+     */
+    post?: (post: Post, callback: Function) => any;
 
-  /**
-   * Update a post
-   */
-  update?: (post: Map<string, any>, callback: Function) => any
+    /**
+     * Update a post
+     */
+    update?: (post: Map<string, any>, callback: Function) => any;
 
-  /**
-   * Open album
-   */
-  openAlbum?: () => any
+    /**
+     * Open album
+     */
+    openAlbum?: () => any;
 
-  /**
-   * Close album
-   */
-  closeAlbum?: () => any
+    /**
+     * Close album
+     */
+    closeAlbum?: () => any;
 
-  /**
-   * Progress change
-   */
-  progress?: Map<string, any>
+    /**
+     * Progress change
+     */
+    progress?: Map<string, any>;
 
-  /**
-   * Whether album dialog is open
-   */
-  albumDialogOpen?: boolean
-  
-  /**
-   * Handle upload image
-   */
-  uploadImage?: (image: any, imageName: string) => any
+    /**
+     * Whether album dialog is open
+     */
+    albumDialogOpen?: boolean;
 
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * Handle upload image
+     */
+    uploadImage?: (image: any, imageName: string) => any;
 
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any) => any
+    /**
+     * Styles
+     */
+    classes?: any;
+
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any) => any;
 }

@@ -1,2 +1,2 @@
-declare module 'react-select'
-declare module 'react-select/lib/Creatable'
+declare module 'react-select';
+declare module 'react-select/lib/Creatable';

@@ -1,10 +1,9 @@
-import { ChatActionType } from 'constants/chatActionType'
+import { ChatActionType } from 'constants/chatActionType';
 
 /**
  *  Chat action interface
  */
 export interface IChatAction {
-  payload: any,
-  type: ChatActionType
-
+    payload: any;
+    type: ChatActionType;
 }

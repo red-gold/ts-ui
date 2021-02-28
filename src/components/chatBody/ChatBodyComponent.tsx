@@ -1,9 +1,8 @@
 // - Import react components
 import { withStyles } from '@material-ui/core/styles';
 import ChatMessageComponent from 'components/chatMessage/ChatMessageComponent';
-import { Map } from 'immutable';
 import React, { Component } from 'react';
-import { withTranslation } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import { chatBodyStyles } from './chatBodyStyles';
@@ -18,92 +17,96 @@ import { IChatBodyState } from './IChatBodyState';
 /**
  * Create component class
  */
-export class ChatBodyComponent extends Component<IChatBodyProps, IChatBodyState> {
+export class ChatBodyComponent extends Component<IChatBodyProps & WithTranslation, IChatBodyState> {
+    /**
+     * Feilds
+     */
+    messagesEnd: any;
+    lastMessagesCount = 0;
 
-  /**
-   * Feilds
-   */
-  messagesEnd: any
-  lastMessagesCount: number = 0
+    /**
+     * Component constructor
+     */
+    constructor(props: IChatBodyProps & WithTranslation) {
+        super(props);
 
-  /**
-   * Component constructor
-   */
-  constructor(props: IChatBodyProps) {
-    super(props)
-
-    // Defaul state
-    this.state = {
+        // Defaul state
+        this.state = {};
+        this.messagesEnd = React.createRef<HTMLDivElement>();
+        // Binding functions to `this`
     }
-    this.messagesEnd = React.createRef<HTMLDivElement>()
-    // Binding functions to `this`
 
-  }
+    /**
+     * Scroll message list to bottom
+     */
+    scrollToBottom = () => {
+        if (this.messagesEnd && this.messagesEnd.current) {
+            this.messagesEnd.current.scrollTop = this.messagesEnd.current.scrollHeight;
+        }
+    };
 
-  /**
-   * Scroll message list to bottom
-   */
-  scrollToBottom = () => {
-    if (this.messagesEnd && this.messagesEnd.current) {
-      this.messagesEnd.current.scrollTop = this.messagesEnd.current.scrollHeight
+    componentDidUpdate() {
+        const { chatMessages } = this.props;
+        if (chatMessages && this.lastMessagesCount !== chatMessages.length) {
+            this.lastMessagesCount = chatMessages.length;
+            this.scrollToBottom();
+        }
     }
-  }
 
-  componentDidUpdate() {
-    const { chatMessages } = this.props
-    if (chatMessages && this.lastMessagesCount !== chatMessages.length) {
-      this.lastMessagesCount = chatMessages.length
-      this.scrollToBottom()
+    componentDidMount() {
+        this.scrollToBottom();
     }
-  }
 
-  componentDidMount() {
-    this.scrollToBottom()
-  }
+    /**
+     * Reneder component DOM
+     */
+    render() {
+        const { classes, chatMessages, currentUser } = this.props;
 
-  /**
-   * Reneder component DOM
-   */
-  render() {
-
-    const { classes, chatMessages, currentUser } = this.props
-
-    return (
-      <div className={classes.bodyMessageRoot} ref={this.messagesEnd}>
-        {chatMessages ? chatMessages!
-          .map((message) => <ChatMessageComponent
-            key={message.id}
-            rtl={message.isCurrentUser}
-            text={message.isCurrentUser ? message.data : (message.translateMessage ? message.translateMessage : message.data)}
-            avatar={message.receiverUser.avatar}
-            ownerName={message.receiverUser.fullName}
-            currentUser={currentUser!}
-            loading={message.loading!}
-          />)
-          : ''}
-      </div>
-    )
-  }
+        return (
+            <div className={classes.bodyMessageRoot} ref={this.messagesEnd}>
+                {chatMessages
+                    ? chatMessages.map((message) => (
+                          <ChatMessageComponent
+                              key={message.id}
+                              rtl={message.isCurrentUser}
+                              text={
+                                  message.isCurrentUser
+                                      ? message.data
+                                      : message.translateMessage
+                                      ? message.translateMessage
+                                      : message.data
+                              }
+                              avatar={message.receiverUser.avatar}
+                              ownerName={message.receiverUser.fullName}
+                              currentUser={currentUser}
+                              loading={message.loading}
+                          />
+                      ))
+                    : ''}
+            </div>
+        );
+    }
 }
 
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any, ownProps: IChatBodyProps) => {
-
-  return {
-  }
-}
+const mapDispatchToProps = () => {
+    return {};
+};
 
 const makeMapStateToProps = () => {
-  const mapStateToProps = (state: Map<string, any>, ownProps: IChatBodyProps) => {
-    return {
-    }
-  }
-  return mapStateToProps
-}
+    const mapStateToProps = () => {
+        return {};
+    };
+    return mapStateToProps;
+};
 
 // - Connect component to redux store
-const translateWrapper = withTranslation('translations')(ChatBodyComponent as any)
+const translateWrapper = withTranslation('translations')(ChatBodyComponent);
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(chatBodyStyles as any)(translateWrapper as any) as any)
+export default connect<{}, {}, any, any>(
+    makeMapStateToProps,
+    mapDispatchToProps,
+)(withStyles(chatBodyStyles as any)(translateWrapper as any) as any);

@@ -1,4 +1,1 @@
-
-export interface ITimelineComponentState {
-
-}
+export interface ITimelineComponentState {}

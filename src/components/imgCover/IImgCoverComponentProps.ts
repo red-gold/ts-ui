@@ -1,42 +1,41 @@
 export interface IImgCoverComponentProps {
+    /**
+     * Image file name
+     */
+    src: string;
 
-  /**
-   * Image file name
-   */
-  src: string
+    /**
+     * Handle click evenr
+     */
+    onClick?: (event?: any, obj?: any) => void;
 
-  /**
-   * Handle click evenr
-   */
-  onClick?: (event?: any, obj?: any) => void
+    /**
+     * Image style
+     */
+    style?: {};
 
-  /**
-   * Image style 
-   */
-  style?: {}
+    /**
+     * Image with
+     */
+    width?: string;
 
-  /**
-   * Image with
-   */
-  width?: string
+    /**
+     * Image height
+     */
+    height?: string;
 
-  /**
-   * Image height
-   */
-  height?: string
+    /**
+     * Image border radius
+     */
+    borderRadius?: string;
 
-  /**
-   * Image border radius
-   */
-  borderRadius?: string
+    /**
+     * Class name
+     */
+    className?: any;
 
-  /**
-   * Class name
-   */
-  className?: any
-
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any) => any
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any) => any;
 }

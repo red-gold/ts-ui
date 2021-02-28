@@ -1,4 +1,4 @@
-import { ServerActionType } from 'constants/serverActionType'
+import { ServerActionType } from 'constants/serverActionType';
 
 /**
  *  Server action interface
@@ -7,7 +7,6 @@ import { ServerActionType } from 'constants/serverActionType'
  * @interface IServerAction
  */
 export interface IServerAction {
-  payload: any,
-  type: ServerActionType
-
+    payload: any;
+    type: ServerActionType;
 }

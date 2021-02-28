@@ -1,4 +1,1 @@
-
-export interface ITextFieldComponentState {
-
-}
+export interface ITextFieldComponentState {}

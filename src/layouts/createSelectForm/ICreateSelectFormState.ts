@@ -1,4 +1,1 @@
-
-export interface ICreateSelectFormState {
-
-}
+export interface ICreateSelectFormState {}

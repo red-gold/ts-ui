@@ -1,3 +1,1 @@
-export interface IAppInputComponentState {
-
-}
+export interface IAppInputComponentState {}

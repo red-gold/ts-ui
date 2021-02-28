@@ -1,23 +1,19 @@
-import { Component } from 'react'
-
 /**
  * Route interface
  */
 export interface IRoute {
+    /**
+     * React component that would be rendered in routing
+     */
+    component: any;
 
-  /**
-   * React component that would be rendered in routing
-   */
-  component: any
+    /**
+     * Route path
+     */
+    path: string | undefined;
 
-  /**
-   * Route path
-   */
-  path: string | undefined
-
-  /**
-   * If user is authorized {true} or not {false}
-   */
-  authed?: boolean
-
+    /**
+     * If user is authorized {true} or not {false}
+     */
+    authed?: boolean;
 }

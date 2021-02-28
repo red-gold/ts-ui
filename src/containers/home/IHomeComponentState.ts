@@ -1,8 +1,6 @@
-
 export interface IHomeComponentState {
-
-  /**
-   * Whether drawer is open
-   */
-  drawerOpen: boolean
+    /**
+     * Whether drawer is open
+     */
+    drawerOpen: boolean;
 }

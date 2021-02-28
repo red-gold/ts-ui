@@ -22,9 +22,6 @@ import rootSaga from 'store/sagas/rootSaga';
 import i18n from './locales/i18n';
 import * as serviceWorker from './serviceWorker';
 
-const basename =
-      process.env.NODE_ENV === 'production' ? (window as any).BASE_HREF : '/';
-
 // import 'moment/locale/es'
 // - Actions
 // - Import app components
@@ -33,33 +30,33 @@ const basename =
 /**
  * Execute startup functions
  */
-configureStore.runSaga(rootSaga)
+configureStore.runSaga(rootSaga);
 
 // Set default data
 // tslint:disable-next-line:no-empty
-configureStore.store.subscribe(() => { })
-configureStore.store.dispatch(authorizeActions.asyncSetUserLoginStatus())
+configureStore.store.subscribe(() => {});
+configureStore.store.dispatch(authorizeActions.asyncSetUserLoginStatus());
 // - Initialize languages
-configureStore.store.dispatch(authorizeActions.subcribeAuthorizeStateChange())
-configureStore.store.dispatch(globalActions.initLocale())
+configureStore.store.dispatch(authorizeActions.subcribeAuthorizeStateChange());
+configureStore.store.dispatch(globalActions.initLocale());
 // Needed for onClick
 // http://stackoverflow.com/a/34015469/988941
-try { injectTapEventPlugin() } catch (e) { }
+try {
+    injectTapEventPlugin();
+} catch (e) {}
 
-const theme = createMuiTheme(socialTheme)
+const theme = createMuiTheme(socialTheme);
 
 ReactDOM.render(
-	<Provider store={configureStore.store}>
-	<I18nextProvider
-				i18n={i18n}
-			>
-		<ConnectedRouter history={configureStore.history} >
-			<MuiThemeProvider theme={theme}>
-				<Master />
-			</MuiThemeProvider>
-		</ConnectedRouter>
-		</I18nextProvider>
-	</Provider>,
-	document.getElementById('app') as HTMLElement
-)
-serviceWorker.register()
+    <Provider store={configureStore.store}>
+        <I18nextProvider i18n={i18n}>
+            <ConnectedRouter history={configureStore.history}>
+                <MuiThemeProvider theme={theme}>
+                    <Master />
+                </MuiThemeProvider>
+            </ConnectedRouter>
+        </I18nextProvider>
+    </Provider>,
+    document.getElementById('app') as HTMLElement,
+);
+serviceWorker.register();

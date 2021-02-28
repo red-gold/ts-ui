@@ -1,5 +1,4 @@
-import { Map } from 'immutable';
-import { Component } from 'react';
+import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 
 import { ISponserProps } from './ISponserProps';
@@ -8,19 +7,16 @@ import { ISponserProps } from './ISponserProps';
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any, ownProps: ISponserProps) => {
-  return {
-  }
-}
+const mapDispatchToProps = () => {
+    return {};
+};
 
 const makeMapStateToProps = () => {
-  const mapStateToProps = (state: Map<string, any>) => {
-    return {
-      
-    }
-  }
-  return mapStateToProps
-}
+    const mapStateToProps = () => {
+        return {};
+    };
+    return mapStateToProps;
+};
 
-export const connectSponser =
-  (component: Component<ISponserProps>) => connect(makeMapStateToProps, mapDispatchToProps)(component as any)
+export const connectSponser = (component: ComponentType<ISponserProps>) =>
+    connect<{}, {}, any, any>(makeMapStateToProps, mapDispatchToProps)(component as any);

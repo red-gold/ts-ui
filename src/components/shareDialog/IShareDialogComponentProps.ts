@@ -1,41 +1,38 @@
-import { Post } from 'core/domain/posts'
-import {Map} from 'immutable'
+import { Map } from 'immutable';
 
 export interface IShareDialogComponentProps {
+    /**
+     * Whether share dialog is open
+     */
+    shareOpen: boolean;
 
-  /**
-   * Whether share dialog is open
-   */
-  shareOpen: boolean
+    /**
+     * On close share dialog
+     */
+    onClose: () => void;
 
-  /**
-   * On close share dialog
-   */
-  onClose: () => void
+    /**
+     * Whether copy link is displayed
+     */
+    openCopyLink: boolean;
 
-  /**
-   * Whether copy link is displayed
-   */
-  openCopyLink: boolean
+    /**
+     * On copy link
+     */
+    onCopyLink: () => void;
 
-  /**
-   * On copy link
-   */
-  onCopyLink: () => void
+    /**
+     * The post object for sharing
+     */
+    post: Map<string, any>;
 
-  /**
-   * The post object for sharing
-   */
-  post: Map<string, any>
+    /**
+     * Styles
+     */
+    classes?: any;
 
-  /**
-   * Styles
-   */
-  classes?: any
-
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any) => any
-
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any) => any;
 }

@@ -1,111 +1,109 @@
-import { Post } from 'core/domain/posts'
+import { Post } from 'core/domain/posts/post';
 
 export interface IHomeComponentProps {
+    /**
+     * Current user is authenticated {true} or not {false}
+     */
+    authed?: boolean;
 
-  /**
-   * Current user is authenticated {true} or not {false}
-   */
-  authed?: boolean
+    /**
+     * If user email is verifide {true} or not {false}
+     */
+    isVerifide?: boolean;
 
-  /**
-   * If user email is verifide {true} or not {false}
-   */
-  isVerifide?: boolean
+    /**
+     * User identifier
+     */
+    uid?: string;
 
-  /**
-   * User identifier
-   */
-  uid?: string
+    /**
+     * Whether chat is open
+     */
+    isChatOpen?: boolean;
 
-  /**
-   * Whether chat is open
-   */
-  isChatOpen?: boolean
+    /**
+     * Merged all users posts to show in stream
+     */
+    mergedPosts?: { [postId: string]: Post };
 
-  /**
-   * Merged all users posts to show in stream
-   */
-  mergedPosts?: {[postId: string]: Post}
+    /**
+     * Load the data for stream
+     */
+    loadDataStream?: (lastPostId: string, page: number, limit: number) => any;
 
-  /**
-   * Load the data for stream
-   */
-  loadDataStream?: (lastPostId: string, page: number, limit: number) => any
+    /**
+     * Global state
+     */
+    global?: any;
 
-  /**
-   * Global state
-   */
-  global?: any
-
-  /**
-   * Clear user date from store
-   */
-  clearData?: Function
+    /**
+     * Clear user date from store
+     */
+    clearData?: Function;
 
     /**
      * Set flag {true} which all user data has loaded
      */
-  defaultDataEnable?: Function
+    defaultDataEnable?: Function;
     /**
      * Load user data into store
      */
-  loadData?: Function
+    loadData?: Function;
 
     /**
      * Set flag {false} which user data has not loaded
      */
-  defaultDataDisable?: Function
+    defaultDataDisable?: Function;
 
-  /**
-   * Redirect to [url]
-   *
-   * @memberof IHomeComponentProps
-   */
-  goTo?: (url: string) => any
+    /**
+     * Redirect to [url]
+     *
+     * @memberof IHomeComponentProps
+     */
+    goTo?: (url: string) => any;
 
-  /**
-   * If there is more post {true} or not {false}
-   */
-  hasMorePosts?: boolean
+    /**
+     * If there is more post {true} or not {false}
+     */
+    hasMorePosts?: boolean;
 
-  /**
-   * If all requierment data loaded {true} or not {false}
-   */
-  loaded?: boolean
+    /**
+     * If all requierment data loaded {true} or not {false}
+     */
+    loaded?: boolean;
 
-  /**
-   * Show send feedback form
-   */
-  showSendFeedback?: () => any
+    /**
+     * Show send feedback form
+     */
+    showSendFeedback?: () => any;
 
-  /**
-   * Hide send feedback form
-   */
-  hideSendFeedback?: () => any
+    /**
+     * Hide send feedback form
+     */
+    hideSendFeedback?: () => any;
 
-  /**
-   * Translate locale to string
-   */
-  t?: (state: any) => any
+    /**
+     * Translate locale to string
+     */
+    t?: (state: any) => any;
 
-  /**
-   * Open chat
-   */
-  openChat?: () => any
+    /**
+     * Open chat
+     */
+    openChat?: () => any;
 
-  /**
-   * Close chat
-   */
-  closeChat?: () => any
+    /**
+     * Close chat
+     */
+    closeChat?: () => any;
 
-  /**
-   * Styles
-   */
-  classes?: any
-  
-  /**
-   * Theme
-   */
-  theme?: any
+    /**
+     * Styles
+     */
+    classes?: any;
 
+    /**
+     * Theme
+     */
+    theme?: any;
 }

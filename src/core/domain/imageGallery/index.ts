@@ -1,9 +1,5 @@
-import { Image } from './image'
-import { VideoFile } from './videoFile'
-import { FileGallery } from './fileGallery'
+import { Image } from './image';
+import { VideoFile } from './videoFile';
+import { FileGallery } from './fileGallery';
 
-export {
-    Image,
-    VideoFile,
-    FileGallery
-}
+export { Image, VideoFile, FileGallery };

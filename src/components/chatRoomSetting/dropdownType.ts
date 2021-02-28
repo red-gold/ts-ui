@@ -1,4 +1,4 @@
 export enum DropdownType {
     OutputLanguage,
-    InputLanguage
+    InputLanguage,
 }

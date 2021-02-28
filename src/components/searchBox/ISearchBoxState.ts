@@ -1,14 +1,13 @@
-
 export interface ISearchBoxState {
-  [key: string]: any
+    [key: string]: any;
 
-  /**
-   * Search text
-   */
-  searchText: string
+    /**
+     * Search text
+     */
+    searchText: string;
 
-  /**
-   * Whether search list is displayed
-   */
-  listDisplayed: boolean
+    /**
+     * Whether search list is displayed
+     */
+    listDisplayed: boolean;
 }

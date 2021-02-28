@@ -1,4 +1,1 @@
-
-export interface ICreateSelectState {
-
-}
+export interface ICreateSelectState {}

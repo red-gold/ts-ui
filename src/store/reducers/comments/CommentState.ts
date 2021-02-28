@@ -1,6 +1,5 @@
-
-import { Comment } from 'core/domain/comments'
-import {Map} from 'immutable'
+import { Comment } from 'core/domain/comments/comment';
+import { Map } from 'immutable';
 /**
  * Comment state
  *
@@ -8,19 +7,18 @@ import {Map} from 'immutable'
  * @class CommentState
  */
 export class CommentState {
-
     /**
      * The list of comments on the posts
      */
-  postComments: Map<string, {[commentId: string]: Comment}> = Map({})
+    postComments: Map<string, { [commentId: string]: Comment }> = Map({});
 
-  /**
-   * Whether comment editor is open
-   */
-  editorStatus: Map<string, {[commentId: string]: boolean}> = Map({})
+    /**
+     * Whether comment editor is open
+     */
+    editorStatus: Map<string, { [commentId: string]: boolean }> = Map({});
 
     /**
      * If the comments are loaded {true} or not {false}
      */
-  loaded: Boolean = false
+    loaded = false;
 }

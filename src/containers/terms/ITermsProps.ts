@@ -1,28 +1,26 @@
-
 export interface ITermsProps {
+    /**
+     * Styles
+     */
+    classes?: any;
 
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * Go to signup page
+     */
+    signupPage?: () => void;
 
-  /**
-   * Go to signup page
-   */
-  signupPage?: () => void
+    /**
+     * Theme styles
+     */
+    theme?: any;
 
-  /**
-   * Theme styles
-   */
-  theme?: any
+    /**
+     * Active language
+     */
+    currentLanguage?: string;
 
-  /**
-   * Active language
-   */
-  currentLanguage?: string
-
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any, param?: {}) => any
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any, param?: {}) => any;
 }

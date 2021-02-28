@@ -1,5 +1,5 @@
-export const searchStyles = (theme: any) => ({
+export const searchStyles = () => ({
     container: {
-        marginTop: 50
-    }
-})
+        marginTop: 50,
+    },
+});

@@ -1,18 +1,17 @@
 const getMinIndex = (array: Array<number>) => {
-
-    const indexOfMinValue = array.reduce((iMax, x, i, arr) => x < arr[iMax] ? i : iMax, 0)
-    return indexOfMinValue
-}
+    const indexOfMinValue = array.reduce((iMax, x, i, arr) => (x < arr[iMax] ? i : iMax), 0);
+    return indexOfMinValue;
+};
 
 const getZeroArray = (length: number) => {
-    let array = []
+    const array = [];
     for (let index = 0; index < length; index++) {
-        array.push(0)
+        array.push(0);
     }
-    return array
-}
+    return array;
+};
 
 export const ArrayAPI = {
     getMinIndex,
-    getZeroArray
-}
+    getZeroArray,
+};

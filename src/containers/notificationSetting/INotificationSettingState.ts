@@ -1,5 +1,5 @@
-import {Map} from 'immutable'
+import { Map } from 'immutable';
 export interface INotificationSettingState {
-  checked: Map<string, any>,
-  initialiazed: boolean
+    checked: Map<string, any>;
+    initialiazed: boolean;
 }

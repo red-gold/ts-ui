@@ -1,6 +1,5 @@
-
 export interface IVideoGalleryState {
-    fileName: string,
-    isPreview: boolean,
-    isSaveDisabled: boolean
+    fileName: string;
+    isPreview: boolean;
+    isSaveDisabled: boolean;
 }

@@ -1,34 +1,30 @@
-import { User } from 'core/domain/users';
+import { User } from 'core/domain/users/user';
 
 import { FeedType } from './feedType';
 
 export class Feed {
-
-  /**
-   * Constructor
-   */
-  constructor (
     /**
-     * Feed identifier
+     * Constructor
      */
-  public id?: string,
+    constructor(
+        /**
+         * Feed identifier
+         */
+        public id?: string,
 
-  /**
-   * Feed text
-   */
-  public text?: string,
+        /**
+         * Feed text
+         */
+        public text?: string,
 
-  /**
-   * Feed type
-   */
-  public feedType?: FeedType,
+        /**
+         * Feed type
+         */
+        public feedType?: FeedType,
 
-  /**
-   * The user who send the feedback
-   */
-  public user?: User
-
-    ) {
-  }
-
+        /**
+         * The user who send the feedback
+         */
+        public user?: User,
+    ) {}
 }

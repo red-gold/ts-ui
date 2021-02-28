@@ -1,6 +1,3 @@
-import { BaseDomain } from 'core/domain/common'
-import { FileGallery } from './fileGallery'
+import { FileGallery } from './fileGallery';
 
-export class Image extends FileGallery {
-
-}
+export class Image extends FileGallery {}

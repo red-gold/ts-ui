@@ -1,7 +1,4 @@
 export class CommentState {
-    constructor(
-        postComments: any,
-        editorStatus: any,
-        loaded: boolean,
-    ) {}
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    constructor(loaded: boolean) {}
 }

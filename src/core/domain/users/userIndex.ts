@@ -1,12 +1,11 @@
-import { BaseDomain } from '../common'
-import { User } from './user'
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
+import { BaseDomain } from '../common/baseDomain';
+import { User } from './user';
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
 
 export class UserIndex extends BaseDomain {
-
     static map(user: User) {
-        const userIndex = {objectID: (user.userId || (user as any).id), ...user}
-        return userIndex
+        const userIndex = { objectID: user.userId || (user as any).id, ...user };
+        return userIndex;
     }
     static mapToUser(userIndex: UserIndex) {
         const user = new User(
@@ -29,10 +28,10 @@ export class UserIndex extends BaseDomain {
             userIndex.facebookId,
             userIndex.instagramId,
             userIndex.accessUserList,
-            userIndex.permission
-        )
-       
-        return user
+            userIndex.permission,
+        );
+
+        return user;
     }
 
     constructor(
@@ -56,9 +55,8 @@ export class UserIndex extends BaseDomain {
         public facebookId?: string,
         public instagramId?: string,
         public accessUserList?: Array<string>,
-        public permission: UserPermissionType = UserPermissionType.Public
+        public permission: UserPermissionType = UserPermissionType.Public,
     ) {
-        super()
+        super();
     }
-
 }

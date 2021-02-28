@@ -11,19 +11,18 @@ import { Feed } from 'core/domain/common/feed';
  */
 @injectable()
 export class CommonService implements ICommonService {
-  @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
+    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
 
-   /**
-   * Get twitter media
-   */
-  getTwitterMedia = async (accessToken: string) => {
-    return 'Not implementd!' as any
-  }
-  /**
-   * Post feedback
-   */
-  addFeed = async (feed: Feed) => {
-    return 'Not implementd!' as any
-  }
-
+    /**
+     * Get twitter media
+     */
+    getTwitterMedia = async () => {
+        return 'Not implementd!' as any;
+    };
+    /**
+     * Post feedback
+     */
+    addFeed = async () => {
+        return 'Not implementd!' as any;
+    };
 }

@@ -1,4 +1,1 @@
-
-export interface IMasterLoadingComponentState {
-
-}
+export interface IMasterLoadingComponentState {}

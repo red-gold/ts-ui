@@ -1,3 +1,1 @@
-export interface IAppInputComponentProps {
-
-}
+export interface IAppInputComponentProps {}

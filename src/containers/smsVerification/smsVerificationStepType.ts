@@ -1,4 +1,4 @@
 export enum SmsVerificationStepType {
-  EnterPhoneNumber ,
-  VerificationCode
+    EnterPhoneNumber,
+    VerificationCode,
 }

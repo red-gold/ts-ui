@@ -1,8 +1,7 @@
-import { BaseDomain } from 'core/domain/common'
-import { MessageType } from 'core/domain/chat/MessageType'
+import { BaseDomain } from 'core/domain/common/baseDomain';
+import { MessageType } from 'core/domain/chat/MessageType';
 
 export class Message extends BaseDomain {
-
     constructor(
         public id: string,
         public connection: { [key: string]: boolean },
@@ -13,8 +12,8 @@ export class Message extends BaseDomain {
         public senderId: string,
         public type: MessageType.Text,
         public translation?: string,
-        public translateMessage?: string
+        public translateMessage?: string,
     ) {
-        super()
+        super();
     }
 }

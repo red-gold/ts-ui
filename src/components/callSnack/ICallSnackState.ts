@@ -1,4 +1,1 @@
-
-export interface ICallSnackState {
-
-}
+export interface ICallSnackState {}

@@ -14,9 +14,9 @@ import { userPermissionStyles } from 'components/userPermission/userPermissionSt
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
 import { Map } from 'immutable';
 import React, { Component } from 'react';
-import { withTranslation } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { authorizeSelector } from 'store/reducers/authorize';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { circleSelector } from 'store/reducers/circles/circleSelector';
 
 import { IUserPermissionProps } from './IUserPermissionProps';
@@ -30,145 +30,139 @@ import { IUserPermissionState } from './IUserPermissionState';
 /**
  * React component class
  */
-export class UserPermissionComponent extends Component<IUserPermissionProps, IUserPermissionState> {
+export class UserPermissionComponent extends Component<IUserPermissionProps & WithTranslation, IUserPermissionState> {
+    /**
+     * Component constructor
+     *
+     */
+    constructor(props: IUserPermissionProps & WithTranslation) {
+        super(props);
+        const { access } = props;
+        // Defaul state
+        this.state = {
+            selectedValue: access,
+            disabledOk: true,
+        };
 
-  /**
-   * Component constructor
-   *
-   */
-  constructor(props: IUserPermissionProps) {
-    super(props)
-    const { access } = props
-    // Defaul state
-    this.state = {
-      selectedValue: access,
-      disabledOk: true
-
+        // Binding functions to `this`
     }
 
-    // Binding functions to `this`
+    /**
+     * Handle add link
+     */
+    handleSetPermission = (selectedValue: UserPermissionType) => {
+        const { onAddAccessList, followingIds, currentUser } = this.props;
+        let accessList: string[] = [];
+        if (selectedValue === UserPermissionType.Circles && followingIds && currentUser && currentUser.userId) {
+            accessList = followingIds;
+            accessList.push(currentUser.userId);
+        }
+        onAddAccessList(accessList, selectedValue);
+    };
 
-  }
+    /**
+     * Handle data on input change
+     */
+    handleInputChange = (event: any) => {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        this.setState({
+            [name]: value,
+        });
+    };
 
-  /**
-   * Handle add link
-   */
-  handleSetPermission = (selectedValue: UserPermissionType) => {
-    const { onAddAccessList, followingIds, currentUser } = this.props
-    let accessList: string[] = []
-    if (selectedValue === UserPermissionType.Circles && followingIds && currentUser && currentUser.userId) {
-      accessList = followingIds
-      accessList.push(currentUser.userId)
+    /**
+     * Reneder component DOM
+     */
+    render() {
+        const { classes, t, open, onClose } = this.props;
+        const { selectedValue } = this.state;
+        return (
+            <Dialog PaperProps={{ className: classes.fullPageXs }} open={open} onClose={onClose} maxWidth="md">
+                <DialogActions className={classes.dialogAction}>
+                    <Typography variant={'h6'} component={'div'} className={classes.galleryDialogTitle}>
+                        <IconButton className={classes.header} onClick={onClose}>
+                            <BackIcon />
+                        </IconButton>
+                        {t('permission.titleLabel')}
+                    </Typography>
+                </DialogActions>
+                <DialogContent className={classes.dialogContent}>
+                    <FormControl component="div" required className={classes.formControl}>
+                        <RadioGroup
+                            aria-label="selectedValue"
+                            name="selectedValue"
+                            className={classes.group}
+                            value={selectedValue}
+                            onChange={this.handleInputChange}
+                        >
+                            <FormControlLabel
+                                className={classes.permissionItem}
+                                onClick={() => this.handleSetPermission(UserPermissionType.OnlyMe)}
+                                value={UserPermissionType.OnlyMe}
+                                control={<Radio />}
+                                label={t('permission.onlyMe')}
+                            />
+
+                            <FormControlLabel
+                                className={classes.permissionItem}
+                                onClick={() => this.handleSetPermission(UserPermissionType.Public)}
+                                value={UserPermissionType.Public}
+                                control={<Radio />}
+                                label={t('permission.public')}
+                            />
+
+                            <FormControlLabel
+                                className={classes.permissionItem}
+                                onClick={() => this.handleSetPermission(UserPermissionType.Circles)}
+                                value={UserPermissionType.Circles}
+                                control={<Radio />}
+                                label={t('permission.circles')}
+                            />
+
+                            <FormControlLabel
+                                className={classes.permissionItem}
+                                value={UserPermissionType.Custom}
+                                disabled
+                                control={<Radio />}
+                                label={t('permission.custom')}
+                            />
+                        </RadioGroup>
+                    </FormControl>
+                </DialogContent>
+            </Dialog>
+        );
     }
-    onAddAccessList(accessList, selectedValue)
-  }
-
-  /**
-   * Handle data on input change
-   */
-  handleInputChange = (event: any) => {
-    const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    const name = target.name
-    this.setState({
-      [name]: value
-    })
-  }
-
-  /**
-   * Reneder component DOM
-   */
-  render() {
-
-    const { classes, t, open, onClose } = this.props
-    const { selectedValue } = this.state
-    return (
-      <Dialog
-        PaperProps={{ className: classes.fullPageXs }}
-        open={open}
-        onClose={onClose}
-        maxWidth='md'
-      >
-        <DialogActions className={classes.dialogAction}>
-          <Typography variant={'h6'} component={'div'} className={classes.galleryDialogTitle}>
-            <IconButton className={classes.header} onClick={onClose}>
-              <BackIcon />
-            </IconButton>
-            {t!('permission.titleLabel')}
-          </Typography>
-        </DialogActions>
-        <DialogContent className={classes.dialogContent}>
-          <FormControl component='div' required className={classes.formControl}>
-            <RadioGroup
-              aria-label='selectedValue'
-              name='selectedValue'
-              className={classes.group}
-              value={selectedValue}
-              onChange={this.handleInputChange}
-            >
-              <FormControlLabel
-                className={classes.permissionItem}
-                onClick={() => this.handleSetPermission(UserPermissionType.OnlyMe)}
-                value={UserPermissionType.OnlyMe}
-                control={<Radio />}
-                label={t!('permission.onlyMe')} />
-
-              <FormControlLabel
-                className={classes.permissionItem}
-                onClick={() => this.handleSetPermission(UserPermissionType.Public)}
-                value={UserPermissionType.Public} control={<Radio />}
-                label={t!('permission.public')} />
-
-              <FormControlLabel
-                className={classes.permissionItem}
-                onClick={() => this.handleSetPermission(UserPermissionType.Circles)}
-                value={UserPermissionType.Circles}
-                control={<Radio />}
-                label={t!('permission.circles')} />
-
-              <FormControlLabel
-                className={classes.permissionItem}
-                value={UserPermissionType.Custom}
-                disabled
-                control={<Radio />}
-                label={t!('permission.custom')}
-              />
-            </RadioGroup>
-          </FormControl>
-        </DialogContent>
-
-      </Dialog >
-    )
-  }
 }
 
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any, ownProps: IUserPermissionProps) => {
-  return {
-
-  }
-}
+const mapDispatchToProps = () => {
+    return {};
+};
 /**
  * Make map state to props
  */
 const makeMapStateToProps = () => {
-  const selectFollowingIds = circleSelector.selectFollowingIds()
-  const selectCurrentUser = authorizeSelector.selectCurrentUser()
-  const mapStateToProps = (state: Map<string, any>) => {
-    const followingIds = selectFollowingIds(state)
-    const currentUser = selectCurrentUser(state).toJS()
-    return {
-      
-      followingIds,
-      currentUser
-    }
-  }
-  return mapStateToProps
-}
+    const selectFollowingIds = circleSelector.selectFollowingIds();
+    const selectCurrentUser = authorizeSelector.selectCurrentUser();
+    const mapStateToProps = (state: Map<string, any>) => {
+        const followingIds = selectFollowingIds(state);
+        const currentUser = selectCurrentUser(state).toJS();
+        return {
+            followingIds,
+            currentUser,
+        };
+    };
+    return mapStateToProps;
+};
 
 // - Connect component to redux store
-const translateWrapper = withTranslation('translations')(UserPermissionComponent as any)
+const translateWrapper = withTranslation('translations')(UserPermissionComponent);
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(userPermissionStyles as any)(translateWrapper as any) as any)
+export default connect<{}, {}, any, any>(
+    makeMapStateToProps,
+    mapDispatchToProps,
+)(withStyles(userPermissionStyles as any)(translateWrapper as any) as any);

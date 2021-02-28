@@ -1,4 +1,1 @@
-
-export interface IChatMessageState {
-
-}
+export interface IChatMessageState {}

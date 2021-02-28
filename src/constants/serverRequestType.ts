@@ -12,6 +12,5 @@ export enum ServerRequestType {
     AuthLogin = 'AuthLogin',
     AuthSignup = 'AuthSignup',
     UserFetchRequest = 'UserFetchRequest',
-    GalleryCreateAlbum = 'GalleryCreateAlbum'
-
+    GalleryCreateAlbum = 'GalleryCreateAlbum',
 }

@@ -1,4 +1,1 @@
-
-export interface ISearchUserState {
-
-}
+export interface ISearchUserState {}

@@ -1,14 +1,13 @@
-import { BaseDomain } from 'core/domain/common';
+import { BaseDomain } from 'core/domain/common/baseDomain';
 
 export class Circle extends BaseDomain {
-
     /**
      * Circle identifier
      *
      * @type {string}
      * @memberof User
      */
-  public id?: string | null
+    public id?: string | null;
 
     /**
      * Circle creation date time
@@ -16,7 +15,7 @@ export class Circle extends BaseDomain {
      * @type {Date}
      * @memberof Circle
      */
-  public creationDate?: number
+    public creationDate?: number;
 
     /**
      * Circle owner identifier
@@ -24,7 +23,7 @@ export class Circle extends BaseDomain {
      * @type {string}
      * @memberof Circle
      */
-  public ownerId?: string | null
+    public ownerId?: string | null;
 
     /**
      * Circle name
@@ -32,16 +31,15 @@ export class Circle extends BaseDomain {
      * @type {string}
      * @memberof User
      */
-  public name?: string
+    public name?: string;
 
-  /**
-   * Whether it's configured by system
-   */
-  public isSystem?: boolean
+    /**
+     * Whether it's configured by system
+     */
+    public isSystem?: boolean;
 
-  // eslint-disable-next-line 
-  constructor() {
-    super()
-  }
-
+    // eslint-disable-next-line
+    constructor() {
+        super();
+    }
 }

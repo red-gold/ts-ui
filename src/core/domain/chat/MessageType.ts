@@ -1,4 +1,4 @@
 export enum MessageType {
     Text,
-    Code
+    Code,
 }

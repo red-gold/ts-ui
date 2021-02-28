@@ -1,4 +1,4 @@
-export const pictureDialogStyles = (theme: any) => ({
+export const pictureDialogStyles = () => ({
     container: {
         margin: 'auto',
         display: 'block',
@@ -12,10 +12,10 @@ export const pictureDialogStyles = (theme: any) => ({
         transition: '0.3s',
     },
     closeIcon: {
-        color: 'white'
+        color: 'white',
     },
     root: {
-        paddingTop: 100
+        paddingTop: 100,
     },
-    iosDialog: {overflow: 'auto', WebkitOverflowScrolling: 'touch', width: '100%', height: '100%'}
-})
+    iosDialog: { overflow: 'auto', WebkitOverflowScrolling: 'touch', width: '100%', height: '100%' },
+});

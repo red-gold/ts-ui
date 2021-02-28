@@ -1,3 +1,1 @@
-export interface IFacebookPageState {
-
-}
+export interface IFacebookPageState {}

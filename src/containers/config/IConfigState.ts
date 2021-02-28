@@ -1,6 +1,5 @@
-
 export interface IConfigState {
-  selectedItem: number
-  selectedText: string
-  mobileOpen: boolean
+    selectedItem: number;
+    selectedText: string;
+    mobileOpen: boolean;
 }

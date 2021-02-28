@@ -1,4 +1,4 @@
-import { GlobalActionType } from 'constants/globalActionType'
+import { GlobalActionType } from 'constants/globalActionType';
 
 /**
  *  Global action interface
@@ -7,7 +7,6 @@ import { GlobalActionType } from 'constants/globalActionType'
  * @interface IGlobalAction
  */
 export interface IGlobalAction {
-  payload: any,
-  type: GlobalActionType
-
+    payload: any;
+    type: GlobalActionType;
 }

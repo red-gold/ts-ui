@@ -1,4 +1,4 @@
-import { PostActionType } from 'constants/postActionType'
+import { PostActionType } from 'constants/postActionType';
 
 /**
  * Post action interface
@@ -7,7 +7,6 @@ import { PostActionType } from 'constants/postActionType'
  * @interface IPostAction
  */
 export interface IPostAction {
-  payload: any,
-  type: PostActionType
-
+    payload: any;
+    type: PostActionType;
 }

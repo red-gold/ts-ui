@@ -1,8 +1,11 @@
-export const helpStyles = (theme: any) => ({
+export const helpStyles = () => ({
     noDisplay: {
-        display: 'none'
+        display: 'none',
     },
     root: {
-        overflow: 'auto', WebkitOverflowScrolling: 'touch', width: '100%', height: '93vh'
-    }
-})
+        overflow: 'auto',
+        WebkitOverflowScrolling: 'touch',
+        width: '100%',
+        height: '93vh',
+    },
+});

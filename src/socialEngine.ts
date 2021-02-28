@@ -1,22 +1,22 @@
-import { useHttpService } from 'data/webAPI/dependecyRegisterar'
-import { Container } from 'inversify'
-import CommonAPI from 'api/CommonAPI'
+import { useHttpService } from 'data/webAPI/dependecyRegisterar';
+import { Container } from 'inversify';
+import CommonAPI from 'api/CommonAPI';
 import { useOpenFaaS } from './data/openFaaSClient/dependecyRegisterar';
 
 /**
  * Developer tools
  */
-window['console']['trace'] = CommonAPI.logger
+window['console']['trace'] = CommonAPI.logger;
 
 /**
  * Initialize container
  */
-export const provider = new Container()
+export const provider = new Container();
 
 // useAws(provider)
-useHttpService(provider)
+useHttpService(provider);
 // useFirestore(provider)
-useOpenFaaS(provider)
+useOpenFaaS(provider);
 
 // Features on the roadmap
 // useAzure(provider)

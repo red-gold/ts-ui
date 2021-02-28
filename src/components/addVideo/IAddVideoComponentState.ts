@@ -1,19 +1,18 @@
-
 export interface IAddVideoComponentState {
-  [key: string]: any
+    [key: string]: any;
 
     /**
      * Video link
      */
-    link: string
+    link: string;
 
     /**
      * Link input error
      */
-    linkInputError: string
+    linkInputError: string;
 
     /**
      * Whether OK button is disabled
      */
-    disabledOk: boolean
+    disabledOk: boolean;
 }

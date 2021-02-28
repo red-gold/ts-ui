@@ -1,6 +1,5 @@
-
 export interface IPhotoStreamState {
-    lightboxIsOpen: boolean,
-    currentImage: number,
-    width: number
+    lightboxIsOpen: boolean;
+    currentImage: number;
+    width: number;
 }

@@ -1,4 +1,1 @@
-
-export interface IFollowingComponentState {
-
-}
+export interface IFollowingComponentState {}

@@ -1,4 +1,1 @@
-
-export interface ICompanyState {
-
-}
+export interface ICompanyState {}

@@ -1,62 +1,61 @@
-import { BaseDomain } from 'core/domain/common'
+import { BaseDomain } from 'core/domain/common/baseDomain';
 
 export class Graph extends BaseDomain {
+    constructor(
+        /**
+         * Left node of graph
+         *
+         * @type {string}
+         * @memberof Graph
+         */
+        public leftNode: string,
 
-  constructor (
-    /**
-     * Left node of graph
-     *
-     * @type {string}
-     * @memberof Graph
-     */
-  public leftNode: string,
+        /**
+         * Graph relationship type
+         *
+         * @type {number}
+         * @memberof Graph
+         */
+        public edgeType: string,
 
-   /**
-    * Graph relationship type
-    *
-    * @type {number}
-    * @memberof Graph
-    */
-  public edgeType: string,
+        /**
+         * Right node of graph
+         *
+         * @type {string}
+         * @memberof Graph
+         */
+        public rightNode: string,
 
-   /**
-    * Right node of graph
-    *
-    * @type {string}
-    * @memberof Graph
-    */
-  public rightNode: string,
+        /**
+         * Graph left node metadata
+         *
+         * @memberof Graph
+         */
+        public LeftMetadata: any,
 
-   /**
-    * Graph left node metadata
-    *
-    * @memberof Graph
-    */
-  public LeftMetadata: any,
+        /**
+         * Graph right node metadata
+         *
+         * @memberof Graph
+         */
+        public rightMetadata: any,
 
-  /**
-   * Graph right node metadata
-   *
-   * @memberof Graph
-   */
-  public rightMetadata: any,
+        /**
+         * Graph metadata
+         *
+         * @type {string}
+         * @memberof Graph
+         */
+        public graphMetadata: any,
 
-  /**
-   * Graph metadata
-   *
-   * @type {string}
-   * @memberof Graph
-   */
-  public graphMetadata: any,
-
-  /**
-   * Graph node identifier
-   *
-   * @type {string}
-   * @memberof Graph
-   */
-  public nodeId?: string
-
-  ) { super() }
-
+        /**
+         * Graph node identifier
+         *
+         * @type {string}
+         * @memberof Graph
+         */
+        public nodeId?: string,
+    ) {
+        super();
+    }
 }

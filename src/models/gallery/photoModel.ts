@@ -1,4 +1,4 @@
-import { UserPermissionType } from "core/domain/common/userPermissionType";
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
 
 export class PhotoModel {
     constructor(
@@ -19,8 +19,6 @@ export class PhotoModel {
         public meta: string = '',
         public deleted: boolean = false,
         public accessUserList: Array<string> = [],
-        public permission:  UserPermissionType = UserPermissionType.Public,
-    ) {
-        
-    }
+        public permission: UserPermissionType = UserPermissionType.Public,
+    ) {}
 }

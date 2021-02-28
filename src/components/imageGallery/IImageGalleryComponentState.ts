@@ -1,4 +1,3 @@
-
 export interface IImageGalleryComponentState {
-  selectedPhotos: { file: any, fileName: string }[]
+    selectedPhotos: { file: any; fileName: string }[];
 }

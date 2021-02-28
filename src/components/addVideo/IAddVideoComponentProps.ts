@@ -1,28 +1,26 @@
 export interface IAddVideoComponentProps {
+    /**
+     * Whether add video modal is open
+     */
+    open: boolean;
 
-  /**
-   * Whether add video modal is open
-   */
-  open: boolean
+    /**
+     * Handle close add video modal
+     */
+    onClose: any;
 
-  /**
-   * Handle close add video modal
-   */
-  onClose: any
+    /**
+     * On Add vido link
+     */
+    onAddLink: (url: string, thumbnail: string) => void;
 
-  /**
-   * On Add vido link
-   */
-  onAddLink: (url: string, thumbnail: string) => void
+    /**
+     * Styles
+     */
+    classes?: any;
 
-  /**
-   * Styles
-   */
-  classes?: any
-
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any) => any
-
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any) => any;
 }

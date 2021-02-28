@@ -1,5 +1,5 @@
-import { User} from 'core/domain/users'
-import {Map} from 'immutable'
+import { User } from 'core/domain/users/user';
+import { Map } from 'immutable';
 /**
  * User service interface
  *
@@ -7,25 +7,34 @@ import {Map} from 'immutable'
  * @interface IUserService
  */
 export interface IUserService {
-  getUserProfile: (userId: string) => Promise<User>
-  getCurrentUserProfile: () => Promise<User>
-  updateUserProfile: (userId: string, profile: User) => Promise<void>
-  getUsersProfile: (userId: string, lastUserId?: string, page?: number, limit?: number)
-  => Promise<{ users: { [userId: string]: User }[], newLastUserId: string }>
+    getUserProfile: (userId: string) => Promise<User>;
+    getCurrentUserProfile: () => Promise<User>;
+    updateUserProfile: (userId: string, profile: User) => Promise<void>;
+    getUsersProfile: (
+        userId: string,
+        lastUserId?: string,
+        page?: number,
+        limit?: number,
+    ) => Promise<{ users: { [userId: string]: User }[]; newLastUserId: string }>;
 
-  increaseShareCount: (userId: string) => Promise<void>
+    increaseShareCount: (userId: string) => Promise<void>;
 
-  /**
-   * Get search key
-   */
-  getSearchKey: () => Promise<string>
+    /**
+     * Get search key
+     */
+    getSearchKey: () => Promise<string>;
 
-  searchUser: (query: string, filters: string, page: number, limit: number, searchKey: string)
-  => Promise<{ users: Map<string, any>, ids: Map<string, boolean>, hasMore: boolean }>
+    searchUser: (
+        query: string,
+        filters: string,
+        page: number,
+        limit: number,
+        searchKey: string,
+    ) => Promise<{ users: Map<string, any>; ids: Map<string, boolean>; hasMore: boolean }>;
 
-  decreaseShareCount: (userId: string) => Promise<void>
+    decreaseShareCount: (userId: string) => Promise<void>;
 
-  increaseFollowCount: (userId: string) => Promise<void>
+    increaseFollowCount: (userId: string) => Promise<void>;
 
-  decreaseFollowCount: (userId: string) => Promise<void>
+    decreaseFollowCount: (userId: string) => Promise<void>;
 }

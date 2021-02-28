@@ -1,3 +1,1 @@
-export interface IDialogTitleComponentState {
-
-}
+export interface IDialogTitleComponentState {}

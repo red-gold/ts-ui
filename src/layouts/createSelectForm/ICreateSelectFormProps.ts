@@ -1,44 +1,43 @@
-import { FormikValues, FormikTouched } from 'formik'
+import { FormikValues, FormikTouched } from 'formik';
 
-export interface ICreateSelectFormProps  {
-
+export interface ICreateSelectFormProps {
     /**
      * Styles
      */
-    classes?: any
+    classes?: any;
 
     /**
      * Handle on change
      */
-    onChange: (field: string, value: any) => void
+    onChange: (field: string, value: any) => void;
 
     /**
      * Handle on blur
      */
-    onBlur: (field: string, isTouched?: boolean) => void
+    onBlur: (field: string, isTouched?: boolean) => void;
 
     /**
      * Input value
      */
-    value: any
+    value: any;
 
     /**
      * Whether is error
      */
-    error?: boolean
+    error?: boolean;
 
     /**
      * Whether input is full with
      */
-    fullWidth?: boolean
+    fullWidth?: boolean;
 
     /**
      * Whether is touched
      */
-    touched?: FormikTouched<FormikValues>
+    touched?: FormikTouched<FormikValues>;
 
     /**
      * Select options
      */
-    options: {label: string, value: string}[]
+    options: { label: string; value: string }[];
 }

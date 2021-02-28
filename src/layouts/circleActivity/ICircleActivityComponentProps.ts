@@ -2,22 +2,22 @@ export interface ICircleActivityComponentProps {
     /**
      * Styles
      */
-    classes?: any
+    classes?: any;
 
     /**
      * Percentage of progress
      */
-    percent?: string
-    
-    title?: string
-    
+    percent?: string;
+
+    title?: string;
+
     /**
      * Guid line
      */
-    guideline?: string
+    guideline?: string;
 
     /**
      * Display value
      */
-    value?: number
+    value?: number;
 }

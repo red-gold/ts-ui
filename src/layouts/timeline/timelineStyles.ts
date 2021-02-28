@@ -1,14 +1,14 @@
 export const timelineStyles = (theme: any) => ({
     appBar: {
         position: 'relative',
-      },
-      doneIcon: {
-        color: 'green'
-      },
-      flex: {
+    },
+    doneIcon: {
+        color: 'green',
+    },
+    flex: {
         flex: 1,
-      },
-      paper: theme.mixins.gutters({
+    },
+    paper: theme.mixins.gutters({
         maxWidth: 670,
         minWidth: 350,
         margin: '30px auto',
@@ -16,14 +16,14 @@ export const timelineStyles = (theme: any) => ({
     }),
     table: {
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
     },
     cell: {
         border: 'none',
         '&:nth-of-type(even)': {
             fontWeight: 'bold',
         },
-        padding: '4px 1px 3px 20px'        
+        padding: '4px 1px 3px 20px',
     },
     row: {
         '&:hover': {
@@ -46,5 +46,5 @@ export const timelineStyles = (theme: any) => ({
         backgroundColor: '#ece8b24a',
         border: '1px solid #d4d4d4',
         borderRadius: '2px',
-    }
-})
+    },
+});

@@ -1,4 +1,1 @@
-
-export interface ISearchPostState {
-
-}
+export interface ISearchPostState {}

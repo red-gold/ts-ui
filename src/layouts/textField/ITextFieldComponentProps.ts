@@ -1,26 +1,21 @@
-import * as React from 'react'
-import { TextFieldProps } from '@material-ui/core/TextField'
-
-export interface ITextFieldComponentProps  {
-
+export interface ITextFieldComponentProps {
     /**
      * Input props
      */
-   input?: any
+    input?: any;
 
-   /**
-    * Redux meta form
-    */
-   meta?: any
+    /**
+     * Redux meta form
+     */
+    meta?: any;
 
     /**
      * Styles
      */
-    classes?: any
+    classes?: any;
 
     /**
      * Translation for locale
      */
-    t?: (state: any) => any
-
+    t?: (state: any) => any;
 }

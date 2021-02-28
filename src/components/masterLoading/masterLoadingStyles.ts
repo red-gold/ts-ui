@@ -1,3 +1,1 @@
-export const masterLoadingStyles = (theme: any) => ({
-    
-})
+export const masterLoadingStyles = () => ({});

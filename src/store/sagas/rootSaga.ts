@@ -15,18 +15,17 @@ import userSettingSaga from './userSettingSaga';
 
 export default function* root() {
     yield all([
-      authorizeSaga(),
-      localeSaga(),
-      commentSaga(),
-      voteSaga(),
-      userSaga(),
-      commonSaga(),
-      postSaga(),
-      userSettingSaga(),
-      gallerySaga(),
-      notificationSaga(),
-      circleSaga(),
-      chatSaga()
-    ])
-  }
-  
+        authorizeSaga(),
+        localeSaga(),
+        commentSaga(),
+        voteSaga(),
+        userSaga(),
+        commonSaga(),
+        postSaga(),
+        userSettingSaga(),
+        gallerySaga(),
+        notificationSaga(),
+        circleSaga(),
+        chatSaga(),
+    ]);
+}

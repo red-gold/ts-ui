@@ -1,88 +1,85 @@
-import { User } from 'core/domain/users'
-import { Comment } from 'core/domain/comments'
-import { ServerRequestModel } from 'models/server'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import {Map} from 'immutable'
+import { User } from 'core/domain/users/user';
+import { Comment } from 'core/domain/comments/comment';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { Map } from 'immutable';
 export interface ICommentGroupComponentProps {
+    /**
+     * Commnets
+     */
+    comments?: Map<string, Map<string, any>>;
 
-  /**
-   * Commnets
-   */
-  comments?: Map<string, Map<string, any>>
+    /**
+     * Commnets show on slide preview
+     */
+    commentSlides?: Map<string, Comment>;
 
-  /**
-   * Commnets show on slide preview
-   */
-  commentSlides?: Map<string, Comment>
+    /**
+     * The post identifier which comment belong to
+     */
+    postId: string;
 
-  /**
-   * The post identifier which comment belong to
-   */
-  postId: string
+    /**
+     * Users` profile
+     */
+    userInfo?: Map<string, User>;
 
-  /**
-   * Users` profile
-   */
-  userInfo?: Map<string, User>
+    /**
+     * Comment group is open {true} or not {false}
+     */
+    open: boolean;
 
-  /**
-   * Comment group is open {true} or not {false}
-   */
-  open: boolean
+    /**
+     * Comment is disabled {true} or not {false}
+     */
+    disableComments: boolean;
 
-  /**
-   * Comment is disabled {true} or not {false}
-   */
-  disableComments: boolean
+    /**
+     * Current user is the post owner {true} or not {false}
+     */
+    isPostOwner: boolean;
 
-  /**
-   * Current user is the post owner {true} or not {false}
-   */
-  isPostOwner: boolean
+    /**
+     * User full name
+     */
+    fullName?: string;
 
-  /**
-   * User full name
-   */
-  fullName?: string
+    /**
+     * Avatar URL address
+     */
+    avatar?: string;
 
-  /**
-   * Avatar URL address
-   */
-  avatar?: string
+    /**
+     * Authed user id
+     */
+    uid?: string;
 
-  /**
-   * Authed user id
-   */
-  uid?: string
+    /**
+     * Toggle comment list open/close
+     */
+    onToggleRequest: () => void;
 
-  /**
-   * Toggle comment list open/close
-   */
-  onToggleRequest: () => void
+    /**
+     * The identifier of post owner
+     */
+    ownerPostUserId: string;
 
-  /**
-   * The identifier of post owner
-   */
-  ownerPostUserId: string
+    /**
+     * Send comment
+     */
+    send?: (newComment: Map<string, any>) => any;
 
-  /**
-   * Send comment
-   */
-  send?: (newComment: Map<string, any>) => any
+    /**
+     * Get post comments request payload
+     */
+    commentsRequestStatus?: ServerRequestStatusType;
 
-  /**
-   * Get post comments request payload
-   */
-  commentsRequestStatus?: ServerRequestStatusType
+    /**
+     * Styles
+     */
+    classes?: any;
 
-  /**
-   * Styles
-   */
-  classes?: any
-
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any, param?: {}) => any
-
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any, param?: {}) => any;
 }

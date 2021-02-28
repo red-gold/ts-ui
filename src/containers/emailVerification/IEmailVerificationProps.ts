@@ -1,34 +1,33 @@
-import { LoginUser } from 'core/domain/authorize'
+import { LoginUser } from 'core/domain/authorize/loginUser';
 
 export interface IEmailVerificationProps {
+    /**
+     * Logout user
+     */
+    logout?: () => void;
 
-  /**
-   * Logout user
-   */
-  logout?: () => void
+    /**
+     * Redirect to home
+     */
+    home?: () => void;
 
-  /**
-   * Redirect to home
-   */
-  home?: () => void
+    /**
+     * Styles
+     */
+    classes?: any;
 
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any, param?: {}) => any;
 
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any, param?: {}) => any
+    /**
+     * Show global message
+     */
+    showMessage?: (message: string) => any;
 
-  /**
-   * Show global message
-   */
-  showMessage?: (message: string) => any
-
-  /**
-   * Login user
-   */
-  login?: (user: LoginUser) => any
+    /**
+     * Login user
+     */
+    login?: (user: LoginUser) => any;
 }

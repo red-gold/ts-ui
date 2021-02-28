@@ -1,10 +1,9 @@
-import { UserSettingActionType } from 'constants/userSettingActionType'
+import { UserSettingActionType } from 'constants/userSettingActionType';
 
 /**
  *  UserSetting action interface
  */
 export interface IUserSettingAction {
-  payload: any,
-  type: UserSettingActionType
-
+    payload: any;
+    type: UserSettingActionType;
 }

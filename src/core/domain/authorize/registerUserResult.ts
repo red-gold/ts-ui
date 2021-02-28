@@ -1,13 +1,12 @@
-import { BaseDomain } from 'core/domain/common'
+import { BaseDomain } from 'core/domain/common/baseDomain';
 
 export class RegisterUserResult extends BaseDomain {
+    private _uid: string;
+    constructor(uid: string) {
+        super();
 
-  private _uid: string
-  constructor (uid: string) {
-    super()
-
-    this._uid = uid
-  }
+        this._uid = uid;
+    }
     /**
      * User identifier
      *
@@ -15,7 +14,7 @@ export class RegisterUserResult extends BaseDomain {
      * @memberof LoginUser
      */
 
-  public get uid (): string {
-    return this._uid
-  }
+    public get uid(): string {
+        return this._uid;
+    }
 }

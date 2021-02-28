@@ -1,49 +1,43 @@
-import { Image } from 'core/domain/imageGallery'
-import {Map, Collection, List} from 'immutable'
-import { Post } from 'core/domain/posts/post'
-import { User } from 'core/domain/users'
-import { Media } from 'core/domain/imageGallery/media'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
+import { User } from 'core/domain/users/user';
 
 export interface IAboutDialogProps {
+    /**
+     * Whether dialog is open
+     */
+    open: boolean;
 
-  /**
-   * Whether dialog is open
-   */
-  open: boolean
+    /**
+     * Close image gallery
+     */
+    onClose: () => void;
 
-  /**
-   * Close image gallery
-   */
-  onClose: () => void
+    /**
+     * Styles
+     */
+    classes?: any;
 
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * Theme
+     */
+    theme?: any;
 
-  /**
-   * Theme
-   */
-  theme?: any
+    /**
+     * Current user information
+     */
+    currentUser?: User;
 
-  /**
-   * Current user information
-   */
-  currentUser?: User
+    /**
+     * The user to show about
+     */
+    targetUser: User;
 
-  /**
-   * The user to show about
-   */
-  targetUser: User
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any) => any;
 
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any) => any
-
-  /**
-   * Current language code
-   */
-  currentLanguage?: string 
+    /**
+     * Current language code
+     */
+    currentLanguage?: string;
 }

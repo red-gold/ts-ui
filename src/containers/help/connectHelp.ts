@@ -1,5 +1,4 @@
-import { Map } from 'immutable';
-import { Component } from 'react';
+import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 
 import { IHelpProps } from './IHelpProps';
@@ -8,20 +7,16 @@ import { IHelpProps } from './IHelpProps';
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any, ownProps: IHelpProps) => {
-  return {
-  }
-}
+const mapDispatchToProps = () => {
+    return {};
+};
 
 const makeMapStateToProps = () => {
+    const mapStateToProps = () => {
+        return {};
+    };
+    return mapStateToProps;
+};
 
-  const mapStateToProps = (state: Map<string, any>, ownProps: IHelpProps) => {
-    return {
-      
-    }
-  }
-  return mapStateToProps
-}
-
-export const connectHelp =
-  (component: Component<IHelpProps>) => connect(makeMapStateToProps, mapDispatchToProps)(component as any)
+export const connectHelp = (component: ComponentType<IHelpProps>) =>
+    connect<{}, {}, any, any>(makeMapStateToProps, mapDispatchToProps)(component as any);

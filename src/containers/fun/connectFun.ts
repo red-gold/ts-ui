@@ -1,5 +1,4 @@
-import { Map } from 'immutable';
-import { Component } from 'react';
+import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 
 import { IFunProps } from './IFunProps';
@@ -8,20 +7,16 @@ import { IFunProps } from './IFunProps';
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any, ownProps: IFunProps) => {
-  return {
-  }
-}
+const mapDispatchToProps = () => {
+    return {};
+};
 
 const makeMapStateToProps = () => {
+    const mapStateToProps = () => {
+        return {};
+    };
+    return mapStateToProps;
+};
 
-  const mapStateToProps = (state: Map<string, any>, ownProps: IFunProps) => {
-    return {
-      
-    }
-  }
-  return mapStateToProps
-}
-
-export const connectFun =
-  (component: Component<IFunProps>) => connect(makeMapStateToProps, mapDispatchToProps)(component as any)
+export const connectFun = (component: ComponentType<IFunProps>) =>
+    connect<{}, {}, any, any>(makeMapStateToProps, mapDispatchToProps)(component as any);

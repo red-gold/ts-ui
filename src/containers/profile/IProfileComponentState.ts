@@ -1,4 +1,1 @@
-
-export interface IProfileComponentState {
-
-}
+export interface IProfileComponentState {}

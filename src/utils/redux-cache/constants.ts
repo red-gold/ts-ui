@@ -1,2 +1,2 @@
-export var DEFAULT_DURATION_MS: number = 600000;
-export var DEFAULT_KEY: string = "cacheUntil";
+export const DEFAULT_DURATION_MS = 600000;
+export const DEFAULT_KEY = 'cacheUntil';

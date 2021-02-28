@@ -1,4 +1,4 @@
 export enum ConfigComponentType {
     ChangePassword,
-    Notification
+    Notification,
 }

@@ -1,6 +1,5 @@
-
 export interface ITermsState {
-  selectedItem: number
-  selectedText: string
-  mobileOpen: boolean
+    selectedItem: number;
+    selectedText: string;
+    mobileOpen: boolean;
 }

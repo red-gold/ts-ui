@@ -1,4 +1,1 @@
-
-export interface ICommentListComponentState {
-
-}
+export interface ICommentListComponentState {}

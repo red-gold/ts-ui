@@ -1,30 +1,26 @@
-import * as React from 'react'
-
 export interface IRibbonComponentProps {
-
     /**
      * Whether ribbon is small
      */
-    small?: boolean
+    small?: boolean;
 
     /**
      * Label
      */
-    label: string
+    label: string;
 
     /**
      * Icon
      */
-    icon?:  JSX.Element
+    icon?: JSX.Element;
 
     /**
      * Ribbon color
      */
-    className?: any
+    className?: any;
 
     /**
      * Styles
      */
-    classes?: any
-
+    classes?: any;
 }

@@ -1,72 +1,70 @@
-import { Post } from 'core/domain/posts'
-import { User } from 'core/domain/users'
-import {Map} from 'immutable'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
+import { User } from 'core/domain/users/user';
+import { Map } from 'immutable';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 
 export interface ISearchPostProps {
+    /**
+     * Router match
+     */
+    match: any;
 
-  /**
-   * Router match
-   */
-  match: any
- 
-  /**
-   * Search posts
-   */
-  search: (query: string, page: number, limit: number) => any
-  
-  /**
-   * Theme
-   */
-  history?: any
-  
-  /**
-   * Router match
-   */
-  location: any
+    /**
+     * Search posts
+     */
+    search: (query: string, page: number, limit: number) => any;
 
-  /**
-   * Stream request id
-   */
-  requestId?: string
+    /**
+     * Theme
+     */
+    history?: any;
 
-  /**
-   * The tile of top bar
-   */
-  homeTitle?: string
+    /**
+     * Router match
+     */
+    location: any;
 
-  /**
-   * Search request status
-   */
-  searchRequestStatus?: ServerRequestStatusType
+    /**
+     * Stream request id
+     */
+    requestId?: string;
 
-  /**
-   * Current user
-   */
-  currentUser?: User
+    /**
+     * The tile of top bar
+     */
+    homeTitle?: string;
 
-  /**
-   * Load the data for stream
-   */
-  loadPosts?: (page: number) => any
+    /**
+     * Search request status
+     */
+    searchRequestStatus?: ServerRequestStatusType;
 
-  /**
-   * If there is more post {true} or not {false}
-   */
-  hasMorePosts?: boolean
+    /**
+     * Current user
+     */
+    currentUser?: User;
 
-  /**
-   * Posts for stream
-   */
-  posts: Map<string, Map<string, any>>
+    /**
+     * Load the data for stream
+     */
+    loadPosts?: (page: number) => any;
 
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any, params?: {}) => any
+    /**
+     * If there is more post {true} or not {false}
+     */
+    hasMorePosts?: boolean;
 
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * Posts for stream
+     */
+    posts: Map<string, Map<string, any>>;
+
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any, params?: {}) => any;
+
+    /**
+     * Styles
+     */
+    classes?: any;
 }

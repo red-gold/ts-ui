@@ -1,5 +1,4 @@
 export enum ChatRoomType {
-  Peer = 'Peer',
-  Multiple = 'Multiple',
-
+    Peer = 'Peer',
+    Multiple = 'Multiple',
 }

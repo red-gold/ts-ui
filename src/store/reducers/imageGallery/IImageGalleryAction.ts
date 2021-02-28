@@ -1,4 +1,4 @@
-import { ImageGalleryActionType } from 'constants/imageGalleryActionType'
+import { ImageGalleryActionType } from 'constants/imageGalleryActionType';
 
 /**
  *  ImageGallery action interface
@@ -7,7 +7,6 @@ import { ImageGalleryActionType } from 'constants/imageGalleryActionType'
  * @interface IImageGalleryAction
  */
 export interface IImageGalleryAction {
-  payload: any,
-  type: ImageGalleryActionType
-
+    payload: any;
+    type: ImageGalleryActionType;
 }

@@ -18,14 +18,14 @@
     ],
     "sourceMap": true,
     "allowJs": true,
-    "jsx": "preserve",
+    "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "src",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": false,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "strictPropertyInitialization": false,
@@ -35,7 +35,8 @@
     "skipLibCheck": false,
     "strict": true,
     "resolveJsonModule": true,
-    "noEmit": true
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src"

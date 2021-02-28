@@ -4,5 +4,5 @@ export enum AlbumType {
     Manual,
     Profile,
     Banner,
-    User
+    User,
 }

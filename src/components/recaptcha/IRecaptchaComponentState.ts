@@ -1,4 +1,1 @@
-
-export interface IRecaptchaComponentState {
-
-}
+export interface IRecaptchaComponentState {}

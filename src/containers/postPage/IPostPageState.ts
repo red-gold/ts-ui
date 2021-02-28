@@ -1,4 +1,1 @@
-
-export interface IPostPageState {
-
-}
+export interface IPostPageState {}

@@ -1,4 +1,3 @@
-
 export const userActivityStyles = (theme: any) => ({
     paper: theme.mixins.gutters({
         maxWith: 900,
@@ -9,7 +8,7 @@ export const userActivityStyles = (theme: any) => ({
     userAvatar: {
         padding: 0,
         margin: 'auto',
-        fontSize: 60
+        fontSize: 60,
     },
     userNameText: {
         textAlign: 'center',
@@ -20,7 +19,7 @@ export const userActivityStyles = (theme: any) => ({
         position: 'relative',
     },
     impactIcon: {
-        fontSize: 20
+        fontSize: 20,
     },
     paperBackground: {
         padding: '17px 12px 15px 15px',
@@ -34,7 +33,7 @@ export const userActivityStyles = (theme: any) => ({
         padding: 8,
         fontWeight: 400,
         backgroundColor: theme.palette.secondary.light,
-        color: 'white'
+        color: 'white',
     },
     titleSpecial: {
         color: 'white',
@@ -46,7 +45,7 @@ export const userActivityStyles = (theme: any) => ({
         verticalAlign: 'middle',
         paddingTop: 30,
         wordSpacing: -30,
-        cursor: 'pointer'
+        cursor: 'pointer',
     },
     listItem: {
         padding: '8px 0px 4px 12px',
@@ -54,22 +53,22 @@ export const userActivityStyles = (theme: any) => ({
     repLabel: {
         marginTop: 50,
         textAlign: 'center',
-        color: 'white'
+        color: 'white',
     },
     repCaption: {
-        fontSize: 20, 
-        cursor: 'pointer'
+        fontSize: 20,
+        cursor: 'pointer',
     },
     diamond: {
-        marginLeft: 5
+        marginLeft: 5,
     },
     facebookIcon: {
         marginLeft: 5,
-        width: 30
+        width: 30,
     },
     twitterIcon: {
         marginLeft: 5,
-        width: 30
+        width: 30,
     },
     content: {
         padding: '15px 15px 1px 15px',
@@ -92,7 +91,7 @@ export const userActivityStyles = (theme: any) => ({
         WebkitTransition: 'all .218s cubic-bezier(0.4,0.0,0.2,1)',
         transition: 'all .218s cubic-bezier(0.4,0.0,0.2,1)',
         margin: '5px',
-        boxShadow: '0 2px 11px rgba(0,0,0,0.2)'
+        boxShadow: '0 2px 11px rgba(0,0,0,0.2)',
     },
     container: {
         top: '-61px',
@@ -101,31 +100,29 @@ export const userActivityStyles = (theme: any) => ({
         transition: 'all .218s cubic-bezier(0.4,0.0,0.2,1)',
     },
     editButtonContainer: {
-        textAlign: 'center'
+        textAlign: 'center',
     },
-    allPrivileges: {
-        
-    },
+    allPrivileges: {},
     allPrivilegesButton: {
-        fontSize: '0.715rem'
+        fontSize: '0.715rem',
     },
     borderAnimation: {
-      WebkitAnimation: 'pulse-shadow--collection 2s infinite',
-      animation: 'pulse-shadow--collection 2s infinite',
-      borderColor: '#03a87c',
-      color: '#03a87c',
-      fill: '#03a87c'
+        WebkitAnimation: 'pulse-shadow--collection 2s infinite',
+        animation: 'pulse-shadow--collection 2s infinite',
+        borderColor: '#03a87c',
+        color: '#03a87c',
+        fill: '#03a87c',
     },
     facebookIconRoot: {
         width: 35,
-        height: 35
+        height: 35,
     },
     twitterIconRoot: {
         width: 35,
-        height: 35
+        height: 35,
     },
     disableComponent: {
-        opacity:'0.2',  
-        'pointer-events': 'none'
-    }
-})
+        opacity: '0.2',
+        'pointer-events': 'none',
+    },
+});

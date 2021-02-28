@@ -1,1 +1,1 @@
-declare module 'react-cookie-consent'
+declare module 'react-cookie-consent';

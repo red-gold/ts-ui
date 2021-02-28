@@ -1,5 +1,4 @@
 export enum AuthorizeActionType {
-    
     LOGIN = 'LOGIN',
     SUBSCRIBE_AUTH_STATE_CHANGE = 'SUBSCRIBE_AUTH_STATE_CHANGE',
     SET_LOGIN = 'SET_LOGIN',
@@ -12,5 +11,5 @@ export enum AuthorizeActionType {
     LOGOUT = 'LOGOUT',
     SIGNUP = 'SIGNUP',
     UPDATE_PASSWORD = 'UPDATE_PASSWORD',
-    SET_SIGNUP_STEP = 'SET_SIGNUP_STEP'
+    SET_SIGNUP_STEP = 'SET_SIGNUP_STEP',
 }

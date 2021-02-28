@@ -1,77 +1,73 @@
-import { Post } from 'core/domain/posts'
-import { User } from 'core/domain/users'
-import {Map, List} from 'immutable'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-
+import { Post } from 'core/domain/posts/post';
+import { User } from 'core/domain/users/user';
 export interface IPhotoStreamProps {
+    /**
+     * Router match
+     */
+    match?: any;
 
-  /**
-   * Router match
-   */
-  match?: any
-  
-  /**
-   * Theme
-   */
-  history?: any
-  
-  /**
-   * Router match
-   */
-  location?: any
+    /**
+     * Theme
+     */
+    history?: any;
 
-  /**
-   * Stream request id
-   */
-  requestId?: string
+    /**
+     * Router match
+     */
+    location?: any;
 
-  /**
-   * The tile of top bar
-   */
-  homeTitle?: string
+    /**
+     * Stream request id
+     */
+    requestId?: string;
 
-  /**
-   * Delete image
-   */
-  deleteImage?: (fileId: string, fileName: string) => any
+    /**
+     * The tile of top bar
+     */
+    homeTitle?: string;
 
-  /**
-   * Handle delete image
-   */
-  onDelete?: (fileId: string) => void
+    /**
+     * Delete image
+     */
+    deleteImage?: (fileId: string, fileName: string) => any;
 
-  /**
-   * Current user
-   */
-  currentUser?: User
+    /**
+     * Handle delete image
+     */
+    onDelete?: (fileId: string) => void;
 
-  /**
-   * Current album
-   */
-  currentAlbum: Post
+    /**
+     * Current user
+     */
+    currentUser?: User;
 
-  /**
-   * Load the data 
-   */
-  loadPhotos?: (page: number) => any
+    /**
+     * Current album
+     */
+    currentAlbum: Post;
 
-  /**
-   * If there is more post {true} or not {false}
-   */
-  hasMorePhotos?: boolean
+    /**
+     * Load the data
+     */
+    loadPhotos?: (page: number) => any;
 
-  /**
-   * Posts for stream
-   */
-  images: any[]
+    /**
+     * If there is more post {true} or not {false}
+     */
+    hasMorePhotos?: boolean;
 
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any, params?: {}) => any
+    /**
+     * Posts for stream
+     */
+    images: any[];
 
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any, params?: {}) => any;
+
+    /**
+     * Styles
+     */
+    classes?: any;
 }

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "baseUrl": "src", // enables you to import relative to this folder
-        "isolatedModules": false,
+        "isolatedModules": true,
         "paths": {
             "src/*": [
                 "*"

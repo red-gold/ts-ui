@@ -1,1 +1,1 @@
-declare module 'react-idle-timer'
+declare module 'react-idle-timer';

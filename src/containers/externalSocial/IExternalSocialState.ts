@@ -1,4 +1,1 @@
-
-export interface IExternalSocialState {
-
-}
+export interface IExternalSocialState {}

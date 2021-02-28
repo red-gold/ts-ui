@@ -1,4 +1,4 @@
-export const ribbonStyles = (theme: any) => ({
+export const ribbonStyles = () => ({
     ribbon: {
         display: 'block',
         color: '#fff',
@@ -13,18 +13,18 @@ export const ribbonStyles = (theme: any) => ({
         MozBoxShadow: '-2px 2px 3px 0px rgba(0,0,0,0.4)',
         boxShadow: '-2px 2px 3px 0px rgba(0,0,0,0.4)',
         '&:after': {
-          left: 'auto',
-          right: '0',
-          width: '0',
-          bottom: '-14px',
-          opacity: '0.7',
-          display: 'block',
-          content: '""',
-          position: 'absolute',
-          borderTop: '14px solid #0c92b5',
-          borderRight: '14px solid transparent'
-        }
-      },
+            left: 'auto',
+            right: '0',
+            width: '0',
+            bottom: '-14px',
+            opacity: '0.7',
+            display: 'block',
+            content: '""',
+            position: 'absolute',
+            borderTop: '14px solid #0c92b5',
+            borderRight: '14px solid transparent',
+        },
+    },
     smallRibbon: {
         display: 'block',
         color: '#fff',
@@ -34,18 +34,18 @@ export const ribbonStyles = (theme: any) => ({
         right: 0,
         backgroundColor: '#14c4f2',
         padding: 2,
-      },
-      icon: {
+    },
+    icon: {
         fontSize: 15,
-        position: 'absolute'
-      },
-      label: {
+        position: 'absolute',
+    },
+    label: {
         marginLeft: 26,
-        lineHeight: '16px'
-      },
-      smallLabel: {
+        lineHeight: '16px',
+    },
+    smallLabel: {
         marginLeft: 17,
         lineHeight: '16px',
         wordSpacing: '-3px',
-      }
-})
+    },
+});

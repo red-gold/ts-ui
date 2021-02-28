@@ -1,4 +1,3 @@
-
 export interface IPictureDialogState {
-    photoIndex: number
+    photoIndex: number;
 }

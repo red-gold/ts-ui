@@ -1,3 +1,1 @@
-
-export interface IPostAlbumState {
-}
+export interface IPostAlbumState {}

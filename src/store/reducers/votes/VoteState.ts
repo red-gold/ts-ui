@@ -1,4 +1,4 @@
-import {Map} from 'immutable'
+import { Map } from 'immutable';
 
 /**
  * Vote state
@@ -7,11 +7,10 @@ import {Map} from 'immutable'
  * @class VoteState
  */
 export class VoteState {
-
     /**
      * The list of posts vote
      */
-  postVotes: Map<string,Map<string, any>> = Map({})
+    postVotes: Map<string, Map<string, any>> = Map({});
 
     /**
      * If posts vote are loaded {true} or not {false}
@@ -19,5 +18,5 @@ export class VoteState {
      * @type {Boolean}
      * @memberof VoteState
      */
-  loaded: Boolean = false
+    loaded = false;
 }

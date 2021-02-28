@@ -1,9 +1,8 @@
-import { BaseDomain } from 'core/domain/common'
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
+import { BaseDomain } from 'core/domain/common/baseDomain';
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
 
 export class User extends BaseDomain {
-
-    constructor (
+    constructor(
         public avatar: string,
         public fullName: string,
         public banner: string,
@@ -23,11 +22,8 @@ export class User extends BaseDomain {
         public facebookId?: string,
         public instagramId?: string,
         public accessUserList?: Array<string>,
-        public permission: UserPermissionType = UserPermissionType.Public
-        
-      ) {
-        super()
-    
-      }
-
+        public permission: UserPermissionType = UserPermissionType.Public,
+    ) {
+        super();
+    }
 }

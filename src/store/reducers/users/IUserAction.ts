@@ -1,4 +1,4 @@
-import { UserActionType } from 'constants/userActionType'
+import { UserActionType } from 'constants/userActionType';
 
 /**
  *  User action interface
@@ -7,7 +7,6 @@ import { UserActionType } from 'constants/userActionType'
  * @interface IUserAction
  */
 export interface IUserAction {
-  payload: any,
-  type: UserActionType
-
+    payload: any;
+    type: UserActionType;
 }

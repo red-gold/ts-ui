@@ -11,8 +11,6 @@ export class UserClaim {
         public providerId: any,
         public refreshToken: string,
         public uid: string,
-        public phoneVerified: boolean
-    ) {
-
-    }
+        public phoneVerified: boolean,
+    ) {}
 }

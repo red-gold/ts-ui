@@ -1,1 +1,1 @@
-declare module 'react-flag-icon-css'
+declare module 'react-flag-icon-css';

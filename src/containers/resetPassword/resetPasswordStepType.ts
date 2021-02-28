@@ -1,4 +1,4 @@
 export enum ResetPasswordStepType {
-  EnterEmail ,
-  VerificationCode
+    EnterEmail,
+    VerificationCode,
 }

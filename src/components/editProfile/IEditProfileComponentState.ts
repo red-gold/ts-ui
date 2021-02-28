@@ -1,100 +1,99 @@
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
 
 export interface IEditProfileComponentState {
-[key: string]: any
-  /**
-   * Full name input value
-   */
-  fullNameInput: string
+    [key: string]: any;
+    /**
+     * Full name input value
+     */
+    fullNameInput: string;
 
-  /**
-   * Full name input error message
-   */
-  fullNameInputError: string
+    /**
+     * Full name input error message
+     */
+    fullNameInputError: string;
 
-  /**
-   * Whether image editor is open
-   */
-  isImageEditorOpen: boolean
+    /**
+     * Whether image editor is open
+     */
+    isImageEditorOpen: boolean;
 
-  /**
-   * Image URL of image editor
-   */
-  imageEditorUrl: string
+    /**
+     * Image URL of image editor
+     */
+    imageEditorUrl: string;
 
-  /**
-   * User's original banner URL
-   */
-  originalBanner: string
-  
-  /**
-   * Tag line input value
-   */
-  tagLineInput: string
+    /**
+     * User's original banner URL
+     */
+    originalBanner: string;
 
-  /**
-   * Edit profile page is small size {true} or big {false}
-   */
-  isSmall: boolean
+    /**
+     * Tag line input value
+     */
+    tagLineInput: string;
 
-  /**
-   * User's banner URL
-   */
-  banner: string
+    /**
+     * Edit profile page is small size {true} or big {false}
+     */
+    isSmall: boolean;
 
-  /**
-   * User's avatar URL address
-   */
-  avatar: string
+    /**
+     * User's banner URL
+     */
+    banner: string;
 
-  /**
-   * Image gallery dialog is open for choosing banner image {true} or not {false}
-   */
-  openBanner: boolean
+    /**
+     * User's avatar URL address
+     */
+    avatar: string;
 
-  /**
-   * Image gallery dialog is open for choosing avatar image {true} or not {false}
-   */
-  openAvatar: boolean
+    /**
+     * Image gallery dialog is open for choosing banner image {true} or not {false}
+     */
+    openBanner: boolean;
 
-  /**
-   * Default birth day
-   */
-  defaultBirthday: any
+    /**
+     * Image gallery dialog is open for choosing avatar image {true} or not {false}
+     */
+    openAvatar: boolean;
 
-  /**
-   * Seleted birth day
-   */
-  selectedBirthday: number
+    /**
+     * Default birth day
+     */
+    defaultBirthday: any;
 
-  /**
-   * Web URL
-   */
-  webUrl: string
+    /**
+     * Seleted birth day
+     */
+    selectedBirthday: number;
 
-  /**
-   * User company name
-   */
-  companyName: string
+    /**
+     * Web URL
+     */
+    webUrl: string;
 
-  /**
-   * User twitter id
-   */
-  twitterId: string
+    /**
+     * User company name
+     */
+    companyName: string;
 
-  /**
-   * User facebook id
-   */
-  facebookId: string
+    /**
+     * User twitter id
+     */
+    twitterId: string;
 
-  /**
-   * User facebook id
-   */
-  permission: UserPermissionType
+    /**
+     * User facebook id
+     */
+    facebookId: string;
 
-  /**
-   * User facebook id
-   */
-  accessUserList: string[]
+    /**
+     * User facebook id
+     */
+    permission: UserPermissionType;
 
+    /**
+     * User facebook id
+     */
+    accessUserList: string[];
 }

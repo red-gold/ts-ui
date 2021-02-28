@@ -1,11 +1,8 @@
-import { BaseDomain } from 'core/domain/common'
-import { FileGallery } from './fileGallery'
+import { FileGallery } from './fileGallery';
 
 export class VideoFile extends FileGallery {
-
-  /**
-   * The address of video thumbnails on the post
-   */
-  public thumbnail?: string
-
+    /**
+     * The address of video thumbnails on the post
+     */
+    public thumbnail?: string;
 }

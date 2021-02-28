@@ -1,1 +1,1 @@
-export { ServerRequestModel } from './serverRequestModel'
+export { ServerRequestModel } from './serverRequestModel';

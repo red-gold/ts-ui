@@ -1,2 +1,2 @@
-declare module 'react-day-picker/DayPickerInput'
-declare module 'react-day-picker/moment'
+declare module 'react-day-picker/DayPickerInput';
+declare module 'react-day-picker/moment';

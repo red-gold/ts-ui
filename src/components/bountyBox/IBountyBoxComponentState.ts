@@ -1,4 +1,1 @@
-
-export interface IBountyBoxComponentState {
-
-}
+export interface IBountyBoxComponentState {}

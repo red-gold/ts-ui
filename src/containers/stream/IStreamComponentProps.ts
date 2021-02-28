@@ -1,79 +1,77 @@
-import { Post } from 'core/domain/posts'
-import {Map} from 'immutable'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { User } from 'core/domain/users'
+import { Map } from 'immutable';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { User } from 'core/domain/users/user';
 
 export interface IStreamComponentProps {
+    /**
+     * The tile of top bar
+     */
+    homeTitle?: string;
 
-  /**
-   * The tile of top bar
-   */
-  homeTitle?: string
+    /**
+     * Set home title
+     */
+    setHomeTitle?: (homeTitle: string) => void;
 
-  /**
-   * Set home title
-   */
-  setHomeTitle?: (homeTitle: string) => void
+    /**
+     * User full name
+     */
+    fullName?: string;
 
-  /**
-   * User full name
-   */
-  fullName?: string
+    /**
+     * User avatar URL
+     */
+    avatar?: string;
 
-  /**
-   * User avatar URL
-   */
-  avatar?: string
+    /**
+     * Load the data for stream
+     */
+    loadStream?: (page: number) => any;
 
-  /**
-   * Load the data for stream
-   */
-  loadStream?: (page: number) => any
+    /**
+     * If there is more post {true} or not {false}
+     */
+    hasMorePosts?: boolean;
 
-  /**
-   * If there is more post {true} or not {false}
-   */
-  hasMorePosts?: boolean
+    /**
+     * Posts for stream
+     */
+    posts: Map<string, Map<string, any>>;
 
-  /**
-   * Posts for stream
-   */
-  posts: Map<string, Map<string, any>>
+    /**
+     * Stream request id
+     */
+    requestId?: string;
 
-  /**
-   * Stream request id
-   */
-  requestId?: string
+    /**
+     * Router match property
+     */
+    match?: any;
 
-  /**
-   * Router match property
-   */
-  match?: any
+    streamRequestStatus?: ServerRequestStatusType;
 
-  streamRequestStatus?: ServerRequestStatusType
+    /**
+     * Current user
+     */
+    currentUser?: User;
 
-  /**
-   * Current user
-   */
-  currentUser?: User
+    /**
+     * Current page number
+     */
+    page?: number;
 
-  /**
-   * Current page number
-   */
-  page?: number
+    /**
+     * Translate to locale string
+     */
+    increasePage?: () => any;
 
-  /**
-   * Translate to locale string
-   */
-  increasePage?: () => any
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any) => any;
 
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any) => any
-
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * Styles
+     */
+    classes?: any;
 }

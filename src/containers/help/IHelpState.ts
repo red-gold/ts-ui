@@ -1,4 +1,1 @@
-
-export interface IHelpState {
-
-}
+export interface IHelpState {}

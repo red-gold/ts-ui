@@ -1,26 +1,21 @@
-import { UserTie } from 'core/domain/circles'
-import {Map, List} from 'immutable'
-
 export interface ICompanyProps {
+    /**
+     * Theme
+     */
+    history?: any;
 
-  /**
-   * Theme
-   */
-  history?: any
-  
-  /**
-   * Router match
-   */
-  location: any
+    /**
+     * Router match
+     */
+    location: any;
 
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * Styles
+     */
+    classes?: any;
 
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any, params?: any) => any
-
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any, params?: any) => any;
 }

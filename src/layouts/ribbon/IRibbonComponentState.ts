@@ -1,4 +1,1 @@
-
-export interface IRibbonComponentState {
-
-}
+export interface IRibbonComponentState {}

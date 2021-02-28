@@ -1,35 +1,34 @@
-import {
-  combineReducers
-} from 'redux-immutable'
+import { combineReducers } from 'redux-immutable';
 
 // - Import reducers
-import { authorizeReducer } from './authorize'
-import { circleReducer } from './circles'
-import { commentReducer } from './comments'
-import { globalReducer } from './global'
-import { imageGalleryReducer } from './imageGallery'
-import { notificationReducer } from './notifications'
-import { postReducer } from './posts'
-import { userReducer } from './users'
-import { voteReducer } from './votes'
-import { serverReducer } from './server'
-import { userSettingReducer } from './userSetting'
-import { chatReducer } from './chat'
-import { connectRouter } from 'connected-react-router/immutable'
+import { authorizeReducer } from './authorize/authorizeReducer';
+import { circleReducer } from './circles/circleReducer';
+import { commentReducer } from './comments/commentReducer';
+import { globalReducer } from './global/globalReducer';
+import { imageGalleryReducer } from './imageGallery/imageGalleryReducer';
+import { notificationReducer } from './notifications/notificationReducer';
+import { postReducer } from './posts/postReducer';
+import { userReducer } from './users/userReducer';
+import { voteReducer } from './votes/voteReducer';
+import { serverReducer } from './server/serverReducer';
+import { userSettingReducer } from './userSetting/userSettingReducer';
+import { chatReducer } from './chat/chatReducer';
+import { connectRouter } from 'connected-react-router/immutable';
 
 // - Reducers
-export const rootReducer = (history: any) => combineReducers({
-    imageGallery: imageGalleryReducer,
-    post: postReducer,
-    circle: circleReducer,
-    comment: commentReducer,
-    vote: voteReducer,
-    server: serverReducer,
-    authorize: authorizeReducer,
-    router: connectRouter(history),
-    user: userReducer,
-    notify: notificationReducer,
-    global: globalReducer,
-    userSetting: userSettingReducer,
-    chat: chatReducer
-  } as any)
+export const rootReducer = (history: any) =>
+    combineReducers({
+        imageGallery: imageGalleryReducer,
+        post: postReducer,
+        circle: circleReducer,
+        comment: commentReducer,
+        vote: voteReducer,
+        server: serverReducer,
+        authorize: authorizeReducer,
+        router: connectRouter(history),
+        user: userReducer,
+        notify: notificationReducer,
+        global: globalReducer,
+        userSetting: userSettingReducer,
+        chat: chatReducer,
+    } as any);

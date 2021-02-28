@@ -1,1 +1,1 @@
-export { UserRegisterModel } from './userRegisterModel'
+export { UserRegisterModel } from './userRegisterModel';

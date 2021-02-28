@@ -1,7 +1,6 @@
-
 export interface ISendFeedbackComponentState {
-  /**
-   * Feedback text
-   */
-  feedText: string
+    /**
+     * Feedback text
+     */
+    feedText: string;
 }

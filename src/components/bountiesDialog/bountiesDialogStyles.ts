@@ -26,6 +26,6 @@ export const bountiesDialogStyles = (theme: any) => ({
         display: 'block',
     },
     dialogTitle: {
-        color: 'white'
-    }
-})
+        color: 'white',
+    },
+});

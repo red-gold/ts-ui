@@ -1,3 +1,1 @@
-export const userAvatarStyles = (theme: any) => ({
-    
-})
+export const userAvatarStyles = () => ({});

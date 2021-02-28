@@ -1,1 +1,1 @@
-declare module 'react-images-upload'
+declare module 'react-images-upload';

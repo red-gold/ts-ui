@@ -1,22 +1,21 @@
 export interface IBountiesDialogComponentProps {
+    /**
+     * Set title of top bar
+     */
+    setHeaderTitle?: (title: string) => any;
 
-  /**
-   * Set title of top bar
-   */
-  setHeaderTitle?: (title: string) => any
+    /**
+     * Styles
+     */
+    classes?: any;
 
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any) => any;
 
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any) => any
-
-  /**
-   * Button text
-   */
-  text?: string
+    /**
+     * Button text
+     */
+    text?: string;
 }

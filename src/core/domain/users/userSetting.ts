@@ -1,17 +1,13 @@
-import { BaseDomain } from 'core/domain/common'
+import { BaseDomain } from 'core/domain/common/baseDomain';
 import { UserSettingItem } from './userSettingItem';
 
 export class UserSetting extends BaseDomain {
-
-    constructor (
+    constructor(
         public type: string,
         public creationDate: number,
         public ownerUserId: string,
-        public list: UserSettingItem[]
-        
-      ) {
-        super()
-    
-      }
-
+        public list: UserSettingItem[],
+    ) {
+        super();
+    }
 }

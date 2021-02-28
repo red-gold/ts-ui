@@ -1,4 +1,1 @@
-
-export interface ISelectState {
-
-}
+export interface ISelectState {}

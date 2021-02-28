@@ -1,3 +1,1 @@
-export const textFieldStyles = (theme: any) => ({
-
-})
+export const textFieldStyles = () => ({});

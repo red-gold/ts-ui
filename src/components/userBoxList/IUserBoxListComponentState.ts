@@ -1,4 +1,1 @@
-
-export interface IUserBoxListComponentState {
-
-}
+export interface IUserBoxListComponentState {}

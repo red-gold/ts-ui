@@ -1,35 +1,34 @@
-import { Post } from 'core/domain/posts'
-import {Map} from 'immutable'
+import { Post } from 'core/domain/posts/post';
+import { Map } from 'immutable';
 
 export interface IAlbumStreamState {
+    /**
+     * If there is more post to show
+     */
+    hasMorePosts: boolean;
 
-  /**
-   * If there is more post to show
-   */
-  hasMorePosts: boolean
+    /**
+     * The title of top bar
+     */
+    homeTitle: string;
 
-  /**
-   * The title of top bar
-   */
-  homeTitle: string
+    /**
+     * Posts for stream
+     */
+    posts: Array<Post[]>;
 
-  /**
-   * Posts for stream
-   */
-  posts: Array<Post[]>
+    /**
+     * Posts for stream
+     */
+    prevPosts: Map<string, Map<string, any>>;
 
-  /**
-   * Posts for stream
-   */
-  prevPosts: Map<string, Map<string, any>>
+    /**
+     * The images from album
+     */
+    pictureDialogImages: string[];
 
-  /**
-   * The images from album
-   */
-  pictureDialogImages: string[]
-
-  /**
-   * Wether picture dialog is open
-   */
-  picutreDialogOpen: boolean
+    /**
+     * Wether picture dialog is open
+     */
+    picutreDialogOpen: boolean;
 }

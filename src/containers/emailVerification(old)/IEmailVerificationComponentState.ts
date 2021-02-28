@@ -1,4 +1,1 @@
-
-export interface IEmailVerificationComponentState {
-
-}
+export interface IEmailVerificationComponentState {}

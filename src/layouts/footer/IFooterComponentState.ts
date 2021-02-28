@@ -1,3 +1,1 @@
-export interface IFooterComponentState {
-
-}
+export interface IFooterComponentState {}

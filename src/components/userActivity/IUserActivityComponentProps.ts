@@ -1,36 +1,35 @@
-import { User } from 'core/domain/users'
+import { User } from 'core/domain/users/user';
 
 export interface IUserActivityComponentProps {
+    /**
+     * Open edit profile dialog
+     */
+    openEditor?: () => void;
 
-  /**
-   * Open edit profile dialog
-   */
-  openEditor?: () => void
+    /**
+     * Translate to locale string
+     */
+    t?: (state: any, params?: any) => any;
 
-  /**
-   * Translate to locale string
-   */
-  t?: (state: any, params?: any) => any
+    /**
+     * It's current user profile {true} or not {false}
+     */
+    isCurrentUser: boolean;
 
-  /**
-   * It's current user profile {true} or not {false}
-   */
-  isCurrentUser: boolean
+    /**
+     * Whether edit profile is open
+     */
+    editProfileOpen?: boolean;
 
-  /**
-   * Whether edit profile is open
-   */
-  editProfileOpen?: boolean
+    /**
+     * User profile
+     */
+    profile: User;
 
-  /**
-   * User profile
-   */
-  profile: User
+    chatRequest?: (userId: string) => any;
 
-  chatRequest?: (userId: string) => any
-
-  /**
-   * Styles
-   */
-  classes?: any
+    /**
+     * Styles
+     */
+    classes?: any;
 }

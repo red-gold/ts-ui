@@ -1,4 +1,1 @@
-
-export interface IAboutDialogState {
-
-}
+export interface IAboutDialogState {}

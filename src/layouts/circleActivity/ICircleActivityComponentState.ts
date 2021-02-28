@@ -1,4 +1,1 @@
-
-export interface ICircleActivityComponentState {
-
-}
+export interface ICircleActivityComponentState {}
