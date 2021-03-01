@@ -5,10 +5,13 @@ current_version_dir="$(shell pwd)/current_version"
 STACK_VER?=`cat $(current_version_dir)`
 DOCKER_USER?="qolzam"
 
-.PHONY: faas-all increase-ver build-dist up
+.PHONY: prepare-push increase-ver build-dist up build-push 
 
 all:
 	make increase-ver build-dist up
+
+prepare-push:
+	make build-dist build-push
 
 increase-ver:
 	./hack/increase-ver.sh 2
@@ -19,3 +22,6 @@ build-dist:
 
 up:
 	./hack/faas-up.sh $(STACK_VER) $(DOCKER_USER)
+
+build-push:
+	./hack/faas-build-push.sh $(STACK_VER) $(DOCKER_USER)
