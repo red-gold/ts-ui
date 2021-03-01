@@ -2,7 +2,7 @@ functions:
   web:
     lang: node10-express
     handler: ./ts-frontend
-    image: qolzam/web:0.1.1
+    image: ${DOCKER_USER:-qolzam}/web:${STACK_VER:-dev}
     fprocess: ""
     environment:
       write_debug: "true"

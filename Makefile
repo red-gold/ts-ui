@@ -1,25 +1,21 @@
 # STACK_VER version of docker image in stack.yml file
 # DOCKER_USER docker username
 
-STACK_VER?=$(<current_version)
+current_version_dir="$(shell pwd)/current_version"
+STACK_VER?=`cat $(current_version_dir)`
+DOCKER_USER?="qolzam"
 
-.PHONY: increase-ver build-dist build push deploy
+.PHONY: faas-all increase-ver build-dist up
 
 all:
-	make increase-ver build-dist build push deploy
+	make increase-ver build-dist up
 
 increase-ver:
-	./hack/increase-ver.sh
-	STACK_VER?=$(<current_version)
+	./hack/increase-ver.sh 2
+	STACK_VER=`cat $(current_version_dir)`
 
 build-dist:
 	( docker run -v $(shell pwd):/ts-ui node:12-alpine /bin/sh -c "cd ts-ui && yarn && yarn build")
 
-build:
-	faas-cli build
-
-push:
-	faas-cli push
-
-deploy:
-	faas-cli deploy
+up:
+	./hack/faas-up.sh $(STACK_VER) $(DOCKER_USER)
