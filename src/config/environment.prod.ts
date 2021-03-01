@@ -1,19 +1,6 @@
 import { LanguageType } from 'store/reducers/locale/langugeType';
 import { VerificationType } from 'core/domain/authorize/verificationType';
 export const environment = {
-    firebase: {
-        apiKey: 'AIzaSyBtlAw6mYUMqaoqIa6WyXoMKWLwhTe7ZK0',
-        authDomain: 'resume-web-app.firebaseapp.com',
-        databaseURL: 'https://resume-web-app.firebaseio.com',
-        projectId: 'resume-web-app',
-        storageBucket: 'resume-web-app.appspot.com',
-        messagingSenderId: '236906995600',
-        appId: '1:236906995600:web:17d5a305b14c04082cdd15',
-    },
-    algolia: {
-        appId: 'TOS20M7VT1',
-        apiKey: 'c283440030db1f9446e8b410f7352479',
-    },
     websocket: {
         url: 'http://social.example.com:3001',
     },
@@ -33,15 +20,15 @@ export const environment = {
         instagramClientId: '04cd49f9331643aeae1ad6df6e2b83f0',
     },
     settings: {
+        appName: process.env.REACT_APP_NAME,
+        companyName: process.env.REACT_APP_COMPANY_NAME,
+        supportEmail: process.env.REACT_APP_EMAIL_SUPPORT,
         enabledOAuthLogin: true,
-        appName: 'React Social',
-        supportEmail: 'amir.gholzam@live.com',
         appIcon: require('assets/images/appIcon.png'),
         logo: require('assets/images/logo.png'),
         defaultLanguage: LanguageType.English,
         defaultVideoThumbnails: require('assets/images/defaultVideoThumbnails.png'),
         verificationType: VerificationType.Email,
-        companyName: 'Red Gold',
         defaultProfileCover: require('assets/images/coversocial.png'),
         publicCover: require('assets/images/public-cover.jpg'),
         raisedLogo: require('assets/images/raised-logo.png'),
@@ -50,14 +37,14 @@ export const environment = {
         logoHead: require('assets/images/logo-head.png'),
         androidAppLink: 'https://github.com/Qolzam/react-mobile-social',
         iosAppLink: 'https://github.com/Qolzam/react-mobile-social',
-        api: '/',
-        prettyURL: true,
         maxVideoFileSize: 20,
         maxGalley: 10,
     },
     gateway: {
-        base_href: process.env.PUBLIC_URL + '/web/',
-        gateway_url: 'http://faas.example.com:31112' + process.env.PUBLIC_URL,
+        base_route_api: process.env.REACT_APP_BASE_ROUTE_API,
+        gateway_url: process.env.REACT_APP_GATEWAY,
+        gateway_uri: `${process.env.REACT_APP_GATEWAY} + ${process.env.REACT_APP_BASE_ROUTE_API}`,
+        websocket_url: 'http://social.example.com:3001',
     },
     rewrites: {
         profile: 'auth/profile',

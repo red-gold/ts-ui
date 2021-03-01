@@ -21,8 +21,8 @@ export class HttpService implements IHttpService {
      * Http GET
      */
     public async get(url: string) {
-        const validURL = config.settings.prettyURL ? url : config.rewrites[url] || url;
-        const requestURL = `${config.gateway.gateway_url}/${validURL}`;
+        const validURL = config.rewrites[url] || url;
+        const requestURL = `${config.gateway.gateway_uri}/${validURL}`;
         const result = await axios.get(requestURL);
         return result.data;
     }
@@ -31,8 +31,8 @@ export class HttpService implements IHttpService {
      * Http POST
      */
     public async post(url: string, payload?: any) {
-        const validURL = config.settings.prettyURL ? url : config.rewrites[url] || url;
-        const result = await axios.post(`${config.gateway.gateway_url}/${validURL}`, payload);
+        const validURL = config.rewrites[url] || url;
+        const result = await axios.post(`${config.gateway.gateway_uri}/${validURL}`, payload);
         return result.data;
     }
 
@@ -45,7 +45,7 @@ export class HttpService implements IHttpService {
         fileName: string,
         onProgress: (percentage: number, status: boolean, fileName: string, meta?: any) => void,
     ) {
-        const validURL = config.settings.prettyURL ? url : config.rewrites[url] || url;
+        const validURL = config.rewrites[url] || url;
         const reqConfig = {
             onUploadProgress: function (progressEvent: any) {
                 const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -54,7 +54,7 @@ export class HttpService implements IHttpService {
         };
 
         try {
-            const result = await axios.post(`${config.gateway.gateway_url}/${validURL}`, payload, reqConfig);
+            const result = await axios.post(`${config.gateway.gateway_uri}/${validURL}`, payload, reqConfig);
             return result.data;
         } catch (error) {
             log.error(error);
@@ -106,8 +106,8 @@ export class HttpService implements IHttpService {
      * Http PUT
      */
     public async put(url: string, payload?: any) {
-        const validURL = config.settings.prettyURL ? url : config.rewrites[url] || url;
-        const requestURL = `${config.gateway.gateway_url}/${validURL}`;
+        const validURL = config.rewrites[url] || url;
+        const requestURL = `${config.gateway.gateway_uri}/${validURL}`;
         const result = await axios.put(requestURL, payload);
         return result.data;
     }
@@ -116,8 +116,8 @@ export class HttpService implements IHttpService {
      * Http DELETE
      */
     public async delete(url: string) {
-        const validURL = config.settings.prettyURL ? url : config.rewrites[url] || url;
-        const requestURL = `${config.gateway.gateway_url}/${validURL}`;
+        const validURL = config.rewrites[url] || url;
+        const requestURL = `${config.gateway.gateway_uri}/${validURL}`;
         const result = await axios.delete(requestURL);
         return result.data;
     }
@@ -127,8 +127,8 @@ export class HttpService implements IHttpService {
      */
     public async getWithoutAuth(url: string) {
         await this._permissionService.getIdToken();
-        const validURL = config.settings.prettyURL ? url : config.rewrites[url] || url;
-        const result = await axios.get(`${config.gateway.gateway_url}/${validURL}`);
+        const validURL = config.rewrites[url] || url;
+        const result = await axios.get(`${config.gateway.gateway_uri}/${validURL}`);
         return result.data;
     }
 
@@ -137,7 +137,7 @@ export class HttpService implements IHttpService {
      */
     public async postWithoutAuth(url: string, payload?: any) {
         try {
-            const result = await axios.post(`${config.gateway.gateway_url}/${url}`, payload);
+            const result = await axios.post(`${config.gateway.gateway_uri}/${url}`, payload);
             return result.data;
         } catch (error) {
             log.error(error);

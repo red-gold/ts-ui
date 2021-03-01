@@ -44,7 +44,12 @@ function* asyncWSConnect() {
     }
     yield put(globalActions.showMessage('Connecting...'));
 
-    const channelSubscription: Channel<any> = yield call(subscribeWSConnect, config.websocket.url, accessKey, uid);
+    const channelSubscription: Channel<any> = yield call(
+        subscribeWSConnect,
+        config.gateway.websocket_url,
+        accessKey,
+        uid,
+    );
     try {
         while (true) {
             const message: any = yield take(channelSubscription);

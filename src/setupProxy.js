@@ -8,7 +8,7 @@ module.exports = function (app) {
             pathRewrite: {
                 '^/api': '/',
             },
-            target: 'http://faas.example.com:31112/function',
+            target: process.env.REACT_APP_GATEWAY + process.env.REACT_APP_BASE_ROUTE_API,
             changeOrigin: true,
         }),
     );

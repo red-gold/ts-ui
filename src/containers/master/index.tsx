@@ -100,7 +100,7 @@ export class MasterComponent extends Component<IMasterProps, IMasterState> {
     componentDidMount() {
         const { authed } = this.props;
         if (!authed) {
-            window.location.href = config.gateway.gateway_url + '/auth/login';
+            window.location.href = config.gateway.gateway_uri + '/auth/login';
         }
     }
 
