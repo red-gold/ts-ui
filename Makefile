@@ -8,7 +8,7 @@ all:
 	make increase-ver build-dist up
 
 prepare-push:
-	make faas-build faas-push
+	make build-dist faas-build faas-push
 
 increase-ver:
 	./hack/increase-ver.sh 2
