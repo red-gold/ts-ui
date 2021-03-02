@@ -14,7 +14,7 @@ increase-ver:
 	./hack/increase-ver.sh 2
 
 build-dist:
-	( docker run -v $(shell pwd):/ts-ui node:12-alpine /bin/sh -c "cd ts-ui && yarn && yarn build")
+	( docker run --env HOME_PAGE=$$HOME_PAGE -v $(shell pwd):/ts-ui node:12-alpine /bin/sh -c "cd ts-ui && yarn home-page && yarn && yarn build")
 
 faas-up:
 	faas up

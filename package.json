@@ -15,7 +15,9 @@
     "test": "NODE_ENV=test craco test --env=jsdom --modulePaths=src --moduleNameMapper='{\"^src/(.*)$\": \"<rootDir>/src/$1\", \"^models/(.*)$\": \"<rootDir>/src/models/$1\", \"^locales/(.*)$\": \"<rootDir>/src/locales/$1\", \"^config$\": \"<rootDir>/src/config/index\"}'",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "format": "prettier --write src/**/*.{js,ts,tsx}",
-    "lint:fix": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
+    "lint:fix": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "home-page": "node -e \"let pkg=require('./package.json'); pkg.homepage='${HOME_PAGE}'; require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2));\""
+
   },
   "author": "Amir Movahedi",
   "license": "MIT",
