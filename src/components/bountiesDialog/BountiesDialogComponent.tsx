@@ -13,15 +13,18 @@ import classNames from 'classnames';
 import BountyBox from 'components/bountyBox/BountyBoxComponent';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
+import { TransitionProps } from '@material-ui/core/transitions';
 
 import { bountiesDialogStyles } from './bountiesDialogStyles';
 import { IBountiesDialogComponentProps } from './IBountiesDialogComponentProps';
 import { IBountiesDialogComponentState } from './IBountiesDialogComponentState';
 
-// - Material-UI
-// - Import app components
-// - Import API
-
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children?: React.ReactElement<any, any> },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 // - Import actions
 const image1 = 'https://i.stack.imgur.com/rp3Cv.png';
 const image2 = 'https://i.stack.imgur.com/EN0AX.png';
@@ -53,10 +56,6 @@ export class BountiesDialogComponent extends Component<
         this.setState({ open: false });
     };
 
-    Transition = (props: any) => {
-        return <Slide direction="up" {...props} />;
-    };
-
     /**
      * Reneder component DOM
      */
@@ -71,7 +70,7 @@ export class BountiesDialogComponent extends Component<
                     maxWidth={'md'}
                     open={this.state.open}
                     onClose={this.handleClose}
-                    TransitionComponent={this.Transition}
+                    TransitionComponent={Transition}
                 >
                     <AppBar className={classes.appBar}>
                         <Toolbar>

@@ -8,10 +8,6 @@ import { circleActivityStyles } from './circleActivityStyles';
 import { ICircleActivityComponentProps } from './ICircleActivityComponentProps';
 import { ICircleActivityComponentState } from './ICircleActivityComponentState';
 
-// - Material-UI
-/**
- * Create component class
- */
 export class CircleActivityComponent extends Component<ICircleActivityComponentProps, ICircleActivityComponentState> {
     /**
      * Component constructor
@@ -35,7 +31,7 @@ export class CircleActivityComponent extends Component<ICircleActivityComponentP
                 <div className={classes.progressContainer}>
                     <CircularProgress
                         className={classes.progress}
-                        variant="static"
+                        variant="determinate"
                         value={100}
                         size={120}
                         thickness={3}
@@ -43,7 +39,7 @@ export class CircleActivityComponent extends Component<ICircleActivityComponentP
                     />
                     <CircularProgress
                         className={classes.progress}
-                        variant="static"
+                        variant="determinate"
                         value={value}
                         size={120}
                         thickness={3}

@@ -12,14 +12,18 @@ import CloseIcon from '@material-ui/icons/Close';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import Slide from '@material-ui/core/Slide';
 import Backdrop, { BackdropProps } from '@material-ui/core/Backdrop';
+import { TransitionProps } from '@material-ui/core/transitions';
 
 import { webPageStyles } from './webPageStyles';
 import { IWebPageProps } from './IWebPageProps';
 import { IWebPageState } from './IWebPageState';
 
-function Transition(props: any) {
-    return <Slide direction="up" {...props} />;
-}
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children?: React.ReactElement<any, any> },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export class BackDropIOSWorkaround extends React.PureComponent<BackdropProps> {
     protected onTouchMove(event: React.TouchEvent<HTMLDivElement>): void {

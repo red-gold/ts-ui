@@ -15,15 +15,18 @@ import DoneIcon from '@material-ui/icons/Done';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import classNames from 'classnames';
 import React, { Component } from 'react';
+import { TransitionProps } from '@material-ui/core/transitions';
 
 import { ITimelineComponentProps } from './ITimelineComponentProps';
 import { ITimelineComponentState } from './ITimelineComponentState';
 import { timelineStyles } from './timelineStyles';
 
-// - Material UI
-function Transition(props: any) {
-    return <Slide direction="up" {...props} />;
-}
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children?: React.ReactElement<any, any> },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 /**
  * Create component class

@@ -191,7 +191,7 @@ export const dbLogout = () => {
         authorizeService.logout();
         localStorage.removeItem('red-gold.scure.token');
         dispatch(logout());
-        window.location.href = config.gateway.gateway_uri + '/auth/login';
+        window.location.href = config.gateway.auth_web_uri + '/login';
     };
 };
 
