@@ -1,8 +1,10 @@
-import { ServerRequestType } from 'constants/serverRequestType';
+// Copyright (c) 2021 Amirhossein Movahedi (@qolzam)
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
 import { RegexPattern } from 'constants/RegexPattern';
-
-// - Import actions
-
+import { ServerRequestType } from 'constants/serverRequestType';
 const isValidEmail = (email: string) => {
     const re = RegexPattern.ValidEmail;
     return re.test(email);

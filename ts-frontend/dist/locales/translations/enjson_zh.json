@@ -21,7 +21,7 @@
     "header": {
         "home":"主页",
         "notificationTooltip": "通知",
-        "recentChatTooltip": "Chat Box",
+        "messengerTooltip": "Chat Box",
         "myAccount": "個人主页",
         "logout": "退出",
         "homeCaption": "Home",

@@ -1,6 +1,5 @@
 // - Import react components
 import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -10,11 +9,9 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Popover from '@material-ui/core/Popover';
-import { withStyles } from '@material-ui/core/styles';
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import MenuIcon from '@material-ui/icons/Menu';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import CloseIcon from '@material-ui/icons/Close';
 import SendIcon from '@material-ui/icons/Send';
 import EmojiIcon from '@material-ui/icons/SentimentSatisfied';
 import classNames from 'classnames';
@@ -24,26 +21,20 @@ import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import { Message } from 'core/domain/chat/message';
 import { MessageType } from 'core/domain/chat/MessageType';
 import { Picker } from 'emoji-mart';
-import { Map } from 'immutable';
 import debounce from 'lodash/debounce';
 import moment from 'moment/moment';
-import * as Ramda from 'ramda';
 import React, { Component } from 'react';
 import EventListener from 'react-event-listener';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import * as chatActions from 'store/actions/chatActions';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
-import { chatSelector } from 'store/reducers/chat/chatSelector';
-import uuid from 'uuid';
-
-import { chatStyles } from './chatStyles';
+import { WithTranslation } from 'react-i18next';
+import { v4 as uuidv4 } from 'uuid';
 import { IChatProps } from './IChatProps';
 import { IChatState } from './IChatState';
-import { userSelector } from 'store/reducers/users/userSelector';
 import { ChatRoom } from 'core/domain/chat/chatRoom';
-import { throwNoValue } from 'utils/errorHandling';
-import { SocialError } from 'core/domain/common/socialError';
+import Card from '@material-ui/core/Card';
+import Divider from '@material-ui/core/Divider';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import { connectChat } from './connectChat';
+import { Map } from 'immutable';
 
 /**
  * Create component class
@@ -62,11 +53,13 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
             settingDisplyed: false,
             messageText: '',
             anchorElCurrentUser: null,
-            anchorElEmoji: null,
+            emojiOpen: false,
             leftSideDisabled: false,
             rightSideDisabled: false,
             smallSize: false,
             isMinimized: false,
+            lastReadMessage: Map({}),
+            isScrollEnd: true,
         };
 
         this.handleResize = debounce(this.handleResize, 200);
@@ -75,8 +68,13 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
         this.sendMessage = this.sendMessage.bind(this);
         this.setCurrentChat = this.setCurrentChat.bind(this);
         this.handleRemoveHistory = this.handleRemoveHistory.bind(this);
-        this.closeChatBox = this.closeChatBox.bind(this);
+        this.closeRoom = this.closeRoom.bind(this);
+        this.handleToggleEmoji = this.handleToggleEmoji.bind(this);
+        this.handleOpenEmojiMenu = this.handleOpenEmojiMenu.bind(this);
+        this.handleCloseEmojiMenu = this.handleCloseEmojiMenu.bind(this);
         this.handleToggleSetting = this.handleToggleSetting.bind(this);
+        this.handleReadMessage = this.handleReadMessage.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     /**
@@ -84,43 +82,21 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
      */
     sendMessage() {
         const { messageText } = this.state;
-        const currentDate = moment.utc().valueOf();
-        const { currentUser, receiverUser, sendMessage, currentChatRoom } = this.props;
-        if (!currentUser || !receiverUser || !sendMessage || !currentChatRoom) {
-            throw new SocialError('nullValueSendMessage', 'There is a null value in props ');
+        const { sendMessage, room } = this.props;
+        const roomId = room.get('objectId');
+        if (!messageText || (messageText && messageText.trim() === '')) {
+            return;
         }
-        let translation: string | undefined = undefined;
-        const receiverUserData = throwNoValue(receiverUser, 'receiverUser');
-        const receiveLang = Ramda.path(
-            ['translation', receiverUserData.get('userId'), 'input'],
-            currentChatRoom,
-        ) as string;
-        const sendLang = Ramda.path(
-            ['translation', currentUser.userId || (currentUser as any).id, 'output'],
-            currentChatRoom,
-        ) as string;
-        if (receiveLang) {
-            translation = receiveLang;
-        } else if (sendLang) {
-            translation = sendLang;
+        this.handleCloseEmojiMenu();
+        sendMessage(new Message(uuidv4(), roomId, messageText, MessageType.Text));
+
+        const chatBodyElm = document.querySelector('#chat-body-scroll');
+        if (chatBodyElm) {
+            console.log('Send scroll to the end chatBodyElm');
+
+            chatBodyElm.scrollTop = chatBodyElm.scrollHeight;
         }
 
-        sendMessage(
-            new Message(
-                uuid(),
-                {
-                    [receiverUser.get('userId')]: true,
-                    [currentUser.userId || (currentUser as any).id]: true,
-                },
-                currentDate,
-                messageText,
-                currentChatRoom,
-                receiverUser.get('userId'),
-                currentUser.userId || (currentUser as any).id,
-                MessageType.Text,
-                translation,
-            ),
-        );
         this.setState({
             messageText: '',
         });
@@ -161,6 +137,10 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
         this.setState({ anchorElCurrentUser: event.currentTarget });
     };
 
+    handleClickInput = () => {
+        this.handleCloseEmojiMenu();
+    };
+
     /**
      * Handle close current user menu
      */
@@ -169,17 +149,28 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
     };
 
     /**
+     * Handle toggle emoji
+     */
+    handleToggleEmoji = () => {
+        if (this.state.emojiOpen) {
+            this.handleCloseEmojiMenu();
+        } else {
+            this.handleOpenEmojiMenu();
+        }
+    };
+
+    /**
      * Handle open emoji menu
      */
-    handleOpenEmojiMenu = (event: any) => {
-        this.setState({ anchorElEmoji: event.currentTarget });
+    handleOpenEmojiMenu = () => {
+        this.setState({ emojiOpen: true });
     };
 
     /**
      * Handle close emoji menu
      */
     handleCloseEmojiMenu = () => {
-        this.setState({ anchorElEmoji: null });
+        this.setState({ emojiOpen: false });
     };
 
     /**
@@ -230,51 +221,25 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
      * Handle toggle minimize
      */
     toggleMinimize = () => {
-        this.setState((prevState) => {
-            return { isMinimized: !prevState.isMinimized, anchorElCurrentUser: null };
-        });
+        // this.setState((prevState) => {
+        //     return { isMinimized: !prevState.isMinimized, anchorElCurrentUser: null };
+        // });
     };
 
     /**
      * Handle contact menu
      */
-    handleContactMenu = () => {
-        const { openRecentChat, width } = this.props;
-        if (openRecentChat && width && isWidthDown('xs', width)) {
-            openRecentChat();
-        } else {
-            this.toggleLeftSide();
-        }
-        this.setState({
-            anchorElCurrentUser: null,
-        });
-    };
+    handleContactMenu = () => {};
 
     /**
      * Handle remove history
      */
-    handleRemoveHistory() {
-        const { removeChatHistory, currentChatRoom } = this.props;
-        if (removeChatHistory && currentChatRoom) {
-            removeChatHistory(currentChatRoom);
-            this.setState({ anchorElCurrentUser: null });
-        }
-    }
-
-    /**
-     * Handle key press
-     */
-    handleKeyPress() {}
+    handleRemoveHistory() {}
 
     /**
      * Set current chat
      */
-    setCurrentChat(recieverId: string) {
-        const { setCurrentChat } = this.props;
-        if (setCurrentChat) {
-            setCurrentChat(recieverId);
-        }
-    }
+    setCurrentChat(recieverId: string) {}
 
     /**
      * Contact list
@@ -308,16 +273,12 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
     };
 
     /**
-     * Close chat box
+     * Close room
      */
-    closeChatBox() {
-        const { onToggle } = this.props;
-        this.setState({
-            anchorElCurrentUser: null,
-        });
-        if (onToggle) {
-            onToggle();
-        }
+    closeRoom() {
+        const { closeRoom, room } = this.props;
+        const roomId = room.get('objectId');
+        closeRoom(roomId);
     }
 
     componentDidMount() {
@@ -325,14 +286,83 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
     }
 
     /**
+     * Get user status
+     * @param user Target user
+     * @returns user status
+     */
+    getUserStatus(user: Map<string, any>) {
+        const { t } = this.props;
+        const lastSeen = user.get('lastSeen', 0);
+
+        // Last seen is not a code
+        if (lastSeen > 5) {
+            return moment(lastSeen).local().fromNow();
+        } else if (lastSeen === 1) {
+            return t('userStatus.online');
+        } else {
+            return t('userStatus.neverSeen');
+        }
+    }
+
+    handleReadMessage(message: Map<string, any>) {
+        const { lastReadMessage } = this.state;
+        const { updateReadMessageMeta, room } = this.props;
+
+        const newCreatedDate = message.get('createdDate');
+        const newLastCreatedDate = lastReadMessage.get('createdDate', 0);
+        if (!lastReadMessage.equals(message) && newCreatedDate > newLastCreatedDate) {
+            const roomId = room.get('objectId');
+            const messageCount = room.get('messageCount');
+            updateReadMessageMeta(roomId, message.get('objectId'), messageCount, newCreatedDate);
+            this.setState({ lastReadMessage: message });
+        }
+    }
+
+    /**
+     * Whether user is online or not
+     * @param user Target user status
+     * @returns User online status `true|false`
+     */
+    isUserOnline(user: Map<string, any>) {
+        const lastSeen = user.get('lastSeen', 0);
+        if (lastSeen === 1) {
+            return true;
+        }
+        return false;
+    }
+
+    handleKeyPress(e: any) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            this.sendMessage();
+        }
+    }
+
+    /**
      * Reneder component DOM
      */
     render() {
-        const { t, classes, open, onToggle, chatMessages, receiverUser, currentUser, currentChatRoom } = this.props;
+        const {
+            t,
+            classes,
+            open,
+            messages,
+            receiverUser,
+            currentUser,
+            room,
+            oldQueryMessageStatus,
+            oldQueryMessageRequestId,
+            newQueryMessageStatus,
+            newQueryMessageRequestId,
+            hasMoreOldMessages,
+            hasMoreNewMessages,
+            queryMessage,
+        } = this.props;
+        const roomId = room.get('objectId');
         const {
             smallSize,
             anchorElCurrentUser,
-            anchorElEmoji,
+            emojiOpen,
             isMinimized,
             messageText,
             leftSideDisabled,
@@ -389,7 +419,7 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
                 >
                     {t('chat.settingCaption')}
                 </MenuItem>
-                <MenuItem className={classes.menuItem} key={'current-user-menu-root-close'} onClick={this.closeChatBox}>
+                <MenuItem className={classes.menuItem} key={'current-user-menu-root-close'} onClick={this.closeRoom}>
                     {t('chat.closeMenu')}
                 </MenuItem>
             </Popover>
@@ -404,21 +434,14 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
          * Left chat side
          */
         const leftSide = (
-            <Grid
-                item
-                sm={6}
-                md={6}
-                lg={6}
-                xl={6}
-                className={classNames(classes.leftSideChatRoot, { [classes.noDisplay]: leftSideClose })}
-            >
+            <Card className={classNames(classes.leftSideChatRoot, { [classes.noDisplay]: leftSideClose })}>
                 <ListItem classes={{ container: classes.currentUserItem }} className={classNames(classes.userItem)}>
-                    <UserAvatar fullName={currentUser.fullName} size={30} fileName={currentUser.avatar} />
+                    <UserAvatar fullName={currentUser.get('fullName')} size={30} fileName={currentUser.get('avatar')} />
                     <ListItemText
                         className={classes.listItemText}
                         classes={{ primary: classes.primaryText, secondary: classes.secondaryText }}
-                        primary={currentUser.fullName}
-                        secondary={currentUser.tagLine}
+                        primary={currentUser.get('fullName')}
+                        secondary={currentUser.get('tagLine')}
                     />
                     <ListItemSecondaryAction>
                         <IconButton className={classes.moreMenu} onClick={this.toggleLeftSide}>
@@ -451,52 +474,76 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
                 <List className={classNames(classes.listContainer, classes.leftListContainer)}>
                     {this.contactList()}
                 </List>
-            </Grid>
+            </Card>
+        );
+
+        const userItem = (
+            <ListItem className={classNames(classes.userItem, classes.receiverUserItem)}>
+                <IconButton className={classes.header}>
+                    <BackIcon />
+                </IconButton>
+                <div className={classes.avatarRoot}>
+                    <ListItemAvatar>
+                        <UserAvatar
+                            fullName={receiverUser.get('fullName')}
+                            size={40}
+                            fileName={receiverUser.get('avatar')}
+                        />
+                    </ListItemAvatar>
+                    <span
+                        className={classNames(classes.statusIcon, { online: this.isUserOnline(receiverUser) })}
+                    ></span>
+                </div>
+                <ListItemText
+                    onClick={this.toggleMinimize}
+                    primary={receiverUser.get('fullName')}
+                    secondary={this.getUserStatus(receiverUser)}
+                />
+                <ListItemSecondaryAction>
+                    <IconButton onClick={this.closeRoom}>
+                        <CloseIcon className={classes.receiverMoreIcon} />
+                    </IconButton>
+                </ListItemSecondaryAction>
+            </ListItem>
         );
 
         /**
-         * Left chat side
+         * Right chat side
          */
         const rightSide = (
-            <Grid
-                item
-                xs={12}
-                sm={leftSideClose ? 12 : 6}
-                md={leftSideClose ? 12 : 6}
-                lg={leftSideClose ? 12 : 6}
-                xl={leftSideClose ? 12 : 6}
-                className={classNames(classes.rightSideChatRoot, { [classes.noDisplay]: rightSideDisabled })}
-            >
+            <Card className={classNames(classes.rightSideChatRoot, { [classes.noDisplay]: rightSideDisabled })}>
                 <List className={classes.listContainer}>
-                    <ListItem className={classNames(classes.userItem, classes.receiverUserItem)}>
-                        <IconButton className={classes.header} onClick={onToggle}>
-                            <BackIcon />
-                        </IconButton>
-                        <UserAvatar
-                            fullName={receiverUser.get('fullName')}
-                            size={30}
-                            fileName={receiverUser.get('avatar')}
-                        />
-                        <ListItemText
-                            onClick={this.toggleMinimize}
-                            className={classNames(classes.receiverUserRoot, classes.listItemText)}
-                            classes={{
-                                primary: classes.primaryText,
-                                secondary: classNames(classes.secondaryText, classes.receiverSecondaryText),
-                            }}
-                            primary={receiverUser.get('fullName')}
-                            secondary={receiverUser.get('tagLine', '')}
-                        />
-                        <ListItemSecondaryAction>
-                            <IconButton onClick={this.handleOpenCurrentUserMenu}>
-                                <MoreIcon className={classes.receiverMoreIcon} />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
+                    {userItem}
+                    <Divider />
                     {currentUserMenu}
-                    <ChatBodyComponent currentUser={currentUser} chatMessages={chatMessages} />
 
-                    <li className={classNames(classes.sendMessageRoot, { [classes.noDisplay]: isMinimized })}>
+                    <div className={classNames({ [classes.noDisplay]: !emojiOpen }, classes.pickerRoot)}>
+                        <Picker
+                            native
+                            emojiSize={22}
+                            onSelect={this.handleSelectEmoji}
+                            showPreview={false}
+                            custom={[]}
+                        />
+                    </div>
+                    <ChatBodyComponent
+                        queryMessage={queryMessage}
+                        oldQueryMessageRequestId={oldQueryMessageRequestId}
+                        oldQueryMessageStatus={oldQueryMessageStatus}
+                        newQueryMessageRequestId={newQueryMessageRequestId}
+                        newQueryMessageStatus={newQueryMessageStatus}
+                        receiverUser={receiverUser}
+                        currentUser={currentUser}
+                        chatMessages={messages}
+                        handleReadMessage={this.handleReadMessage}
+                        room={room}
+                        hasMoreOldMessages={hasMoreOldMessages}
+                        hasMoreNewMessages={hasMoreNewMessages}
+                    />
+
+                    <Divider />
+
+                    <div className={classNames(classes.sendMessageRoot, { [classes.noDisplay]: isMinimized })}>
                         <FormControl fullWidth className={classes.messageField}>
                             <Input
                                 className={classes.messageInput}
@@ -509,111 +556,49 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
                                 multiline
                                 rows={1}
                                 rowsMax={4}
+                                onKeyDown={this.handleKeyPress}
                                 onChange={this.handleChange('messageText')}
                                 endAdornment={
                                     <InputAdornment position="end">
-                                        <EmojiIcon className={classes.emojiIcon} onClick={this.handleOpenEmojiMenu} />
+                                        <EmojiIcon className={classes.emojiIcon} onClick={this.handleToggleEmoji} />
                                     </InputAdornment>
                                 }
                             />
                         </FormControl>
+                        <Divider orientation="vertical" />
                         <IconButton onClick={this.sendMessage} onMouseDown={this.handleMouseDown}>
                             <SendIcon className={classes.sendIcon} />
                         </IconButton>
-                    </li>
+                    </div>
                 </List>
-            </Grid>
+            </Card>
         );
         return (
-            <Grid
+            <Card
                 className={classNames(
                     classes.fullPageXs,
                     classes.root,
-                    { [classes.oneColumn]: leftSideClose || rightSideDisabled },
                     { [classes.rootMinimized]: isMinimized },
                     { [classes.noDisplay]: !open },
                 )}
-                container
-                spacing={2}
             >
                 <EventListener target="window" onResize={this.handleResize} />
 
-                <Popover
-                    open={Boolean(anchorElEmoji)}
-                    anchorEl={anchorElEmoji}
-                    onClose={this.handleCloseEmojiMenu}
-                    PaperProps={{ className: classNames(classes.fullPageEmojiXs, classes.paperEmoji) }}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                    }}
-                >
-                    <Picker emojiSize={20} onClick={this.handleSelectEmoji} showPreview={false} custom={[]} />
-                </Popover>
-
-                {leftSide}
+                {/* {leftSide} */}
                 {settingDisplyed ? (
                     <ChatRoomSettingComponent
                         open={settingDisplyed}
                         onClose={this.handleToggleSetting}
                         rightSideDisabled={rightSideDisabled}
                         leftSideClose={leftSideClose}
-                        room={{ id: currentChatRoom } as ChatRoom}
+                        room={{ id: roomId } as ChatRoom}
                         currentUser={currentUser}
                     />
                 ) : (
                     rightSide
                 )}
-            </Grid>
+            </Card>
         );
     }
 }
-
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        sendMessage: (message: Message) => dispatch(chatActions.dbCreateChatMessage(message)),
-        openRecentChat: () => dispatch(chatActions.openRecentChat()),
-        closeRecentChat: () => dispatch(chatActions.closeRecentChat()),
-        removeChatHistory: (roomId: string) => dispatch(chatActions.dbRemoveChatHistory(roomId)),
-        setCurrentChat: (roomId: string) => dispatch(chatActions.setCurrentChat(roomId)),
-    };
-};
-
-const makeMapStateToProps = () => {
-    const selectUsers = userSelector.selectUsers();
-    const selectCurrentReceiver = chatSelector.selectCurrentReceiver();
-    const selectCurrentChatRoom = chatSelector.selectCurrentChatRoom();
-    const selectCurrentMessages = chatSelector.selectCurrentMessages();
-    const selectChatConnections = chatSelector.selectChatConnections();
-    const selectCurrentUser = authorizeSelector.selectCurrentUser();
-    const mapStateToProps = (state: Map<string, any>) => {
-        const receiverUser = selectCurrentReceiver(state);
-        const connections = selectChatConnections(state);
-        const users = selectUsers(state);
-        return {
-            receiverUser,
-            chatMessages: selectCurrentMessages(state, { userId: receiverUser.get('userId') }).toJS(),
-            currentUser: selectCurrentUser(state).toJS(),
-            currentChatRoom: selectCurrentChatRoom(state),
-            recentChatOpen: state.getIn(['chat', 'recentChatOpen'], false),
-            connections,
-            users,
-        };
-    };
-    return mapStateToProps;
-};
-
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(ChatComponent);
-
-export default connect<{}, {}, IChatProps, any>(
-    makeMapStateToProps,
-    mapDispatchToProps,
-)(withWidth({ resizeInterval: 200 })(withStyles(chatStyles)(translateWrapper)));
+export default connectChat(ChatComponent);

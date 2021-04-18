@@ -2,8 +2,10 @@
 
 export const postStreamStyles = (theme: any) => ({
     root: {
-        position: 'relative',
+        flexGrow: 1,
+        padding: theme.spacing(0, 3),
     },
+
     container: {
         maxWidth: 1200,
         textAlign: 'center',
@@ -29,22 +31,6 @@ export const postStreamStyles = (theme: any) => ({
         ['@media (max-width: 440px)']: {
             width: 'calc(100% - 16px)',
             margin: '0 8px',
-        },
-    },
-    postBox: {
-        flexGrow: 1,
-        WebkitBoxFlex: 1,
-        flex: '0 1 auto',
-        maxWidth: 530,
-        minWidth: 140,
-        width: '100%',
-        display: 'inline-block',
-        verticalAlign: 'top',
-        textAlign: 'left',
-        whiteSpace: 'normal',
-        lineHeight: 'normal',
-        ['& + &']: {
-            marginLeft: 24,
         },
     },
     spaceBox: {

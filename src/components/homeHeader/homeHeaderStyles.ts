@@ -1,9 +1,15 @@
-export const homeHeaderStyles = (theme: any) => ({
+import { createStyles } from '@material-ui/styles';
+
+export const homeHeaderStyles = createStyles((theme: any) => ({
     root: {
         backgroundColor: '#a5792a',
     },
     flex: {
         flex: 1,
+    },
+    avatar: {
+        margin: 5,
+        cursor: 'pointer',
     },
     pageTitle: {
         color: theme.palette.common.white,
@@ -24,4 +30,4 @@ export const homeHeaderStyles = (theme: any) => ({
     smallSearchBox: {
         marginRight: 25,
     },
-});
+}));

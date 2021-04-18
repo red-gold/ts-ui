@@ -19,4 +19,7 @@ export const profileStyles = (theme: any) => ({
         height: 0,
         paddingTop: '56.25%', // 16:9
     },
+    postGrid: {
+        maxWidth: 600,
+    },
 });

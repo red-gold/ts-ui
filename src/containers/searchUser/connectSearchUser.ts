@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as userActions from 'store/actions/userActions';
 import { userSelector } from 'store/reducers/users/userSelector';
 
-import { ISearchUserProps } from './ISearchUserProps';
+import { IDispatchProps, IOwnProps, ISearchUserProps, IStateProps } from './ISearchUserProps';
 
 // - Import actions
 /**
@@ -24,6 +24,7 @@ const makeMapStateToProps = () => {
     const mapStateToProps = (state: Map<string, any>) => {
         const hasMorePeople = selectHasMorePeople(state);
         const info = selectFindPeople(state);
+
         return {
             peopleInfo: info,
             hasMorePeople,
@@ -33,4 +34,4 @@ const makeMapStateToProps = () => {
 };
 
 export const connectSearchUser = (component: ComponentType<ISearchUserProps>) =>
-    connect<{}, {}, any, any>(makeMapStateToProps, mapDispatchToProps)(component as any);
+    connect<IStateProps, IDispatchProps, IOwnProps, any>(makeMapStateToProps, mapDispatchToProps)(component);

@@ -5,7 +5,7 @@ import { DEFAULT_KEY, generateCacheTTL } from '../../../utils/redux-cache';
 import { IUserAction } from './IUserAction';
 import { UserState } from './UserState';
 
-// - Import domain
+// Add user search
 const addUserSearch = (state: Map<string, any>, action: any) => {
     const { payload, meta } = action;
     if (meta && meta.overwrite) {
@@ -13,6 +13,24 @@ const addUserSearch = (state: Map<string, any>, action: any) => {
     } else {
         return state.mergeIn(['search', 'list'], payload.userIds);
     }
+};
+
+// Add user suggestions
+const addUserSuggestions = (state: Map<string, any>, action: any) => {
+    const { payload, meta } = action;
+    if (meta && meta.overwrite) {
+        return state.setIn(['suggestions', 'list'], payload.userIds);
+    } else {
+        return state.mergeIn(['suggestions', 'list'], payload.userIds);
+    }
+};
+
+/**
+ * Update user last seen
+ */
+const updateUserLastSeen = (state: Map<string, any>, payload: any) => {
+    const { userId, lastSeen } = payload;
+    return state.setIn(['entities', userId, 'lastSeen'], lastSeen);
 };
 
 /**
@@ -29,6 +47,12 @@ export const userReducer = (
 
         case UserActionType.USER_INFO:
             return state.setIn(['entities', payload.uid], payload.info);
+
+        case UserActionType.UPDATE_LAST_SEEN_USER:
+            return updateUserLastSeen(state, payload);
+
+        case UserActionType.ADD_USER_SUGGESTIONS:
+            return addUserSuggestions(state, action);
 
         case UserActionType.ADD_USER_INFO:
             return state

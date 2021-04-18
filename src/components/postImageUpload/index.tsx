@@ -208,9 +208,7 @@ const makeMapStateToProps = () => {
         const createAlbumRequestStatus = selectRequest(state, { requestId });
         return {
             currentUser,
-            createAlbumRequestStatus: createAlbumRequestStatus
-                ? createAlbumRequestStatus.status
-                : ServerRequestStatusType.NoAction,
+            createAlbumRequestStatus: createAlbumRequestStatus.get('status', ServerRequestStatusType.NoAction),
         };
     };
     return mapStateToProps;

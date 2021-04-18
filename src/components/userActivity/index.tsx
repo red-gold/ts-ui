@@ -39,15 +39,7 @@ import { IUserActivityComponentState } from './IUserActivityComponentState';
 import { userActivityStyles } from './userActivityStyles';
 import * as chatActions from 'store/actions/chatActions';
 import { log } from 'utils/log';
-// - Material-UI
-// - Import app components
-// - Import API
 
-// - Import app components
-// - Import actions
-/**
- * Create component class
- */
 export class UserActivityComponent extends Component<
     IUserActivityComponentProps & WithTranslation,
     IUserActivityComponentState
@@ -229,10 +221,10 @@ export class UserActivityComponent extends Component<
     getReputation() {
         const { profile } = this.props;
         const rep =
-            (profile.postCount || 0) * 10 +
-            (profile.voteCount || 0) * 10 +
-            (profile.shareCount || 0) * 10 +
-            (profile.followCount || 0) * 10;
+            (profile.get('postCount') || 0) * 10 +
+            (profile.get('voteCount') || 0) * 10 +
+            (profile.get('shareCount') || 0) * 10 +
+            (profile.get('followCount') || 0) * 10;
         return numbro(rep).format({
             spaceSeparated: false,
             average: true,
@@ -244,8 +236,9 @@ export class UserActivityComponent extends Component<
      */
     handleSendMessage = () => {
         const { chatRequest, profile } = this.props;
-        if (profile.userId && chatRequest) {
-            chatRequest(profile.userId);
+        const userId = profile.get('userId');
+        if (userId && chatRequest) {
+            chatRequest(userId);
         } else {
             log.error('User id is null for chat request');
         }
@@ -267,16 +260,16 @@ export class UserActivityComponent extends Component<
                 <div className={classes.container} style={{ height: parentHeight }}>
                     <div className={classes.card} style={boxesStyle ? boxesStyle[0] : {}}>
                         <Paper className={classNames(classes.paperContainer, classes.paperBackground)}>
-                            <div onClick={() => this.openPictureDialog(profile.avatar)}>
+                            <div onClick={() => this.openPictureDialog(profile.get('avatar'))}>
                                 <UserAvatar
                                     className={classes.userAvatar}
-                                    fullName={profile.fullName}
-                                    fileName={profile.avatar}
+                                    fullName={profile.get('fullName')}
+                                    fileName={profile.get('avatar')}
                                     size={110}
                                 />
                             </div>
                             <Typography variant="h5" className={classes.userNameText}>
-                                {profile.fullName}
+                                {profile.get('fullName')}
                             </Typography>
 
                             <div className={classes.editButtonContainer}>
@@ -287,7 +280,7 @@ export class UserActivityComponent extends Component<
                                     </Button>
                                 ) : (
                                     <div>
-                                        <FollowDialogComponent userId={profile.userId} user={profile} />
+                                        <FollowDialogComponent user={profile} />
                                         <IconButton onClick={this.handleSendMessage}>
                                             <MailIcon />
                                         </IconButton>
@@ -300,9 +293,9 @@ export class UserActivityComponent extends Component<
                             </div>
                             {isCurrentUser && editProfileOpen ? (
                                 <EditProfile
-                                    avatar={profile.avatar}
-                                    banner={profile.banner}
-                                    fullName={profile.fullName}
+                                    avatar={profile.get('avatar')}
+                                    banner={profile.get('banner')}
+                                    fullName={profile.get('fullName')}
                                 />
                             ) : (
                                 ''
@@ -379,7 +372,9 @@ export class UserActivityComponent extends Component<
                                             <SvgFavorite className={classes.impactIcon} />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={`${profile.voteCount || 0} ${t('userActivity.likeCaption')}`}
+                                            primary={`${profile.get('voteCount') || 0} ${t(
+                                                'userActivity.likeCaption',
+                                            )}`}
                                         />
                                     </ListItem>
                                     <ListItem button className={classes.listItem}>
@@ -387,7 +382,9 @@ export class UserActivityComponent extends Component<
                                             <SvgShare className={classes.impactIcon} />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={`${profile.shareCount || 0} ${t('userActivity.shareCaption')}`}
+                                            primary={`${profile.get('shareCount') || 0} ${t(
+                                                'userActivity.shareCaption',
+                                            )}`}
                                         />
                                     </ListItem>
                                     <ListItem button className={classes.listItem}>
@@ -395,7 +392,9 @@ export class UserActivityComponent extends Component<
                                             <MailIcon className={classes.impactIcon} />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={`${profile.postCount || 0} ${t('userActivity.publishCaption')}`}
+                                            primary={`${profile.get('postCount') || 0} ${t(
+                                                'userActivity.publishCaption',
+                                            )}`}
                                         />
                                     </ListItem>
                                     <ListItem button className={classes.listItem}>
@@ -403,7 +402,7 @@ export class UserActivityComponent extends Component<
                                             <GroupAdd className={classes.impactIcon} />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={`${profile.followCount || 0} ${t(
+                                            primary={`${profile.get('followCount') || 0} ${t(
                                                 'userActivity.followingCaption',
                                             )}`}
                                         />
@@ -413,7 +412,7 @@ export class UserActivityComponent extends Component<
                                             <PersonPinIcon className={classes.impactIcon} />
                                         </ListItemIcon>
                                         <ListItemText
-                                            primary={`${profile.followerCount || 0} ${t(
+                                            primary={`${profile.get('followerCount') || 0} ${t(
                                                 'userActivity.followersCaption',
                                             )}`}
                                         />
@@ -499,7 +498,7 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         setHeaderTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title)),
         openEditor: () => dispatch(userActions.openEditProfile()),
-        chatRequest: (userId: string) => dispatch(chatActions.asyncCreateChatRequest(userId)),
+        chatRequest: (userId: string) => dispatch(chatActions.activePeerChatRoom(userId)),
     };
 };
 

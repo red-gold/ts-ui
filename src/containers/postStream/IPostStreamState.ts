@@ -35,7 +35,7 @@ export interface IPostStreamState {
     /**
      * Posts for stream
      */
-    posts: Array<Post[]>;
+    posts: Map<string, Map<string, any>>;
 
     /**
      * Posts for stream

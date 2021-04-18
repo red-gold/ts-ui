@@ -7,3 +7,4 @@ coverage
 ts-frontend
 src/lib
 hack
+src/serviceWorker.js

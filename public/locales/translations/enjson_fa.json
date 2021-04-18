@@ -18,10 +18,16 @@
         "help": "Help"
 
     },
+    "rightPanel": {
+        "contactsTitle": "Contacts" ,
+        "noOneInContacts": "There is no one in your contacts!" ,
+        "suggestionTitle": "Suggestion for you",
+        "findFriendsBtn": "Find friends"
+    },
     "header": {
         "home":"Home",
         "notificationTooltip": "Notifications",
-        "recentChatTooltip": "Chat Box",
+        "messengerTooltip": "Messenger",
         "myAccount": "My Account",
         "logout": "Logout",
         "homeCaption": "Home",

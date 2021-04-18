@@ -28,4 +28,7 @@ export const searchPostStyles = (theme: any) => ({
         fontWeight: 300,
         color: 'rgba(152, 150, 150, 0.87)',
     },
+    postGrid: {
+        maxWidth: 600,
+    },
 });

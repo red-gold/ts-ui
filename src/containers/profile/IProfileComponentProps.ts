@@ -15,7 +15,7 @@ export interface IProfileComponentProps {
     /**
      * User profile
      */
-    profile?: User;
+    profile?: Map<string, any>;
 
     /**
      * String user full name

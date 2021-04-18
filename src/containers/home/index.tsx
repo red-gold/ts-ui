@@ -6,36 +6,25 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import ChatComponent from 'components/chat/ChatComponent';
-import { push } from 'connected-react-router';
-import { Map } from 'immutable';
 import React, { Component } from 'react';
 import CookieConsent from 'react-cookie-consent';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import IdleTimer from 'react-idle-timer';
-import { connect } from 'react-redux';
 import TelarTextLogo from 'layouts/telarTextLogo';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { HomeRouter } from 'routes/HomeRouter';
 import HomeHeader from 'components/homeHeader/HomeHeaderComponent';
-import * as chatActions from 'store/actions/chatActions';
-import * as globalActions from 'store/actions/globalActions';
+import Typography from '@material-ui/core/Typography';
 
-import { homeStyles } from './homeStyles';
-import { IHomeComponentProps } from './IHomeComponentProps';
-import { IHomeComponentState } from './IHomeComponentState';
+import { IHomeProps } from './IHomeProps';
+import { IHomeState } from './IHomeState';
 import { menuItems } from './menuItems';
-import { defaultNoValue } from 'utils/errorHandling';
 import { log } from 'utils/log';
+import { connectHome } from './connectHome';
 
-// - Import app components
-// - Import API
-
-// - Import Actions
-// - Create Home component class
-export class HomeComponent extends Component<IHomeComponentProps & WithTranslation, IHomeComponentState> {
+export class HomeComponent extends Component<IHomeProps & WithTranslation, IHomeState> {
     idleTimer: any;
     /**
      * Portal Container
@@ -43,7 +32,7 @@ export class HomeComponent extends Component<IHomeComponentProps & WithTranslati
     container: any = null;
 
     // Constructor
-    constructor(props: IHomeComponentProps & WithTranslation) {
+    constructor(props: IHomeProps & WithTranslation) {
         super(props);
         this.idleTimer = React.createRef();
 
@@ -72,9 +61,9 @@ export class HomeComponent extends Component<IHomeComponentProps & WithTranslati
      */
     toggleChat() {
         const { isChatOpen, openChat, closeChat } = this.props;
-        if (isChatOpen && closeChat) {
+        if (isChatOpen) {
             closeChat();
-        } else if (openChat) {
+        } else {
             openChat();
         }
     }
@@ -92,14 +81,14 @@ export class HomeComponent extends Component<IHomeComponentProps & WithTranslati
      */
     render() {
         const HR = HomeRouter;
-        const { loaded, authed, showSendFeedback, t, classes, theme, isChatOpen } = this.props;
+        const { loaded, authed, t, classes, theme, activeRooms, currentUser } = this.props;
         const { drawerOpen } = this.state;
-        if (!t || !showSendFeedback || !this.props.uid) {
+        if (!currentUser || !currentUser.get('userId')) {
             return <div />;
         }
         const drawer = (
             <div>
-                {menuItems(this.props.uid, t).map((item: any, index) => {
+                {menuItems(currentUser.get('userId'), t).map((item: any, index) => {
                     if (item.path) {
                         return (
                             <NavLink key={`home-menu-${index}`} to={item.path}>
@@ -124,6 +113,25 @@ export class HomeComponent extends Component<IHomeComponentProps & WithTranslati
                         return <Divider key={`home-menu-divider${index}`} />;
                     }
                 })}
+                <div className={classes.info}>
+                    <Typography className={classes.pos} color="textSecondary">
+                        What do you feel about Telar Social community version? Please share with us{' '}
+                        <a href="https://github.com/Qolzam/feedback/issues/5" target="blank">
+                            here
+                        </a>
+                        . Or join us on{' '}
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform">
+                            Slack
+                        </a>
+                        .
+                        <br />
+                        <br />
+                        With <span className={classes.heartSymbol}>❤</span> by{' '}
+                        <a href="https://telar.dev" target="blank">
+                            Telar
+                        </a>
+                    </Typography>
+                </div>
             </div>
         );
 
@@ -131,7 +139,11 @@ export class HomeComponent extends Component<IHomeComponentProps & WithTranslati
         const mainElement = (
             <div className={classes.root}>
                 <div className={classes.appFrame}>
-                    <HomeHeader onToggleDrawer={this.handleDrawerToggle} drawerStatus={this.state.drawerOpen} />
+                    <HomeHeader
+                        onToggleDrawer={this.handleDrawerToggle}
+                        onToggleMessenger={this.toggleChat}
+                        drawerStatus={this.state.drawerOpen}
+                    />
                     <Hidden mdUp>
                         <Drawer
                             variant="temporary"
@@ -148,7 +160,7 @@ export class HomeComponent extends Component<IHomeComponentProps & WithTranslati
                                 <div className={classes.drawerHeader}>
                                     <TelarTextLogo viewBox="0 0 700 100" className={classes.logo} />
                                 </div>
-                                <MenuList style={{ color: 'rgb(117, 117, 117)', width: '210px', paddingTop: '0px' }}>
+                                <MenuList style={{ color: 'rgb(117, 117, 117)', paddingTop: '0px' }}>
                                     <Divider />
                                     {drawer}
                                 </MenuList>
@@ -164,10 +176,7 @@ export class HomeComponent extends Component<IHomeComponentProps & WithTranslati
                             }}
                         >
                             <div>
-                                <MenuList
-                                    className={classes.menu}
-                                    style={{ color: 'rgb(117, 117, 117)', width: '210px' }}
-                                >
+                                <MenuList className={classes.menu} style={{ color: 'rgb(117, 117, 117)' }}>
                                     {drawer}
                                 </MenuList>
                             </div>
@@ -183,12 +192,14 @@ export class HomeComponent extends Component<IHomeComponentProps & WithTranslati
                     </main>
                 </div>
 
-                <ChatComponent open={defaultNoValue(isChatOpen, false)} onToggle={this.toggleChat} />
+                {activeRooms
+                    .map((room) => <ChatComponent key={room.get('objectId')} open={true} room={room} />)
+                    .valueSeq()}
                 <CookieConsent
                     location="bottom"
                     buttonText={t('home.cookieConsentButton')}
                     cookieName="social-consent"
-                    style={{ background: '#2B373B' }}
+                    style={{ background: '#2B373B', zIndex: 1200 }}
                     buttonStyle={{ color: '#4e503b', fontSize: '13px' }}
                     expires={150}
                 >
@@ -210,51 +221,4 @@ export class HomeComponent extends Component<IHomeComponentProps & WithTranslati
     }
 }
 
-// - Map dispatch to props
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        openChat: () => dispatch(chatActions.openChat()),
-        closeChat: () => dispatch(chatActions.closeChat()),
-        loadData: () => dispatch(globalActions.loadInitialData()),
-        defaultDataDisable: () => {
-            dispatch(globalActions.defaultDataDisable());
-        },
-        defaultDataEnable: () => {
-            dispatch(globalActions.defaultDataEnable());
-        },
-        goTo: (url: string) => dispatch(push(url)),
-        showSendFeedback: () => dispatch(globalActions.showSendFeedback()),
-        hideSendFeedback: () => dispatch(globalActions.hideSendFeedback()),
-    };
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = (state: Map<string, any>) => {
-    const isChatOpen = state.getIn(['chat', 'chatOpen']);
-    const uid = state.getIn(['authorize', 'uid'], {});
-    const global = state.get('global', {});
-
-    return {
-        isChatOpen,
-        uid,
-        authed: state.getIn(['authorize', 'authed'], false),
-        global,
-        loaded:
-            state.getIn(['user', 'loaded']) &&
-            state.getIn(['imageGallery', 'loaded']) &&
-            state.getIn(['circle', 'loaded']) &&
-            state.getIn(['global', 'defaultLoadDataStatus']),
-    };
-};
-
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(HomeComponent);
-
-export default withRouter<any, any>(
-    connect<{}, {}, any, any>(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(withStyles(homeStyles, { withTheme: true })(translateWrapper)),
-);
+export default connectHome(HomeComponent);

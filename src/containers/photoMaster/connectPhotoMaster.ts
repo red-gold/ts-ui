@@ -65,7 +65,7 @@ const makeMapStateToProps = () => {
         return {
             hasMoreImages,
             currentUser,
-            streamRequestStatus: streamRequestStatus ? streamRequestStatus.status : ServerRequestStatusType.NoAction,
+            streamRequestStatus: streamRequestStatus.get('status', ServerRequestStatusType.NoAction),
             images,
             requestId,
             currentAlbum,

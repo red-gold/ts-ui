@@ -8,7 +8,10 @@ export class ServerRequestModel {
         public id: string,
         public metadata: string,
         public status: ServerRequestStatusType = ServerRequestStatusType.Sent,
-    ) {}
+        public timestamp?: number,
+    ) {
+        this.timestamp = new Date().getTime();
+    }
 
     /**
      * Get unique key for request

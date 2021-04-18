@@ -1,10 +1,6 @@
-// - Import action types
 import { ServerActionType } from 'constants/serverActionType';
 import { Map } from 'immutable';
 
-// - Import domain
-
-// - Import actions
 import { ServerRequestModel } from 'models/server/serverRequestModel';
 import { SocialError } from 'core/domain/common/socialError';
 
@@ -19,22 +15,22 @@ export const sendRequest = (request: ServerRequestModel) => {
 /**
  * delete a request
  */
-export const deleteRequest = (requestId: string) => {
-    return { type: ServerActionType.DELETE_REQUEST, payload: { requestId } };
+export const deleteRequest = (id: string) => {
+    return { type: ServerActionType.DELETE_REQUEST, payload: { id } };
 };
 
 /**
  * Update request stattus ti successful
  */
-export const okRequest = (requestId: string) => {
-    return { type: ServerActionType.OK_REQUEST, payload: { requestId } };
+export const okRequest = (id: string) => {
+    return { type: ServerActionType.OK_REQUEST, payload: { id } };
 };
 
 /**
  * Set error request
  */
-export const errorRequest = (requestId: string, error: SocialError) => {
-    return { type: ServerActionType.ERROR_REQUEST, payload: { requestId, error } };
+export const errorRequest = (id: string, error: SocialError) => {
+    return { type: ServerActionType.ERROR_REQUEST, payload: { id, error } };
 };
 
 /**

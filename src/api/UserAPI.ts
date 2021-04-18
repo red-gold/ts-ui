@@ -11,6 +11,16 @@ const createUserSearchRequest = (userId: string) => {
     return new ServerRequestModel(ServerRequestType.UserFetchRequest, requestId, '', ServerRequestStatusType.Sent);
 };
 
+/**
+ * Creat user fetch sugestions
+ */
+const createUserFetchSuggestions = () => {
+    const requestType = ServerRequestType.UserFetchSuggestions;
+    const requestId = StringAPI.createServerRequestId(requestType, 'user-fetch-sugestions');
+    return new ServerRequestModel(requestType, requestId, '', ServerRequestStatusType.Sent);
+};
+
 export const UserAPI = {
     createUserSearchRequest,
+    createUserFetchSuggestions,
 };

@@ -1,4 +1,5 @@
 import { User } from 'core/domain/users/user';
+import { ImuMap } from 'core/ImuMap';
 
 export interface IAboutDialogProps {
     /**
@@ -29,7 +30,7 @@ export interface IAboutDialogProps {
     /**
      * The user to show about
      */
-    targetUser: User;
+    targetUser: ImuMap<User>;
 
     /**
      * Translate to locale string

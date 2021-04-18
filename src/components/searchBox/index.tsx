@@ -9,7 +9,8 @@ import { withStyles } from '@material-ui/core/styles';
 import GroupIcon from '@material-ui/icons/Group';
 import SearchIcon from '@material-ui/icons/Search';
 import StringAPI from 'api/StringAPI';
-import classNames from 'classnames';
+import Card from '@material-ui/core/Card';
+
 import { push } from 'connected-react-router';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -19,15 +20,7 @@ import { ISearchBoxProps } from './ISearchBoxProps';
 import { ISearchBoxState } from './ISearchBoxState';
 import { searchBoxStyles } from './searchBoxStyles';
 
-// - Material UI
-// - Import components
-// - Import actions
-// - Create HomeHeader component class
 export class SearchBoxComponent extends Component<ISearchBoxProps & WithTranslation, ISearchBoxState> {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: ISearchBoxProps & WithTranslation) {
         super(props);
 
@@ -125,7 +118,8 @@ export class SearchBoxComponent extends Component<ISearchBoxProps & WithTranslat
         const { searchText, listDisplayed } = this.state;
 
         const searchList = (
-            <div className={classNames(classes.searchList)}>
+            // <div className={classNames(classes.searchList)}>
+            <Card className={classes.searchList} variant="outlined">
                 <ListItem
                     button
                     onMouseDown={this.handleMouseDown}
@@ -158,7 +152,8 @@ export class SearchBoxComponent extends Component<ISearchBoxProps & WithTranslat
                         primary={t('search.searchInUser', { query: searchText })}
                     />
                 </ListItem>
-            </div>
+            </Card>
+            // </div>
         );
 
         return (

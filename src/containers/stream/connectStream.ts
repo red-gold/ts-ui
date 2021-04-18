@@ -46,7 +46,7 @@ const makeMapStateToProps = () => {
         return {
             hasMorePosts,
             currentUser,
-            streamRequestStatus: streamRequestStatus ? streamRequestStatus.status : ServerRequestStatusType.NoAction,
+            streamRequestStatus: streamRequestStatus.get('status', ServerRequestStatusType.NoAction),
             posts,
             requestId,
             page,

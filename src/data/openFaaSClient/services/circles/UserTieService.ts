@@ -7,6 +7,7 @@ import { inject, injectable } from 'inversify';
 
 import { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { throwNoValue } from 'utils/errorHandling';
 
 /**
  * Firbase user service
@@ -90,8 +91,9 @@ export class UserTieService implements IUserTieService {
                 const circleIdList = rel.circleIds;
                 const { userId, fullName, avatar } = rel.right;
                 const rightUserInfo: UserTie = new UserTie(userId, creationDate, fullName, avatar, true, circleIdList);
+                const rightUserID = throwNoValue(rightUserInfo.userId, 'rightUserInfo.userId');
                 parsedData = parsedData.set(
-                    rightUserInfo.userId!,
+                    rightUserID,
                     Map({
                         ...rightUserInfo,
                         circleIdList: circleIdList ? List(circleIdList) : List([]),
@@ -119,8 +121,10 @@ export class UserTieService implements IUserTieService {
                 const circleIdList = rel.circleIds;
                 const { userId, fullName, avatar } = rel.left;
                 const leftUserInfo: UserTie = new UserTie(userId, creationDate, fullName, avatar, true, circleIdList);
+                const leftUserID = throwNoValue(leftUserInfo.userId, 'leftUserInfo.userId');
+
                 parsedData = parsedData.set(
-                    leftUserInfo.userId!,
+                    leftUserID,
                     Map({
                         ...leftUserInfo,
                         circleIdList: List([]),

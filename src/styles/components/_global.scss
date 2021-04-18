@@ -52,7 +52,7 @@ body {
 }
 
 .cookieConsent {
-    z-index: 1200 !important;
+    z-index: 1300 !important;
 }
 
 /* Change autocomplete styles in WebKit */
@@ -269,14 +269,6 @@ g__input-underline {
 
 .sc-header--img {
     width: 60px;
-}
-
-.emoji-mart {
-    width: 100% !important;
-    font-size: 10px;
-    .emoji-mart-scroll {
-        height: 100% !important;
-    }
 }
 
 .simile-loading {
@@ -552,4 +544,15 @@ g__input-underline {
 *::before,
 *::after {
     box-sizing: inherit;
+}
+.emoji-mart{
+    width: 100% !important;
+    border: none !important;
+}
+.emoji-mart-preview {
+    display: none;
+}
+
+.emoji-mart-scroll {
+    max-height: 254px;
 }

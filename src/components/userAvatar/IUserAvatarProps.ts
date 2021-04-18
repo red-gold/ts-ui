@@ -1,12 +1,12 @@
-export interface IUserAvatarComponentProps {
+export interface IUserAvatarProps {
     /**
      * Use for getting url address from server
      */
-    fileName: string;
+    fileName?: string;
     /**
      * User full name
      */
-    fullName: string;
+    fullName?: string;
     /**
      * Avatar style
      */

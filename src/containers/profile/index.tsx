@@ -4,7 +4,6 @@ import StringAPI from 'api/StringAPI';
 import ImgCover from 'components/imgCover';
 import UserActivity from 'components/userActivity';
 import { ServerRequestType } from 'constants/serverRequestType';
-import { User } from 'core/domain/users/user';
 import { Map } from 'immutable';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -13,7 +12,7 @@ import config from 'config';
 import * as postActions from 'store/actions/postActions';
 import * as userActions from 'store/actions/userActions';
 import { postSelector } from 'store/reducers/posts/postSelector';
-import { userSelector } from 'store/reducers/users/userSelector';
+import Grid from '@material-ui/core/Grid';
 
 import PostStreamComponent from '../postStream';
 import { IProfileComponentProps } from './IProfileComponentProps';
@@ -22,6 +21,7 @@ import { profileStyles } from './profileStyles';
 import * as globalActions from 'store/actions/globalActions';
 import { withRouter } from 'react-router-dom';
 import { throwNoValue } from 'utils/errorHandling';
+import { userGetters } from 'store/reducers/users/userGetters';
 
 // - Material-UI
 // - Import app components
@@ -79,7 +79,11 @@ export class ProfileComponent extends Component<IProfileComponentProps & WithTra
                         height={'384px'}
                         width={'100%'}
                         className={classes.banner}
-                        src={profile && profile.banner ? profile.banner : config.settings.defaultProfileCover}
+                        src={
+                            profile && profile.get('banner')
+                                ? profile.get('banner')
+                                : config.settings.defaultProfileCover
+                        }
                     />
                 </div>
                 <UserActivity profile={throwNoValue(profile, 'profile')} isCurrentUser={isCurrentUser} />
@@ -94,14 +98,17 @@ export class ProfileComponent extends Component<IProfileComponentProps & WithTra
                         ''
                     )}
                     <div style={{ height: '24px' }}></div>
-
-                    <PostStreamComponent
-                        posts={posts}
-                        requestId={postRequestId}
-                        loadStream={loadPosts}
-                        hasMorePosts={hasMorePosts}
-                        displayWriting={false}
-                    />
+                    <Grid container justify="center" spacing={3}>
+                        <Grid className={classes.gridItem} classes={{ root: classes.postGrid }} xs={12} md={8} item>
+                            <PostStreamComponent
+                                posts={posts}
+                                requestId={postRequestId}
+                                loadStream={loadPosts}
+                                hasMorePosts={hasMorePosts}
+                                displayWriting={false}
+                            />
+                        </Grid>
+                    </Grid>
                 </div>
             </>
         );
@@ -131,13 +138,13 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IProfileComponentPro
     const selectProfilePosts = postSelector.selectProfilePosts();
     const posts = selectProfilePosts(state, { userId });
 
-    const userProfile = userSelector.getUserProfileById(state, { userId: userId }).toJS() as User;
-    const users = userSelector.getUsers(state);
+    const userProfile = userGetters.getUserProfileById(state, { userId: userId });
+    const users = userGetters.getUsers(state);
     return {
-        avatar: userProfile.avatar,
-        name: userProfile.fullName,
-        banner: userProfile.banner,
-        tagLine: userProfile.tagLine,
+        avatar: userProfile.get('avatar'),
+        name: userProfile.get('fullName'),
+        banner: userProfile.get('banner'),
+        tagLine: userProfile.get('tagLine'),
         userId,
         users,
         posts,

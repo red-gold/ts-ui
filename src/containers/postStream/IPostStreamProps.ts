@@ -18,11 +18,6 @@ export interface IPostStreamProps {
     requestId?: string;
 
     /**
-     * Post writing input is displayed {true} or not {false}
-     */
-    displayWriting?: boolean;
-
-    /**
      * Array of tags in a post
      */
     tag?: string[];
@@ -36,21 +31,6 @@ export interface IPostStreamProps {
      * Set home title
      */
     setHomeTitle?: () => void;
-
-    /**
-     * Open post write dialog
-     */
-    openPostWrite?: () => any;
-
-    /**
-     * Close post write dialog
-     */
-    closePostWrite?: () => any;
-
-    /**
-     * Whether post write dialog is open
-     */
-    postWriteDilogOpen?: boolean;
 
     /**
      * User full name

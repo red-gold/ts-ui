@@ -1,53 +1,48 @@
 // - Import react components
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import FollowDialogComponent from 'components/followDialog/FollowDialogComponent';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
-import { push } from 'connected-react-router';
-import { User } from 'core/domain/users/user';
-import { Map } from 'immutable';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { userSelector } from 'store/reducers/users/userSelector';
-
 import { IUserBoxComponentProps } from './IUserBoxComponentProps';
 import { IUserBoxComponentState } from './IUserBoxComponentState';
 
-const styles = (theme: any) => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-    },
-    paper: {
-        height: 254,
-        width: 243,
-        margin: 10,
-        textAlign: 'center',
-        minWidth: 230,
-        maxWidth: '257px',
-    },
-    dialogContent: {
-        paddingTop: '5px',
-        padding: '0px 5px 5px 5px',
-    },
-    circleName: {
-        fontSize: '1rem',
-    },
-    space: {
-        height: 20,
-    },
-    fullPageXs: {
-        [theme.breakpoints.down('xs')]: {
+const styles = (theme: any) =>
+    createStyles({
+        root: {
             width: '100%',
-            height: '100%',
-            margin: 0,
-            overflowY: 'auto',
+            maxWidth: 360,
+            backgroundColor: theme.palette.background.paper,
         },
-    },
-});
+        paper: {
+            height: 254,
+            width: 243,
+            margin: 10,
+            textAlign: 'center',
+            minWidth: 230,
+            maxWidth: '257px',
+        },
+        dialogContent: {
+            paddingTop: '5px',
+            padding: '0px 5px 5px 5px',
+        },
+        circleName: {
+            fontSize: '1rem',
+        },
+        space: {
+            height: 20,
+        },
+        fullPageXs: {
+            [theme.breakpoints.down('xs')]: {
+                width: '100%',
+                height: '100%',
+                margin: 0,
+                overflowY: 'auto',
+            },
+        },
+    });
 
 /**
  * Create component class
@@ -100,10 +95,9 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps & WithTra
      *
      */
     render() {
-        const { userId, classes, fullName, user, avatar, goTo } = this.props;
-        if (!goTo) {
-            return <div />;
-        }
+        const { classes, user, goTo } = this.props;
+        const userId = user.get('userId');
+
         return (
             <Paper key={userId} elevation={1} className={classNames('grid-cell', classes.paper)}>
                 <div
@@ -118,13 +112,13 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps & WithTra
                     }}
                 >
                     <div onClick={() => goTo(`/${userId}`)} style={{ cursor: 'pointer' }}>
-                        <UserAvatar fullName={fullName} fileName={avatar} size={90} />
+                        <UserAvatar fullName={user.get('fullName')} fileName={user.get('avatar')} size={90} />
                     </div>
                     <div onClick={() => goTo(`/${userId}`)} className="people__name" style={{ cursor: 'pointer' }}>
-                        <div>{this.props.fullName}</div>
+                        <div>{user.get('fullName')}</div>
                     </div>
                     <div style={this.styles.followButton as any}>
-                        <FollowDialogComponent userId={userId} user={user && (user.toJS() as User)} />
+                        <FollowDialogComponent user={user} />
                     </div>
                 </div>
             </Paper>
@@ -132,30 +126,7 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps & WithTra
     }
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = (dispatch: Function) => {
-    return {
-        goTo: (url: string) => dispatch(push(url)),
-    };
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = (state: Map<string, any>, ownProps: IUserBoxComponentProps) => {
-    const userBox = userSelector.getUserProfileById(state, { userId: ownProps.userId }).toJS() as User;
-    return {
-        avatar: userBox.avatar || '',
-        fullName: userBox.fullName || '',
-    };
-};
-
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(UserBoxComponent);
 
-export default connect<{}, {}, any, any>(
-    mapStateToProps,
-    mapDispatchToProps,
-)(withStyles(styles as any)(translateWrapper as any));
+export default withStyles(styles)(translateWrapper as any);

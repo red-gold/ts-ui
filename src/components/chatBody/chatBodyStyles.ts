@@ -1,4 +1,6 @@
-export const chatBodyStyles = (theme: any) => ({
+import { createStyles } from '@material-ui/styles';
+
+export const chatBodyStyles = createStyles((theme: any) => ({
     root: {
         position: 'fixed',
         right: 30,
@@ -86,10 +88,9 @@ export const chatBodyStyles = (theme: any) => ({
         textAlign: 'center',
     },
     bodyMessageRoot: {
-        padding: '20px 0px',
-        backgroundColor: '#F9F6F6',
+        padding: 10,
         height: 'calc(100% - 110px)',
-        overflowY: 'auto',
+        // overflowY: 'auto',
         overflowX: 'hidden',
     },
     messageRoot: {
@@ -119,7 +120,6 @@ export const chatBodyStyles = (theme: any) => ({
         height: '100%',
     },
     rightSideChatRoot: {
-        backgroundColor: '#F9F6F6',
         padding: '0 0 !important',
     },
     leftSideChatRoot: {
@@ -140,7 +140,6 @@ export const chatBodyStyles = (theme: any) => ({
     sendMessageRoot: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: '#F9F6F6',
         width: '100%',
         bottom: 0,
         position: 'absolute',
@@ -217,4 +216,4 @@ export const chatBodyStyles = (theme: any) => ({
         paddingRight: 5,
         justifyContent: 'center',
     },
-});
+}));

@@ -1,92 +1,73 @@
-import { User } from 'core/domain/users/user';
 import { Map } from 'immutable';
 import { Message } from 'core/domain/chat/message';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { ChatMessageModel } from 'models/chat/chatMessageModel';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestModel } from 'models/server/serverRequestModel';
 
-export interface IChatProps {
+export type IChatProps = IOwnProps & IDispatchProps & IStateProps;
+
+export interface IOwnProps {
+    /**
+     * Styles
+     */
+    classes?: any;
+    /**
+     * Current chat room
+     */
+    room: Map<string, any>;
     /**
      * Whether window chat is open
      */
     open: boolean;
 
     /**
-     * On toggle open/close chat window
+     * Window width
      */
-    onToggle: () => void;
+    width?: Breakpoint;
+}
 
+export interface IStateProps {
     /**
-     * Translate to locale string
+     * Current user
      */
-    t?: (state: any) => any;
-
-    /**
-     * Whether recent chat is open
-     */
-    recentChatOpen?: boolean;
-
-    /**
-     * Open recent chat
-     */
-    openRecentChat?: () => any;
-
-    /**
-     * Close recent chat
-     */
-    closeRecentChat?: () => any;
+    currentUser: Map<string, any>;
 
     /**
      * Receiver user info
      */
-    receiverUser?: Map<string, any>;
-
-    /**
-     * Remove chat history
-     */
-    removeChatHistory?: (roomId: string) => any;
-
-    /**
-     * Set current chat
-     */
-    setCurrentChat?: (userId: string) => any;
+    receiverUser: Map<string, any>;
 
     /**
      * Connections
      */
-    connections?: Map<string, any>;
+    connections: Map<string, any>;
 
     /**
      * Users
      */
-    users?: Map<string, any>;
+    users: Map<string, any>;
 
     /**
      * Chat messages
      */
-    chatMessages?: ChatMessageModel[];
+    messages: Map<string, Map<string, any>>;
 
-    /**
-     * Styles
-     */
-    classes?: any;
+    oldQueryMessageStatus: ServerRequestStatusType;
 
-    /**
-     * Current user
-     */
-    currentUser?: User;
+    oldQueryMessageRequestId: string;
 
-    /**
-     * Send message
-     */
-    sendMessage?: (message: Message) => any;
+    hasMoreOldMessages: boolean;
 
-    /**
-     * Window width
-     */
-    width?: Breakpoint;
+    newQueryMessageStatus: ServerRequestStatusType;
 
-    /**
-     * Current chat room
-     */
-    currentChatRoom?: string;
+    newQueryMessageRequestId: string;
+
+    hasMoreNewMessages: boolean;
+}
+
+export interface IDispatchProps {
+    sendMessage: (message: Message) => any;
+    closeRoom: (roomId: string) => any;
+    updateReadMessageMeta: (roomId: string, messageId: string, readCount: number, messageCreatedDate: number) => any;
+    queryMessage: (requestId: string, roomId: string, page: number, lte: number, gte: number) => any;
 }

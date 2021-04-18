@@ -6,6 +6,7 @@ import { Map, fromJS } from 'immutable';
 import { injectable, inject } from 'inversify';
 import { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { throwNoValue } from 'utils/errorHandling';
 
 /**
  * Firbase comment service
@@ -32,18 +33,19 @@ export class CommentService implements ICommentService {
     public getComments = async (postId: string, page?: number, limit?: number) => {
         try {
             const resultSearch = await this._httpService.get(
-                `comments?postId=${postId}&page=${page! + 1}&limit=${limit}`,
+                `comments?postId=${postId}&page=${(page || 0) + 1}&limit=${limit}`,
             );
             const commentCount = resultSearch ? resultSearch.length : 0;
             let parsedData: Map<string, any> = Map({});
             let commentIds: Map<string, boolean> = Map({});
             if (resultSearch) {
                 resultSearch.forEach((comment: any) => {
+                    const commentID = throwNoValue(comment.objectId, 'comment.objectId');
                     parsedData = parsedData.set(
-                        comment.objectId!,
+                        commentID,
                         fromJS({ ...comment, id: comment.objectId, creationDate: comment['created_date'] }),
                     );
-                    commentIds = commentIds.set(comment.objectId!, true);
+                    commentIds = commentIds.set(commentID, true);
                 });
             }
 

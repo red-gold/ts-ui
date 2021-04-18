@@ -5,11 +5,15 @@ import React, { Component } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import PostStreamComponent from 'containers/postStream';
+import Grid from '@material-ui/core/Grid';
 
 import { connectStream } from './connectStream';
 import { IStreamComponentProps } from './IStreamComponentProps';
 import { IStreamComponentState } from './IStreamComponentState';
 import { streamStyles } from './streamStyles';
+import PostWriteButton from 'components/postWriteButton';
+import RightPanel from 'components/rightPanel';
+import classNames from 'classnames';
 export class StreamComponent extends Component<IStreamComponentProps & WithTranslation, IStreamComponentState> {
     styles = {
         postWritePrimaryText: {
@@ -55,19 +59,25 @@ export class StreamComponent extends Component<IStreamComponentProps & WithTrans
      *
      */
     render() {
-        const { hasMorePosts, posts, requestId, currentUser } = this.props;
+        const { hasMorePosts, posts, requestId, currentUser, classes } = this.props;
 
         return (
-            <div className="stream-root">
-                <PostStreamComponent
-                    homeTitle={currentUser ? currentUser.fullName : ''}
-                    requestId={requestId}
-                    posts={posts}
-                    loadStream={this.loadPosts}
-                    hasMorePosts={hasMorePosts}
-                    displayWriting
-                />
-            </div>
+            <Grid container justify="space-around" spacing={3}>
+                <Grid className={classNames(classes.gridItem, classes.postGrid)} xs={12} md={8} item>
+                    <PostWriteButton displayWriting />
+                    <PostStreamComponent
+                        homeTitle={currentUser ? currentUser.fullName : ''}
+                        requestId={requestId}
+                        posts={posts}
+                        loadStream={this.loadPosts}
+                        hasMorePosts={hasMorePosts}
+                        displayWriting
+                    />
+                </Grid>
+                <Grid className={classes.gridItem} xs={12} md={4} item>
+                    <RightPanel />
+                </Grid>
+            </Grid>
         );
     }
 }

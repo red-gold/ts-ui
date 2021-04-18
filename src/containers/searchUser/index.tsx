@@ -9,23 +9,12 @@ import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { withRouter } from 'react-router-dom';
-import { defaultNoValue } from 'utils/errorHandling';
-import { Map } from 'immutable';
-
 import SearchComponent from '../search';
 import { connectSearchUser } from './connectSearchUser';
 import { ISearchUserProps } from './ISearchUserProps';
 import { ISearchUserState } from './ISearchUserState';
 import { searchUserStyles } from './searchUserStyles';
 
-// - Material UI
-// - Import app components
-// - Import API
-
-// - Import actions
-/**
- * Create component class
- */
 export class SearchUserComponent extends Component<ISearchUserProps & WithTranslation, ISearchUserState> {
     /**
      * Fields
@@ -42,6 +31,9 @@ export class SearchUserComponent extends Component<ISearchUserProps & WithTransl
 
         // Defaul state
         this.state = {};
+        this.searchQuery = this.searchQuery.bind(this);
+        this.executeSearch = this.executeSearch.bind(this);
+        this.searchParam = this.searchParam.bind(this);
     }
 
     searchQuery() {
@@ -81,17 +73,14 @@ export class SearchUserComponent extends Component<ISearchUserProps & WithTransl
      *
      */
     render() {
-        const { hasMorePeople, t, classes } = this.props;
-        const peopleInfo = defaultNoValue(this.props.peopleInfo, Map({}));
-        if (!t) {
-            return <div />;
-        }
+        const { hasMorePeople, t, classes, peopleInfo } = this.props;
+
         return (
             <SearchComponent tab="people">
                 <InfiniteScroll
                     dataLength={peopleInfo ? peopleInfo.count() : 0}
                     next={this.searchQuery}
-                    hasMore={defaultNoValue(hasMorePeople, true)}
+                    hasMore={hasMorePeople}
                     endMessage={<p style={{ textAlign: 'center' }}></p>}
                     loader={<LoadMoreProgressComponent key="find-people-load-more-progress" />}
                 >

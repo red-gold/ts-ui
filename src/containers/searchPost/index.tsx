@@ -13,6 +13,7 @@ import { connectSearchPost } from './connectSearchPost';
 import { ISearchPostProps } from './ISearchPostProps';
 import { ISearchPostState } from './ISearchPostState';
 import { searchPostStyles } from './searchPostStyles';
+import Grid from '@material-ui/core/Grid';
 
 // - Material-UI
 // - Import actions
@@ -85,13 +86,17 @@ export class SearchPostComponent extends Component<ISearchPostProps & WithTransl
         return (
             <SearchComponent tab="posts">
                 <div id="stream-parent" className={classNames({ [classes.noDisplay]: posts.isEmpty() })}>
-                    <PostStreamComponent
-                        posts={posts}
-                        requestId={requestId}
-                        loadStream={this.searchQuery}
-                        hasMorePosts={hasMorePosts}
-                        displayWriting={false}
-                    />
+                    <Grid container justify="center" spacing={3}>
+                        <Grid className={classes.gridItem} classes={{ root: classes.postGrid }} xs={12} md={8} item>
+                            <PostStreamComponent
+                                posts={posts}
+                                requestId={requestId}
+                                loadStream={this.searchQuery}
+                                hasMorePosts={hasMorePosts}
+                                displayWriting={false}
+                            />
+                        </Grid>
+                    </Grid>
                 </div>
                 <div className={classNames({ [classes.noDisplay]: !posts.isEmpty() })}>
                     <Typography className={classes.notFound}>

@@ -21,7 +21,7 @@
     "header": {
         "home":"Trang chủ",
         "notificationTooltip": "Thông báo",
-        "recentChatTooltip": "Trò chuyện",
+        "messengerTooltip": "Trò chuyện",
         "myAccount": "Tài khoản của tôi",
         "logout": "Đăng xuất",
         "homeCaption": "Trang chủ",

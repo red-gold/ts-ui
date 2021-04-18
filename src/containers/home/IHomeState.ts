@@ -1,4 +1,4 @@
-export interface IHomeComponentState {
+export interface IHomeState {
     /**
      * Whether drawer is open
      */

@@ -1,105 +1,175 @@
 import { List, Map } from 'immutable';
-import { ChatMessageModel } from 'models/chat/chatMessageModel';
 import { createSelector } from 'reselect';
-import { User } from 'core/domain/users/user';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
-import { userSelector } from 'store/reducers/users/userSelector';
+import { userGetters } from '../users/userGetters';
+import { chatGetters } from './chatGetters';
 
-const getCallingUsers: (state: Map<string, any>) => Map<string, any> = (state: Map<string, any>) => {
-    const callingUsers: Map<string, any> = state.getIn(['chat', 'calling'], Map({}));
-    return callingUsers;
-};
-
-const getChatRequests: (state: Map<string, any>) => Map<string, any> = (state: Map<string, any>) => {
-    const chatRequests: Map<string, any> = state.getIn(['chat', 'requests'], Map({}));
-    return chatRequests;
-};
-
-const getChatConnections: (state: Map<string, any>) => Map<string, any> = (state: Map<string, any>) => {
-    const chatConnections: Map<string, any> = state.getIn(['chat', 'connect'], Map({}));
-    return chatConnections;
-};
-
-const getCurrentChat: (state: Map<string, any>) => string = (state: Map<string, any>) => {
-    const currentChat: string = state.getIn(['chat', 'currentChat']);
-    return currentChat;
-};
-
-const getMessages: (state: Map<string, any>, props: any) => Map<string, any> = (state: Map<string, any>) => {
-    const messages = state.getIn(['chat', 'messages'], Map({}));
-    return messages;
-};
+// Selectros //
 
 const selectCurrentChatRoom = () => {
-    return createSelector([getCurrentChat, getChatConnections], (currentChat, connections) => {
+    return createSelector([chatGetters.getCurrentChat, chatGetters.getChatConnections], (currentChat, connections) => {
         return connections.getIn([currentChat, 'roomId']);
     });
 };
 
+const selectRoom = () => {
+    return createSelector([chatGetters.getRoom], (room) => room);
+};
+
 const selectCallingUsers = () => {
-    return createSelector([getCallingUsers], (callingUsers) => callingUsers);
+    return createSelector([chatGetters.getCallingUsers], (callingUsers) => callingUsers);
 };
 
 const selectChatRequests = () => {
-    return createSelector([getChatRequests], (chatRequest) => chatRequest);
+    return createSelector([chatGetters.getChatRequests], (chatRequest) => chatRequest);
 };
 
 const selectChatConnections = () => {
-    return createSelector([getChatConnections], (chatConnections) => chatConnections);
+    return createSelector([chatGetters.getChatConnections], (chatConnections) => chatConnections);
 };
 
 const selectCurrentChat = () => {
-    return createSelector([getCurrentChat], (currentChat) => currentChat);
+    return createSelector([chatGetters.getCurrentChat], (currentChat) => currentChat);
 };
 
 const selectCurrentReceiver = () => {
-    return createSelector([getCurrentChat, userSelector.getUsers], (currentChat, users) => {
+    return createSelector([chatGetters.getCurrentChat, userGetters.getUsers], (currentChat, users) => {
         return users.get(currentChat, Map({}));
     });
 };
 
-const selectCurrentMessages = () => {
+const selectChatOpen = () => {
+    return createSelector([chatGetters.getChatOpen], (open) => open);
+};
+
+const selectRoomLoaded = () => {
+    return createSelector([chatGetters.getRoomLoaded], (loaded) => loaded);
+};
+
+const selectChatRooms = () => {
+    return createSelector([chatGetters.getRooms], (rooms) => rooms);
+};
+
+const selectActiveRooms = () => {
+    return createSelector([chatGetters.getActiveRooms, chatGetters.getRooms], (activeRooms, rooms) => {
+        let mappedRooms: List<Map<string, any>> = List([]);
+        activeRooms.forEach((exist, roomId) => {
+            if (exist) {
+                const existPost = rooms.get(roomId);
+                if (existPost) {
+                    mappedRooms = mappedRooms.push(existPost);
+                }
+            }
+        });
+        if (mappedRooms.isEmpty()) {
+            return List([]);
+        }
+        return mappedRooms;
+    });
+};
+
+const selectMessages = () => {
+    return createSelector([chatGetters.getMessages, authorizeSelector.getAuthedUser], (messages, currentAuthed) => {
+        return messages
+            .map((message: Map<string, any>) =>
+                message.set('isCurrentUser', currentAuthed.get('uid') === message.get('ownerUserId')),
+            )
+            .sort((a, b) => a.get('createdDate') - b.get('createdDate'));
+    });
+};
+
+const selectContacts = () => {
     return createSelector(
-        [
-            getMessages,
-            getCurrentChat,
-            getChatConnections,
-            authorizeSelector.getAuthedUser,
-            userSelector.getUserProfileById,
-        ],
-        (messages, currentChat, connections, currentAuthed, receiverUser) => {
-            const roomId = connections.getIn([currentChat, 'roomId']);
-            const mes = messages
-                .get(roomId, List())
-                .valueSeq()
-                .map(
-                    (message: Map<string, any>) =>
-                        new ChatMessageModel(
-                            message.get('id'),
-                            message.get('senderId') === currentAuthed.get('uid') ? true : false,
-                            receiverUser.toJS() as User,
-                            message.get('type'),
-                            message.get('message'),
-                            message.get('creationDate'),
-                            message.get('translateMessage'),
-                            message.get('loading'),
-                        ),
-                )
-                .sort((a: any, b: any) => a.creationDate - b.creationDate);
-            return mes;
+        [chatGetters.getRooms, userGetters.getUsers, authorizeSelector.getAuthedUser],
+        (rooms, users, currentAuthed) => {
+            let contacts: List<Map<string, any>> = List([]);
+            const uid = currentAuthed.get('uid');
+            rooms.forEach((room) => {
+                const roomId: string = room.get('objectId');
+                const roomType: number = room.get('type');
+                const members: List<string> = room.get('members');
+                if (roomType === 0) {
+                    members.forEach((userId) => {
+                        let user = users.get(userId);
+                        if (userId !== uid && user) {
+                            user = user.set('roomId', roomId);
+                            contacts = contacts.push(user);
+                        }
+                    });
+                }
+            });
+            return contacts;
         },
     );
 };
 
+const selectRoomList = () => {
+    return createSelector(
+        [chatGetters.getRooms, userGetters.getUsers, authorizeSelector.getAuthedUser],
+        (rooms, users, currentAuthed) => {
+            let contacts: List<Map<string, any>> = List([]);
+            const uid = currentAuthed.get('uid');
+            rooms.forEach((room) => {
+                const roomId: string = room.get('objectId');
+                const lastMessage: string = room.get('lastMessage');
+                const roomType: number = room.get('type');
+                const unreadCount: number = room.get('messageCount', 0) - room.getIn(['readCount', uid], 0);
+                const members: List<string> = room.get('members');
+                if (roomType === 0) {
+                    members.forEach((userId) => {
+                        let user = users.get(userId);
+                        if (userId !== uid && user) {
+                            user = user.set('roomId', roomId);
+                            user = user.set('lastMessage', lastMessage);
+                            user = user.set('unreadCount', unreadCount);
+                            contacts = contacts.push(user);
+                        }
+                    });
+                }
+            });
+            return contacts.sort((a, b) => b.get('unreadCount') - a.get('unreadCount'));
+        },
+    );
+};
+
+const selectUnreadRoomsCount = () => {
+    return createSelector([chatGetters.getRooms, authorizeSelector.getAuthedUser], (rooms, currentAuthed) => {
+        const uid = currentAuthed.get('uid');
+        let unreadRoomsCount = 0;
+        rooms.forEach((room) => {
+            const unreadCount: number = room.get('messageCount', 0) - room.getIn(['readCount', uid], 0);
+            if (unreadCount > 0) {
+                ++unreadRoomsCount;
+            }
+        });
+        return unreadRoomsCount;
+    });
+};
+
+const selectHasMoreOldMessages = () => {
+    return createSelector([chatGetters.getHasMoreOldMessages], (status) => status);
+};
+
+const selectHasMoreNewMessages = () => {
+    return createSelector([chatGetters.getHasMoreNewMessages], (status) => status);
+};
+
 export const chatSelector = {
-    getChatRequests,
-    getCallingUsers,
-    getChatConnections,
     selectCurrentReceiver,
-    selectCurrentMessages,
+    selectRoom,
+    selectMessages,
     selectCurrentChatRoom,
     selectCurrentChat,
     selectCallingUsers,
     selectChatRequests,
+    selectChatOpen,
+    selectRoomLoaded,
+    selectChatRooms,
     selectChatConnections,
+    selectActiveRooms,
+    selectContacts,
+    selectRoomList,
+    selectUnreadRoomsCount,
+    selectHasMoreOldMessages,
+    selectHasMoreNewMessages,
 };

@@ -385,7 +385,7 @@ export class PostComponent extends Component<IPostComponentProps & WithTranslati
 
         // Define variables
         return (
-            <Card key={id + 'post-card'} className="animate-top">
+            <Card key={id + 'post-card'} className={classNames(classes.postBox, 'animate-top')}>
                 <CardHeader
                     title={<NavLink to={`/${ownerUserId}`}>{ownerDisplayName}</NavLink>}
                     subheader={

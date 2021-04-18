@@ -1,4 +1,4 @@
-export interface IHomeHeaderComponentState {
+export interface IHomeHeaderState {
     [key: string]: any;
     /**
      * Popover menu on avatar is open {true} or not {false}
@@ -39,6 +39,11 @@ export interface IHomeHeaderComponentState {
      * This is the DOM element that will be used to set the position of the popover for notification.
      */
     anchorElNotify?: HTMLElement | null;
+
+    /**
+     * This is the DOM element that will be used to set the position of the popover for room list.
+     */
+    anchorElRoomList?: HTMLElement | null;
 
     /**
      * This is the DOM element that will be used to set the position of the popover for avatar menu.

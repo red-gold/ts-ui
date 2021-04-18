@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
-import { DialogType } from 'models/common/dialogType';
 import { ComponentType } from 'react';
 import { connect } from 'react-redux';
+import { log } from 'utils/log';
 import * as globalActions from 'store/actions/globalActions';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
@@ -15,8 +15,6 @@ import { IPostStreamProps } from './IPostStreamProps';
  */
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        openPostWrite: () => dispatch(globalActions.openDialog(DialogType.PostWrite)),
-        closePostWrite: () => dispatch(globalActions.closeDialog(DialogType.PostWrite)),
         showTopLoading: () => dispatch(globalActions.showTopLoading()),
         hideTopLoading: () => dispatch(globalActions.hideTopLoading()),
     };
@@ -27,21 +25,21 @@ const mapDispatchToProps = (dispatch: any) => {
  */
 const makeMapStateToProps = () => {
     const selectCurrentUser = authorizeSelector.selectCurrentUser();
-    const selectPostWriteDialogState = globalSelector.selectDialogState();
     const selectProgress = globalSelector.selectProgress();
     const selectRequest = serverSelector.selectRequest();
 
     const mapStateToProps = (state: Map<string, any>, ownProps: IPostStreamProps) => {
         const currentUser = selectCurrentUser(state);
-        const postWriteDilogOpen = selectPostWriteDialogState(state, { type: DialogType.PostWrite });
-        const streamRequestStatus = selectRequest(state, { requestId: ownProps.requestId! });
+        if (!ownProps.requestId) {
+            log.error('ownProps.requestId is null');
+            return;
+        }
+        const streamRequestReq = selectRequest(state, { requestId: ownProps.requestId });
         const progress = selectProgress(state);
         return {
-            streamRequestStatus: streamRequestStatus ? streamRequestStatus.status : ServerRequestStatusType.NoAction,
-
+            streamRequestStatus: streamRequestReq.get('status', ServerRequestStatusType.NoAction),
             avatar: currentUser.get('avatar', ''),
             fullName: currentUser.get('fullName'),
-            postWriteDilogOpen,
             progress,
         };
     };

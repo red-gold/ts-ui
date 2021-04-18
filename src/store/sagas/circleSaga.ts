@@ -42,7 +42,7 @@ function* dbFetchUserTies() {
     const uid = authedUser.get('uid');
     if (uid) {
         try {
-            const result = yield call(userTieService.getUserTies, uid);
+            const result: Map<string, any> = yield call(userTieService.getUserTies, uid);
             yield put(userActions.addPeopleInfo(result));
             yield put(circleActions.addUserTies(result));
         } catch (error) {
@@ -59,7 +59,7 @@ function* dbFetchUserTieds() {
     const uid = authedUser.get('uid');
     if (uid) {
         try {
-            const result = yield call(userTieService.getUserTieSender, uid);
+            const result: Map<string, any> = yield call(userTieService.getUserTieSender, uid);
             yield put(userActions.addPeopleInfo(result));
             yield put(circleActions.addUserTieds(result));
         } catch (error) {

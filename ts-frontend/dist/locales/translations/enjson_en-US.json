@@ -21,7 +21,7 @@
     "header": {
         "home":"Home",
         "notificationTooltip": "Notifications",
-        "recentChatTooltip": "Chat Box",
+        "messengerTooltip": "Chat Box",
         "myAccount": "My Account",
         "logout": "Logout",
         "homeCaption": "Home",

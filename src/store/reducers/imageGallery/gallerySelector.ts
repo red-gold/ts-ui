@@ -29,6 +29,10 @@ const getAlbumLastImageId = (state: Map<string, any>, props: { albumId: string }
     return state.getIn(['imageGallery', 'album', props.albumId, 'lastImageId'], '');
 };
 
+const getImageGalleryLoaded = (state: Map<string, any>) => {
+    return state.getIn(['imageGallery', 'loaded']);
+};
+
 /****************************
  * Selectors
  ***************************/
@@ -110,15 +114,21 @@ const selectCoverImages = () => {
     });
 };
 
+const selectImageGalleryLoaded = () => {
+    return createSelector([getImageGalleryLoaded], (loaded: boolean) => loaded);
+};
+
 export const gallerySelector = {
     getImages,
     hasMoreImages,
     getAlbumImages,
     selectImages,
     getAlbumLastImageId,
+    getImageGalleryLoaded,
     selectLastImageId,
     selectMoreImages,
     selectAlbumImages,
     selectAvatarImages,
     selectCoverImages,
+    selectImageGalleryLoaded,
 };

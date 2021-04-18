@@ -5,14 +5,14 @@ import { createSelector } from 'reselect';
  * Get from store
  ***************************/
 const getRequest = (state: Map<string, any>, props: { requestId: string }) => {
-    return state.getIn(['server', 'request', props.requestId]);
+    return state.getIn(['server', 'request', props.requestId], Map({}));
 };
 
 /****************************
  * Selectors
  ***************************/
 const selectRequest = () => {
-    return createSelector([getRequest], (request) => request && request.toJS());
+    return createSelector([getRequest], (request) => request);
 };
 
 export const serverSelector = {

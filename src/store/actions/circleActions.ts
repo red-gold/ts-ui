@@ -17,8 +17,8 @@ import * as globalActions from 'store/actions/globalActions';
 import * as serverActions from 'store/actions/serverActions';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import * as userActions from 'store/actions/userActions';
-import { userSelector } from 'store/reducers/users/userSelector';
 import { throwNoValue } from 'utils/errorHandling';
+import { userGetters } from '../reducers/users/userGetters';
 
 // - Import action types
 // - Import actions
@@ -62,7 +62,7 @@ export const dbFollowUser = (followingCircleId: string, userFollowing: UserTie) 
     return (dispatch: Function, getState: Function) => {
         const state: Map<string, any> = getState();
         const uid: string = state.getIn(['authorize', 'uid']);
-        const user: User = { ...userSelector.getUserProfileById(state, { userId: uid }).toJS(), userId: uid } as User;
+        const user: User = { ...userGetters.getUserProfileById(state, { userId: uid }).toJS(), userId: uid } as User;
 
         // Set server request status to {Sent} for following user
 
@@ -118,7 +118,7 @@ export const dbUpdateUserInCircles = (circleIdList: List<string>, userFollowing:
     return (dispatch: any, getState: Function) => {
         const state: Map<string, any> = getState();
         const uid: string = state.getIn(['authorize', 'uid']);
-        const user: User = { ...userSelector.getUserProfileById(state, { userId: uid }).toJS(), userId: uid } as User;
+        const user: User = { ...userGetters.getUserProfileById(state, { userId: uid }).toJS(), userId: uid } as User;
 
         // Set server request status to {Sent}
         const addToCircleRequest = createAddToCircleRequest(throwNoValue(userFollowing.userId, 'userFollowing.userId'));

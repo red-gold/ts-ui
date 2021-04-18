@@ -24,12 +24,6 @@ import { IExternalSocialProps } from './IExternalSocialProps';
 import { IExternalSocialState } from './IExternalSocialState';
 import { log } from 'utils/log';
 
-// - Material-UI
-// - Import app components
-// - Import actions
-/**
- * Create component class
- */
 export class ExternalSocialComponent extends Component<IExternalSocialProps & WithTranslation, IExternalSocialState> {
     static propTypes = {};
 

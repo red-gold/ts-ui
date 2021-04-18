@@ -79,16 +79,19 @@ export class AboutDialogComponent extends Component<IAboutDialogProps & WithTran
         const aboutElem = (
             <div className={classes.rootInfo}>
                 <Typography variant="h6" color="inherit" className={classes.title}>
-                    {t('profile.about')} {targetUser.fullName}
+                    {t('profile.about')} {targetUser.get('fullName')}
                 </Typography>
                 <Paper className={classes.paperInfo}>
-                    {!StringAPI.isEmpty(targetUser.tagLine) &&
-                        this.infoRender(t('profile.tagline'), targetUser.tagLine)}
-                    {targetUser.birthday &&
-                        targetUser.birthday > 0 &&
-                        this.infoRender(t('profile.birthday'), moment.unix(targetUser.birthday).local().format('LL'))}
-                    {!StringAPI.isEmpty(targetUser.companyName) &&
-                        this.infoRender(t('profile.companyName'), targetUser.companyName || '')}
+                    {!StringAPI.isEmpty(targetUser.get('tagLine')) &&
+                        this.infoRender(t('profile.tagline'), targetUser.get('tagLine'))}
+                    {targetUser.get('birthday') &&
+                        targetUser.get('birthday') > 0 &&
+                        this.infoRender(
+                            t('profile.birthday'),
+                            moment.unix(targetUser.get('birthday')).local().format('LL'),
+                        )}
+                    {!StringAPI.isEmpty(targetUser.get('companyName')) &&
+                        this.infoRender(t('profile.companyName'), targetUser.get('companyName') || '')}
                 </Paper>
             </div>
         );
@@ -99,12 +102,12 @@ export class AboutDialogComponent extends Component<IAboutDialogProps & WithTran
                     {t('profile.otherSocial')}
                 </Typography>
                 <Paper className={classes.paperInfo}>
-                    {!StringAPI.isEmpty(targetUser.twitterId) &&
-                        this.infoRender(t('profile.twitterId'), targetUser.twitterId || '')}
-                    {!StringAPI.isEmpty(targetUser.facebookId) &&
-                        this.infoRender(t('profile.facebookId'), targetUser.facebookId || '')}
-                    {!StringAPI.isEmpty(targetUser.instagramId) &&
-                        this.infoRender(t('profile.instagramId'), targetUser.instagramId || '')}
+                    {!StringAPI.isEmpty(targetUser.get('twitterId')) &&
+                        this.infoRender(t('profile.twitterId'), targetUser.get('twitterId') || '')}
+                    {!StringAPI.isEmpty(targetUser.get('facebookId')) &&
+                        this.infoRender(t('profile.facebookId'), targetUser.get('facebookId') || '')}
+                    {!StringAPI.isEmpty(targetUser.get('instagramId')) &&
+                        this.infoRender(t('profile.instagramId'), targetUser.get('instagramId') || '')}
                 </Paper>
             </div>
         );
@@ -118,25 +121,25 @@ export class AboutDialogComponent extends Component<IAboutDialogProps & WithTran
                                 <BackIcon />
                             </IconButton>
                             <Typography variant="h6" color="inherit" className={classes.flex}>
-                                {targetUser.fullName}
+                                {targetUser.get('fullName')}
                             </Typography>
                             <UserAvatarComponent
-                                fullName={targetUser.fullName}
-                                fileName={targetUser.avatar}
+                                fullName={targetUser.get('fullName')}
+                                fileName={targetUser.get('avatar')}
                                 size={32}
                                 style={classes.avatar}
                             />
                         </Toolbar>
                     </AppBar>
                     <div className={classes.content}>
-                        {(StringAPI.isEmpty(targetUser.tagLine) ||
-                            (targetUser.birthday && targetUser.birthday > 0) ||
-                            !StringAPI.isEmpty(targetUser.companyName)) &&
+                        {(StringAPI.isEmpty(targetUser.get('tagLine')) ||
+                            (targetUser.get('birthday') && targetUser.get('birthday') > 0) ||
+                            !StringAPI.isEmpty(targetUser.get('companyName'))) &&
                             aboutElem}
 
-                        {(!StringAPI.isEmpty(targetUser.twitterId) ||
-                            !StringAPI.isEmpty(targetUser.facebookId) ||
-                            !StringAPI.isEmpty(targetUser.instagramId)) &&
+                        {(!StringAPI.isEmpty(targetUser.get('twitterId')) ||
+                            !StringAPI.isEmpty(targetUser.get('facebookId')) ||
+                            !StringAPI.isEmpty(targetUser.get('instagramId'))) &&
                             otherSocialElem}
                     </div>
                 </div>

@@ -18,11 +18,11 @@ import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
 import PictureDialogComponent from 'layouts/pictureDialog';
 import * as globalActions from 'store/actions/globalActions';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
-import { userSelector } from 'store/reducers/users/userSelector';
 
 import { albumStreamStyles } from './albumStreamStyles';
 import { IAlbumStreamProps } from './IAlbumStreamProps';
 import { IAlbumStreamState } from './IAlbumStreamState';
+import { userGetters } from 'store/reducers/users/userGetters';
 
 // - Material-UI
 // - Import app components
@@ -228,7 +228,7 @@ const mapDispatchToProps = (dispatch: any) => {
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IAlbumStreamProps) => {
     const uid = state.getIn(['authorize', 'uid']);
-    const currentUser = userSelector.getUserProfileById(state, { userId: uid }).toJS() as User;
+    const currentUser = userGetters.getUserProfileById(state, { userId: uid }).toJS() as User;
     const streamRequestStatus = state.getIn(['server', 'request', ownProps.requestId]);
     return {
         streamRequestStatus: streamRequestStatus ? streamRequestStatus.status : ServerRequestStatusType.NoAction,

@@ -37,21 +37,23 @@ const captureVideo = (video: HTMLVideoElement, scaleFactor: number | null) => {
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d');
-    ctx!.drawImage(video, 0, 0, width, height);
+    if (ctx) {
+        ctx.drawImage(video, 0, 0, width, height);
+    }
     return canvas;
 };
 
 /**
  * Constraint image size
  */
-const constraintImage = (file: File, fileName: string, maxWidth?: number, maxHeight?: number) => {
+const constraintImage = (file: File, fileName: string) => {
     // Ensure it's an image
     if (file.type.match(/image.*/)) {
         // Load the image
         const reader = new FileReader();
         reader.onload = (readerEvent: any) => {
             const image = new Image();
-            image.onload = (imageEvent: Event) => {
+            image.onload = () => {
                 // Resize the image
                 const canvas: HTMLCanvasElement = document.createElement('canvas');
                 const maxSize = 986; // TODO : pull max size from a site config
@@ -70,7 +72,10 @@ const constraintImage = (file: File, fileName: string, maxWidth?: number, maxHei
                 }
                 canvas.width = width;
                 canvas.height = height;
-                canvas.getContext('2d')!.drawImage(image, 0, 0, width, height);
+                const ctx = canvas.getContext('2d');
+                if (ctx) {
+                    ctx.drawImage(image, 0, 0, width, height);
+                }
                 const dataUrl = canvas.toDataURL();
                 const resizedImage = dataURLToBlob(dataUrl);
                 const evt = new CustomEvent('onSendResizedImage', { detail: { resizedImage, fileName } });

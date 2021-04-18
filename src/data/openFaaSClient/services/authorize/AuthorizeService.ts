@@ -8,10 +8,10 @@ import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { AuthAPI } from 'api/AuthAPI';
 import jwtDecode from 'jwt-decode';
 import { SocialError } from 'core/domain/common/socialError';
+import { log } from 'utils/log';
 
-// - Import react components
 /**
- * Firbase authorize service
+ * Authorize service
  */
 @injectable()
 export class AuthorizeService implements IAuthorizeService {
@@ -36,22 +36,48 @@ export class AuthorizeService implements IAuthorizeService {
      * Get user auth cookie
      */
     public getUserAuthCookie = () => {
-        const authCookie = AuthAPI.readCookie('pa');
-        if (authCookie) {
-            return authCookie;
-        }
-        return null;
+        const header = AuthAPI.readCookie('he');
+        const payload = AuthAPI.readCookie('pa');
+        const sign = AuthAPI.readCookie('si');
+        return {
+            header,
+            payload,
+            sign,
+        };
     };
 
     /**
      * Get user auth
      */
     public getUserAuth = () => {
-        const userAuthCookie = this.getUserAuthCookie();
-        if (userAuthCookie) {
-            return jwtDecode(`_.${userAuthCookie}._`);
+        const cookie = this.getUserAuthCookie();
+        if (cookie) {
+            const token = `${cookie.header}.${cookie.payload}.${cookie.sign}`;
+            const decodedToken = jwtDecode(token);
+
+            if (this.isJwtExpired(decodedToken)) {
+                log.error('[Authrize Service] Token is expired ', decodedToken);
+                return null;
+            }
+
+            return decodedToken;
         }
         return null;
+    };
+
+    /**
+     *
+     * @param decodedToken Decoded JWT token
+     * @returns Is token expired
+     */
+    public isJwtExpired = (decodedToken: any) => {
+        let isJwtExpired = false;
+        const { exp } = decodedToken;
+        const currentTime = new Date().getTime() / 1000;
+
+        if (currentTime > exp) isJwtExpired = true;
+
+        return isJwtExpired;
     };
 
     /**
@@ -65,7 +91,9 @@ export class AuthorizeService implements IAuthorizeService {
      * Logs out the user
      */
     public logout = () => {
+        AuthAPI.eraseCookie('he');
         AuthAPI.eraseCookie('pa');
+        AuthAPI.eraseCookie('si');
     };
 
     /**

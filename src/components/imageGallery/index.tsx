@@ -17,7 +17,6 @@ import { connect } from 'react-redux';
 import moment from 'moment/moment';
 import * as globalActions from 'store/actions/globalActions';
 import * as imageGalleryActions from 'store/actions/imageGalleryActions';
-import { userSelector } from 'store/reducers/users/userSelector';
 import { globalSelector } from 'store/reducers/global/globalSelector';
 import uuid from 'uuid';
 import { fromJS } from 'immutable';
@@ -28,6 +27,7 @@ import config from 'config';
 import { IImageGalleryComponentProps } from './IImageGalleryComponentProps';
 import { IImageGalleryComponentState } from './IImageGalleryComponentState';
 import { throwNoValue } from 'utils/errorHandling';
+import { userGetters } from 'store/reducers/users/userGetters';
 
 // - Import actions
 // - Import app components
@@ -346,7 +346,7 @@ const mapStateToProps = (state: Map<string, any>) => {
     const uid = state.getIn(['authorize', 'uid']);
     const getProgress = globalSelector.selectProgress();
     const progress = getProgress(state);
-    const currentUser = userSelector.getUserProfileById(state, { userId: uid }).toJS() as User;
+    const currentUser = userGetters.getUserProfileById(state, { userId: uid }).toJS() as User;
     return {
         avatar: currentUser ? currentUser.avatar : '',
         progress,

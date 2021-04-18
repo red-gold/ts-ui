@@ -7,7 +7,7 @@ import { IUserService } from 'core/services/users/IUserService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { provider } from '../../socialEngine';
 import * as globalActions from 'store/actions/globalActions';
-import { userSelector } from 'store/reducers/users/userSelector';
+import { userGetters } from '../reducers/users/userGetters';
 
 // - Import domain
 // - Import action types
@@ -45,7 +45,7 @@ export const dbUpdateUserInfo = (newProfile: User) => {
         const state: Map<string, any> = getState();
         const uid: string = state.getIn(['authorize', 'uid']);
 
-        let profile: Map<string, any> = userSelector.getUserProfileById(state, { userId: uid });
+        let profile: Map<string, any> = userGetters.getUserProfileById(state, { userId: uid });
 
         if (newProfile.avatar) {
             profile = profile.set('avatar', newProfile.avatar);
@@ -162,12 +162,35 @@ export const fetchUserSearch = (query = '', page = 0, limit = 10) => {
 };
 
 /**
+ * Fetch user suggestions from server
+ */
+export const fetchUserSuggestions = () => {
+    return {
+        type: UserActionType.DB_FETCH_USER_SUGGESTIONS,
+        payload: {},
+    };
+};
+
+/**
  * Add people information
  */
 export const addFindPeople = (userIds: Map<string, boolean>) => {
     return {
         type: UserActionType.ADD_FIND_PEOPLE,
         payload: { userIds },
+    };
+};
+
+/**
+ * Add user suggestions
+ */
+export const addUserSuggestions = (userIds: Map<string, boolean>, overwrite: boolean) => {
+    return {
+        type: UserActionType.ADD_USER_SUGGESTIONS,
+        payload: { userIds },
+        meta: {
+            overwrite,
+        },
     };
 };
 

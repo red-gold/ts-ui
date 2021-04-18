@@ -81,6 +81,11 @@ export interface IPostComponentProps {
     classes?: any;
 
     /**
+     * Class name
+     */
+    className?: string;
+
+    /**
      * Translate to locale string
      */
     t?: (state: any) => any;

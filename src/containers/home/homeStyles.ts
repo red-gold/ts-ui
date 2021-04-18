@@ -1,6 +1,6 @@
 import { Theme, createStyles } from '@material-ui/core/styles';
 
-const drawerWidth = 220;
+const drawerWidth = 280;
 export const homeStyles = (theme: Theme) =>
     createStyles({
         root: {
@@ -38,13 +38,13 @@ export const homeStyles = (theme: Theme) =>
         },
         drawerPaperLarge: {
             width: drawerWidth,
+            zIndex: 1097,
             [theme.breakpoints.up('md')]: {
                 width: drawerWidth,
                 height: '100%',
             },
             top: 70,
             backgroundColor: '#fafafa',
-            borderRight: 0,
         },
         menu: {
             height: '100%',
@@ -105,5 +105,20 @@ export const homeStyles = (theme: Theme) =>
             transition: 'fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
             userSelect: 'none',
             flexShrink: 0,
+        },
+        info: {
+            paddingLeft: 20,
+            paddingRight: 20,
+            paddingBottom: 24,
+            marginTop: 80,
+            '& > p': {
+                padding: 10,
+                backgroundColor: '#aed6ff36',
+                borderRadius: 8,
+                fontSize: 12,
+            },
+        },
+        heartSymbol: {
+            color: 'red',
         },
     });

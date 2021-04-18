@@ -14,7 +14,7 @@ import * as userActions from 'store/actions/userActions';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { circleSelector } from 'store/reducers/circles/circleSelector';
 import { postSelector } from 'store/reducers/posts/postSelector';
-import { userSelector } from 'store/reducers/users/userSelector';
+import { userGetters } from '../reducers/users/userGetters';
 
 /**
  * Get service providers
@@ -255,8 +255,8 @@ function* watchFetchAlbumPosts(action: { type: PostActionType; payload: any }) {
     const { limit, userId, page } = payload;
     try {
         const searchKey = yield getSearchKey();
-        yield select(userSelector.getAlbumLastPageRequest, { userId });
-        const lastPostId = yield select(userSelector.getAlbumLatPostId, { userId });
+        yield select(userGetters.getAlbumLastPageRequest, { userId });
+        const lastPostId = yield select(userGetters.getAlbumLatPostId, { userId });
 
         const uid = authedUser.get('uid');
         if (uid) {

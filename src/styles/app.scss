@@ -27,3 +27,7 @@
 @import 'components/signup';
 @import 'components/masterLoading';
 @import 'components/settings';
+
+.infinite-scroll-component {
+    overflow: unset  !important;
+}

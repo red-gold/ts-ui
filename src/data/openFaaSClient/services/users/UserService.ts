@@ -92,9 +92,13 @@ export class UserService implements IUserService {
     /**
      * Search for user profile
      */
-    public async searchUser(query: string, filters: string, page: number, limit: number) {
+    public async searchUser(query: string, filters: string, page: number, limit: number, nin: string[]) {
         try {
-            const resultSearch = await this._httpService.get(`profile?search=${query}&page=${page + 1}&limit=${limit}`);
+            let url = `profile?search=${query}&page=${page + 1}&limit=${limit}`;
+            nin.forEach((item) => {
+                url += `&nin=${item}`;
+            });
+            const resultSearch = await this._httpService.get(url);
 
             const userCount = resultSearch ? resultSearch.length : 0;
             let parsedData: Map<string, any> = Map({});
