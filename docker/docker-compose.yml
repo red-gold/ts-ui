@@ -1,0 +1,257 @@
+version: "3.8"
+services:
+  proxy:
+    image: traefik:v2.4.2
+    command:
+      # - "--log.level=DEBUG"
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--api.insecure=true" # Don't do that in production
+      - "--providers.docker"
+      - "--entrypoints.web.address=:80"
+      # add pilot token service
+      # - "--pilot.token=3d1bd97f-cb9d-4cde-8112-77ce2f5abc92"
+      # install plugin rewrite body
+      # - "--experimental.plugins.plugin-rewrite.modulename=github.com/traefik/plugin-rewritebody"
+      # - "--experimental.plugins.plugin-rewrite.version=v0.3.1"
+    labels: {}
+      # Create basics middlewares
+      # - "traefik.http.middlewares.my-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/"
+      # - "traefik.http.middlewares.my-compress.compress=true"
+      # - "traefik.http.middlewares.my-header.headers.customresponseheaders.X-Custom-Response-Header=cinema"
+      # Create middlewares for plugins
+      # - "traefik.http.middlewares.my-rewrite.plugin.plugin-rewrite.lastModified=true"
+      # - "traefik.http.middlewares.my-rewrite.plugin.plugin-rewrite.rewrites[0].regex=ID"
+      # - "traefik.http.middlewares.my-rewrite.plugin.plugin-rewrite.rewrites[0].replacement=MY-ID"
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: host
+
+###################################
+###### Telar Web services ######
+###################################
+
+  actions:
+    image: ${DOCKER_USER}/actions:${TELAR_WEB_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.actions.rule=PathPrefix(`/actions`)"
+      - "traefik.http.services.actions.loadbalancer.server.port=8080"
+      - "traefik.http.routers.actions.entrypoints=web"
+      - "traefik.http.routers.actions.middlewares=actions-stripprefix"
+      - "traefik.http.middlewares.actions-stripprefix.stripprefix.prefixes=/actions"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.action_config
+
+  admin:
+    image: ${DOCKER_USER}/admin:${TELAR_WEB_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.admin.rule=PathPrefix(`/admin`)"
+      - "traefik.http.services.admin.loadbalancer.server.port=8080"
+      - "traefik.http.routers.admin.entrypoints=web"
+      - "traefik.http.routers.admin.middlewares=admin-stripprefix"
+      - "traefik.http.middlewares.admin-stripprefix.stripprefix.prefixes=/admin"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.admin_config
+
+  auth:
+    image: ${DOCKER_USER}/auth:${TELAR_WEB_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.auth.rule=PathPrefix(`/auth`)"
+      - "traefik.http.services.auth.loadbalancer.server.port=8080"
+      - "traefik.http.routers.auth.entrypoints=web"
+      - "traefik.http.routers.auth.middlewares=auth-stripprefix"
+      - "traefik.http.middlewares.auth-stripprefix.stripprefix.prefixes=/auth"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.auth_config
+
+  notifications:
+    image: ${DOCKER_USER}/notifications:${TELAR_WEB_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.notifications.rule=PathPrefix(`/notifications`)"
+      - "traefik.http.services.notifications.loadbalancer.server.port=8080"
+      - "traefik.http.routers.notifications.entrypoints=web"
+      - "traefik.http.routers.notifications.middlewares=notifications-stripprefix"
+      - "traefik.http.middlewares.notifications-stripprefix.stripprefix.prefixes=/notifications"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.notification_config
+
+  profile:
+    image: ${DOCKER_USER}/profile:${TELAR_WEB_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.profile.rule=PathPrefix(`/profile`)"
+      - "traefik.http.services.profile.loadbalancer.server.port=8080"
+      - "traefik.http.routers.profile.entrypoints=web"
+      - "traefik.http.routers.profile.middlewares=profile-stripprefix"
+      - "traefik.http.middlewares.profile-stripprefix.stripprefix.prefixes=/profile"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.profile_config
+
+  setting:
+    image: ${DOCKER_USER}/setting:${TELAR_WEB_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.setting.rule=PathPrefix(`/setting`)"
+      - "traefik.http.services.setting.loadbalancer.server.port=8080"
+      - "traefik.http.routers.setting.entrypoints=web"
+      - "traefik.http.routers.setting.middlewares=setting-stripprefix"
+      - "traefik.http.middlewares.setting-stripprefix.stripprefix.prefixes=/setting"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.setting_config
+
+  storage:
+    image: ${DOCKER_USER}/storage:${TELAR_WEB_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.storage.rule=PathPrefix(`/storage`)"
+      - "traefik.http.services.storage.loadbalancer.server.port=8080"
+      - "traefik.http.routers.storage.entrypoints=web"
+      - "traefik.http.routers.storage.middlewares=storage-stripprefix"
+      - "traefik.http.middlewares.storage-stripprefix.stripprefix.prefixes=/storage"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.storage_config
+
+###################################
+###### Telar Social services ######
+###################################
+
+  circles:
+    image: ${DOCKER_USER}/circles:${TELAR_SOCIAL_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.circles.rule=PathPrefix(`/circles`)"
+      - "traefik.http.services.circles.loadbalancer.server.port=8080"
+      - "traefik.http.routers.circles.entrypoints=web"
+      - "traefik.http.routers.circles.middlewares=circles-stripprefix"
+      - "traefik.http.middlewares.circles-stripprefix.stripprefix.prefixes=/circles"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.circle_config
+
+  comments:
+    image: ${DOCKER_USER}/comments:${TELAR_SOCIAL_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.comments.rule=PathPrefix(`/comments`)"
+      - "traefik.http.services.comments.loadbalancer.server.port=8080"
+      - "traefik.http.routers.comments.entrypoints=web"
+      - "traefik.http.routers.comments.middlewares=comments-stripprefix"
+      - "traefik.http.middlewares.comments-stripprefix.stripprefix.prefixes=/comments"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.comment_config
+
+  gallery:
+    image: ${DOCKER_USER}/gallery:${TELAR_SOCIAL_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.media.rule=PathPrefix(`/media`)"
+      - "traefik.http.services.media.loadbalancer.server.port=8080"
+      - "traefik.http.routers.media.entrypoints=web"
+      - "traefik.http.routers.media.middlewares=media-stripprefix"
+      - "traefik.http.middlewares.media-stripprefix.stripprefix.prefixes=/media"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.media_config
+
+  posts:
+    image: ${DOCKER_USER}/posts:${TELAR_SOCIAL_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.posts.rule=PathPrefix(`/posts`)"
+      - "traefik.http.services.posts.loadbalancer.server.port=8080"
+      - "traefik.http.routers.posts.entrypoints=web"
+      - "traefik.http.routers.posts.middlewares=posts-stripprefix"
+      - "traefik.http.middlewares.posts-stripprefix.stripprefix.prefixes=/posts"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.post_config
+
+  user-rels:
+    image: ${DOCKER_USER}/user-rels:${TELAR_SOCIAL_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.user-rels.rule=PathPrefix(`/user-rels`)"
+      - "traefik.http.services.user-rels.loadbalancer.server.port=8080"
+      - "traefik.http.routers.user-rels.entrypoints=web"
+      - "traefik.http.routers.user-rels.middlewares=user-rels-stripprefix"
+      - "traefik.http.middlewares.user-rels-stripprefix.stripprefix.prefixes=/user-rels"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.user_rel_config
+
+  votes:
+    image: ${DOCKER_USER}/votes:${TELAR_SOCIAL_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.votes.rule=PathPrefix(`/votes`)"
+      - "traefik.http.services.votes.loadbalancer.server.port=8080"
+      - "traefik.http.routers.votes.entrypoints=web"
+      - "traefik.http.routers.votes.middlewares=votes-stripprefix"
+      - "traefik.http.middlewares.votes-stripprefix.stripprefix.prefixes=/votes"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.vote_config
+
+  vang:
+    image: ${DOCKER_USER}/vang:${TELAR_SOCIAL_TAG}
+    labels:
+      # Enable public access
+      - "traefik.http.routers.vang.rule=PathPrefix(`/vang`)"
+      - "traefik.http.services.vang.loadbalancer.server.port=8080"
+      - "traefik.http.routers.vang.entrypoints=web"
+      - "traefik.http.routers.vang.middlewares=vang-stripprefix"
+      - "traefik.http.middlewares.vang-stripprefix.stripprefix.prefixes=/vang"
+    env_file:
+      - ./config/.env.app_config
+      - ./config/.env.secrets
+      - ./config/.env.gateway_config
+      - ./config/.env.vang_config

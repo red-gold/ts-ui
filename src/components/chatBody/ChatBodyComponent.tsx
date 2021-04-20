@@ -18,6 +18,7 @@ export function ChatBodyComponent(props: IChatBodyProps & WithTranslation) {
     const [isScrollEnd, setIsScrollEnd] = useState(false);
 
     const loadingUp = props.oldQueryMessageStatus === ServerRequestStatusType.Sent;
+
     /**
      * Loader for scroll up
      */

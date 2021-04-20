@@ -10,7 +10,7 @@
     "start-js": "craco start",
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "craco build",
-    "postbuild": "rm -rf ts-frontend/dist && mv build ts-frontend/dist",
+    "postbuild": "rm -rf ts-frontend/dist && cp -R build ts-frontend/dist",
     "build": "GENERATE_SOURCEMAP=false npm-run-all build-css build-js",
     "test": "NODE_ENV=test craco test --env=jsdom --modulePaths=src --moduleNameMapper='{\"^src/(.*)$\": \"<rootDir>/src/$1\", \"^models/(.*)$\": \"<rootDir>/src/models/$1\", \"^locales/(.*)$\": \"<rootDir>/src/locales/$1\", \"^config$\": \"<rootDir>/src/config/index\"}'",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
@@ -114,7 +114,20 @@
     "socket.io-client": "4.0.0",
     "source-map-explorer": "^1.8.0",
     "typeface-roboto": "0.0.54",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "web-vitals": "^1.1.1",
+    "workbox-background-sync": "^6.1.5",
+    "workbox-broadcast-update": "^6.1.5",
+    "workbox-cacheable-response": "^6.1.5",
+    "workbox-core": "^6.1.5",
+    "workbox-expiration": "^6.1.5",
+    "workbox-google-analytics": "^6.1.5",
+    "workbox-navigation-preload": "^6.1.5",
+    "workbox-precaching": "^6.1.5",
+    "workbox-range-requests": "^6.1.5",
+    "workbox-routing": "^6.1.5",
+    "workbox-strategies": "^6.1.5",
+    "workbox-streams": "^6.1.5"
   },
   "resolutions": {
     "@types/react": "17.0.3"

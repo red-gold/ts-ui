@@ -43,7 +43,7 @@ export const environment = {
         gateway_url: process.env.REACT_APP_GATEWAY,
         gateway_uri: `${process.env.REACT_APP_GATEWAY}${process.env.REACT_APP_BASE_ROUTE_API}`,
         auth_web_uri: `${process.env.REACT_APP_AUTH_WEB_URI}`,
-        websocket_url: 'http://social.example.com:3001',
+        websocket_url: `${process.env.REACT_APP_WEBSOCKET_URL}`,
     },
     rewrites: {
         profile: 'auth/profile',

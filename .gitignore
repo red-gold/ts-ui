@@ -23,3 +23,6 @@ yarn-error.log*
 .vscode/
 src/data/awsClient
 src/components/AWS.tsx
+*/.DS_Store
+docker/config/.env.secrets
+ts-frontend/dist
