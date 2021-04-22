@@ -1,4 +1,4 @@
-export interface IPostComponentState {
+export interface IPostState {
     /**
      * Post text
      */

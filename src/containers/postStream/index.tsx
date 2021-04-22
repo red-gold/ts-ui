@@ -12,16 +12,6 @@ export function PostStreamComponent(props: IPostStreamProps) {
      */
     const [nextPage, setNextPage] = useState(0);
     const { hasMorePosts, posts } = props;
-    // static getDerivedStateFromProps(nextProps: IPostStreamProps, prevState: IPostStreamState) {
-    //     if (nextProps.posts && nextProps.posts.count() > 0 && !nextProps.posts.equals(prevState.prevPosts)) {
-    //         const posts = nextProps.posts;
-    //         return {
-    //             posts,
-    //             prevPosts: nextProps.posts.count(),
-    //         };
-    //     }
-    //     return null;
-    // }
 
     /**
      * Loader
@@ -61,10 +51,6 @@ export function PostStreamComponent(props: IPostStreamProps) {
         rootMargin: '0px 0px 400px 0px',
     });
 
-    // shouldComponentUpdate(newProps: IPostStreamProps) {
-    //     return !newProps.posts.equals(this.props.posts) || newProps.hasMorePosts !== this.props.hasMorePosts;
-    // }
-
     return (
         <div>
             {posts && posts.count() > 0 && getpostList()}
@@ -78,4 +64,11 @@ export function PostStreamComponent(props: IPostStreamProps) {
     );
 }
 
-export default PostStreamComponent;
+// export default PostStreamComponent;
+export default React.memo(PostStreamComponent, (props, nextProps) => {
+    return (
+        nextProps.posts.equals(props.posts) &&
+        nextProps.hasMorePosts === props.hasMorePosts &&
+        props.requestStatus === nextProps.requestStatus
+    );
+});

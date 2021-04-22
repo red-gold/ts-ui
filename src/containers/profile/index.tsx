@@ -15,7 +15,6 @@ import { throwNoValue } from 'utils/errorHandling';
 import { connectProfile } from './connectProfile';
 
 export class ProfileComponent extends Component<IProfileProps & WithTranslation, IProfileState> {
-    historyUnlisten: any = null;
     static propTypes = {};
 
     constructor(props: IProfileProps & WithTranslation) {
@@ -29,30 +28,20 @@ export class ProfileComponent extends Component<IProfileProps & WithTranslation,
 
     componentDidUpdate(prevProps: any) {
         if (this.props.location !== prevProps.location) {
+            const { profile } = this.props;
             this.forceUpdate();
             this.setState({ timeout: true });
             setTimeout(() => {
                 this.setState({ timeout: false });
-            }, 500);
+            }, 100);
+            this.props.setHeaderTitle(profile.get('fullName', ''));
         }
     }
 
     componentDidMount() {
-        const { history, profile, loadUserInfo } = this.props;
+        const { profile, loadUserInfo } = this.props;
         loadUserInfo();
-        if (!this.historyUnlisten) {
-            this.historyUnlisten = history.listen((location: any) => {
-                const displayName = profile.get('fullName', '');
-                this.props.setHeaderTitle(displayName);
-            });
-        }
         this.props.setHeaderTitle(profile.get('fullName', ''));
-    }
-
-    componentWillUnmount() {
-        if (this.historyUnlisten) {
-            this.historyUnlisten();
-        }
     }
 
     /**

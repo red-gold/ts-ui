@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-export interface IPostComponentProps {
+export interface IPostProps {
     /**
      * Post object
      */

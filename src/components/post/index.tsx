@@ -38,15 +38,11 @@ import reactStringReplace from 'react-string-replace';
 import config from 'config';
 
 import { connectPost } from './connectPost';
-import { IPostComponentProps } from './IPostComponentProps';
-import { IPostComponentState } from './IPostComponentState';
+import { IPostProps } from './IPostProps';
+import { IPostState } from './IPostState';
 import { postStyles } from './postStyles';
 
-// - Material UI
-// - Import app components
-// - Import actions
-// - Create component class
-export class PostComponent extends Component<IPostComponentProps & WithTranslation, IPostComponentState> {
+export class PostComponent extends Component<IPostProps & WithTranslation, IPostState> {
     styles = {
         dialog: {
             width: '',
@@ -55,11 +51,7 @@ export class PostComponent extends Component<IPostComponentProps & WithTranslati
         },
     };
 
-    /**
-     * Component constructor
-     *
-     */
-    constructor(props: IPostComponentProps & WithTranslation) {
+    constructor(props: IPostProps & WithTranslation) {
         super(props);
         const { post } = props;
         this.state = {
@@ -285,7 +277,7 @@ export class PostComponent extends Component<IPostComponentProps & WithTranslati
         return permissionLabel;
     };
 
-    shouldComponentUpdate(nextProps: IPostComponentProps, nextState: IPostComponentState) {
+    shouldComponentUpdate(nextProps: IPostProps, nextState: IPostState) {
         let shouldUpdate = false;
 
         if (!nextProps.post.equals(this.props.post)) {
