@@ -254,6 +254,7 @@ export class UserActivityComponent extends Component<
     render() {
         const { t, classes, profile, isCurrentUser, editProfileOpen, openEditor } = this.props;
         const { boxesStyle, parentHeight, privilegeOpen, pictureDialogURL, picutreDialogOpen, aboutOpen } = this.state;
+
         return (
             <>
                 <ReactResizeDetector handleWidth onResize={this.handleResize} />

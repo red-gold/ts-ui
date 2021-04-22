@@ -10,13 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import StringAPI from 'api/StringAPI';
 import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
-import { User } from 'core/domain/users/user';
-import { Map } from 'immutable';
 import moment from 'moment/moment';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { TransitionProps } from '@material-ui/core/transitions';
 
 import { aboutDialogStyles } from './aboutDialogStyles';
@@ -73,9 +69,7 @@ export class AboutDialogComponent extends Component<IAboutDialogProps & WithTran
 
     render() {
         const { t, classes, open, onClose, targetUser } = this.props;
-        if (!t) {
-            return <div />;
-        }
+
         const aboutElem = (
             <div className={classes.rootInfo}>
                 <Typography variant="h6" color="inherit" className={classes.title}>
@@ -148,29 +142,7 @@ export class AboutDialogComponent extends Component<IAboutDialogProps & WithTran
     }
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = () => {
-    return {};
-};
-
-/**
- * Map state to props
- */
-const makeMapStateToProps = () => {
-    const selectCurrentUser = authorizeSelector.selectCurrentUser();
-
-    const mapStateToProps = (state: Map<string, any>) => {
-        const currentUser = selectCurrentUser(state).toJS() as User;
-        return {
-            currentUser,
-        };
-    };
-    return mapStateToProps;
-};
-
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(AboutDialogComponent);
-const componentWithStyles: any = withStyles(aboutDialogStyles as any, { withTheme: true })(translateWrapper as any);
-export default connect<{}, {}, IAboutDialogProps, any>(makeMapStateToProps, mapDispatchToProps)(componentWithStyles);
+const componentWithStyles: any = withStyles(aboutDialogStyles as any, { withTheme: true })(translateWrapper);
+export default componentWithStyles;

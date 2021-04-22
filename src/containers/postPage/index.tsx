@@ -60,7 +60,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPostPageProps) => {
     const { userId, postId } = ownProps.match.params;
     return {
         loadPost: () => dispatch(postActions.dbGetPostById(userId, postId)),
-        loadUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(userId, 'header')),
+        loadUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(userId)),
     };
 };
 

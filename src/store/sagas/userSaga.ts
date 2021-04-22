@@ -38,27 +38,12 @@ function* dbFetchUserProfile() {
 }
 
 function* dbFetchUserProfileById(action: { type: UserActionType; payload: any }) {
-    const { uid, callerKey } = action.payload;
+    const { uid } = action.payload;
     if (uid) {
-        const caller: Array<string> = yield select(globalSelector.getCaller);
         try {
-            if (caller && caller.indexOf(`dbGetUserInfoByUserId-${uid}`) > -1) {
-                return undefined;
-            }
-            yield put(globalActions.temp({ caller: `dbGetUserInfoByUserId-${uid}` }));
             const userProfile: User = yield call(userService.getUserProfile, uid);
 
             yield put(userActions.addUserInfo(uid, Map({ ...userProfile, userId: uid })));
-
-            switch (callerKey) {
-                case 'header':
-                    yield put(globalActions.setHeaderTitle(userProfile.fullName));
-
-                    break;
-
-                default:
-                    break;
-            }
         } catch (error) {
             yield put(globalActions.showMessage(error.message));
         }

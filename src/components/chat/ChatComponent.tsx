@@ -92,8 +92,6 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
 
         const chatBodyElm = document.querySelector('#chat-body-scroll');
         if (chatBodyElm) {
-            console.log('Send scroll to the end chatBodyElm');
-
             chatBodyElm.scrollTop = chatBodyElm.scrollHeight;
         }
 

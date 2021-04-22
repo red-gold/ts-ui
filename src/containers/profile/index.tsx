@@ -1,5 +1,3 @@
-// - Import react components
-
 import ImgCover from 'components/imgCover';
 import UserActivity from 'components/userActivity';
 import React, { Component } from 'react';
@@ -11,7 +9,6 @@ import PostStreamComponent from '../postStream';
 import { IProfileProps } from './IProfileProps';
 import { IProfileState } from './IProfileState';
 import { withRouter } from 'react-router-dom';
-import { throwNoValue } from 'utils/errorHandling';
 import { connectProfile } from './connectProfile';
 
 export class ProfileComponent extends Component<IProfileProps & WithTranslation, IProfileState> {
@@ -60,7 +57,6 @@ export class ProfileComponent extends Component<IProfileProps & WithTranslation,
             requestId,
             postsRequestStatus,
         } = this.props;
-        const trans = throwNoValue(t, 't');
         return (
             <>
                 <div className={classes.bannerContainer}>
@@ -75,13 +71,13 @@ export class ProfileComponent extends Component<IProfileProps & WithTranslation,
                         }
                     />
                 </div>
-                <UserActivity profile={throwNoValue(profile, 'profile')} isCurrentUser={isCurrentUser} />
+                <UserActivity profile={profile} isCurrentUser={isCurrentUser} />
                 <div style={{ height: '24px' }}></div>
                 {/* <ProfileAlbumComponent userId={userId} isOwner={isCurrentUser}/> */}
                 <div>
                     {!posts.isEmpty() ? (
                         <div className="profile__title">
-                            {trans('profile.headPostsLabel', { userName: this.props.profile.get('fullName') })}
+                            {t('profile.headPostsLabel', { userName: this.props.profile.get('fullName') })}
                         </div>
                     ) : (
                         ''

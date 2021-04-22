@@ -69,7 +69,7 @@ export const userReducer = (
             return state.mergeDeepIn(['post', payload.userId, 'list'], payload.postIds).set('loaded', true);
 
         case UserActionType.ADD_PEOPLE_INFO:
-            return state.mergeIn(['entities'], payload);
+            return state.mergeDeepIn(['entities'], payload);
 
         case UserActionType.ADD_USER_SEARCH:
             return addUserSearch(state, action);

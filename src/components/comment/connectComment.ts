@@ -26,10 +26,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentComponentProps) => 
                 }),
             ),
         closeEditor: () =>
-            dispatch(
-                commentActions.closeCommentEditor(ownProps.comment.get('postId'), ownProps.comment.get('id', '0')),
-            ),
-        getUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(ownProps.comment.get('ownerUserId', '0'), '')),
+            dispatch(commentActions.closeCommentEditor(ownProps.comment.get('postId'), ownProps.comment.get('id'))),
+        getUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(ownProps.comment.get('ownerUserId'))),
     };
 };
 

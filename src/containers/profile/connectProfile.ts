@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IOwnProps) => {
     const { userId } = ownProps.match.params;
     return {
         loadPosts: (page: number) => dispatch(postActions.dbGetPostsByUserId(userId, page)),
-        loadUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(userId, 'header')),
+        loadUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(userId)),
         setHeaderTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title)),
     };
 };

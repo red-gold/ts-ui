@@ -31,10 +31,10 @@ export const dbGetUserInfo = () => {
 /**
  *  Get user info from database
  */
-export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
+export const dbGetUserInfoByUserId = (uid: string) => {
     return {
         type: UserActionType.DB_FETCH_USER_PROFILE_BY_ID,
-        payload: { uid, callerKey },
+        payload: { uid },
     };
 };
 /**
