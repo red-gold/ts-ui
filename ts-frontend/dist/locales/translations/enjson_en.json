@@ -2,6 +2,7 @@
     "userStatus": {
         "neverSeen": "Never showed up",
         "online": "Online"
+        
     },
     "sidebar" : {
         "home": "Home",
@@ -32,7 +33,9 @@
         "home":"Home",
         "notificationTooltip": "Notifications",
         "notificationTitle": "Notifications",
+        "messengerTitle": "Messenger",
         "messengerTooltip": "Messenger",
+        "noRoom": "No one is in your contacts!",
         "myAccount": "My Account",
         "logout": "Logout",
         "homeCaption": "Home",
@@ -334,8 +337,8 @@
         "messageText": "Write your message ...",
         "closeMenu": "Close Chat",
         "chatLabel": "Chat",
-        "minimizeMenu": "Minimize",
         "maximumMenu": "Maximize",
+        "minimizeMenu": "Minimize",
         "messageMenu": "Maximum",
         "removeHistoryCaption": "Remove History",
         "settingCaption": "Setting",

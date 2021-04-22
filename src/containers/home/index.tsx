@@ -23,6 +23,7 @@ import { IHomeState } from './IHomeState';
 import { menuItems } from './menuItems';
 import { log } from 'utils/log';
 import { connectHome } from './connectHome';
+import { addNotifyAudio } from 'utils/audio';
 
 export class HomeComponent extends Component<IHomeProps & WithTranslation, IHomeState> {
     idleTimer: any;
@@ -54,7 +55,15 @@ export class HomeComponent extends Component<IHomeProps & WithTranslation, IHome
         this.setState({ drawerOpen: !this.state.drawerOpen });
     };
 
-    componentDidMount() {}
+    componentDidMount() {
+        window.addEventListener(
+            'click',
+            () => {
+                addNotifyAudio();
+            },
+            { once: true },
+        );
+    }
 
     /**
      * Toggle chat window to open/close

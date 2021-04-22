@@ -4,8 +4,8 @@ import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Badge from '@material-ui/core/Badge';
+import Typography from '@material-ui/core/Typography';
 
 import { IRoomItemProps } from './IRoomItemProps';
 import { IRoomItemState } from './IRoomItemState';
@@ -58,7 +58,15 @@ export class RoomItemComponent extends Component<IRoomItemProps, IRoomItemState>
                 <ListItemAvatar>
                     <UserAvatar fullName={fullName} size={40} fileName={avatar} />
                 </ListItemAvatar>
-                <ListItemText className={classes.itemText} primary={fullName} secondary={lastMessageText} />
+                <ListItemText
+                    className={classes.itemText}
+                    primary={fullName}
+                    secondary={
+                        <Typography variant="body2" noWrap>
+                            {lastMessageText}
+                        </Typography>
+                    }
+                />
 
                 <Badge badgeContent={unreadCount} color="secondary"></Badge>
             </Button>

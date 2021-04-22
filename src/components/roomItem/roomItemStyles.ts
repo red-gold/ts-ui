@@ -25,6 +25,7 @@ export const roomItemStyles = createStyles((theme: any) => ({
     },
     listItem: {
         padding: '12px 20px',
+        textTransform: 'none !important',
         '&::not(:last-child)': {
             marginBottom: 1,
         },

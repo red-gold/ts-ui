@@ -24,11 +24,6 @@ import { IAlbumStreamProps } from './IAlbumStreamProps';
 import { IAlbumStreamState } from './IAlbumStreamState';
 import { userGetters } from 'store/reducers/users/userGetters';
 
-// - Material-UI
-// - Import app components
-// - Import API
-// - Import actions
-// - Create component class
 export class AlbumStreamComponent extends Component<IAlbumStreamProps & WithTranslation, IAlbumStreamState> {
     /**
      * Feilds

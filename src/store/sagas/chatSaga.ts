@@ -15,6 +15,9 @@ import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
 import moment from 'moment/moment';
 import { initServerRequest } from 'utils/serverUtil';
 import { ServerRequestType } from 'constants/serverRequestType';
+import { playNotify } from 'utils/audio';
+import { chatGetters } from '../reducers/chat/chatGetters';
+import { addBadge } from 'utils/badge';
 
 /**
  * Get service providers
@@ -309,11 +312,29 @@ function* watchAddRoomNewMessages(action: any) {
     // we increase room message count for the owner in createMessage function for the owner to sync message count
     // before updating current user read message meta
 
-    const otherUsersMessages = (messages as Array<any>).filter((message: any) => {
+    const otherUsersMessages = messages.filter((message: any) => {
         return message.ownerUserId !== uid;
     });
-
+    const sortedMessages = (messages as Array<any>).sort((a, b) => b.createdDate - a.createdDate);
+    const lastMessage = sortedMessages[0];
     yield put(chatActions.increaseRoomMessageCount(roomId, otherUsersMessages.length));
+    yield put(
+        chatActions.setRoomLastMessage(
+            roomId,
+            Map({
+                createdDate: lastMessage.createdDate,
+                ownerId: lastMessage.ownerUserId,
+                text: lastMessage.text,
+            }),
+        ),
+    );
+
+    const isRoomActive: boolean = yield select(chatGetters.isRoomActive, { roomId });
+
+    if (!isRoomActive) {
+        playNotify();
+        addBadge(1);
+    }
 }
 
 /**
@@ -327,8 +348,23 @@ function* watchQueryRoomMessages(action: any) {
     yield call(chatService.queryRoomMessages, requestId, roomId, page, lte, gte);
 }
 
+/**
+ * Watch add room activated
+ */
+function* watchRoomActivated(action: any) {
+    const { payload } = action;
+    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
+    const uid = authedUser.get('uid');
+    if (uid) {
+        const { room, users } = payload;
+        yield put(chatActions.addChatRoom(fromJS(room)));
+        yield put(userActions.addPeopleInfo(fromJS(users)));
+    }
+}
+
 export default function* chatSaga() {
     yield all([
+        takeLatest(ChatActionType.ROOM_ACTIVATED, watchRoomActivated),
         takeLatest(ChatActionType.QUERY_MESSAGE, watchQueryRoomMessages),
         takeLatest(ChatActionType.SG_ADD_ROOM_MESSAGES, watchAddRoomMessages),
         takeLatest(ChatActionType.SG_ADD_ROOM_NEW_MESSAGES, watchAddRoomNewMessages),

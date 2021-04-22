@@ -216,4 +216,11 @@ export const chatBodyStyles = createStyles((theme: any) => ({
         paddingRight: 5,
         justifyContent: 'center',
     },
+    progress: {
+        display: 'flex',
+        justifyContent: 'center',
+        '& > * + *': {
+            marginLeft: theme.spacing(2),
+        },
+    },
 }));

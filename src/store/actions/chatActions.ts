@@ -221,9 +221,9 @@ export const setRoomFirstMessageFetched = (roomId: string, message: Map<string, 
 /**
  * Set chat room last message fetched
  */
-export const setRoomLastMessageFetched = (roomId: string, message: Map<string, any>) => {
+export const setRoomLastMessage = (roomId: string, message: Map<string, any>) => {
     return {
-        type: ChatActionType.SET_ROOM_LAST_MESSAGE_FETCHED,
+        type: ChatActionType.SET_ROOM_LAST_MESSAGE,
         payload: { roomId, message },
     };
 };

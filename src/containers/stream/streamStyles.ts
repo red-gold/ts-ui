@@ -1,4 +1,6 @@
-export const streamStyles = () => ({
+import { createStyles } from '@material-ui/styles';
+
+export const streamStyles = createStyles(() => ({
     root: {},
     gridItem: {
         padding: '24px !important',
@@ -6,4 +8,4 @@ export const streamStyles = () => ({
     postGrid: {
         maxWidth: 700,
     },
-});
+}));

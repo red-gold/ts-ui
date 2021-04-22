@@ -3,18 +3,15 @@ import { postSelector } from 'store/reducers/posts/postSelector';
 
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { Map } from 'immutable';
-import { ISearchPostProps } from './ISearchPostProps';
+import { IDispatchProps, IOwnProps, ISearchPostProps, IStateProps } from './ISearchPostProps';
 
 // - Import actions
-import * as globalActions from 'store/actions/globalActions';
 import * as postActions from 'store/actions/postActions';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
-import { User } from 'core/domain/users/user';
 import { serverSelector } from 'store/reducers/server/serverSelector';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import { ComponentType } from 'react';
-import { throwNoValue } from 'utils/errorHandling';
 
 /**
  * Map dispatch to props
@@ -22,9 +19,6 @@ import { throwNoValue } from 'utils/errorHandling';
 const mapDispatchToProps = (dispatch: any) => {
     return {
         search: (query: string, page: number, limit: number) => dispatch(postActions.dbSearchPosts(query, page, limit)),
-        setHomeTitle: (homeTitle: string) => dispatch(globalActions.setHeaderTitle(homeTitle || '')),
-        showTopLoading: () => dispatch(globalActions.showTopLoading()),
-        hideTopLoading: () => dispatch(globalActions.hideTopLoading()),
     };
 };
 
@@ -35,16 +29,17 @@ const makeMapStateToProps = () => {
     const selectStreamPosts = postSelector.selectSearchPosts();
 
     const mapStateToProps = (state: Map<string, any>) => {
-        const currentUser = selectCurrentUser(state).toJS() as User;
-        const currentUserId = throwNoValue(currentUser.userId, 'currentUser.userId');
+        const currentUser = selectCurrentUser(state);
+        const currentUserId = currentUser.get('userId');
         const requestId = StringAPI.createServerRequestId(ServerRequestType.SearchPosts, currentUserId);
-        const searchRequestStatus = selectRequest(state, { requestId });
+        const streamRequest = selectRequest(state, { requestId });
+        const searchRequestStatus = streamRequest.get('status', ServerRequestStatusType.NoAction);
         const hasMorePosts = selectHasMorePost(state);
         const posts = selectStreamPosts(state);
         return {
             hasMorePosts,
             currentUser,
-            searchRequestStatus: searchRequestStatus.get('status', ServerRequestStatusType.NoAction),
+            searchRequestStatus,
             posts,
             requestId,
         };
@@ -53,4 +48,4 @@ const makeMapStateToProps = () => {
 };
 
 export const connectSearchPost = (component: ComponentType<ISearchPostProps>) =>
-    connect<{}, {}, any, any>(makeMapStateToProps, mapDispatchToProps)(component as any);
+    connect<IStateProps, IDispatchProps, IOwnProps, any>(makeMapStateToProps, mapDispatchToProps)(component as any);

@@ -93,9 +93,9 @@ const setRoomFirstMessageFetched = (state: Map<string, any>, payload: any) => {
 /**
  * Set room last message fetched
  */
-const setRoomLastMessageFetched = (state: Map<string, any>, payload: any) => {
+const setRoomLastMessage = (state: Map<string, any>, payload: any) => {
     const { roomId, message } = payload;
-    return state.setIn(['room', 'lastMessage', roomId], message);
+    return state.setIn(['room', 'entities', roomId, 'lastMessage'], message);
 };
 
 /**
@@ -113,8 +113,8 @@ export const chatReducer = (state = Map({ chatOpen: false, recentChatOpen: false
         case ChatActionType.SET_ROOM_FIRST_MESSAGE_FETCHED:
             return setRoomFirstMessageFetched(state, payload);
 
-        case ChatActionType.SET_ROOM_LAST_MESSAGE_FETCHED:
-            return setRoomLastMessageFetched(state, payload);
+        case ChatActionType.SET_ROOM_LAST_MESSAGE:
+            return setRoomLastMessage(state, payload);
 
         case ChatActionType.UPDATE_ROOM_USER_READ_META:
             return state

@@ -141,18 +141,6 @@ function* dbFetchAlbumPosts(userId: string, lastPostId: string, page: number, li
 }
 
 /**
- * Get search key from state if not generate new one from server
- */
-function* getSearchKey() {
-    let searchKey: string = yield select(postSelector.getSearchKey);
-    if (!searchKey) {
-        searchKey = yield call(postService.getSearchKey);
-        yield put(postActions.setPostSearchKey(searchKey));
-    }
-    return searchKey;
-}
-
-/**
  * Get post search key
  */
 function* getPostSearchKey() {
@@ -179,12 +167,11 @@ function* watchFetchPostStream(action: { type: PostActionType; payload: any }) {
     const { page, limit } = payload;
     const uid = authedUser.get('uid');
     try {
-        const searchKey = yield getSearchKey();
         yield select(postSelector.getStreamPage);
-        const lastPostId = yield select(postSelector.getStreamLastPostId);
+        const lastPostId: string = yield select(postSelector.getStreamLastPostId);
 
         if (uid) {
-            yield call(dbFetchPostStream, uid, lastPostId, page, limit, searchKey);
+            yield call(dbFetchPostStream, uid, lastPostId, page, limit, '');
         }
     } catch (error) {
         yield put(globalActions.showMessage(error.message));
@@ -203,13 +190,12 @@ function* watchSearchPost(action: { type: PostActionType; payload: any }) {
     const { query, page, limit } = payload;
     const uid = authedUser.get('uid');
     try {
-        const searchKey = yield getSearchKey();
-        const lastPostId = yield select(postSelector.getSearchLastPostId);
+        const lastPostId: string = yield select(postSelector.getSearchLastPostId);
 
         if (uid) {
             yield put(globalActions.showTopLoading());
 
-            yield call(dbSearchPost, query, uid, lastPostId, page, limit, searchKey);
+            yield call(dbSearchPost, query, uid, lastPostId, page, limit, '');
         }
     } catch (error) {
         yield put(globalActions.showMessage(error.message));
@@ -223,21 +209,16 @@ function* watchSearchPost(action: { type: PostActionType; payload: any }) {
  * Fetch posts by user identifier from server
  */
 function* watchFetchPostByUserId(action: { type: PostActionType; payload: any }) {
-    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
-    const profilePostsRequest = PostAPI.createFetchPostUserRequest(authedUser.get('uid'));
-    yield put(serverActions.sendRequest(profilePostsRequest));
-
     const { payload } = action;
     const { page, limit, userId } = payload;
-    try {
-        const searchKey = yield getSearchKey();
-        yield select(postSelector.getProfileLastPostRequest, { userId });
-        const lastPostId = yield select(postSelector.getProfileLatPostId, { userId });
+    const profilePostsRequest = PostAPI.createFetchPostUserRequest(userId);
+    yield put(serverActions.sendRequest(profilePostsRequest));
 
-        const uid = authedUser.get('uid');
-        if (uid) {
-            yield call(dbFetchPostByUserId, userId, lastPostId, page, limit, searchKey);
-        }
+    try {
+        yield select(postSelector.getProfileLastPostRequest, { userId });
+        const lastPostId: string = yield select(postSelector.getProfileLatPostId, { userId });
+
+        yield call(dbFetchPostByUserId, userId, lastPostId, page, limit, '');
     } catch (error) {
         yield put(globalActions.showMessage(error.message));
     }
@@ -254,13 +235,12 @@ function* watchFetchAlbumPosts(action: { type: PostActionType; payload: any }) {
     const { payload } = action;
     const { limit, userId, page } = payload;
     try {
-        const searchKey = yield getSearchKey();
         yield select(userGetters.getAlbumLastPageRequest, { userId });
-        const lastPostId = yield select(userGetters.getAlbumLatPostId, { userId });
+        const lastPostId: string = yield select(userGetters.getAlbumLatPostId, { userId });
 
         const uid = authedUser.get('uid');
         if (uid) {
-            yield call(dbFetchAlbumPosts, userId, lastPostId, page, limit, searchKey);
+            yield call(dbFetchAlbumPosts, userId, lastPostId, page, limit, '');
         }
     } catch (error) {
         yield put(globalActions.showMessage(error.message));

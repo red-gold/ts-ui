@@ -79,7 +79,7 @@ export class SearchPostComponent extends Component<ISearchPostProps & WithTransl
      *
      */
     render() {
-        const { t, classes, posts, hasMorePosts, requestId } = this.props;
+        const { t, classes, posts, hasMorePosts, requestId, searchRequestStatus } = this.props;
         if (!t) {
             return;
         }
@@ -93,7 +93,7 @@ export class SearchPostComponent extends Component<ISearchPostProps & WithTransl
                                 requestId={requestId}
                                 loadStream={this.searchQuery}
                                 hasMorePosts={hasMorePosts}
-                                displayWriting={false}
+                                requestStatus={searchRequestStatus}
                             />
                         </Grid>
                     </Grid>

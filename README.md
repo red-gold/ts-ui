@@ -59,6 +59,9 @@ For questions and support please [join our community](https://docs.google.com/fo
 ## Documents
 Check out [Telar Social docs](https://red-gold.tech/docs/en/social/get_started/)
 
+## Credits
+Notification sounds from [Notification Sounds](https://notificationsounds.com/)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/Qolzam/react-social-network/blob/v0.7.0/LICENSE) file for details

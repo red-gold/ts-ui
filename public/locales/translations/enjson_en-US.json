@@ -35,6 +35,7 @@
         "notificationTitle": "Notifications",
         "messengerTitle": "Messenger",
         "messengerTooltip": "Messenger",
+        "noRoom": "No one is in your contacts!",
         "myAccount": "My Account",
         "logout": "Logout",
         "homeCaption": "Home",

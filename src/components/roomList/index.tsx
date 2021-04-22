@@ -53,7 +53,13 @@ export class RoomListComponent extends Component<IRoomListProps & WithTranslatio
      */
     render() {
         const { open, anchorEl, onClose, classes, t } = this.props;
-        const noRoomList = <div className={classes.noRoomList}>{t('header.notification.emptyCaption')} </div>;
+        const noRoomList = (
+            <span className={classes.noRoom}>
+                <Typography variant="subtitle1" color="inherit">
+                    {t('header.noRoom')}{' '}
+                </Typography>
+            </span>
+        );
         const items = this.roomItemList();
         return (
             <Popover

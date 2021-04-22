@@ -71,4 +71,11 @@ export const roomListStyles = createStyles((theme: any) => ({
         overflow: 'hidden',
         flexGrow: 1,
     },
+    noRoom: {
+        display: 'flex',
+        flexDrection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+    },
 }));

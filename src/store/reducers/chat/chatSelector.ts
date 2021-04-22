@@ -88,7 +88,8 @@ const selectContacts = () => {
                 const roomId: string = room.get('objectId');
                 const roomType: number = room.get('type');
                 const members: List<string> = room.get('members');
-                if (roomType === 0) {
+                const currentUserReadCount = room.getIn(['readCount', uid], 0);
+                if (roomType === 0 && currentUserReadCount > 0) {
                     members.forEach((userId) => {
                         let user = users.get(userId);
                         if (userId !== uid && user) {
@@ -113,9 +114,11 @@ const selectRoomList = () => {
                 const roomId: string = room.get('objectId');
                 const lastMessage: string = room.get('lastMessage');
                 const roomType: number = room.get('type');
-                const unreadCount: number = room.get('messageCount', 0) - room.getIn(['readCount', uid], 0);
+                const roomMessageCount = room.get('messageCount', 0);
+                const currentUserReadCount = room.getIn(['readCount', uid], 0);
+                const unreadCount: number = roomMessageCount - currentUserReadCount;
                 const members: List<string> = room.get('members');
-                if (roomType === 0) {
+                if (roomType === 0 && roomMessageCount > 0) {
                     members.forEach((userId) => {
                         let user = users.get(userId);
                         if (userId !== uid && user) {

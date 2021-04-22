@@ -17,6 +17,11 @@ const hasMorePostSearch = (state: Map<string, any>) => {
     return state.getIn(['post', 'search', 'hasMoreData'], true);
 };
 
+const hasMorePostProfile = (state: Map<string, any>, props: { userId: string }) => {
+    const posts: boolean = state.getIn(['user', 'post', props.userId, 'hasMoreData'], true);
+    return posts;
+};
+
 const getPostStream = (state: Map<string, any>) => {
     const posts: Map<string, boolean> = state.getIn(['post', 'stream', 'list'], Map({}));
     return posts;
@@ -78,6 +83,9 @@ const selectHasMorePostStream = () => {
 };
 const selectHasMorePostSeach = () => {
     return createSelector([hasMorePostSearch], (hasMorePost) => hasMorePost);
+};
+const selectHasMorePostProfile = () => {
+    return createSelector([hasMorePostProfile], (hasMorePost) => hasMorePost);
 };
 
 const selectStreamPosts = () => {
@@ -147,6 +155,7 @@ export const postSelector = {
     selectPost,
     selectHasMorePostStream,
     selectHasMorePostSeach,
+    selectHasMorePostProfile,
     selectSearchPosts,
     selectStreamPosts,
     selectProfilePosts,

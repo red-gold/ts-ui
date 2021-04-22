@@ -7,6 +7,7 @@ import { chatBodyStyles } from './chatBodyStyles';
 import { IChatBodyProps } from './IChatBodyProps';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export function ChatBodyComponent(props: IChatBodyProps & WithTranslation) {
     const scrollableRootRef = useRef<HTMLDivElement | null>(null);
@@ -75,6 +76,13 @@ export function ChatBodyComponent(props: IChatBodyProps & WithTranslation) {
         const scrollableRoot = scrollableRootRef.current;
         const lastScrollDistanceToBottom = lastScrollDistanceToBottomRef.current ?? 0;
         if (scrollableRoot) {
+            // When scroll is not visible
+            if (!(scrollableRoot.scrollHeight > scrollableRoot.clientHeight)) {
+                const { handleReadMessage } = props;
+                if (chatMessages.size > 0) {
+                    handleReadMessage(chatMessages.last());
+                }
+            }
             if (isScrollEnd || !(loadingUp || props.hasMoreOldMessages)) {
                 scrollableRoot.scrollTop = scrollableRoot.scrollHeight;
             } else {
@@ -86,7 +94,11 @@ export function ChatBodyComponent(props: IChatBodyProps & WithTranslation) {
     return (
         <div id="chat-body-scroll" className={classes.bodyMessageRoot} ref={rootRefSetter} onScroll={handleRootScroll}>
             <div>
-                {(loadingUp || props.hasMoreOldMessages) && <h3 ref={sentryRefUp}>Loading......</h3>}
+                {(loadingUp || props.hasMoreOldMessages) && (
+                    <div ref={sentryRefUp} className={classes.progress}>
+                        <CircularProgress size={20} />
+                    </div>
+                )}
 
                 {chatMessages
                     ? chatMessages

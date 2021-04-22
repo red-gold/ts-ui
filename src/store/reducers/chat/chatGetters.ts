@@ -64,6 +64,15 @@ const getHasMoreNewMessages = (state: Map<string, any>, { roomId }: { roomId: st
     return state.getIn(['chat', 'hasMoreData', roomId, 'new'], true) as boolean;
 };
 
+const isRoomActive = (state: Map<string, any>, { roomId }: { roomId: string }) => {
+    const activeRooms: Map<string, boolean> = state.getIn(['chat', 'room', 'active'], Map({}));
+
+    return activeRooms
+        .filter((roomIsActive) => roomIsActive === true)
+        .keySeq()
+        .includes(roomId);
+};
+
 export const chatGetters = {
     getChatRequests,
     getCallingUsers,
@@ -77,4 +86,5 @@ export const chatGetters = {
     getChatOpen,
     getHasMoreOldMessages,
     getHasMoreNewMessages,
+    isRoomActive,
 };

@@ -1,103 +1,44 @@
 // - Import react components
-import React, { Component } from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
-import { Map } from 'immutable';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { withRouter } from 'react-router-dom';
+import React, { useState } from 'react';
 import PostComponent from 'components/post';
 import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
-import { connectPostStream } from './connectPostStream';
 import { IPostStreamProps } from './IPostStreamProps';
-import { IPostStreamState } from './IPostStreamState';
-import { postStreamStyles } from './postStreamStyles';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
 
-export class PostStreamComponent extends Component<IPostStreamProps & WithTranslation, IPostStreamState> {
+export function PostStreamComponent(props: IPostStreamProps) {
     /**
      * Feilds
      */
-    nextPage = 0;
-
-    styles = {};
-
-    static getDerivedStateFromProps(nextProps: IPostStreamProps, prevState: IPostStreamState) {
-        if (nextProps.posts && nextProps.posts.count() > 0 && !nextProps.posts.equals(prevState.prevPosts)) {
-            const posts = nextProps.posts;
-            return {
-                posts,
-                prevPosts: nextProps.posts.count(),
-            };
-        }
-        return null;
-    }
-
-    /**
-     * Component constructor
-     *
-     */
-    constructor(props: IPostStreamProps & WithTranslation) {
-        super(props);
-
-        this.state = {
-            /**
-             * It's true if we want to have two column of posts
-             */
-            divided: false,
-            /**
-             * If it's true comment will be disabled on post
-             */
-            disableComments: this.props.disableComments || false,
-            /**
-             * If it's true share will be disabled on post
-             */
-            disableSharing: this.props.disableSharing || false,
-            /**
-             * If it's true, post write will be open
-             */
-            openPostWrite: false,
-            /**
-             * The title of home header
-             */
-            homeTitle: props.homeTitle || '',
-
-            /**
-             * If there is more post to show {true} or not {false}
-             */
-            hasMorePosts: true,
-
-            /**
-             * List of posts
-             */
-            posts: Map({}),
-
-            /**
-             * Stream length
-             */
-            prevPosts: Map({}),
-        };
-
-        // Binding functions to `this`
-        this.loader = this.loader.bind(this);
-    }
+    const [nextPage, setNextPage] = useState(0);
+    const { hasMorePosts, posts } = props;
+    // static getDerivedStateFromProps(nextProps: IPostStreamProps, prevState: IPostStreamState) {
+    //     if (nextProps.posts && nextProps.posts.count() > 0 && !nextProps.posts.equals(prevState.prevPosts)) {
+    //         const posts = nextProps.posts;
+    //         return {
+    //             posts,
+    //             prevPosts: nextProps.posts.count(),
+    //         };
+    //     }
+    //     return null;
+    // }
 
     /**
      * Loader
      */
-    loader = () => {
-        const { streamRequestStatus } = this.props;
-        const { loadStream } = this.props;
-        if (loadStream && streamRequestStatus && streamRequestStatus !== ServerRequestStatusType.Sent) {
-            loadStream(this.nextPage);
-            this.nextPage++;
+    const loadMore = () => {
+        const { requestStatus, loadStream } = props;
+        if (requestStatus !== ServerRequestStatusType.Sent) {
+            loadStream(nextPage);
+            setNextPage(nextPage + 1);
         }
     };
 
     /**
      * Get list of post
      */
-    getpostList = () => {
-        const { posts } = this.state;
+    const getpostList = () => {
+        const { posts } = props;
         const postListDom: any[] = [];
         (posts || []).forEach((post) => {
             postListDom.push(<PostComponent key={`${post.get('id')}-stream-div-post`} post={post as any} />);
@@ -106,41 +47,35 @@ export class PostStreamComponent extends Component<IPostStreamProps & WithTransl
         return postListDom;
     };
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.loader();
-        }, 500);
-    }
+    const loading = props.requestStatus === ServerRequestStatusType.Sent;
+    const [sentryRef] = useInfiniteScroll({
+        loading,
+        hasNextPage: hasMorePosts,
+        onLoadMore: loadMore,
+        // When there is an error, we stop infinite loading.
+        // It can be reactivated by setting "error" state as undefined.
+        disabled: false,
+        // `rootMargin` is passed to `IntersectionObserver`.
+        // We can use it to trigger 'onLoadMore' when the sentry comes near to become
+        // visible, instead of becoming fully visible on the screen.
+        rootMargin: '0px 0px 400px 0px',
+    });
 
-    shouldComponentUpdate(newProps: IPostStreamProps) {
-        return !newProps.posts.equals(this.props.posts) || newProps.hasMorePosts !== this.props.hasMorePosts;
-    }
-    /**
-     * Reneder component DOM
-     *
-     */
-    render() {
-        const { hasMorePosts, posts } = this.props;
+    // shouldComponentUpdate(newProps: IPostStreamProps) {
+    //     return !newProps.posts.equals(this.props.posts) || newProps.hasMorePosts !== this.props.hasMorePosts;
+    // }
 
-        return (
-            <>
-                <InfiniteScroll
-                    dataLength={posts ? posts.size : 0}
-                    next={this.loader}
-                    hasMore={hasMorePosts || false}
-                    endMessage={''}
-                    loader={<LoadMoreProgressComponent key="stream-load-more-progress" />}
-                >
-                    {posts && posts.count() > 0 && this.getpostList()}
-                </InfiniteScroll>
-            </>
-        );
-    }
+    return (
+        <div>
+            {posts && posts.count() > 0 && getpostList()}
+
+            {(loading || hasMorePosts) && (
+                <div ref={sentryRef}>
+                    <LoadMoreProgressComponent key="stream-load-more-progress" />
+                </div>
+            )}
+        </div>
+    );
 }
 
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(PostStreamComponent);
-
-export default withRouter<any, any>(
-    connectPostStream(withStyles(postStreamStyles as any)(translateWrapper as any) as any),
-);
+export default PostStreamComponent;
