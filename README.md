@@ -10,9 +10,7 @@
 **Compatible with OpenFaaS**
 
 ## Demo
-Looking for new place to host demo!!😓
-
-_https://red-gold.o6s.io/auth/login_ **DEPRECATED**
+https://social.telar.dev
 
 
 ### Video Tutorial
