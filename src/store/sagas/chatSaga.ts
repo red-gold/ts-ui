@@ -27,9 +27,9 @@ const authService: IAuthorizeService = provider.get<IAuthorizeService>(SocialPro
 
 /***************************** Subroutines ************************************/
 
-function subscribeWSConnect(url: string, accessKey: string, uid: string) {
+function subscribeWSConnect(url: string, uid: string) {
     return eventChannel<any>((emmiter) => {
-        const unsubscribe = chatService.wsConnect(url, accessKey, uid, (message: any) => {
+        const unsubscribe = chatService.wsConnect(url, uid, (message: any) => {
             emmiter(message);
         });
         return () => {
@@ -44,18 +44,10 @@ function subscribeWSConnect(url: string, accessKey: string, uid: string) {
 function* asyncWSConnect() {
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
-    let accessKey: string = yield select(authorizeSelector.getAccessToken);
-    if (accessKey === '') {
-        accessKey = yield call(authService.getAccessToken);
-    }
+
     yield put(globalActions.showMessage('Connecting...'));
 
-    const channelSubscription: Channel<any> = yield call(
-        subscribeWSConnect,
-        config.gateway.websocket_url,
-        accessKey,
-        uid,
-    );
+    const channelSubscription: Channel<any> = yield call(subscribeWSConnect, config.gateway.websocket_url, uid);
     try {
         while (true) {
             const message: any = yield take(channelSubscription);

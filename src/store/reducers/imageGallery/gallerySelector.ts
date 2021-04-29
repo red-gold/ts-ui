@@ -1,55 +1,25 @@
 import { PostAPI } from 'api/PostAPI';
 import { List, Map } from 'immutable';
 import { createSelector } from 'reselect';
-
-const getImages = (state: Map<string, any>) => {
-    return state.getIn(['imageGallery', 'entities'], Map({})) as Map<string, any>;
-};
-
-const hasMoreImages = (state: Map<string, any>, props: { albumId: string }) => {
-    return state.getIn(['imageGallery', 'album', props.albumId, 'hasMoreData'], true);
-};
-
-const getAlbumImages = (state: Map<string, any>, props: { albumId: string }) => {
-    const images: Map<string, boolean> = state.getIn(['imageGallery', 'album', props.albumId, 'list'], Map({}));
-    return images;
-};
-
-const getAvatarImages = (state: Map<string, any>, props: { userId: string }) => {
-    const images: Map<string, boolean> = state.getIn(['imageGallery', 'avatar', props.userId, 'list'], Map({}));
-    return images;
-};
-
-const getCoverImages = (state: Map<string, any>, props: { userId: string }) => {
-    const images: Map<string, boolean> = state.getIn(['imageGallery', 'cover', props.userId, 'list'], Map({}));
-    return images;
-};
-
-const getAlbumLastImageId = (state: Map<string, any>, props: { albumId: string }) => {
-    return state.getIn(['imageGallery', 'album', props.albumId, 'lastImageId'], '');
-};
-
-const getImageGalleryLoaded = (state: Map<string, any>) => {
-    return state.getIn(['imageGallery', 'loaded']);
-};
+import galleryGetters from './galleryGetters';
 
 /****************************
  * Selectors
  ***************************/
 const selectImages = () => {
-    return createSelector([getImages], (images) => images);
+    return createSelector([galleryGetters.getImages], (images) => images);
 };
 
 const selectLastImageId = () => {
-    return createSelector([getAlbumLastImageId], (imageId) => imageId);
+    return createSelector([galleryGetters.getAlbumLastImageId], (imageId) => imageId);
 };
 
 const selectMoreImages = () => {
-    return createSelector([hasMoreImages], (moreImages) => moreImages);
+    return createSelector([galleryGetters.hasMoreImages], (moreImages) => moreImages);
 };
 
 const selectAlbumImages = () => {
-    return createSelector([getAlbumImages, getImages], (albumImages, images) => {
+    return createSelector([galleryGetters.getAlbumImages, galleryGetters.getImages], (albumImages, images) => {
         let mappedImages: List<Map<string, any>> = List([]);
         albumImages.forEach((exist, postId) => {
             if (exist) {
@@ -72,63 +42,27 @@ const selectAlbumImages = () => {
     });
 };
 
-const selectAvatarImages = () => {
-    return createSelector([getAvatarImages, getImages], (albumImages, images) => {
-        let mappedImages: List<Map<string, any>> = List([]);
+const selectGallery = () => {
+    return createSelector([galleryGetters.getImages], (images) => {
+        let mappedImages: Map<string, Map<string, any>> = Map({});
 
-        albumImages.forEach((exist, imageId) => {
-            if (exist) {
-                const existImage = images.get(imageId);
-                if (existImage) {
-                    mappedImages = mappedImages.push(existImage);
-                }
-            }
+        images.forEach((image, imageId) => {
+            mappedImages = mappedImages.setIn([image.get('directory'), imageId], image);
         });
 
-        if (mappedImages.isEmpty()) {
-            return List([]);
-        }
-        const sortedImages = PostAPI.sortImuObjectsDate(mappedImages);
-
-        return sortedImages;
-    });
-};
-
-const selectCoverImages = () => {
-    return createSelector([getCoverImages, getImages], (albumImages, images) => {
-        let mappedImages: List<Map<string, any>> = List([]);
-        albumImages.forEach((exist, imageId) => {
-            if (exist) {
-                const existImage = images.get(imageId);
-                if (existImage) {
-                    mappedImages = mappedImages.push(existImage);
-                }
-            }
-        });
-
-        if (mappedImages.isEmpty()) {
-            return List([]);
-        }
-
-        return PostAPI.sortImuObjectsDate(mappedImages);
+        return mappedImages;
     });
 };
 
 const selectImageGalleryLoaded = () => {
-    return createSelector([getImageGalleryLoaded], (loaded: boolean) => loaded);
+    return createSelector([galleryGetters.getImageGalleryLoaded], (loaded: boolean) => loaded);
 };
 
 export const gallerySelector = {
-    getImages,
-    hasMoreImages,
-    getAlbumImages,
     selectImages,
-    getAlbumLastImageId,
-    getImageGalleryLoaded,
     selectLastImageId,
     selectMoreImages,
     selectAlbumImages,
-    selectAvatarImages,
-    selectCoverImages,
+    selectGallery,
     selectImageGalleryLoaded,
 };

@@ -19,7 +19,7 @@ export const imageGalleryReducer = (state = Map(new ImageGalleryState() as any),
             return state.setIn(['entities', payload.image.get('id')], payload.image);
 
         case ImageGalleryActionType.ADD_IMAGE_LIST:
-            return state.mergeDeepIn(['entities'], payload.entities).set('loaded', true);
+            return state.mergeDeepIn(['entities'], payload.entities);
 
         case ImageGalleryActionType.ADD_ALBUM_IMAGE_LIST:
             return state.mergeDeepIn(['album', payload.albumId, 'list'], payload.imageIds).set('loaded', true);

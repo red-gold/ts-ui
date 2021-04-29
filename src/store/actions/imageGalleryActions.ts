@@ -22,9 +22,12 @@ const imageGalleryService: IImageGalleryService = provider.get<IImageGalleryServ
 /**
  * Fetch images for image gallery
  */
-export const dbGetImageGallery = () => {
+export const dbGetImageGallery = (dir: string) => {
     return {
         type: ImageGalleryActionType.DB_FETCH_IMAGE_GALLERY,
+        payload: {
+            dir,
+        },
     };
 };
 
@@ -113,22 +116,12 @@ export const dbUploadImage = (file: any, fileName: string) => {
 };
 
 /**
- * Upload avatar on the server
+ * Upload one image
  */
-export const dbUploadAvatar = (file: any, fileName: string) => {
+export const uploadOneImage = (file: any, fileName: string, dir: string) => {
     return {
-        type: ImageGalleryActionType.DB_UPLOAD_AVATAR,
-        payload: { file, fileName },
-    };
-};
-
-/**
- * Upload cover on the server
- */
-export const dbUploadCover = (file: any, fileName: string) => {
-    return {
-        type: ImageGalleryActionType.DB_UPLOAD_COVER,
-        payload: { file, fileName },
+        type: ImageGalleryActionType.UPLOAD_ONE_IMAGE,
+        payload: { file, fileName, dir },
     };
 };
 

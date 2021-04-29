@@ -19,10 +19,6 @@ const getUserRegisterToken = (state: Map<any, string>) => {
     return state.getIn(['authorize', 'ui', 'registerToken'], '');
 };
 
-const getAccessToken = (state: Map<any, string>) => {
-    return state.getIn(['authorize', 'ui', 'accessToken'], '');
-};
-
 const getUserAuthStatus = (state: Map<any, string>) => {
     return state.getIn(['authorize', 'authed'], false);
 };
@@ -45,10 +41,6 @@ const selectUserRegisterToken = () => {
     return createSelector([getUserRegisterToken], (token) => token);
 };
 
-const selectAccessToken = () => {
-    return createSelector([getAccessToken], (token) => token);
-};
-
 const selectUserAuthStatus = () => {
     return createSelector([getUserAuthStatus], (status) => status);
 };
@@ -58,12 +50,10 @@ export const authorizeSelector = {
     getAuthedUser,
     getSignupStep,
     getUserRegisterToken,
-    getAccessToken,
     getUserAuthStatus,
     selectCurrentUser,
     selectSignupStep,
     selectUserRegisterToken,
-    selectAccessToken,
     selectAuthedtUser,
     selectUserAuthStatus,
 };

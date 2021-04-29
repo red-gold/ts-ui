@@ -78,6 +78,7 @@ const constraintImage = (file: File, fileName: string) => {
                 }
                 const dataUrl = canvas.toDataURL();
                 const resizedImage = dataURLToBlob(dataUrl);
+
                 const evt = new CustomEvent('onSendResizedImage', { detail: { resizedImage, fileName } });
                 window.dispatchEvent(evt);
             };

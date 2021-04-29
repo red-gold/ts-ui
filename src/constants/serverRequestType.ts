@@ -10,6 +10,7 @@ export enum ServerRequestType {
     QueryMessages = 'QueryMessages',
     QueryOldMessages = 'QueryOldMessages',
     QueryNewMessages = 'QueryNewMessages',
+    UploadFileInGallery = 'UploadFileInGallery',
     ProfileGetPosts = 'ProfileGetPosts',
     ProfileGetAlbums = 'ProfileGetAlbums',
     AuthLogin = 'AuthLogin',

@@ -48,7 +48,7 @@ const makeMapStateToProps = () => {
 
     const mapStateToProps = (state: Map<string, any>) => {
         const currentUser = selectCurrentUser(state);
-        const uid = currentUser.get('uid');
+        const uid = currentUser.get('userId');
         const guest = currentUser.get('guest');
         const authed = currentUser.get('authed');
         const progress = selectProgress(state);

@@ -1,12 +1,10 @@
 import { Message } from 'core/domain/chat/message';
-import { Map } from 'immutable';
-import { ChatRoom } from 'core/domain/chat/chatRoom';
 
 /**
  * Chat interface
  */
 export interface IChatService {
-    wsConnect: (url: string, accessKey: string, uid: string, callback: Function) => Function;
+    wsConnect: (url: string, uid: string, callback: Function) => Function;
 
     createChatRquest: (recUserId: string) => void;
 

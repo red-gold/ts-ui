@@ -21,9 +21,12 @@ import * as postActions from 'store/actions/postActions';
 import * as serverActions from 'store/actions/serverActions';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
-import { gallerySelector } from 'store/reducers/imageGallery/gallerySelector';
 import uuid from 'uuid';
 import { log } from 'utils/log';
+import galleryGetters from '../reducers/imageGallery/galleryGetters';
+import StringAPI from 'api/StringAPI';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { initServerRequest } from 'utils/serverUtil';
 
 /**
  * Get service providers
@@ -66,13 +69,19 @@ function createUploadChannel(file: any, fileName: string, folderName: string) {
 /**
  * Fetch image gallery
  */
-function* dbFetchImageGallery() {
+function* dbFetchImageGallery(action: any) {
+    const { payload } = action;
+    const { dir } = payload;
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
     if (uid) {
         try {
-            const images = yield call(galleryService.getGallery, uid, config.data.imageFolderPath);
-            yield put(imageGalleryActions.addImageList(images));
+            const images: {
+                mappedImages: Map<string, any>;
+                ids: Map<string, boolean>;
+                newLastImageId: string;
+            } = yield call(galleryService.getGallery, uid, dir);
+            yield put(imageGalleryActions.addImageList(images.mappedImages));
         } catch (error) {
             yield put(globalActions.showMessage(error.message));
         }
@@ -138,7 +147,7 @@ function* dbSaveVideo(videoURL: string, thumbnail: string) {
             [],
             UserPermissionType.Public,
         );
-        const mediaId = yield call(galleryService.saveFile, uid, newVideo, config.data.videoFolderPath);
+        const mediaId: string = yield call(galleryService.saveFile, uid, newVideo, config.data.videoFolderPath);
         newVideo.objectId = mediaId;
         yield put(imageGalleryActions.addVideo(newVideo));
     }
@@ -259,7 +268,7 @@ function* dbUploadImage(file: any, rootName: string, fileName: string) {
  * Fetch album images
  */
 function* fetchAlbumImages(userId: string, albumId: string, lastImageId?: string, limit = 10) {
-    const lastImage = yield select(gallerySelector.getAlbumLastImageId, { albumId });
+    const lastImage = yield select(galleryGetters.getAlbumLastImageId, { albumId });
     const result: { mappedImages: Map<string, any>; ids: Map<string, boolean>; newLastImageId: string } = yield call(
         galleryService.fetchAlbumImages,
         userId,
@@ -362,7 +371,7 @@ function* watchUploadVideo(action: { type: ImageGalleryActionType; payload: any 
  */
 function* watchFetchAlbumImages(action: { type: ImageGalleryActionType; payload: any }) {
     const { userId, albumId } = action.payload;
-    const lastImageId = yield select(gallerySelector.getAlbumLastImageId, { albumId });
+    const lastImageId: string = yield select(galleryGetters.getAlbumLastImageId, { albumId });
     yield call(fetchAlbumImages, userId, albumId, lastImageId, 10);
 }
 
@@ -393,88 +402,53 @@ function* watchUploadImage(action: { type: ImageGalleryActionType; payload: any 
 }
 
 /**
- * Watch upload avatar
+ * Watch upload one image
  */
-function* watchUploadAvatar(action: { type: ImageGalleryActionType; payload: any }) {
+function* watchUploadOneImage(action: { type: ImageGalleryActionType; payload: any }) {
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
-    const { file, fileName } = action.payload;
-    yield put(globalActions.showTopLoading());
-    const result = yield call(dbUploadImage, file, config.data.avatarFolderPath, fileName);
+    const { file, fileName, dir } = action.payload;
+    const requestId = StringAPI.createServerRequestId(ServerRequestType.UploadFileInGallery, uid);
+    const serverRequest = initServerRequest(ServerRequestType.UploadFileInGallery, requestId);
+    yield put(serverActions.sendRequest(serverRequest));
 
-    yield put(globalActions.hideTopLoading());
-    const { fileURL } = result;
-    const fileId = (fileName as string).split('.')[0];
-    if (!uid) {
-        throw new SocialError('nulUID', 'User ID is null!');
-    }
-    const newAvatar = new Media(
-        fileId,
-        0,
-        moment.utc().valueOf(),
-        fileURL,
-        fileURL,
-        fileName,
-        '',
-        config.data.avatarFolderPath,
-        fileName,
-        uid,
-        0,
-        '',
-        0,
-        0,
-        '',
-        false,
-        [],
-        UserPermissionType.Public,
-    );
-    const mediaId = yield call(galleryService.saveFile, uid, newAvatar, config.data.avatarFolderPath);
-    newAvatar.objectId = mediaId;
-    const mapImage = Map({ [fileId]: fromJS({ ...newAvatar }) });
-    yield put(imageGalleryActions.addImageList(mapImage));
-    yield put(imageGalleryActions.addAvatarImages(uid, Map({ [fileId]: true })));
-}
+    try {
+        const result: { fileURL: string } = yield call(dbUploadImage, file, dir, fileName);
 
-/**
- * Watch upload cover
- */
-function* watchUploadCover(action: { type: ImageGalleryActionType; payload: any }) {
-    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
-    const uid = authedUser.get('uid');
-    const { file, fileName } = action.payload;
-    yield put(globalActions.showTopLoading());
-    const result = yield call(dbUploadImage, file, config.data.coverFolderPath, fileName);
-    yield put(globalActions.hideTopLoading());
-    const { fileURL } = result;
-    const fileId = (fileName as string).split('.')[0];
-    if (!uid) {
-        throw new SocialError('nulUID', 'User ID is null!');
+        const { fileURL } = result;
+        const fileId = (fileName as string).split('.')[0];
+
+        const newMedia = new Media(
+            fileId,
+            0,
+            moment.utc().valueOf(),
+            fileURL,
+            fileURL,
+            fileName,
+            '',
+            dir,
+            fileName,
+            uid,
+            0,
+            '',
+            0,
+            0,
+            '',
+            false,
+            [],
+            UserPermissionType.Public,
+        );
+        const mediaId: string = yield call(galleryService.saveFile, uid, newMedia, dir);
+        newMedia.objectId = mediaId;
+        const mapImage = Map({ [fileId]: fromJS({ ...newMedia }) });
+        yield put(imageGalleryActions.addImageList(mapImage));
+        serverRequest.status = ServerRequestStatusType.OK;
+        yield put(serverActions.sendRequest(serverRequest));
+    } catch (error) {
+        serverRequest.status = ServerRequestStatusType.Error;
+        yield put(serverActions.sendRequest(serverRequest));
+        yield put(globalActions.showMessage(error.message));
     }
-    const newCover = new Media(
-        fileId,
-        0,
-        moment.utc().valueOf(),
-        fileURL,
-        fileURL,
-        fileName,
-        '',
-        config.data.coverFolderPath,
-        fileName,
-        uid,
-        0,
-        '',
-        0,
-        0,
-        '',
-        false,
-        [],
-        UserPermissionType.Public,
-    );
-    const mediaId = yield call(galleryService.saveFile, uid, newCover, config.data.coverFolderPath);
-    newCover.objectId = mediaId;
-    const mapImage = Map({ [fileId]: fromJS({ ...newCover }) });
-    yield put(imageGalleryActions.addImageList(mapImage));
-    yield put(imageGalleryActions.addCoverImages(uid, Map({ [fileId]: true })));
 }
 
 /**
@@ -516,15 +490,14 @@ function* watchDeleteImage(action: { type: ImageGalleryActionType; payload: any 
 
 export default function* gallerySaga() {
     yield all([
-        takeLatest(ImageGalleryActionType.DB_FETCH_IMAGE_GALLERY, dbFetchImageGallery),
+        takeEvery(ImageGalleryActionType.DB_FETCH_IMAGE_GALLERY, dbFetchImageGallery),
         takeLatest(ImageGalleryActionType.DB_FETCH_ALBUM_IMAGES, watchFetchAlbumImages),
         takeLatest(ImageGalleryActionType.DB_FETCH_AVATAR_IMAGES, watchFetchAvatarImages),
         takeLatest(ImageGalleryActionType.DB_FETCH_COVER_IMAGES, watchFetchCoverImages),
         takeLatest(ImageGalleryActionType.DB_DELETE_IMAGE, watchDeleteImage),
         takeLatest(ImageGalleryActionType.DB_UPLOAD_VIDEO, watchUploadVideo),
         takeEvery(ImageGalleryActionType.DB_UPLOAD_IMAGE, watchUploadImage),
-        takeEvery(ImageGalleryActionType.DB_UPLOAD_AVATAR, watchUploadAvatar),
-        takeEvery(ImageGalleryActionType.DB_UPLOAD_COVER, watchUploadCover),
+        takeLatest(ImageGalleryActionType.UPLOAD_ONE_IMAGE, watchUploadOneImage),
         takeLatest(ImageGalleryActionType.DB_CREATE_ALBUM, watchCreateAlbum),
         takeLatest(ImageGalleryActionType.DB_FETCH_VIDEO_GALLERY, dbFetchVideoGallery),
         takeLatest(ImageGalleryActionType.DB_DELETE_VIDEO, watchDeleteVideo),

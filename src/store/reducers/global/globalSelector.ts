@@ -71,9 +71,9 @@ const selectHeaderTitle = () => {
 
 const selectAllDataLoaded = () => {
     return createSelector(
-        [getCirclesLoaded, getUserLoaded, getImageGalleryLoaded, getDefaultLoadData, getUserAuthUID],
-        (circleLoaded, userLoaded, galleryLoaded, defaultDataLoaded, authUID) =>
-            circleLoaded && userLoaded && galleryLoaded && defaultDataLoaded && authUID !== undefined,
+        [getCirclesLoaded, getUserLoaded, getDefaultLoadData, getUserAuthUID],
+        (circleLoaded, userLoaded, defaultDataLoaded, authUID) =>
+            circleLoaded && userLoaded && defaultDataLoaded && authUID !== undefined,
     );
 };
 

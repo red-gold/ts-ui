@@ -1,6 +1,6 @@
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
 
-export interface IEditProfileComponentState {
+export interface IEditProfileState {
     [key: string]: any;
     /**
      * Full name input value

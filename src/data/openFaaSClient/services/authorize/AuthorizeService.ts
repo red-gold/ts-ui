@@ -104,18 +104,6 @@ export class AuthorizeService implements IAuthorizeService {
     };
 
     /**
-     * Get access token
-     */
-    public getAccessToken = async () => {
-        try {
-            const token = await this._httpService.get(`actions/room/access-key`);
-            return token.accessKey;
-        } catch (error) {
-            throw new SocialError(error.code, error.message);
-        }
-    };
-
-    /**
      * Verify user register code
      */
     public verifyUserRegisterCode = async () => {

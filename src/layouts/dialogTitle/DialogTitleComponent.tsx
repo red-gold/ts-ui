@@ -1,97 +1,47 @@
 // - Import react components
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import SvgClose from '@material-ui/icons/Close';
-import PropTypes from 'prop-types';
+import CloseIcon from '@material-ui/icons/Close';
 import React, { Component } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 
 import { IDialogTitleComponentProps } from './IDialogTitleComponentProps';
-import { IDialogTitleComponentState } from './IDialogTitleComponentState';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
+import { Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        appBar: {
+            position: 'relative',
+        },
+        title: {
+            marginLeft: theme.spacing(2),
+            flex: 1,
+        },
+    }),
+);
 
 /**
  * Create component class
  */
-export default class DialogTitleComponent extends Component<IDialogTitleComponentProps, IDialogTitleComponentState> {
-    static propTypes = {
-        /**
-         * The label of right button
-         */
-        buttonLabel: PropTypes.string,
-        /**
-         * If it's true button will be disabled
-         */
-        disabledButton: PropTypes.bool,
-        /**
-         * Call the funtion the time is clicked on right button
-         */
-        onClickButton: PropTypes.func,
-        /**
-         * The function will be called the time is clicked on close
-         */
-        onRequestClose: PropTypes.func.isRequired,
-        /**
-         * The title of dialog box
-         */
-        title: PropTypes.string,
-    };
-
-    styles = {
-        contain: {
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-        },
-        title: {
-            color: 'rgba(0,0,0,0.87)',
-            flex: '1 1',
-            font: '500 20px Roboto,RobotoDraft,Helvetica,Arial,sans-serif',
-        },
-    };
-
-    /**
-     * Component constructor
-     *
-     */
-    constructor(props: IDialogTitleComponentProps) {
-        super(props);
-
-        // Defaul state
-        this.state = {};
-
-        // Binding functions to `this`
-    }
-
-    /**
-     * Reneder component DOM
-     *
-     */
-    render() {
-        const { buttonLabel, disabledButton, onClickButton, onRequestClose, title } = this.props;
-
-        return (
-            <div className="g__dialog-title">
-                <div style={this.styles.contain as any}>
-                    <div style={{ paddingRight: '10px' }}>
-                        <SvgClose onClick={onRequestClose} style={{ cursor: 'pointer' }} />
-                    </div>
-                    <div style={this.styles.title}>{title || ''}</div>
-                    {buttonLabel ? (
-                        <div style={{ marginTop: '-9px' }}>
-                            <Button
-                                color="primary"
-                                disabled={disabledButton ? disabledButton : false}
-                                onClick={onClickButton || ((x) => x)}
-                            >
-                                {' '}
-                                {buttonLabel || ''}{' '}
-                            </Button>
-                        </div>
-                    ) : (
-                        ''
-                    )}
-                </div>
-                <Divider />
-            </div>
-        );
-    }
+export default function DialogTitleComponent(props: IDialogTitleComponentProps) {
+    const { onRequestClose, title } = props;
+    const classes = useStyles();
+    return (
+        <AppBar color={'transparent'} className={classes.appBar}>
+            <Toolbar>
+                <IconButton edge="start" color="inherit" onClick={onRequestClose} aria-label="close">
+                    <CloseIcon />
+                </IconButton>
+                <Typography variant="h6" className={classes.title}>
+                    {title}
+                </Typography>
+                {props.children && props.children}
+            </Toolbar>
+        </AppBar>
+    );
 }

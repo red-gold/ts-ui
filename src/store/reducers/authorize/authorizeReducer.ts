@@ -25,8 +25,6 @@ export const authorizeReducer = (state = Map(new AuthorizeState() as any), actio
             return state.set('uid', payload.userId);
         case AuthorizeActionType.SET_USER_REGISTER_TOKEN:
             return state.setIn(['ui', 'registerToken'], payload.token);
-        case AuthorizeActionType.SET_ACCESS_TOKEN:
-            return state.setIn(['ui', 'accessToken'], payload.token);
         case AuthorizeActionType.SET_LOGIN:
             return state.setIn(['ui', 'isLoggedin'], payload.status);
         case AuthorizeActionType.SET_SIGNUP_STEP:

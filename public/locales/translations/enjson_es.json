@@ -113,7 +113,7 @@
         "headPostsLabel": "${userName} realizo una publicación",
         "nothingSharedLabel": " Nada compartido",
         "chooseAvatarDialogTitle": "Eliga una imagen de avatar",
-        "chooseBanerDialogTitle": "Eliga una imagen de fondo",
+        "chooseBannerDialogTitle": "Eliga una imagen de fondo",
         "twitterExampleLabel": "tu nombre de usuario de twitter, ex. twitter",
         "facebookExampleLabel": "El nombre de tu página de Facebook. facebook"
     },

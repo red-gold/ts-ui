@@ -25,9 +25,9 @@ export class ChatService implements IChatService {
     /**
      * Connect to websocket server
      */
-    public wsConnect = (url: string, accessKey: string, uid: string, callback: Function) => {
+    public wsConnect = (url: string, uid: string, callback: Function) => {
         this.socket = io(url, {
-            query: { accessKey, uid },
+            query: { uid },
             withCredentials: true,
         });
 
