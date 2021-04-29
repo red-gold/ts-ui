@@ -7,6 +7,7 @@ import axios from 'axios';
 import { IPermissionService } from 'core/services/security/IPermissionService';
 import { SocialError } from 'core/domain/common/socialError';
 import { log } from 'utils/log';
+axios.defaults.withCredentials = true;
 
 @injectable()
 export class HttpService implements IHttpService {

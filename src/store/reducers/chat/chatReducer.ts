@@ -4,20 +4,98 @@ import { Map } from 'immutable';
 
 import { IChatAction } from './IChatAction';
 
-const setCurrentChat = (state: any, payload: any) => {
+const setCurrentChat = (state: Map<string, any>, payload: any) => {
     const { userId } = payload;
     return state.setIn(['currentChat'], userId).set('chatOpen', true);
 };
 
+/**
+ * Add plain chatroom messages
+ */
 const addPlainChatRoomMessages = (state: Map<string, any>, payload: any) => {
-    let messageList: Map<string, any> = Map({});
     const { messages, roomId } = payload;
+
+    let messageList: Map<string, any> = Map({});
     if (messages && messages.length) {
         messages.forEach((message: any) => {
-            messageList = messageList.set(message.id, Map({ ...message }));
+            messageList = messageList.set(message.objectId, Map({ ...message }));
         });
     }
     return state.mergeIn(['messages', roomId], messageList);
+};
+
+/**
+ * Add chatroom messages
+ */
+const addChatRoomMessages = (state: Map<string, any>, payload: any) => {
+    const { messages, chatRoomId } = payload;
+    const oldData: Map<string, Map<string, any>> = state.getIn(['messages', chatRoomId], Map({}));
+    const newData = oldData.merge(messages);
+    return state.setIn(['messages', chatRoomId], newData);
+};
+
+/**
+ * Set chat room
+ */
+const setChatRoom = (state: Map<string, any>, payload: any) => {
+    const { data, roomId } = payload;
+    return state.setIn(['room', roomId], data);
+};
+
+/**
+ * Add active chat room
+ */
+const addActiveChatRoom = (state: Map<string, any>, payload: any) => {
+    const { roomId } = payload;
+    return state.setIn(['room', 'active', roomId], true);
+};
+
+/**
+ * Close active chat room
+ */
+const closeActiveChatRoom = (state: Map<string, any>, payload: any) => {
+    const { roomId } = payload;
+    return state.setIn(['room', 'active', roomId], false);
+};
+
+/**
+ * Add chat room
+ */
+const addChatRoom = (state: Map<string, any>, payload: Map<string, any>) => {
+    const objectId = payload.get('objectId');
+    return state.setIn(['room', 'entities', objectId], payload);
+};
+
+/**
+ * Add chat rooms
+ */
+const addChatRooms = (state: Map<string, any>, payload: Map<string, any>) => {
+    return state.mergeIn(['room', 'entities'], payload).setIn(['room', 'loaded'], true);
+};
+
+/**
+ * Increase room message count
+ */
+const increaseRoomMessageCount = (state: Map<string, any>, payload: any) => {
+    const { roomId, amount } = payload;
+    const messageCount = state.getIn(['room', 'entities', roomId, 'messageCount'], 0);
+    return state.setIn(['room', 'entities', roomId, 'messageCount'], amount + messageCount);
+};
+
+/**
+ * Set room first message fetched
+ */
+const setRoomFirstMessageFetched = (state: Map<string, any>, payload: any) => {
+    const { roomId, message } = payload;
+    return state.setIn(['room', 'firstMessage', roomId], message);
+};
+
+/**
+ * Set room last message fetched
+ */
+const setRoomLastMessage = (state: Map<string, any>, payload: any) => {
+    const { roomId, message } = payload;
+    return state.setIn(['room', 'entities', roomId, 'lastMessage'], message);
 };
 
 /**
@@ -26,19 +104,50 @@ const addPlainChatRoomMessages = (state: Map<string, any>, payload: any) => {
 export const chatReducer = (state = Map({ chatOpen: false, recentChatOpen: false }), action: IChatAction) => {
     const { payload } = action;
     switch (action.type) {
+        case ChatActionType.SET_CHAT_ROOM:
+            return setChatRoom(state, payload);
+
+        case ChatActionType.ADD_ACTIVE_ROOM:
+            return addActiveChatRoom(state, payload);
+
+        case ChatActionType.SET_ROOM_FIRST_MESSAGE_FETCHED:
+            return setRoomFirstMessageFetched(state, payload);
+
+        case ChatActionType.SET_ROOM_LAST_MESSAGE:
+            return setRoomLastMessage(state, payload);
+
+        case ChatActionType.UPDATE_ROOM_USER_READ_META:
+            return state
+                .setIn(['room', 'entities', payload.roomId, 'readCount', payload.userId], payload.readCount)
+                .setIn(['room', 'entities', payload.roomId, 'readDate', payload.userId], payload.readDate);
+
+        case ChatActionType.HAS_MORE_MESSAGES:
+            return state.setIn(['hasMoreData', payload.roomId, payload.type], true);
+
+        case ChatActionType.NO_MORE_MESSAGES:
+            return state.setIn(['hasMoreData', payload.roomId, payload.type], false);
+
+        case ChatActionType.ADD_ROOMS:
+            return addChatRooms(state, payload);
+
+        case ChatActionType.CLOSE_ACTIVE_ROOM:
+            return closeActiveChatRoom(state, payload);
+
+        case ChatActionType.ADD_ROOM:
+            return addChatRoom(state, payload);
+
         case ChatActionType.ADD_CHAT_ROOM_MESSAGES:
-            const { messages, chatRoomId } = payload;
-            return state.mergeIn(['messages', chatRoomId], messages);
+            return addChatRoomMessages(state, payload);
 
         case ChatActionType.ADD_PLAIN_CHAT_ROOM_MESSAGES:
             return addPlainChatRoomMessages(state, payload);
 
+        case ChatActionType.INCREASE_ROOM_MESSAGE_COUNT:
+            return increaseRoomMessageCount(state, payload);
+
         case ChatActionType.REMOVE_CHAT_HISTORY:
             const { roomId } = payload;
             return state.removeIn(['messages', roomId]);
-
-        case ChatActionType.OPEN_CHAT:
-            return state.set('chatOpen', true);
 
         case ChatActionType.CLOSE_CHAT:
             return state.set('chatOpen', false);

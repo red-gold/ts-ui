@@ -1,17 +1,20 @@
-import deepOrange from '@material-ui/core/colors/deepOrange';
-import orange from '@material-ui/core/colors/orange';
+import lightBlue from '@material-ui/core/colors/lightBlue';
+import blue from '@material-ui/core/colors/blue';
 import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 
 export const socialTheme: ThemeOptions = {
+    shape: {
+        borderRadius: 8,
+    },
     typography: {},
     palette: {
-        primary: deepOrange,
-        secondary: orange,
+        primary: lightBlue,
+        secondary: blue,
     },
     shadows: [
         'none',
-        '0px 1px 3px 0px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 2px 1px -1px rgba(0, 0, 0, 0.12)',
-        '0 1px 4px 0 rgba(0,0,0,0.14)',
+        'rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 16px 32px -4px',
+        'rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 16px 32px -4px',
         '0px 1px 8px 0px rgba(0, 0, 0, 0.2),0px 3px 4px 0px rgba(0, 0, 0, 0.14),0px 3px 3px -2px rgba(0, 0, 0, 0.12)',
         '0 1px 8px rgba(0,0,0,.3)',
         '0px 3px 5px -1px rgba(0, 0, 0, 0.2),0px 5px 8px 0px rgba(0, 0, 0, 0.14),0px 1px 14px 0px rgba(0, 0, 0, 0.12)',

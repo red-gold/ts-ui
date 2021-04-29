@@ -1,11 +1,8 @@
 import { Map, List } from 'immutable';
 
-export interface ISearchUserProps {
-    /**
-     * Search posts
-     */
-    search: (query: string, page: number, limit: number) => any;
+export type ISearchUserProps = IOwnProps & IDispatchProps & IStateProps;
 
+export interface IOwnProps {
     /**
      * Theme
      */
@@ -17,22 +14,26 @@ export interface ISearchUserProps {
     location: any;
 
     /**
+     * Styles
+     */
+    classes?: any;
+}
+
+export interface IStateProps {
+    /**
      * Users' profile
      */
-    peopleInfo?: List<Map<string, any>>;
+    peopleInfo: List<Map<string, any>>;
 
     /**
      * If there are more people {true} or not {false}
      */
-    hasMorePeople?: boolean;
+    hasMorePeople: boolean;
+}
 
+export interface IDispatchProps {
     /**
-     * Styles
+     * Search posts
      */
-    classes?: any;
-
-    /**
-     * Translate to locale string
-     */
-    t?: (state: any, params?: any) => any;
+    search: (query: string, page: number, limit: number) => any;
 }

@@ -54,11 +54,6 @@ export interface IAuthorizeService {
     getUserRegisterToken: (user: UserRegisterModel, captchaVerifier: string) => Promise<string>;
 
     /**
-     * Get access token
-     */
-    getAccessToken: () => Promise<string>;
-
-    /**
      * Verify user register code
      */
     verifyUserRegisterCode: (code: string, registerToken: string) => Promise<string>;

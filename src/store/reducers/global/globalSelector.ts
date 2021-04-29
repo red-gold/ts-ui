@@ -22,6 +22,30 @@ const getGlobal = (state: Map<string, any>) => {
     return state.get('global');
 };
 
+const getCirclesLoaded = (state: Map<string, any>) => {
+    return state.getIn(['circle', 'loaded'], false);
+};
+
+const getUserLoaded = (state: Map<string, any>) => {
+    return state.getIn(['user', 'loaded'], false);
+};
+
+const getImageGalleryLoaded = (state: Map<string, any>) => {
+    return state.getIn(['imageGallery', 'loaded'], false);
+};
+
+const getDefaultLoadData = (state: Map<string, any>) => {
+    return state.getIn(['global', 'defaultLoadDataStatus'], false);
+};
+
+const getUserAuthUID = (state: Map<string, any>) => {
+    return state.getIn(['authorize', 'uid']);
+};
+
+const getHeaderTitle = (state: Map<string, any>) => {
+    return state.getIn(['global', 'headerTitle'], '');
+};
+
 /****************************
  * Selectors
  ***************************/
@@ -41,6 +65,18 @@ const selectGlobal = () => {
     return createSelector([getGlobal], (status) => status);
 };
 
+const selectHeaderTitle = () => {
+    return createSelector([getHeaderTitle], (title) => title);
+};
+
+const selectAllDataLoaded = () => {
+    return createSelector(
+        [getCirclesLoaded, getUserLoaded, getDefaultLoadData, getUserAuthUID],
+        (circleLoaded, userLoaded, defaultDataLoaded, authUID) =>
+            circleLoaded && userLoaded && defaultDataLoaded && authUID !== undefined,
+    );
+};
+
 export const globalSelector = {
     getCaller,
     getGlobal,
@@ -50,4 +86,6 @@ export const globalSelector = {
     selectProgress,
     selectFeedbackStatus,
     selectGlobal,
+    selectHeaderTitle,
+    selectAllDataLoaded,
 };

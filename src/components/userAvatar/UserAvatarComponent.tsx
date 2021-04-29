@@ -1,51 +1,15 @@
 // - Import react components
 import { withStyles } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import { userAvatarStyles } from 'components/userAvatar/userAvatarStyles';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { userAvatarStyles } from './userAvatarStyles';
 import { connect } from 'react-redux';
 
-import { IUserAvatarComponentProps } from './IUserAvatarComponentProps';
-import { IUserAvatarComponentState } from './IUserAvatarComponentState';
+import { IUserAvatarProps } from './IUserAvatarProps';
+import { IUserAvatarState } from './IUserAvatarState';
 
-// - Import app components
-
-// - Import API
-
-// - Import actions
-/**
- * Create component class
- */
-export class UserAvatarComponent extends Component<IUserAvatarComponentProps, IUserAvatarComponentState> {
-    static propTypes = {
-        /**
-         * Use for getting url address from server
-         */
-        fileName: PropTypes.string,
-        /**
-         * User full name
-         */
-        fullName: PropTypes.string,
-        /**
-         * Avatar style
-         */
-        style: PropTypes.object,
-        /**
-         * Avatar size
-         */
-        size: PropTypes.number,
-        /**
-         * Trigger on touch tap
-         */
-        onClick: PropTypes.func,
-    };
-
-    /**
-     * Component constructor
-     *
-     */
-    constructor(props: IUserAvatarComponentProps) {
+export class UserAvatarComponent extends Component<IUserAvatarProps, IUserAvatarState> {
+    constructor(props: IUserAvatarProps) {
         super(props);
 
         // Defaul state
@@ -91,23 +55,5 @@ export class UserAvatarComponent extends Component<IUserAvatarComponentProps, IU
     }
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = () => {
-    return {};
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = (state: any) => {
-    return {
-        avatarURL: state.getIn(['imageGallery', 'imageURLList']),
-        imageRequests: state.getIn(['imageGallery', 'imageRequests']),
-    };
-};
-
-// - Connect component to redux store
-const styleWrappedComponent = withStyles(userAvatarStyles, { withTheme: true })(UserAvatarComponent as any) as any;
-export default connect<{}, {}, any, any>(mapStateToProps, mapDispatchToProps)(styleWrappedComponent);
+const styleWrappedComponent = withStyles(userAvatarStyles, { withTheme: true })(UserAvatarComponent);
+export default styleWrappedComponent;

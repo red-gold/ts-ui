@@ -1,64 +1,45 @@
-// - Import react components
+import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import { blue } from '@material-ui/core/colors';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+import { isWidthDown } from '@material-ui/core/withWidth';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import SvgDehaze from '@material-ui/icons/Dehaze';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
+import ChatIcon from '@material-ui/icons/Chat';
 import classNames from 'classnames';
 import Notify from 'components/notify';
 import SearchBoxComponent from 'components/searchBox';
 import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
 import EditProfile from 'components/editProfile/EditProfileComponent';
-import { push } from 'connected-react-router';
-import { Map } from 'immutable';
 import queryString from 'query-string';
-import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
-import * as authorizeActions from 'store/actions/authorizeActions';
-import * as chatActions from 'store/actions/chatActions';
-import * as userActions from 'store/actions/userActions';
-import { userSelector } from 'store/reducers/users/userSelector';
+import { WithTranslation } from 'react-i18next';
+
+import { NavLink } from 'react-router-dom';
 import TelarMonoLogo from 'layouts/telarMonoLogo';
+import Badge from '@material-ui/core/Badge';
+import { IHomeHeaderProps } from './IHomeHeaderProps';
+import { IHomeHeaderState } from './IHomeHeaderState';
+import { connectHomeHeader } from './connectHomeHeader';
+import RoomListComponent from '../roomList';
 
-import { homeHeaderStyles } from './homeHeaderStyles';
-import { IHomeHeaderComponentProps } from './IHomeHeaderComponentProps';
-import { IHomeHeaderComponentState } from './IHomeHeaderComponentState';
-
-// - Material UI
-// - Import components
-// - Import actions
-// - Create HomeHeader component class
-export class HomeHeaderComponent extends Component<
-    IHomeHeaderComponentProps & WithTranslation,
-    IHomeHeaderComponentState
-> {
+export class HomeHeaderComponent extends Component<IHomeHeaderProps & WithTranslation, IHomeHeaderState> {
     /**
      * Fields
      */
     unlisten: any;
-    styles = {
-        avatarStyle: {
-            margin: 5,
-            cursor: 'pointer',
-        },
-    };
 
     /**
      * Component constructor
      *
      */
-    constructor(props: IHomeHeaderComponentProps & WithTranslation) {
+    constructor(props: IHomeHeaderProps & WithTranslation) {
         super(props);
 
         // Default state
@@ -111,6 +92,15 @@ export class HomeHeaderComponent extends Component<
     };
 
     /**
+     * Handle close room list
+     */
+    handleCloseRoomList = () => {
+        this.setState({
+            anchorElRoomList: null,
+        });
+    };
+
+    /**
      * Handle close avatar menu
      */
     handleCloseAvatarMenu = () => {
@@ -118,16 +108,6 @@ export class HomeHeaderComponent extends Component<
             anchorElAvatar: null,
             openAvatarMenu: false,
         });
-    };
-
-    /**
-     * Handle close recent chat menu
-     */
-    handleCloseRecentChat = () => {
-        const { closeRecentChat } = this.props;
-        if (closeRecentChat) {
-            closeRecentChat();
-        }
     };
 
     // On click toggle sidebar
@@ -150,6 +130,18 @@ export class HomeHeaderComponent extends Component<
     };
 
     /**
+     * Handle room list touch
+     */
+    handlRoomListTouchTap = (event: any) => {
+        // This prevents ghost click.
+        event.preventDefault();
+
+        this.setState({
+            anchorElRoomList: event.currentTarget,
+        });
+    };
+
+    /**
      * Handle notification touch
      */
     handleAvatarTouchTap = (event: any) => {
@@ -159,21 +151,6 @@ export class HomeHeaderComponent extends Component<
         this.setState({
             openAvatarMenu: true,
             anchorElAvatar: event.currentTarget,
-        });
-    };
-
-    /**
-     * Handle notification touch
-     */
-    handleRecentChatTouchTap = (event: any) => {
-        // This prevents ghost click.
-        event.preventDefault();
-        const { openRecentChat } = this.props;
-        if (openRecentChat) {
-            openRecentChat();
-        }
-        this.setState({
-            anchorElRecentChat: event.currentTarget,
         });
     };
 
@@ -254,7 +231,7 @@ export class HomeHeaderComponent extends Component<
 
     // Render app DOM component
     render() {
-        const { classes, t, theme, myProfileAccountOpen } = this.props;
+        const { classes, t, theme, myProfileAccountOpen, unreadRoomsCount } = this.props;
         const { isSearchPage, previousLocation } = this.state;
         const anchor = theme.direction === 'rtl' ? 'right' : 'left';
 
@@ -270,28 +247,39 @@ export class HomeHeaderComponent extends Component<
                     </IconButton>
                 </Hidden>
 
+                {/* Messenger */}
+                <Tooltip title={t('header.messengerTooltip')}>
+                    <IconButton
+                        onClick={this.handlRoomListTouchTap}
+                        onMouseDown={this.handleMouseDown}
+                        className={classes.messengerButton}
+                    >
+                        <Badge badgeContent={unreadRoomsCount} color="error">
+                            <ChatIcon style={{ color: theme.palette.common.white }} />
+                        </Badge>
+                    </IconButton>
+                </Tooltip>
+
+                <RoomListComponent
+                    open={!!this.state.anchorElRoomList}
+                    anchorEl={this.state.anchorElRoomList}
+                    onClose={this.handleCloseRoomList}
+                />
+
                 {/* Notification */}
 
-                {this.props.notifyCount && this.props.notifyCount > 0 ? (
-                    <Tooltip title={t('header.notificationTooltip')}>
-                        <IconButton onClick={this.handleNotifyTouchTap}>
-                            <div className="homeHeader__notify">
-                                <div className="title">{this.props.notifyCount}</div>
-                            </div>
-                        </IconButton>
-                    </Tooltip>
-                ) : (
-                    <Tooltip title={t('header.notificationTooltip')}>
-                        <IconButton onClick={this.handleNotifyTouchTap}>
+                <Tooltip title={t('header.notificationTooltip')}>
+                    <IconButton onClick={this.handleNotifyTouchTap}>
+                        <Badge badgeContent={this.props.notifyCount} color="error">
                             <NotificationsIcon style={{ color: theme.palette.common.white }} />
-                        </IconButton>
-                    </Tooltip>
-                )}
+                        </Badge>
+                    </IconButton>
+                </Tooltip>
 
                 <Notify
                     open={this.state.openNotifyMenu}
                     anchorEl={this.state.anchorElNotify}
-                    onRequestClose={this.handleCloseNotify}
+                    onClose={this.handleCloseNotify}
                 />
 
                 {/* User avatar*/}
@@ -300,7 +288,7 @@ export class HomeHeaderComponent extends Component<
                     fullName={this.props.fullName}
                     fileName={this.props.avatar}
                     size={32}
-                    style={this.styles.avatarStyle}
+                    className={classes.avatar}
                 />
 
                 <Menu
@@ -398,39 +386,4 @@ export class HomeHeaderComponent extends Component<
     }
 }
 
-// - Map dispatch to props
-const mapDispatchToProps = (dispatch: Function) => {
-    return {
-        logout: () => dispatch(authorizeActions.dbLogout()),
-        openRecentChat: () => dispatch(chatActions.openRecentChat()),
-        closeRecentChat: () => dispatch(chatActions.closeRecentChat()),
-        goTo: (url: string) => dispatch(push(url)),
-        openEditor: () => dispatch(userActions.openEditProfile()),
-    };
-};
-
-// - Map state to props
-const mapStateToProps = (state: Map<string, any>) => {
-    const selectUser = userSelector.selectUserProfileById();
-    const uid = state.getIn(['authorize', 'uid'], 0);
-    const userNotifies: Map<string, any> = state.getIn(['notify', 'userNotifies']);
-
-    const notifyCount = userNotifies
-        ? userNotifies.filter((notification) => !notification.get('isSeen', false)).count()
-        : 0;
-    const user = selectUser(state, { userId: uid }) as Map<string, any>;
-    return {
-        avatar: user.get('avatar', ''),
-        fullName: user.get('fullName', ''),
-        title: state.getIn(['global', 'headerTitle'], ''),
-        recentChatOpen: state.getIn(['chat', 'recentChatOpen'], false),
-        notifyCount,
-        myProfileAccountOpen: state.getIn(['user', 'openEditProfile']),
-    };
-};
-
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(HomeHeaderComponent);
-const withStylesComponent = withStyles(homeHeaderStyles, { withTheme: true })(translateWrapper);
-const connectedComponent = connect<{}, {}, any, any>(mapStateToProps, mapDispatchToProps)(withStylesComponent);
-export default withRouter<any, any>(withWidth()(connectedComponent) as any) as any;
+export default connectHomeHeader(HomeHeaderComponent);

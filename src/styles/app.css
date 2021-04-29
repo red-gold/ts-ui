@@ -378,7 +378,7 @@ body {
   white-space: pre-wrap; }
 
 .cookieConsent {
-  z-index: 1200 !important; }
+  z-index: 1300 !important; }
 
 /* Change autocomplete styles in WebKit */
 input:-webkit-autofill,
@@ -560,12 +560,6 @@ g__input-underline::after {
 
 .sc-header--img {
   width: 60px; }
-
-.emoji-mart {
-  width: 100% !important;
-  font-size: 10px; }
-  .emoji-mart .emoji-mart-scroll {
-    height: 100% !important; }
 
 .simile-loading {
   margin: 0;
@@ -790,6 +784,16 @@ g__input-underline::after {
 *::before,
 *::after {
   box-sizing: inherit; }
+
+.emoji-mart {
+  width: 100% !important;
+  border: none !important; }
+
+.emoji-mart-preview {
+  display: none; }
+
+.emoji-mart-scroll {
+  max-height: 254px; }
 
 .master__progress {
   position: fixed;
@@ -1288,3 +1292,6 @@ g__input-underline::after {
 .settings__button-box {
   flex-direction: row;
   margin-top: 20px; }
+
+.infinite-scroll-component {
+  overflow: unset  !important; }

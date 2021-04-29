@@ -44,15 +44,12 @@ import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { serverSelector } from 'store/reducers/server/serverSelector';
 import uuid from 'uuid';
+import { TransitionProps } from '@material-ui/core/transitions';
 
 import { IAlbumDialogProps } from './IAlbumDialogProps';
 import { IAlbumDialogState } from './IAlbumDialogState';
 import { throwNoValue } from 'utils/errorHandling';
 
-// - Material-UI
-// - Import actions
-// - Import app components
-// - Import API
 const tutorialSteps = [
     {
         label: '',
@@ -62,9 +59,12 @@ const tutorialSteps = [
     },
 ];
 
-function Transition(props: any) {
-    return <Slide direction="up" {...props} />;
-}
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children?: React.ReactElement<any, any> },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 /**
  * Create component class
@@ -661,9 +661,7 @@ const makeMapStateToProps = () => {
         const createAlbumRequestStatus = selectRequest(state, { requestId });
         return {
             currentUser,
-            createAlbumRequestStatus: createAlbumRequestStatus
-                ? createAlbumRequestStatus.status
-                : ServerRequestStatusType.NoAction,
+            createAlbumRequestStatus: createAlbumRequestStatus.get('status', ServerRequestStatusType.NoAction),
         };
     };
     return mapStateToProps;

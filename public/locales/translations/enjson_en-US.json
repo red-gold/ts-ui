@@ -1,4 +1,9 @@
 {
+    "userStatus": {
+        "neverSeen": "Never showed up",
+        "online": "Online"
+        
+    },
     "sidebar" : {
         "home": "Home",
         "profile": "Profile",
@@ -18,10 +23,19 @@
         "help": "Help"
 
     },
+    "rightPanel": {
+        "contactsTitle": "Contacts" ,
+        "noOneInContacts": "There is no one in your contacts!" ,
+        "suggestionTitle": "Suggestion for you",
+        "findFriendsBtn": "Find friends"
+    },
     "header": {
         "home":"Home",
         "notificationTooltip": "Notifications",
-        "recentChatTooltip": "Chat Box",
+        "notificationTitle": "Notifications",
+        "messengerTitle": "Messenger",
+        "messengerTooltip": "Messenger",
+        "noRoom": "No one is in your contacts!",
         "myAccount": "My Account",
         "logout": "Logout",
         "homeCaption": "Home",
@@ -72,7 +86,7 @@
         "maxExceedMessage": "Maximum file size must be 20 MB!"
     },
     "imageGallery": {
-        "uploadButton": "UPLOAD",
+        "uploadButton": "+ Upload Photo",
         "cancelButton": "CANCEL"
     },
     "image": {
@@ -107,7 +121,7 @@
         "headPostsLabel": "{{userName}}'s posts",
         "nothingSharedLabel": " Nothing shared",
         "chooseAvatarDialogTitle": "Choose an avatar image",
-        "chooseBanerDialogTitle": "Choose an baner image",
+        "chooseBannerDialogTitle": "Choose an banner image",
         "twitterExampleLabel": "you twitter user name ex. twitter",
         "facebookExampleLabel": "your facebook page name ex. facebook"
     },

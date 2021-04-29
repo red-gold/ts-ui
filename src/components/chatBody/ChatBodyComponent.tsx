@@ -1,112 +1,127 @@
 // - Import react components
 import { withStyles } from '@material-ui/core/styles';
 import ChatMessageComponent from 'components/chatMessage/ChatMessageComponent';
-import React, { Component } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-
 import { chatBodyStyles } from './chatBodyStyles';
 import { IChatBodyProps } from './IChatBodyProps';
-import { IChatBodyState } from './IChatBodyState';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-// - Material-UI
-// - Import app components
-// - Import API
+export function ChatBodyComponent(props: IChatBodyProps & WithTranslation) {
+    const scrollableRootRef = useRef<HTMLDivElement | null>(null);
+    const lastScrollDistanceToBottomRef = useRef<number>();
 
-// - Import actions
-/**
- * Create component class
- */
-export class ChatBodyComponent extends Component<IChatBodyProps & WithTranslation, IChatBodyState> {
-    /**
-     * Feilds
-     */
-    messagesEnd: any;
-    lastMessagesCount = 0;
+    const [didMount, setDidMount] = useState(false);
+    const [openRoomDate] = useState(new Date().getTime());
+    const [nextOldPage, setNextOldPage] = useState(1);
+    const [isScrollEnd, setIsScrollEnd] = useState(false);
+
+    const loadingUp = props.oldQueryMessageStatus === ServerRequestStatusType.Sent;
 
     /**
-     * Component constructor
+     * Loader for scroll up
      */
-    constructor(props: IChatBodyProps & WithTranslation) {
-        super(props);
+    const upLoader = () => {
+        const { queryMessage, oldQueryMessageRequestId, room } = props;
+        const roomId = room.get('objectId');
 
-        // Defaul state
-        this.state = {};
-        this.messagesEnd = React.createRef<HTMLDivElement>();
-        // Binding functions to `this`
-    }
+        queryMessage(oldQueryMessageRequestId, roomId, nextOldPage, openRoomDate, 0);
 
-    /**
-     * Scroll message list to bottom
-     */
-    scrollToBottom = () => {
-        if (this.messagesEnd && this.messagesEnd.current) {
-            this.messagesEnd.current.scrollTop = this.messagesEnd.current.scrollHeight;
-        }
+        setNextOldPage(nextOldPage + 1);
     };
 
-    componentDidUpdate() {
-        const { chatMessages } = this.props;
-        if (chatMessages && this.lastMessagesCount !== chatMessages.length) {
-            this.lastMessagesCount = chatMessages.length;
-            this.scrollToBottom();
+    const [sentryRefUp, { rootRef }] = useInfiniteScroll({
+        loading: loadingUp,
+        hasNextPage: props.hasMoreOldMessages,
+        onLoadMore: upLoader,
+        disabled: false,
+        delayInMs: 100,
+        rootMargin: '400px 0px 0px 0px',
+    });
+
+    const { classes, chatMessages, currentUser, receiverUser } = props;
+
+    const rootRefSetter = useCallback(
+        (node: HTMLDivElement) => {
+            rootRef(node);
+            scrollableRootRef.current = node;
+        },
+        [rootRef],
+    );
+
+    const handleRootScroll = useCallback(() => {
+        const rootNode = scrollableRootRef.current;
+        if (rootNode) {
+            if (rootNode.offsetHeight + rootNode.scrollTop >= rootNode.scrollHeight) {
+                const { handleReadMessage } = props;
+                if (chatMessages.size > 0) {
+                    handleReadMessage(chatMessages.last());
+                }
+                !isScrollEnd && setIsScrollEnd(true);
+            } else {
+                isScrollEnd && setIsScrollEnd(false);
+                const scrollDistanceToBottom = rootNode.scrollHeight - rootNode.scrollTop;
+                lastScrollDistanceToBottomRef.current = scrollDistanceToBottom;
+            }
         }
-    }
+    }, [chatMessages.size]);
 
-    componentDidMount() {
-        this.scrollToBottom();
-    }
+    // We keep the scroll position when new items are added etc.
+    useEffect(() => {
+        if (!didMount) {
+            setDidMount(true);
+        }
+        const scrollableRoot = scrollableRootRef.current;
+        const lastScrollDistanceToBottom = lastScrollDistanceToBottomRef.current ?? 0;
+        if (scrollableRoot) {
+            // When scroll is not visible
+            if (!(scrollableRoot.scrollHeight > scrollableRoot.clientHeight)) {
+                const { handleReadMessage } = props;
+                if (chatMessages.size > 0) {
+                    handleReadMessage(chatMessages.last());
+                }
+            }
+            if (isScrollEnd || !(loadingUp || props.hasMoreOldMessages)) {
+                scrollableRoot.scrollTop = scrollableRoot.scrollHeight;
+            } else {
+                scrollableRoot.scrollTop = scrollableRoot.scrollHeight - lastScrollDistanceToBottom;
+            }
+        }
+    }, [chatMessages, rootRef]);
 
-    /**
-     * Reneder component DOM
-     */
-    render() {
-        const { classes, chatMessages, currentUser } = this.props;
+    return (
+        <div id="chat-body-scroll" className={classes.bodyMessageRoot} ref={rootRefSetter} onScroll={handleRootScroll}>
+            <div>
+                {(loadingUp || props.hasMoreOldMessages) && (
+                    <div ref={sentryRefUp} className={classes.progress}>
+                        <CircularProgress size={20} />
+                    </div>
+                )}
 
-        return (
-            <div className={classes.bodyMessageRoot} ref={this.messagesEnd}>
                 {chatMessages
-                    ? chatMessages.map((message) => (
-                          <ChatMessageComponent
-                              key={message.id}
-                              rtl={message.isCurrentUser}
-                              text={
-                                  message.isCurrentUser
-                                      ? message.data
-                                      : message.translateMessage
-                                      ? message.translateMessage
-                                      : message.data
-                              }
-                              avatar={message.receiverUser.avatar}
-                              ownerName={message.receiverUser.fullName}
-                              currentUser={currentUser}
-                              loading={message.loading}
-                          />
-                      ))
+                    ? chatMessages
+                          .map((message) => (
+                              <ChatMessageComponent
+                                  key={message.get('objectId')}
+                                  me={message.get('isCurrentUser')}
+                                  text={message.get('text')}
+                                  updatedDate={message.get('updatedDate')}
+                                  avatar={receiverUser.get('avatar')}
+                                  ownerName={receiverUser.get('fullName')}
+                                  currentUser={currentUser}
+                                  loading={false}
+                              />
+                          ))
+                          .valueSeq()
                     : ''}
             </div>
-        );
-    }
+        </div>
+    );
 }
-
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = () => {
-    return {};
-};
-
-const makeMapStateToProps = () => {
-    const mapStateToProps = () => {
-        return {};
-    };
-    return mapStateToProps;
-};
 
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(ChatBodyComponent);
 
-export default connect<{}, {}, any, any>(
-    makeMapStateToProps,
-    mapDispatchToProps,
-)(withStyles(chatBodyStyles as any)(translateWrapper as any) as any);
+export default withStyles(chatBodyStyles)(translateWrapper);

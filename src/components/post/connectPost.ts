@@ -7,14 +7,14 @@ import * as globalActions from 'store/actions/globalActions';
 import * as postActions from 'store/actions/postActions';
 import * as voteActions from 'store/actions/voteActions';
 
-import { IPostComponentProps } from './IPostComponentProps';
+import { IPostProps } from './IPostProps';
 import { commentSelector } from 'store/reducers/comments/commentSelector';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any, ownProps: IPostComponentProps) => {
+const mapDispatchToProps = (dispatch: any, ownProps: IPostProps) => {
     const { post } = ownProps;
     return {
         vote: () => dispatch(voteActions.dbAddVote(post.get('id'), post.get('ownerUserId'))),
@@ -40,7 +40,7 @@ const makeMapStateToProps = () => {
     const selectCurrentUser = authorizeSelector.selectCurrentUser();
     const selectComments = commentSelector.selectPostComments();
 
-    const mapStateToProps = (state: Map<string, any>, ownProps: IPostComponentProps) => {
+    const mapStateToProps = (state: Map<string, any>, ownProps: IPostProps) => {
         const commentList = selectComments(state, { postId: ownProps.post.get('id') });
         const currentUser = selectCurrentUser(state);
         const uid = currentUser.get('userId');
@@ -60,5 +60,5 @@ const makeMapStateToProps = () => {
     return mapStateToProps;
 };
 
-export const connectPost = (component: ComponentType<IPostComponentProps>) =>
+export const connectPost = (component: ComponentType<IPostProps>) =>
     connect<{}, {}, any, any>(makeMapStateToProps, mapDispatchToProps)(component as any);

@@ -16,9 +16,9 @@ import { Map } from 'immutable';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { userGetters } from 'store/reducers/users/userGetters';
 import * as globalActions from 'store/actions/globalActions';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
-import { userSelector } from 'store/reducers/users/userSelector';
 
 import { ISendFeedbackComponentProps } from './ISendFeedbackComponentProps';
 import { ISendFeedbackComponentState } from './ISendFeedbackComponentState';
@@ -224,7 +224,7 @@ const mapStateToProps = (state: Map<string, any>) => {
     const uid = state.getIn(['authorize', 'uid']);
     const requestId = StringAPI.createServerRequestId(ServerRequestType.CommonSendFeedback, uid);
     const currentUser: User = {
-        ...userSelector.getUserProfileById(state, { userId: uid }).toJS(),
+        ...userGetters.getUserProfileById(state, { userId: uid }).toJS(),
         userId: uid,
     } as User;
     const sendFeedbackStatus = state.getIn(['global', 'sendFeedbackStatus']);

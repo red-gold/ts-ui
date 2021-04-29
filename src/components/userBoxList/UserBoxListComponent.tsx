@@ -1,5 +1,6 @@
 // - Import react components
 import UserBox from 'components/userBox/UserBoxComponent';
+import { push } from 'connected-react-router';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -7,14 +8,6 @@ import { connect } from 'react-redux';
 import { IUserBoxListComponentProps } from './IUserBoxListComponentProps';
 import { IUserBoxListComponentState } from './IUserBoxListComponentState';
 
-// - Import app components
-// - Import API
-
-// - Import actions
-
-/**
- * Create component class
- */
 export class UserBoxListComponent extends Component<IUserBoxListComponentProps, IUserBoxListComponentState> {
     static propTypes = {
         /**
@@ -37,14 +30,14 @@ export class UserBoxListComponent extends Component<IUserBoxListComponentProps, 
     }
 
     userList = () => {
-        const { uid } = this.props;
+        const { uid, goTo } = this.props;
         const users = this.props.users;
         const userBoxList: any[] = [];
         if (users) {
             users.forEach((user) => {
                 const userId = user.get('userId') as string;
                 if (uid !== userId) {
-                    userBoxList.push(<UserBox key={userId} userId={userId} user={user} />);
+                    userBoxList.push(<UserBox key={userId} user={user} goTo={goTo} />);
                 }
             });
         }
@@ -63,8 +56,10 @@ export class UserBoxListComponent extends Component<IUserBoxListComponentProps, 
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = () => {
-    return {};
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        goTo: (url: string) => dispatch(push(url)),
+    };
 };
 
 /**

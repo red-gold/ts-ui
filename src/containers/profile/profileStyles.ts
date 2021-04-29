@@ -1,4 +1,6 @@
-export const profileStyles = (theme: any) => ({
+import { createStyles } from '@material-ui/styles';
+
+export const profileStyles = createStyles((theme: any) => ({
     banner: {
         backgroundAttachment: 'scroll',
         borderRadius: '2px',
@@ -19,4 +21,7 @@ export const profileStyles = (theme: any) => ({
         height: 0,
         paddingTop: '56.25%', // 16:9
     },
-});
+    postGrid: {
+        maxWidth: 600,
+    },
+}));

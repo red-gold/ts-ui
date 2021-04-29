@@ -1,9 +1,11 @@
-export const streamStyles = (theme: any) => ({
+import { createStyles } from '@material-ui/styles';
+
+export const streamStyles = createStyles(() => ({
     root: {},
-    gridCell: {
-        [theme.breakpoints.down('sm')]: {
-            maxWidth: '100% !important',
-            width: '100%',
-        },
+    gridItem: {
+        padding: '24px !important',
     },
-});
+    postGrid: {
+        maxWidth: 700,
+    },
+}));

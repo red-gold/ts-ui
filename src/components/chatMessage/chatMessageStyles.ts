@@ -1,23 +1,7 @@
 export const chatMessageStyles = (theme: any) => ({
     root: {
-        position: 'fixed',
-        right: 30,
-        bottom: 30,
-        left: 'unset !important',
-        zIndex: 1100,
-        height: '400px',
-        width: '600px',
-        overflow: 'hidden',
-        borderRadius: 5,
-        boxShadow:
-            '0px 1px 5px 0px rgba(0, 0, 0, 0.2),0px 2px 2px 0px rgba(0, 0, 0, 0.14),0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
-        WebkitTouchCallout: 'none',
-        WebkitUserSelect: 'none',
-        KhtmlUserSelect: 'none',
-        MozUserSelect: 'none',
-        MsUserSelect: 'none',
-        userSelect: 'none',
-        outline: 0,
+        display: 'flex',
+        marginBottom: 24,
     },
     rootMinimized: {
         height: '44px',
@@ -87,40 +71,31 @@ export const chatMessageStyles = (theme: any) => ({
     },
     bodyMessageRoot: {
         padding: '20px 0px',
-        backgroundColor: '#F9F6F6',
         height: 'calc(100% - 110px)',
         overflowY: 'auto',
         overflowX: 'hidden',
     },
     messageRoot: {
         display: 'flex',
-        flexDirection: 'row',
-        padding: '0px 10px',
-        marginBottom: 10,
     },
     messageRootRight: {
-        display: 'flex',
-        flexDirection: 'row-reverse',
-        padding: '0px 10px',
+        marginLeft: 'auto',
     },
     messageAvatar: {
         border: '1px solid #ffffff8c',
-        borderRadius: '50%',
     },
     messageText: {
-        boxShadow: '0 1px 4px 0 rgba(0,0,0,0.14)',
-        padding: '10px 6px',
-        borderRadius: '8px',
-        backgroundColor: 'white',
-        margin: '0px 10px',
-        position: 'relative',
+        padding: 12,
+        maxWidth: 320,
+        marginTop: 4,
+        borderRadius: 8,
+        backgroundColor: '#F4F6F8',
     },
     listContainer: {
         paddingTop: 0,
         height: '100%',
     },
     rightSideChatRoot: {
-        backgroundColor: '#F9F6F6',
         padding: '0 0 !important',
     },
     leftSideChatRoot: {
@@ -136,15 +111,15 @@ export const chatMessageStyles = (theme: any) => ({
         backgroundColor: 'rgba(0, 0, 0, 0.08)',
     },
     messageTextRight: {
-        backgroundColor: theme.palette.primary.main,
-        '&>span': {
-            color: 'white !important',
-        },
+        backgroundColor: '#C8FACD',
+        padding: 12,
+        maxWidth: 320,
+        marginTop: 4,
+        borderRadius: 8,
     },
     sendMessageRoot: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: '#F9F6F6',
         width: '100%',
         bottom: 0,
         position: 'absolute',
@@ -227,5 +202,16 @@ export const chatMessageStyles = (theme: any) => ({
         top: 0,
         width: 30,
         height: 30,
+    },
+    messageBox: {
+        marginLeft: 16,
+    },
+    updatedDate: {
+        color: ' #637381',
+        display: 'flex',
+        marginBottom: 6,
+        '&.me': {
+            justifyContent: 'flex-end',
+        },
     },
 });

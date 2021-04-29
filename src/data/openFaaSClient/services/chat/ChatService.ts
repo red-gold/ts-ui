@@ -3,7 +3,7 @@ import { Message } from 'core/domain/chat/message';
 import { SocialError } from 'core/domain/common/socialError';
 import { IChatService } from 'core/services/chat/IChatService';
 import { injectable } from 'inversify';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { log } from 'utils/log';
 
 /**
@@ -25,9 +25,10 @@ export class ChatService implements IChatService {
     /**
      * Connect to websocket server
      */
-    public wsConnect = (url: string, accessKey: string, uid: string, callback: Function) => {
+    public wsConnect = (url: string, uid: string, callback: Function) => {
         this.socket = io(url, {
-            query: `accessKey=${accessKey}&uid=${uid}`,
+            query: { uid },
+            withCredentials: true,
         });
 
         this.socket.on('connect', () => {
@@ -143,7 +144,56 @@ export class ChatService implements IChatService {
      */
     public createChatMessage = (message: Message) => {
         if (this.socket) {
-            this.socket.emit('chatroom-message', { message });
+            this.socket.emit('chatroom-message', message);
+        } else {
+            throw new SocialError('nullSocketError', 'There is no connection bound to socket!');
+        }
+    };
+
+    /**
+     * Join a chat room
+     */
+    public requestActiveRoom = (peerUserId: string) => {
+        if (this.socket) {
+            this.socket.emit('request-active-room', { peerUserId });
+        } else {
+            throw new SocialError('nullSocketError', 'There is no connection bound to socket!');
+        }
+    };
+
+    /**
+     * Open room
+     */
+    public openRoom = (roomId: string) => {
+        if (this.socket) {
+            this.socket.emit('open-room', { roomId });
+        } else {
+            throw new SocialError('nullSocketError', 'There is no connection bound to socket!');
+        }
+    };
+
+    /**
+     * Query room messages
+     */
+    public queryRoomMessages = (requestId: string, roomId: string, page: number, lte: number, gte: number) => {
+        if (this.socket) {
+            this.socket.emit('query-room-messages', { requestId, roomId, page, lte, gte });
+        } else {
+            throw new SocialError('nullSocketError', 'There is no connection bound to socket!');
+        }
+    };
+
+    /**
+     * Update read message meta
+     */
+    public updateReadMessageMeta = (
+        roomId: string,
+        messageId: string,
+        readCount: number,
+        messageCreatedDate: number,
+    ) => {
+        if (this.socket) {
+            this.socket.emit('read-message-meta', { roomId, messageId, readCount, messageCreatedDate });
         } else {
             throw new SocialError('nullSocketError', 'There is no connection bound to socket!');
         }

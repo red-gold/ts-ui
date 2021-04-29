@@ -36,9 +36,7 @@ const makeMapStateToProps = () => {
         const commentsRequestStatus = selectRequest(state, { requestId: requestId });
 
         return {
-            commentsRequestStatus: commentsRequestStatus
-                ? commentsRequestStatus.status
-                : ServerRequestStatusType.NoAction,
+            commentsRequestStatus: commentsRequestStatus.get('status', ServerRequestStatusType.NoAction),
             uid: currentUser.get('userId', ''),
             avatar: currentUser.get('avatar', ''),
             fullName: currentUser.get('fullName', ''),

@@ -71,7 +71,7 @@ export const dbFetchPeerChatRoom = (chatRoomId: string) => {
 /**
  * Add chat messages
  */
-export const addChatRoomMessages = (messages: Map<string, any>, chatRoomId: string) => {
+export const addChatRoomMessages = (messages: Map<string, Map<string, any>>, chatRoomId: string) => {
     return {
         type: ChatActionType.ADD_CHAT_ROOM_MESSAGES,
         payload: { messages, chatRoomId },
@@ -89,12 +89,82 @@ export const addPlainChatRoomMessages = (messages: any, roomId: string) => {
 };
 
 /**
+ * Add plain chat messages
+ */
+export const increaseRoomMessageCount = (roomId: string, amount: number) => {
+    return {
+        type: ChatActionType.INCREASE_ROOM_MESSAGE_COUNT,
+        payload: { roomId, amount },
+    };
+};
+
+/**
  * Active peer chat room
  */
-export const activePeerChatRoom = (receiverId: string) => {
+export const activePeerChatRoom = (peerUserId: string) => {
     return {
         type: ChatActionType.ACTIVE_PEER_CHAT_ROOM,
-        payload: { receiverId },
+        payload: { peerUserId },
+    };
+};
+
+/**
+ * Set active chat room
+ */
+export const setActiveChatRoom = (payload: any) => {
+    return {
+        type: ChatActionType.SET_ACTIVE_ROOM,
+        payload,
+    };
+};
+
+/**
+ * Add active chat room
+ */
+export const addActiveChatRoom = (roomId: string) => {
+    return {
+        type: ChatActionType.ADD_ACTIVE_ROOM,
+        payload: { roomId },
+    };
+};
+
+/**
+ * Close active chat room
+ */
+export const closeActiveChatRoom = (roomId: string) => {
+    return {
+        type: ChatActionType.CLOSE_ACTIVE_ROOM,
+        payload: { roomId },
+    };
+};
+
+/**
+ * Add active chat room
+ */
+export const addChatRoom = (payload: any) => {
+    return {
+        type: ChatActionType.ADD_ROOM,
+        payload,
+    };
+};
+
+/**
+ * Add active chat rooms
+ */
+export const addChatRooms = (payload: any) => {
+    return {
+        type: ChatActionType.ADD_ROOMS,
+        payload,
+    };
+};
+
+/**
+ * Active chat room
+ */
+export const activeChatRoom = (roomId: string) => {
+    return {
+        type: ChatActionType.ACTIVE_CHAT_ROOM,
+        payload: { roomId },
     };
 };
 
@@ -115,6 +185,91 @@ export const asyncCreateChatRequest = (recUserId: string) => {
     return {
         type: ChatActionType.ASYNC_CREATE_CHAT_REQUEST,
         payload: { recUserId },
+    };
+};
+
+/**
+ * Query messages
+ */
+export const queryMessages = (requestId: string, roomId: string, page: number, lte: number, gte: number) => {
+    return {
+        type: ChatActionType.QUERY_MESSAGE,
+        payload: { requestId, roomId, page, lte, gte },
+    };
+};
+
+/**
+ * Set chat room
+ */
+export const setChatRoom = (roomId: string, data: Map<string, any>) => {
+    return {
+        type: ChatActionType.SET_CHAT_ROOM,
+        payload: { roomId, data },
+    };
+};
+
+/**
+ * Set chat room first message fetched
+ */
+export const setRoomFirstMessageFetched = (roomId: string, message: Map<string, any>) => {
+    return {
+        type: ChatActionType.SET_ROOM_FIRST_MESSAGE_FETCHED,
+        payload: { roomId, message },
+    };
+};
+
+/**
+ * Set chat room last message fetched
+ */
+export const setRoomLastMessage = (roomId: string, message: Map<string, any>) => {
+    return {
+        type: ChatActionType.SET_ROOM_LAST_MESSAGE,
+        payload: { roomId, message },
+    };
+};
+
+/**
+ * Set has more messages for room
+ */
+export const setHasMoreMessages = (roomId: string, type: string) => {
+    return {
+        type: ChatActionType.HAS_MORE_MESSAGES,
+        payload: { roomId, type },
+    };
+};
+
+/**
+ * Set no more messages for room
+ */
+export const setNoMoreMessages = (roomId: string, type: string) => {
+    return {
+        type: ChatActionType.NO_MORE_MESSAGES,
+        payload: { roomId, type },
+    };
+};
+
+/**
+ * Update read message meta
+ */
+export const updateReadMessageMeta = (
+    roomId: string,
+    messageId: string,
+    readCount: number,
+    messageCreatedDate: number,
+) => {
+    return {
+        type: ChatActionType.UPDATE_READ_MESSAGE_META,
+        payload: { roomId, messageId, readCount, messageCreatedDate },
+    };
+};
+
+/**
+ * Update room user read meta
+ */
+export const updateRoomUserReadMeta = (roomId: string, userId: string, readCount: number, readDate: number) => {
+    return {
+        type: ChatActionType.UPDATE_ROOM_USER_READ_META,
+        payload: { roomId, userId, readCount, readDate },
     };
 };
 
@@ -178,11 +333,12 @@ export const closeChat = () => {
 };
 
 /**
- * Open chat window
+ * Open room
  */
-export const openChat = () => {
+export const openRoom = (roomId: string) => {
     return {
-        type: ChatActionType.OPEN_CHAT,
+        type: ChatActionType.OPEN_ROOM,
+        payload: { roomId },
     };
 };
 

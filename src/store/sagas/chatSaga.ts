@@ -1,17 +1,23 @@
 import { ChatActionType } from 'constants/chatActionType';
-import { ChatRoom } from 'core/domain/chat/chatRoom';
-import { ChatRoomType } from 'core/domain/chat/ChatRoomType';
 import { IChatService } from 'core/services/chat/IChatService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
-import { Map } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { Channel, eventChannel } from 'redux-saga';
 import { all, call, cancelled, fork, put, select, take, takeLatest } from 'redux-saga/effects';
 import { provider } from 'socialEngine';
+import * as userActions from 'store/actions/userActions';
 import * as chatActions from 'store/actions/chatActions';
+import * as serverActions from 'store/actions/serverActions';
 import * as globalActions from 'store/actions/globalActions';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import config from 'config';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
+import moment from 'moment/moment';
+import { initServerRequest } from 'utils/serverUtil';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { playNotify } from 'utils/audio';
+import { chatGetters } from '../reducers/chat/chatGetters';
+import { addBadge } from 'utils/badge';
 
 /**
  * Get service providers
@@ -21,9 +27,9 @@ const authService: IAuthorizeService = provider.get<IAuthorizeService>(SocialPro
 
 /***************************** Subroutines ************************************/
 
-function subscribeWSConnect(url: string, accessKey: string, uid: string) {
+function subscribeWSConnect(url: string, uid: string) {
     return eventChannel<any>((emmiter) => {
-        const unsubscribe = chatService.wsConnect(url, accessKey, uid, (message: any) => {
+        const unsubscribe = chatService.wsConnect(url, uid, (message: any) => {
             emmiter(message);
         });
         return () => {
@@ -38,18 +44,10 @@ function subscribeWSConnect(url: string, accessKey: string, uid: string) {
 function* asyncWSConnect() {
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
-    let accessKey = yield select(authorizeSelector.getAccessToken);
-    if (accessKey === '') {
-        accessKey = yield call(authService.getAccessToken);
-    }
+
     yield put(globalActions.showMessage('Connecting...'));
 
-    const channelSubscription: Channel<any> = yield call(
-        subscribeWSConnect,
-        config.gateway.websocket_url,
-        accessKey,
-        uid,
-    );
+    const channelSubscription: Channel<any> = yield call(subscribeWSConnect, config.gateway.websocket_url, uid);
     try {
         while (true) {
             const message: any = yield take(channelSubscription);
@@ -78,58 +76,6 @@ function* asyncWSConnect() {
     }
 }
 
-// ************************ //
-// ** Old implementation ** //TODO: Remove unused functions
-// ************************ //
-
-/**
- * Creating channel event and subscribing chat service
- */
-function subscribeChatMessage(chatRoomId: string) {
-    return eventChannel<Map<string, any>>((emmiter) => {
-        const unsubscribe = chatService.subscribeChatMessages(chatRoomId, (messages: Map<string, any>) => {
-            emmiter(messages);
-        });
-        return () => {
-            unsubscribe();
-        };
-    });
-}
-
-/**
- * On database fetch
- */
-function* dbFetchChatMessages(chatRoomId: string) {
-    const channelSubscription: Channel<Map<string, any>> = yield call(subscribeChatMessage, chatRoomId);
-    try {
-        while (true) {
-            const messages: Map<string, any> = yield take(channelSubscription);
-
-            if (messages) {
-                yield put(chatActions.addChatRoomMessages(messages, chatRoomId));
-            }
-        }
-    } finally {
-        if (yield cancelled()) {
-            channelSubscription.close();
-        }
-    }
-}
-
-/**
- * Fetch chat messages once
- */
-function* dbFetchChatMessageOnce(chatRoomId: string) {
-    try {
-        const messages = yield call(chatService.getChatMessages, chatRoomId);
-        if (messages) {
-            yield put(chatActions.addChatRoomMessages(messages, chatRoomId));
-        }
-    } catch (error) {
-        yield put(globalActions.showMessage(error.message));
-    }
-}
-
 /**
  * Create chat message
  */
@@ -140,73 +86,21 @@ function* dbCreateChatMessage(action: { type: ChatActionType; payload: any }) {
         const { payload } = action;
         try {
             yield fork(chatService.createChatMessage, payload);
-            yield put(
-                chatActions.addChatRoomMessages(
-                    Map({ [payload.id]: Map({ ...payload, loading: true }) }),
-                    payload.chatRoomId,
-                ),
-            );
+            const now = moment().utc().valueOf();
+            let messages: Map<string, Map<string, any>> = Map({});
+
+            const newMessage: Map<string, any> = Map({
+                ...payload,
+                loading: true,
+                updatedDate: now,
+                createdDate: now,
+                ownerUserId: uid,
+            });
+            messages = messages.set(payload.objectId, newMessage);
+            yield put(chatActions.increaseRoomMessageCount(payload.roomId, 1));
+            yield put(chatActions.addChatRoomMessages(messages, payload.roomId));
         } catch (error) {
             yield put(globalActions.showMessage('chatSaga/dbCreateChatMessage : ' + error.message));
-        }
-    }
-}
-
-/**
- * Set chat room  language
- */
-function* setChatLanguage(uid: string, input: string, output: string, roomId: string) {
-    try {
-        yield call(chatService.setChatLangauge, uid, input, output, roomId);
-        yield put(chatActions.setCurrentChat('room'));
-    } catch (error) {
-        yield put(globalActions.showMessage('chatSaga/dbGetPeerChatRoom : ' + error.message));
-    }
-}
-
-/**
- * Active peer chat room
- */
-function* activePeerChatRoom(receiverId: string) {
-    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
-    const uid = authedUser.get('uid');
-    if (uid) {
-        try {
-            let chatRoom: Map<string, any> = yield call(chatService.getPeerChatRoom, uid, receiverId);
-            if (chatRoom) {
-                yield put(chatActions.setCurrentChat('chatRoom'));
-            } else {
-                const newChatRoom = new ChatRoom(
-                    '0',
-                    ChatRoomType.Peer,
-                    {
-                        [uid]: true,
-                        [receiverId]: true,
-                    },
-                    uid,
-                    false,
-                );
-                if (!newChatRoom.lastMessage) {
-                    delete newChatRoom.lastMessage;
-                }
-                if (!newChatRoom.speech) {
-                    delete newChatRoom.speech;
-                }
-                if (!newChatRoom.translation) {
-                    delete newChatRoom.translation;
-                }
-                if (!newChatRoom.userStatus) {
-                    delete newChatRoom.userStatus;
-                }
-
-                chatRoom = yield call(chatService.createChatRoom, newChatRoom);
-                yield put(chatActions.setCurrentChat('chatRoom'));
-            }
-            const chatRoomId = chatRoom.get('id');
-            yield call(dbFetchChatMessageOnce, chatRoomId);
-            yield call(dbFetchChatMessages, chatRoomId);
-        } catch (error) {
-            yield put(globalActions.showMessage('chatSaga/activePeerChatRoom : ' + error.message));
         }
     }
 }
@@ -216,64 +110,15 @@ function* activePeerChatRoom(receiverId: string) {
 /******************************************************************************/
 
 /**
- * Remove chat room message history
- */
-function* dbRemoveRoomHistory(action: { type: ChatActionType; payload: any }) {
-    const { roomId } = action.payload;
-    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
-    const uid = authedUser.get('uid');
-    if (uid) {
-        try {
-            yield call(chatService.removeHistoryRoom, roomId);
-            yield put(chatActions.removeChatHistory(roomId));
-        } catch (error) {
-            yield put(globalActions.showMessage(error.message));
-        }
-    }
-}
-
-/**
  * Watch active peer chat room
  */
 function* watchActivePeerChatRoom(action: { type: ChatActionType; payload: any }) {
-    const { receiverId } = action.payload;
+    const { peerUserId } = action.payload;
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
     if (uid) {
         try {
-            yield call(activePeerChatRoom, receiverId);
-        } catch (error) {
-            yield put(globalActions.showMessage(error.message));
-        }
-    }
-}
-
-/**
- * Watch chat messages
- */
-function* watchChatMessages(action: { type: ChatActionType; payload: any }) {
-    const { receiverId } = action.payload;
-    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
-    const uid = authedUser.get('uid');
-    if (uid) {
-        try {
-            yield call(dbFetchChatMessages as any, uid, receiverId);
-        } catch (error) {
-            yield put(globalActions.showMessage(error.message));
-        }
-    }
-}
-
-/**
- * Watch chat messages
- */
-function* watchSetLanguage(action: { type: ChatActionType; payload: any }) {
-    const { input, output, roomId } = action.payload;
-    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
-    const uid = authedUser.get('uid');
-    if (uid) {
-        try {
-            yield call(setChatLanguage, uid, input, output, roomId);
+            yield call(chatService.requestActiveRoom, peerUserId);
         } catch (error) {
             yield put(globalActions.showMessage(error.message));
         }
@@ -371,10 +216,153 @@ function* watchSetUserOffline() {
     }
 }
 
+/**
+ * Watch set active room
+ */
+function* watchSetActiveRoom(action: any) {
+    const { payload } = action;
+    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
+    const uid = authedUser.get('uid');
+    if (uid) {
+        const { room, messages, users } = payload;
+        yield put(chatActions.addChatRoom(fromJS(room)));
+        yield put(userActions.addPeopleInfo(fromJS(users)));
+        yield put(chatActions.addActiveChatRoom(room.objectId));
+        if (messages) {
+            yield put(chatActions.addPlainChatRoomMessages(messages, room.objectId));
+        }
+    }
+}
+
+/**
+ * Watch set room entities
+ */
+function* watchSetRoomEntities(action: any) {
+    const { payload } = action;
+    const { rooms } = payload;
+
+    yield put(chatActions.addChatRooms(fromJS(rooms)));
+}
+
+/**
+ * Watch open room
+ */
+function* watchOpenRoom(action: any) {
+    const { payload } = action;
+    const { roomId } = payload;
+    // yield call(chatService.openRoom, roomId);
+    yield put(chatActions.addActiveChatRoom(roomId));
+}
+
+/**
+ * Watch update read message meta
+ */
+function* watchUpdateReadMessageMeta(action: any) {
+    const { payload } = action;
+    const { roomId, messageId, readCount, messageCreatedDate } = payload;
+    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
+    const uid = authedUser.get('uid');
+    yield put(chatActions.updateRoomUserReadMeta(roomId, uid, readCount, messageCreatedDate));
+    yield call(chatService.updateReadMessageMeta, roomId, messageId, readCount, messageCreatedDate);
+}
+
+/**
+ * Watch add room messages
+ */
+function* watchAddRoomMessages(action: any) {
+    const { payload } = action;
+    const { messages, roomId, requestId } = payload;
+
+    if (requestId) {
+        const [requestType, roomId] = requestId.split(':');
+        if (requestType === ServerRequestType.QueryOldMessages && messages === null) {
+            yield put(chatActions.setNoMoreMessages(roomId, 'old'));
+        }
+        if (requestType === ServerRequestType.QueryNewMessages && messages === null) {
+            yield put(chatActions.setNoMoreMessages(roomId, 'new'));
+        }
+
+        yield put(serverActions.okRequest(requestId));
+    }
+
+    if (messages) {
+        yield put(chatActions.addPlainChatRoomMessages(messages, roomId));
+    }
+}
+
+/**
+ * Watch add room new messages
+ */
+function* watchAddRoomNewMessages(action: any) {
+    const { payload } = action;
+    const { messages, roomId } = payload;
+    yield put(chatActions.addPlainChatRoomMessages(messages, roomId));
+
+    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
+    const uid = authedUser.get('uid');
+    // Only increase room message count for new messages which come from other users
+    // we increase room message count for the owner in createMessage function for the owner to sync message count
+    // before updating current user read message meta
+
+    const otherUsersMessages = messages.filter((message: any) => {
+        return message.ownerUserId !== uid;
+    });
+    const sortedMessages = (messages as Array<any>).sort((a, b) => b.createdDate - a.createdDate);
+    const lastMessage = sortedMessages[0];
+    yield put(chatActions.increaseRoomMessageCount(roomId, otherUsersMessages.length));
+    yield put(
+        chatActions.setRoomLastMessage(
+            roomId,
+            Map({
+                createdDate: lastMessage.createdDate,
+                ownerId: lastMessage.ownerUserId,
+                text: lastMessage.text,
+            }),
+        ),
+    );
+
+    const isRoomActive: boolean = yield select(chatGetters.isRoomActive, { roomId });
+
+    if (!isRoomActive) {
+        playNotify();
+        addBadge(1);
+    }
+}
+
+/**
+ * Watch add room messages
+ */
+function* watchQueryRoomMessages(action: any) {
+    const { payload } = action;
+    const { requestId, roomId, page, lte, gte } = payload;
+
+    yield put(serverActions.sendRequest(initServerRequest(ServerRequestType.QueryMessages, requestId)));
+    yield call(chatService.queryRoomMessages, requestId, roomId, page, lte, gte);
+}
+
+/**
+ * Watch add room activated
+ */
+function* watchRoomActivated(action: any) {
+    const { payload } = action;
+    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
+    const uid = authedUser.get('uid');
+    if (uid) {
+        const { room, users } = payload;
+        yield put(chatActions.addChatRoom(fromJS(room)));
+        yield put(userActions.addPeopleInfo(fromJS(users)));
+    }
+}
+
 export default function* chatSaga() {
     yield all([
+        takeLatest(ChatActionType.ROOM_ACTIVATED, watchRoomActivated),
+        takeLatest(ChatActionType.QUERY_MESSAGE, watchQueryRoomMessages),
+        takeLatest(ChatActionType.SG_ADD_ROOM_MESSAGES, watchAddRoomMessages),
+        takeLatest(ChatActionType.SG_ADD_ROOM_NEW_MESSAGES, watchAddRoomNewMessages),
+        takeLatest(ChatActionType.UPDATE_READ_MESSAGE_META, watchUpdateReadMessageMeta),
+        takeLatest(ChatActionType.OPEN_ROOM, watchOpenRoom),
         takeLatest(ChatActionType.DB_CREATE_CHAT_MESSAGE, dbCreateChatMessage),
-        takeLatest(ChatActionType.DB_SUBSCRIBE_CHAT_MESSAGE, watchChatMessages),
         takeLatest(ChatActionType.ACTIVE_PEER_CHAT_ROOM, watchActivePeerChatRoom),
         takeLatest(ChatActionType.WS_CONNECT, asyncWSConnect),
         takeLatest(ChatActionType.ASYNC_CREATE_CHAT_REQUEST, watchCreateChatRequest),
@@ -383,7 +371,7 @@ export default function* chatSaga() {
         takeLatest(ChatActionType.ASYNC_ACCEPT_CHAT_REQUEST, watchAcceptChatRequest),
         takeLatest(ChatActionType.ASYNC_JOIN_CHAT_ROOM, watchJoinChatroom),
         takeLatest(ChatActionType.SET_USER_OFFLINE, watchSetUserOffline),
-        takeLatest(ChatActionType.DB_REMOVE_CHAT_HISTORY, dbRemoveRoomHistory),
-        takeLatest(ChatActionType.DB_SET_CHAT_LANGUAGE, watchSetLanguage),
+        takeLatest(ChatActionType.SET_ACTIVE_ROOM, watchSetActiveRoom),
+        takeLatest(ChatActionType.SET_ROOM_ENTITIES, watchSetRoomEntities),
     ]);
 }

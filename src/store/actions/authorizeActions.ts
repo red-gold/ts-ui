@@ -43,31 +43,11 @@ export const fetchUserRegisterToken = (user: UserRegisterModel, captchaVerifier:
 };
 
 /**
- * Fetch access token
- */
-export const fetchAccessToken = () => {
-    return {
-        type: AuthorizeActionType.ASYNC_FETCH_ACCESS_TOKEN,
-        payload: {},
-    };
-};
-
-/**
  * Set user registeration token
  */
 export const setUserRegisterToken = (token: string) => {
     return {
         type: AuthorizeActionType.SET_USER_REGISTER_TOKEN,
-        payload: { token },
-    };
-};
-
-/**
- * Set access token
- */
-export const setAccessToken = (token: string) => {
-    return {
-        type: AuthorizeActionType.SET_ACCESS_TOKEN,
         payload: { token },
     };
 };
@@ -191,7 +171,7 @@ export const dbLogout = () => {
         authorizeService.logout();
         localStorage.removeItem('red-gold.scure.token');
         dispatch(logout());
-        window.location.href = config.gateway.gateway_uri + '/auth/login';
+        window.location.href = config.gateway.auth_web_uri + '/login';
     };
 };
 

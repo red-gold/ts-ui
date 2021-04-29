@@ -19,9 +19,9 @@ export const menuItems = (userId: string, translate: (key: string) => string) =>
         path: `/people`,
         icon: <SvgPeople />,
     },
-    // {
-    //   divider: true
-    // },
+    {
+        divider: true,
+    },
     // {
     //   label: translate!('sidebar.settings'),
     //   path: `/settings`,

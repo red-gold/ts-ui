@@ -10,4 +10,6 @@ export interface IUserBoxListComponentProps {
      * User identifier
      */
     uid?: string;
+
+    goTo?: (url: string) => any;
 }

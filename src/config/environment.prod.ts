@@ -1,9 +1,6 @@
 import { LanguageType } from 'store/reducers/locale/langugeType';
 import { VerificationType } from 'core/domain/authorize/verificationType';
 export const environment = {
-    websocket: {
-        url: 'http://social.example.com:3001',
-    },
     data: {
         imageFolderPath: 'images',
         avatarFolderPath: 'avatar',
@@ -44,7 +41,8 @@ export const environment = {
         base_route_api: process.env.REACT_APP_BASE_ROUTE_API,
         gateway_url: process.env.REACT_APP_GATEWAY,
         gateway_uri: `${process.env.REACT_APP_GATEWAY}${process.env.REACT_APP_BASE_ROUTE_API}`,
-        websocket_url: 'http://social.example.com:3001',
+        auth_web_uri: `${process.env.REACT_APP_AUTH_WEB_URI}`,
+        websocket_url: `${process.env.REACT_APP_WEBSOCKET_URL}`,
     },
     rewrites: {
         profile: 'auth/profile',

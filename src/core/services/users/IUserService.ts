@@ -29,7 +29,7 @@ export interface IUserService {
         filters: string,
         page: number,
         limit: number,
-        searchKey: string,
+        nin: string[],
     ) => Promise<{ users: Map<string, any>; ids: Map<string, boolean>; hasMore: boolean }>;
 
     decreaseShareCount: (userId: string) => Promise<void>;

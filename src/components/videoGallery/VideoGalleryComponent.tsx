@@ -19,13 +19,13 @@ import { connect } from 'react-redux';
 import config from 'config';
 import * as globalActions from 'store/actions/globalActions';
 import * as imageGalleryActions from 'store/actions/imageGalleryActions';
-import { userSelector } from 'store/reducers/users/userSelector';
 import uuid from 'uuid';
 
 import { IVideoGalleryProps } from './IVideoGalleryProps';
 import { IVideoGalleryState } from './IVideoGalleryState';
 import { videoGalleryStyles } from './videoGalleryStyles';
 import { throwNoValue } from 'utils/errorHandling';
+import { userGetters } from 'store/reducers/users/userGetters';
 
 // - Material UI
 // - Import actions
@@ -332,7 +332,7 @@ const mapDispatchToProps = (dispatch: any) => {
  */
 const mapStateToProps = (state: Map<string, any>) => {
     const uid = state.getIn(['authorize', 'uid']);
-    const currentUser = userSelector.getUserProfileById(state, { userId: uid }).toJS() as User;
+    const currentUser = userGetters.getUserProfileById(state, { userId: uid }).toJS() as User;
     return {
         videos: state.getIn(['imageGallery', 'videos'], Map({})),
         avatar: currentUser ? currentUser.avatar : '',

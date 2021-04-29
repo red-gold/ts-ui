@@ -1,12 +1,10 @@
 import { Message } from 'core/domain/chat/message';
-import { Map } from 'immutable';
-import { ChatRoom } from 'core/domain/chat/chatRoom';
 
 /**
  * Chat interface
  */
 export interface IChatService {
-    wsConnect: (url: string, accessKey: string, uid: string, callback: Function) => Function;
+    wsConnect: (url: string, uid: string, callback: Function) => Function;
 
     createChatRquest: (recUserId: string) => void;
 
@@ -20,37 +18,13 @@ export interface IChatService {
 
     joinChatRoom: (roomId: string) => void;
 
+    requestActiveRoom: (peerUserId: string) => void;
+
     createChatMessage: (message: Message) => void;
 
-    // ************************ //
-    // ** Old implementation ** //TODO: Remove unused functions
-    // ************************ //
-    /**
-     * Create chat room
-     */
-    createChatRoom: (chatRoom: ChatRoom) => Promise<Map<string, any>>;
+    openRoom: (roomId: string) => void;
 
-    /**
-     * Get chat room
-     */
-    getPeerChatRoom: (firstUserId: string, secondUserId: string) => Promise<Map<string, any>>;
+    queryRoomMessages: (requestId: string, roomId: string, page: number, lte: number, gte: number) => void;
 
-    /**
-     * Set chat room language
-     */
-    setChatLangauge: (uid: string, input: string, output: string, roomId: string) => Promise<void>;
-    /**
-     * Get chat message
-     */
-    subscribeChatMessages: (chatRoomId: string, callback: (messages: Map<string, any>) => void) => any;
-
-    /**
-     * Get chat message
-     */
-    getChatMessages: (chatRoomId: string) => Promise<Map<string, any>>;
-
-    /**
-     * Remove chat room message history
-     */
-    removeHistoryRoom: (chatRoomId: string) => any;
+    updateReadMessageMeta: (roomId: string, messageId: string, readCount: number, messageCreatedDate: number) => void;
 }

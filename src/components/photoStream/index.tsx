@@ -14,12 +14,6 @@ import { IPhotoStreamProps } from './IPhotoStreamProps';
 import { IPhotoStreamState } from './IPhotoStreamState';
 import { photoStreamStyles } from './photoStreamStyles';
 
-// - Material-UI
-// - Import app components
-// - Import actions
-/**
- * Create component class
- */
 export class PhotoStreamComponent extends Component<IPhotoStreamProps & WithTranslation, IPhotoStreamState> {
     /**
      * Fields

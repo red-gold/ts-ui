@@ -1,14 +1,14 @@
 import { Map } from 'immutable';
-import { userSelector } from 'store/reducers/users/userSelector';
 import { createSelector } from 'reselect';
+import { userGetters } from '../users/userGetters';
 
 const getCurrentUser = (state: Map<any, string>) => {
     const uid = state.getIn(['authorize', 'uid']);
-    return userSelector.getUserProfileById(state, { userId: uid });
+    return userGetters.getUserProfileById(state, { userId: uid });
 };
 
 const getAuthedUser = (state: Map<any, string>) => {
-    return state.getIn(['authorize']);
+    return state.getIn(['authorize']) as Map<string, any>;
 };
 
 const getSignupStep = (state: Map<any, string>) => {
@@ -19,9 +19,11 @@ const getUserRegisterToken = (state: Map<any, string>) => {
     return state.getIn(['authorize', 'ui', 'registerToken'], '');
 };
 
-const getAccessToken = (state: Map<any, string>) => {
-    return state.getIn(['authorize', 'ui', 'accessToken'], '');
+const getUserAuthStatus = (state: Map<any, string>) => {
+    return state.getIn(['authorize', 'authed'], false);
 };
+
+// Selectros //
 
 const selectCurrentUser = () => {
     return createSelector([getCurrentUser], (currentUser) => currentUser);
@@ -39,8 +41,8 @@ const selectUserRegisterToken = () => {
     return createSelector([getUserRegisterToken], (token) => token);
 };
 
-const selectAccessToken = () => {
-    return createSelector([getAccessToken], (token) => token);
+const selectUserAuthStatus = () => {
+    return createSelector([getUserAuthStatus], (status) => status);
 };
 
 export const authorizeSelector = {
@@ -48,10 +50,10 @@ export const authorizeSelector = {
     getAuthedUser,
     getSignupStep,
     getUserRegisterToken,
-    getAccessToken,
+    getUserAuthStatus,
     selectCurrentUser,
     selectSignupStep,
     selectUserRegisterToken,
-    selectAccessToken,
     selectAuthedtUser,
+    selectUserAuthStatus,
 };

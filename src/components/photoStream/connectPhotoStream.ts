@@ -49,7 +49,7 @@ const makeMapStateToProps = () => {
         return {
             hasMorePhotos,
             currentUser,
-            searchRequestStatus: searchRequestStatus ? searchRequestStatus.status : ServerRequestStatusType.NoAction,
+            searchRequestStatus: searchRequestStatus.get('status', ServerRequestStatusType.NoAction),
             posts,
             requestId,
         };

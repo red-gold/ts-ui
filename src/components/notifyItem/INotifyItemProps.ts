@@ -44,14 +44,14 @@ export interface INotifyItemProps {
      *
      * @memberof INotifyItemProps
      */
-    goTo?: (url: string) => any;
+    goTo: (url: string) => any;
 
     /**
      * Close a notification
      *
      * @memberof INotifyItemProps
      */
-    closeNotify?: () => void;
+    closeNotify: () => void;
 
     /**
      * Notifier identifier
@@ -74,14 +74,14 @@ export interface INotifyItemProps {
      *
      * @memberof INotifyItemProps
      */
-    deleteNotiy?: (notificationId: string) => any;
+    deleteNotify: (notificationId: string) => any;
 
     /**
      * Change notification status to has seen
      *
      * @memberof INotifyItemProps
      */
-    seenNotify?: (notificationId: string) => any;
+    seenNotify: (notificationId: string) => any;
 
     /**
      * Material ui styles

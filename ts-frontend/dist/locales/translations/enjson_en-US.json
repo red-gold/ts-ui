@@ -1,4 +1,9 @@
 {
+    "userStatus": {
+        "neverSeen": "Never showed up",
+        "online": "Online"
+        
+    },
     "sidebar" : {
         "home": "Home",
         "profile": "Profile",
@@ -18,10 +23,19 @@
         "help": "Help"
 
     },
+    "rightPanel": {
+        "contactsTitle": "Contacts" ,
+        "noOneInContacts": "There is no one in your contacts!" ,
+        "suggestionTitle": "Suggestion for you",
+        "findFriendsBtn": "Find friends"
+    },
     "header": {
         "home":"Home",
         "notificationTooltip": "Notifications",
-        "recentChatTooltip": "Chat Box",
+        "notificationTitle": "Notifications",
+        "messengerTitle": "Messenger",
+        "messengerTooltip": "Messenger",
+        "noRoom": "No one is in your contacts!",
         "myAccount": "My Account",
         "logout": "Logout",
         "homeCaption": "Home",

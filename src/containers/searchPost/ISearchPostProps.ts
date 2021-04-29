@@ -1,70 +1,24 @@
-import { User } from 'core/domain/users/user';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 
-export interface ISearchPostProps {
-    /**
-     * Router match
-     */
+export type ISearchPostProps = IOwnProps & IDispatchProps & IStateProps;
+
+export interface IOwnProps {
     match: any;
-
-    /**
-     * Search posts
-     */
-    search: (query: string, page: number, limit: number) => any;
-
-    /**
-     * Theme
-     */
-    history?: any;
-
-    /**
-     * Router match
-     */
     location: any;
-
-    /**
-     * Stream request id
-     */
-    requestId?: string;
-
-    /**
-     * The tile of top bar
-     */
     homeTitle?: string;
-
-    /**
-     * Search request status
-     */
-    searchRequestStatus?: ServerRequestStatusType;
-
-    /**
-     * Current user
-     */
-    currentUser?: User;
-
-    /**
-     * Load the data for stream
-     */
-    loadPosts?: (page: number) => any;
-
-    /**
-     * If there is more post {true} or not {false}
-     */
-    hasMorePosts?: boolean;
-
-    /**
-     * Posts for stream
-     */
-    posts: Map<string, Map<string, any>>;
-
-    /**
-     * Translate to locale string
-     */
-    t?: (state: any, params?: {}) => any;
-
-    /**
-     * Styles
-     */
+    history?: any;
     classes?: any;
+}
+
+export interface IStateProps {
+    currentUser: Map<string, any>;
+    hasMorePosts: boolean;
+    searchRequestStatus: ServerRequestStatusType;
+    requestId: string;
+    posts: List<Map<string, any>>;
+}
+
+export interface IDispatchProps {
+    search: (query: string, page: number, limit: number) => any;
 }

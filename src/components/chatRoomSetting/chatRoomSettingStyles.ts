@@ -11,7 +11,6 @@ export const chatRoomSettingStyles = (theme: any) => ({
         padding: 0,
     },
     rightSideChatRoot: {
-        backgroundColor: '#F9F6F6',
         padding: '0 0 !important',
     },
     noDisplay: {

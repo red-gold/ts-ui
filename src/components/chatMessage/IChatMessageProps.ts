@@ -1,5 +1,5 @@
 import { User } from 'core/domain/users/user';
-
+import { Map } from 'immutable';
 export interface IChatMessageProps {
     /**
      * Translate to locale string
@@ -22,9 +22,9 @@ export interface IChatMessageProps {
     currentUser: User;
 
     /**
-     * Whether message direction is right to left
+     * Whether message direction is right to left for current
      */
-    rtl: boolean;
+    me: boolean;
 
     /**
      * Text message
@@ -40,4 +40,6 @@ export interface IChatMessageProps {
      * Message owner name
      */
     ownerName: string;
+
+    updatedDate: number;
 }

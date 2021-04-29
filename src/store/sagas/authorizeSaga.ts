@@ -70,19 +70,6 @@ function* fetchUserRegisterToken(action: any) {
 }
 
 /**
- * Fetch access token
- */
-function* fetchAccessToken() {
-    try {
-        const token = yield call(authorizeService.getAccessToken);
-
-        yield put(authorizeActions.setAccessToken(token));
-    } catch (error) {
-        yield put(globalActions.showMessage(error.message));
-    }
-}
-
-/**
  * Set logged in user status
  */
 function* setLoggedin() {
@@ -136,7 +123,6 @@ export default function* authorizeSaga() {
         takeLatest(AuthorizeActionType.ASYNC_SET_LOGIN, setLoggedin),
         takeLatest(AuthorizeActionType.SUBSCRIBE_AUTH_STATE_CHANGE, onAuthStateChanged),
         takeLatest(AuthorizeActionType.ASYNC_FETCH_USER_REGISTER_TOKEN, fetchUserRegisterToken),
-        takeLatest(AuthorizeActionType.ASYNC_FETCH_ACCESS_TOKEN, fetchAccessToken),
         takeLatest(AuthorizeActionType.ASYNC_VERITY_USER_REGISTER_CODE, verifyUserRegisterCode),
     ]);
 }

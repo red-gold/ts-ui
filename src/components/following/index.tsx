@@ -72,6 +72,7 @@ const mapStateToProps = (state: Map<string, any>) => {
     const uid = state.getIn(['authorize', 'uid'], 0);
     const circles: { [circleId: string]: Circle } = state.getIn(['circle', 'circleList'], {});
     const followingUsers = state.getIn(['circle', 'userTies'], {});
+
     return {
         uid,
         circles,

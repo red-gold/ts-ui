@@ -1,4 +1,3 @@
-// - Import react components
 import { ServerActionType } from 'constants/serverActionType';
 import { Map } from 'immutable';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
@@ -6,32 +5,23 @@ import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import { IServerAction } from './IServerAction';
 import { ServerState } from './ServerState';
 
-// - Import action types
-// Import domain
-
-/**
- * Server actions
- * @param {object} state
- * @param {object} action
- */
 export const serverReducer = (state = Map(new ServerState() as any), action: IServerAction) => {
     const { payload } = action;
     switch (action.type) {
-        /* _____________ CRUD _____________ */
         case ServerActionType.ADD_REQUEST:
             return state.setIn(['request', payload.request.get('id', 'no-id')], payload.request);
 
         case ServerActionType.DELETE_REQUEST:
-            return state.deleteIn(['request', payload.request.get('id', 'no-id')]);
+            return state.deleteIn(['request', payload.id]);
 
         case ServerActionType.ERROR_REQUEST:
-            return state.setIn(
-                ['request', payload.request.get('id', 'no-id'), 'status'],
-                ServerRequestStatusType.Error,
-            );
+            return state
+                .setIn(['request', payload.id, 'status'], ServerRequestStatusType.Error)
+                .setIn(['request', payload.id, 'error', 'code'], payload.error.code)
+                .setIn(['request', payload.id, 'error', 'message'], payload.error.message);
 
         case ServerActionType.OK_REQUEST:
-            return state.setIn(['request', payload.request.get('id', 'no-id'), 'status'], ServerRequestStatusType.OK);
+            return state.setIn(['request', payload.id, 'status'], ServerRequestStatusType.OK);
 
         case ServerActionType.CLEAR_ALL_DATA_REQUEST:
             return Map(new ServerState() as any);

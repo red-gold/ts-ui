@@ -12,7 +12,7 @@ import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { provider } from '../../socialEngine';
 import * as globalActions from 'store/actions/globalActions';
 import * as userActions from 'store/actions/userActions';
-import { userSelector } from 'store/reducers/users/userSelector';
+import { userGetters } from '../reducers/users/userGetters';
 
 // - Import utility components
 // - Import action types
@@ -31,7 +31,7 @@ export const dbAddPost = (newPost: Post, callBack: Function) => {
     return (dispatch: any, getState: Function) => {
         const state: Map<string, any> = getState();
         const uid: string = state.getIn(['authorize', 'uid']);
-        const currentUser = userSelector.getUserProfileById(state, { userId: uid }).toJS() as User;
+        const currentUser = userGetters.getUserProfileById(state, { userId: uid }).toJS() as User;
         const post: Post = {
             postTypeId: newPost.postTypeId || 0,
             creationDate: moment().utc().valueOf(),

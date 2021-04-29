@@ -6,6 +6,9 @@ export const postStyles = (theme: any) => ({
         display: 'flex',
         flex: 1,
     },
+    postBox: {
+        marginBottom: 24,
+    },
     voteCounter: {
         color: '#777',
         fontSize: 12,

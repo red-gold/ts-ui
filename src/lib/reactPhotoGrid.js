@@ -143,7 +143,7 @@ var ReactPhotoGrid =
             }
 
             var imageData = _this.props.data.length <= 4 ? _this.props.data : first(_this.props.data, 4);
-            console.log('imageData 1', imageData);
+           
 
             // take care of variations in property data
             // if someone just passes an array of path strings
@@ -156,7 +156,6 @@ var ReactPhotoGrid =
                     };
                 });
             } else if (imageData[0]) {
-                console.log('imageData', imageData);
                 imageData = imageData.map(function (image, index) {
                     return _extends(
                         {

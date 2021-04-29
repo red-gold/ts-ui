@@ -20,25 +20,17 @@ import { followDialogStyles } from 'components/followDialog/followDialogStyles';
 import { push } from 'connected-react-router';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { UserTie } from 'core/domain/circles/userTie';
-import { User } from 'core/domain/users/user';
 import { List as ImuList, Map } from 'immutable';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { userGetters } from 'store/reducers/users/userGetters';
 import * as circleActions from 'store/actions/circleActions';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
-import { userSelector } from 'store/reducers/users/userSelector';
 
 import { IFollowDialogProps } from './IFollowDialogProps';
 import { IFollowDialogState } from './IFollowDialogState';
 
-// - Material UI
-// - Import app components
-// - Import API
-// - Import actions
-/**
- * Create component class
- */
 export class FollowDialogComponent extends Component<IFollowDialogProps & WithTranslation, IFollowDialogState> {
     /**
      * Component constructor
@@ -76,7 +68,8 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
      * Handle follow user
      */
     handleDoneAddCircle = () => {
-        const { userId, addUserToCircle, selectedCircles, deleteFollowingUser, avatar, fullName } = this.props;
+        const { user, addUserToCircle, selectedCircles, deleteFollowingUser, avatar, fullName } = this.props;
+        const userId = user.get('userId');
         const { disabledDoneCircles } = this.state;
         if (!disabledDoneCircles && selectedCircles && addUserToCircle && deleteFollowingUser) {
             if (selectedCircles.count() > 0) {
@@ -93,7 +86,9 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
     onFollowUser = (event: any) => {
         // This prevents ghost click
         event.preventDefault();
-        const { isFollowed, followUser, followingCircle, userId, followRequest, avatar, fullName } = this.props;
+        const { isFollowed, followUser, followingCircle, user, followRequest, avatar, fullName } = this.props;
+        const userId = user.get('userId');
+
         if (!followUser || !followingCircle) {
             return;
         }
@@ -112,7 +107,9 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
      * Handle request close for add circle box
      */
     onRequestCloseAddCircle = () => {
-        const { setSelectedCircles, userId, userBelongCircles, closeSelectCircles } = this.props;
+        const { setSelectedCircles, user, userBelongCircles, closeSelectCircles } = this.props;
+        const userId = user.get('userId');
+
         if (!setSelectedCircles || !userBelongCircles || !closeSelectCircles) {
             return;
         }
@@ -130,7 +127,9 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
      * Handle request open for add circle box
      */
     onRequestOpenAddCircle = () => {
-        const { openSelectCircles, userId, followingCircle } = this.props;
+        const { openSelectCircles, user, followingCircle } = this.props;
+        const userId = user.get('userId');
+
         if (followingCircle && openSelectCircles) {
             openSelectCircles(userId);
         }
@@ -162,7 +161,9 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
     };
 
     handleSelectCircle = (event: object, isInputChecked: boolean, circleId: string) => {
-        const { setSelectedCircles, selectedCircles, userId } = this.props;
+        const { setSelectedCircles, selectedCircles, user } = this.props;
+        const userId = user.get('userId');
+
         if (!selectedCircles || !setSelectedCircles) {
             return;
         }
@@ -184,7 +185,9 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
      * Create a circle list of user which belong to
      */
     circleList = () => {
-        const { circles, userId, selectedCircles, classes, t } = this.props;
+        const { circles, user, selectedCircles, classes, t } = this.props;
+        const userId = user.get('userId');
+
         const circleDomList: any[] = [];
         if (circles) {
             circles.forEach((circle, circleId) => {
@@ -247,13 +250,15 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
             firstBelongCircle,
             belongCirclesCount,
             followRequest,
-            userId,
+            user,
             isSelecteCirclesOpen,
             addToCircleRequest,
             deleteFollowingUserRequest,
             classes,
             t,
         } = this.props;
+        const userId = user.get('userId');
+
         if (!t) {
             return <div />;
         }
@@ -281,7 +286,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
 
                 <Dialog
                     PaperProps={{ className: classes.fullPageXs }}
-                    key={this.props.userId || 0}
+                    key={userId}
                     open={isSelecteCirclesOpen === true}
                     onClose={this.onRequestCloseAddCircle}
                 >
@@ -369,22 +374,21 @@ const mapDispatchToProps = (dispatch: Function) => {
  * Map state to props
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IFollowDialogProps) => {
+    const userId = ownProps.user.get('userId');
+
     const circles: Map<string, Map<string, any>> = state.getIn(['circle', 'circleList'], Map({}));
-    const userBelongCircles: ImuList<any> = state.getIn(
-        ['circle', 'userTies', ownProps.userId, 'circleIdList'],
-        ImuList(),
-    );
+    const userBelongCircles: ImuList<any> = state.getIn(['circle', 'userTies', userId, 'circleIdList'], ImuList());
     const isFollowed = userBelongCircles.count() > 0;
 
     const followingCircle = circles
         .filter((filterCircle) => filterCircle.get('isSystem', false) && filterCircle.get('name') === `Following`)
         .toArray()[0][1];
-    const followRequestId = StringAPI.createServerRequestId(ServerRequestType.CircleFollowUser, ownProps.userId);
+    const followRequestId = StringAPI.createServerRequestId(ServerRequestType.CircleFollowUser, userId);
     const followRequest = state.getIn(['server', 'request', followRequestId]);
-    const selectedCircles = state.getIn(['circle', 'selectedCircles', ownProps.userId], []);
+    const selectedCircles = state.getIn(['circle', 'selectedCircles', userId], []);
 
-    const isSelecteCirclesOpen = state.getIn(['circle', 'ui', 'openSelecteCircles', ownProps.userId], []);
-    const userBox = userSelector.getUserProfileById(state, { userId: ownProps.userId }).toJS() as User;
+    const isSelecteCirclesOpen = state.getIn(['circle', 'ui', 'openSelecteCircles', userId], []);
+    const userBox = userGetters.getUserProfileById(state, { userId: userId });
     return {
         isSelecteCirclesOpen,
         isFollowed,
@@ -395,8 +399,8 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IFollowDialogProps) 
         followRequest,
         belongCirclesCount: userBelongCircles.count() || 0,
         firstBelongCircle: userBelongCircles ? circles.get(userBelongCircles.get(0), Map({})) : Map({}),
-        avatar: userBox.avatar || '',
-        fullName: userBox.fullName || '',
+        avatar: userBox.get('avatar', ''),
+        fullName: userBox.get('fullName', ''),
     };
 };
 

@@ -3,23 +3,18 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
+import moment from 'moment/moment';
 import React, { Component } from 'react';
 import { emojify } from 'react-emojione';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
 
 import { chatMessageStyles } from './chatMessageStyles';
 import { IChatMessageProps } from './IChatMessageProps';
 import { IChatMessageState } from './IChatMessageState';
 
-// - Material-UI
-// - Import app components
-// - Import API
-
-// - Import actions
 const emojiOptions = {
     style: {
-        height: 15,
+        height: 20,
         margin: 2,
     },
 };
@@ -44,7 +39,7 @@ export class ChatMessageComponent extends Component<IChatMessageProps & WithTran
      * Reneder component DOM
      */
     render() {
-        const { rtl, text, avatar, ownerName, classes, currentUser, loading } = this.props;
+        const { me, text, avatar, ownerName, updatedDate, classes, loading } = this.props;
 
         const loadingElement = (
             <div className={classNames('simile-loading', classes.loading)}>
@@ -54,44 +49,32 @@ export class ChatMessageComponent extends Component<IChatMessageProps & WithTran
             </div>
         );
         return (
-            <div className={classNames(classes.messageRoot, { [classes.messageRootRight]: rtl })}>
-                {!rtl ? (
-                    <UserAvatar className={classes.messageAvatar} fullName={ownerName} size={30} fileName={avatar} />
-                ) : (
-                    <UserAvatar
-                        className={classes.messageAvatar}
-                        fullName={currentUser.fullName}
-                        size={30}
-                        fileName={currentUser.avatar}
-                    />
-                )}
-                <div className={classNames(classes.messageText, { [classes.messageTextRight]: rtl })}>
-                    <Typography variant={'caption'}>{emojify(text, emojiOptions)}</Typography>
-                    {loading ? loadingElement : ''}
+            <div className={classes.root}>
+                <div className={classNames(classes.messageRoot, { [classes.messageRootRight]: me })}>
+                    {!me && (
+                        <UserAvatar
+                            className={classes.messageAvatar}
+                            fullName={ownerName}
+                            size={30}
+                            fileName={avatar}
+                        />
+                    )}
+                    <div className={classes.messageBox}>
+                        <Typography className={classNames(classes.updatedDate, { me: me })} noWrap variant={'caption'}>
+                            {moment(updatedDate).local().fromNow()}
+                        </Typography>
+                        <div className={classNames(classes.messageText, { [classes.messageTextRight]: me })}>
+                            <Typography variant={'body2'}>{emojify(text, emojiOptions)}</Typography>
+                            {loading ? loadingElement : ''}
+                        </div>
+                    </div>
                 </div>
             </div>
         );
     }
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = () => {
-    return {};
-};
-
-const makeMapStateToProps = () => {
-    const mapStateToProps = () => {
-        return {};
-    };
-    return mapStateToProps;
-};
-
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(ChatMessageComponent);
 
-export default connect<{}, {}, any, any>(
-    makeMapStateToProps,
-    mapDispatchToProps,
-)(withStyles(chatMessageStyles as any)(translateWrapper as any) as any);
+export default withStyles(chatMessageStyles as any)(translateWrapper as any);

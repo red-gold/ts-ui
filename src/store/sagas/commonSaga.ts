@@ -12,7 +12,6 @@ import * as postActions from 'store/actions/postActions';
 import * as userActions from 'store/actions/userActions';
 import * as userSettingActions from 'store/actions/userSettingActions';
 import * as voteActions from 'store/actions/voteActions';
-import * as authorizeActions from '../actions/authorizeActions';
 import * as chatActions from '../actions/chatActions';
 
 /**
@@ -39,14 +38,12 @@ function* clearLoadedData() {
  * Clear loaded data
  */
 function* loadInitialData() {
-    yield put(imageGalleryActions.dbGetImageGallery());
     yield put(userActions.dbGetUserInfo());
     yield put(notifyActions.dbGetNotifications());
     yield put(circleActions.dbGetCircles());
     yield put(circleActions.dbGetUserTies());
     yield put(circleActions.dbGetFollowers());
     yield put(userSettingActions.dbFetchUserSetting());
-    yield put(authorizeActions.fetchAccessToken());
     yield put(chatActions.wsConnect());
 }
 

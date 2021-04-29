@@ -4,96 +4,31 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import { withStyles } from '@material-ui/core/styles';
 import SvgAddImage from '@material-ui/icons/AddAPhoto';
 import SvgDelete from '@material-ui/icons/Delete';
 import FileAPI from 'api/FileAPI';
 import Img from 'components/img';
-import { User } from 'core/domain/users/user';
 import { Map } from 'immutable';
 import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
+import { WithTranslation } from 'react-i18next';
 import moment from 'moment/moment';
-import * as globalActions from 'store/actions/globalActions';
-import * as imageGalleryActions from 'store/actions/imageGalleryActions';
-import { userSelector } from 'store/reducers/users/userSelector';
-import { globalSelector } from 'store/reducers/global/globalSelector';
 import uuid from 'uuid';
 import { fromJS } from 'immutable';
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
 import { Media } from 'core/domain/imageGallery/media';
 import config from 'config';
 
-import { IImageGalleryComponentProps } from './IImageGalleryComponentProps';
-import { IImageGalleryComponentState } from './IImageGalleryComponentState';
+import { IImageGalleryProps } from './IImageGalleryProps';
+import { IImageGalleryState } from './IImageGalleryState';
 import { throwNoValue } from 'utils/errorHandling';
-
-// - Import actions
-// - Import app components
-// - Import API
-const styles = (theme: any) => ({
-    fullPageXs: {
-        [theme.breakpoints.down('xs')]: {
-            width: '100%',
-            height: '100%',
-            margin: 0,
-            overflowY: 'auto',
-        },
-    },
-});
+import { connectImageGallery } from './connectImageGallery';
+import StringAPI from 'api/StringAPI';
+import { ServerRequestType } from 'constants/serverRequestType';
 
 let isPhotoSelected: boolean;
 
-/**
- * Create ImageGallery component class
- */
-export class ImageGalleryComponent extends Component<
-    IImageGalleryComponentProps & WithTranslation,
-    IImageGalleryComponentState
-> {
-    styles = {
-        root: {
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-        },
-        gridList: {
-            width: 500,
-            height: 450,
-            overflowY: 'auto',
-        },
-        uploadButton: {
-            verticalAlign: 'middle',
-            fontWeight: 400,
-        },
-        uploadInput: {
-            cursor: 'pointer',
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            right: 0,
-            left: 0,
-            width: '100%',
-            opacity: 0,
-        },
-        deleteImage: {
-            marginLeft: '5px',
-            cursor: 'pointer',
-            color: 'white',
-        },
-        addImage: {
-            marginRight: '5px',
-            cursor: 'pointer',
-            color: 'white',
-        },
-    };
-
-    /**
-     * Component constructor
-     *
-     */
-    constructor(props: IImageGalleryComponentProps & WithTranslation) {
+export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTranslation, IImageGalleryState> {
+    constructor(props: IImageGalleryProps & WithTranslation) {
         super(props);
 
         // Binding function to `this`
@@ -122,18 +57,15 @@ export class ImageGalleryComponent extends Component<
      */
     handleDeleteImage = (event: any, id: string, fileName: string) => {
         const { deleteImage } = this.props;
-        if (deleteImage) {
-            deleteImage(id, fileName);
-        }
+        deleteImage(id, fileName);
     };
 
     componentDidMount() {
         window.addEventListener('onSendResizedImage', this.handleSendResizedImage);
         const { loadData } = this.props;
-        if (loadData) {
-            loadData();
-        }
+        loadData();
     }
+
     componentWillUnmount() {
         window.removeEventListener('onSendResizedImage', this.handleSendResizedImage);
     }
@@ -144,28 +76,31 @@ export class ImageGalleryComponent extends Component<
     handleSendResizedImage = (event: any) => {
         const { resizedImage, fileName } = event.detail;
         const { uploadImage } = this.props;
-        if (uploadImage) {
-            uploadImage(resizedImage, fileName);
-        }
+
+        uploadImage(resizedImage, fileName);
     };
 
     /**
      * Handle on change file upload
      */
     onFileChange = (event: any) => {
-        const { tempAddImageToList, tempAddImages, uid } = this.props;
+        const { tempAddImageToList, tempAddImages, currentUser } = this.props;
+        const uid = currentUser.get('userId');
         const file = event.target.files[0];
         const extension = FileAPI.getExtension(event.target.files[0].name);
-        const fileName = `${uuid()}.${extension}`;
+        const fileId = uuid();
+        const fileName = `${fileId}.${extension}`;
+
+        // Resize image then call upload image by envent
         FileAPI.constraintImage(event.target.files[0], fileName);
+
         isPhotoSelected = true;
         const parsedFiles: { file: any; fileName: string }[] = [];
         parsedFiles.push({ file: URL.createObjectURL(file), fileName });
         this.setState({
             selectedPhotos: parsedFiles,
         });
-        // const {fileURL} = (URL.createObjectURL(file)).toString
-        const fileId = (fileName as string).split('.')[0];
+
         const newAvatar = new Media(
             fileId,
             0,
@@ -188,10 +123,9 @@ export class ImageGalleryComponent extends Component<
         );
 
         const mapImage = Map({ [fileId]: fromJS({ ...newAvatar }) });
-        if (tempAddImageToList && tempAddImages && uid) {
-            tempAddImageToList(mapImage);
-            tempAddImages(uid, Map({ [fileId]: true }));
-        }
+
+        tempAddImageToList(mapImage);
+        tempAddImages(uid, Map({ [fileId]: true }));
     };
 
     /**
@@ -205,10 +139,8 @@ export class ImageGalleryComponent extends Component<
     };
 
     imageList = () => {
-        const { progress, images } = this.props;
-        if (!progress || !images) {
-            return <div />;
-        }
+        const { progress, images, classes } = this.props;
+
         return images.map((image, index) => {
             let progressPercent = 100;
             let progressVisible = false;
@@ -254,7 +186,7 @@ export class ImageGalleryComponent extends Component<
                     <GridListTileBar
                         title={
                             <SvgDelete
-                                style={this.styles.deleteImage as any}
+                                className={classes.deleteImage}
                                 onClick={(evt) =>
                                     this.handleDeleteImage(evt, image.get('objectId'), image.get('fileName'))
                                 }
@@ -263,7 +195,7 @@ export class ImageGalleryComponent extends Component<
                         titlePosition="top"
                         actionIcon={
                             <SvgAddImage
-                                style={this.styles.addImage as any}
+                                className={classes.addImage}
                                 onClick={(evt) => this.handleSetImage(evt, image.get('url'))}
                             />
                         }
@@ -285,14 +217,14 @@ export class ImageGalleryComponent extends Component<
     };
 
     render() {
-        const { t, images } = this.props;
+        const { t, images, classes } = this.props;
         /**
          * Component styles
          */
 
         return (
-            <div style={this.styles.root as any}>
-                <GridList cellHeight={180} style={this.styles.gridList as any}>
+            <div className={classes.root}>
+                <GridList cellHeight={180} className={classes.gridList}>
                     <GridListTile key="upload-image-gallery">
                         <div
                             style={{
@@ -306,13 +238,13 @@ export class ImageGalleryComponent extends Component<
                         >
                             <input
                                 accept="image/*"
-                                style={this.styles.uploadInput as any}
+                                className={classes.uploadInput}
                                 id="raised-button-file"
                                 onChange={this.onFileChange}
                                 type="file"
                             />
                             <label htmlFor="raised-button-file">
-                                <Button variant="contained" component="span" style={this.styles.uploadButton as any}>
+                                <Button variant="contained" component="span" className={classes.uploadButton}>
                                     {t('imageGallery.uploadButton')}
                                 </Button>
                             </label>
@@ -325,39 +257,4 @@ export class ImageGalleryComponent extends Component<
     }
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = (dispatch: any, ownProps: IImageGalleryComponentProps) => {
-    return {
-        deleteImage: (fileId: string, fileName: string) =>
-            dispatch(imageGalleryActions.dbDeleteImage(fileId, ownProps.folder, fileName)),
-        progressChange: (percent: number, status: boolean) => dispatch(globalActions.progressChange(percent, status)),
-        tempAddImageToList: (mapImage: Map<string, any>) => dispatch(imageGalleryActions.addImageList(mapImage)),
-        tempAddImages: (uid: string, imageIds: Map<string, boolean>) =>
-            dispatch(imageGalleryActions.addAvatarImages(uid, imageIds)),
-    };
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = (state: Map<string, any>) => {
-    const uid = state.getIn(['authorize', 'uid']);
-    const getProgress = globalSelector.selectProgress();
-    const progress = getProgress(state);
-    const currentUser = userSelector.getUserProfileById(state, { userId: uid }).toJS() as User;
-    return {
-        avatar: currentUser ? currentUser.avatar : '',
-        progress,
-        uid,
-    };
-};
-
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(ImageGalleryComponent);
-
-export default connect<{}, {}, any, any>(
-    mapStateToProps,
-    mapDispatchToProps,
-)(withStyles(styles as any)(translateWrapper as any) as any);
+export default connectImageGallery(ImageGalleryComponent);

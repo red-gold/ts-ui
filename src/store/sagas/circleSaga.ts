@@ -24,9 +24,12 @@ const userTieService: IUserTieService = provider.get<IUserTieService>(SocialProv
 function* dbFetchCircle() {
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
+    console.log('======>>>>> circles ', uid);
     if (uid) {
         try {
             const circles: Map<string, Map<string, any>> = yield call(circleService.getCircles, uid);
+            console.log('======>>>>> circles ', circles);
+
             yield put(circleActions.addCircles(circles));
         } catch (error) {
             yield put(globalActions.showMessage(error.message));
@@ -42,7 +45,7 @@ function* dbFetchUserTies() {
     const uid = authedUser.get('uid');
     if (uid) {
         try {
-            const result = yield call(userTieService.getUserTies, uid);
+            const result: Map<string, any> = yield call(userTieService.getUserTies, uid);
             yield put(userActions.addPeopleInfo(result));
             yield put(circleActions.addUserTies(result));
         } catch (error) {
@@ -59,7 +62,7 @@ function* dbFetchUserTieds() {
     const uid = authedUser.get('uid');
     if (uid) {
         try {
-            const result = yield call(userTieService.getUserTieSender, uid);
+            const result: Map<string, any> = yield call(userTieService.getUserTieSender, uid);
             yield put(userActions.addPeopleInfo(result));
             yield put(circleActions.addUserTieds(result));
         } catch (error) {

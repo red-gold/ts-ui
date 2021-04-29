@@ -1,6 +1,5 @@
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
-import { User } from 'core/domain/users/user';
 import { Map } from 'immutable';
 import { ComponentType } from 'react';
 import { connect } from 'react-redux';
@@ -11,13 +10,8 @@ import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { postSelector } from 'store/reducers/posts/postSelector';
 import { serverSelector } from 'store/reducers/server/serverSelector';
 
-import { IStreamComponentProps } from './IStreamComponentProps';
-import { throwNoValue } from 'utils/errorHandling';
+import { IDispatchProps, IOwnProps, IStateProps, IStreamProps } from './IStreamProps';
 
-// - Import actions
-/**
- * Map dispatch to props
- */
 const mapDispatchToProps = (dispatch: any) => {
     return {
         loadStream: (page: number, limit: number) => dispatch(postActions.dbGetPosts(page, limit)),
@@ -36,17 +30,21 @@ const makeMapStateToProps = () => {
     const selectStreamPosts = postSelector.selectStreamPosts();
 
     const mapStateToProps = (state: Map<string, any>) => {
-        const currentUser = selectCurrentUser(state).toJS() as User;
-        const currentUserId = throwNoValue(currentUser.userId, 'currentUser.userId');
+        const currentUser = selectCurrentUser(state);
+        const currentUserId = currentUser.get('userId');
         const requestId = StringAPI.createServerRequestId(ServerRequestType.StreamGetPosts, currentUserId);
-        const streamRequestStatus = selectRequest(state, { requestId });
-        const hasMorePosts = selectHasMorePost(state);
+        const streamRequest = selectRequest(state, { requestId });
+        const streamRequestStatus: ServerRequestStatusType = streamRequest.get(
+            'status',
+            ServerRequestStatusType.NoAction,
+        );
+        const hasMorePosts: boolean = selectHasMorePost(state);
         const posts = selectStreamPosts(state);
-        const page = selectStreamPage(state);
+        const page: number = selectStreamPage(state);
         return {
             hasMorePosts,
             currentUser,
-            streamRequestStatus: streamRequestStatus ? streamRequestStatus.status : ServerRequestStatusType.NoAction,
+            streamRequestStatus,
             posts,
             requestId,
             page,
@@ -55,5 +53,5 @@ const makeMapStateToProps = () => {
     return mapStateToProps;
 };
 
-export const connectStream = (component: ComponentType<IStreamComponentProps>) =>
-    connect<{}, {}, any, any>(makeMapStateToProps, mapDispatchToProps)(component as any);
+export const connectStream = (component: ComponentType<IStreamProps>) =>
+    connect<IStateProps, IDispatchProps, IOwnProps, any>(makeMapStateToProps, mapDispatchToProps)(component as any);

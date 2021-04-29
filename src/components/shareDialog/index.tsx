@@ -19,8 +19,6 @@ import { connect } from 'react-redux';
 import {
     FacebookIcon,
     FacebookShareButton,
-    GooglePlusIcon,
-    GooglePlusShareButton,
     LinkedinIcon,
     LinkedinShareButton,
     TwitterIcon,
@@ -107,7 +105,7 @@ export class ShareDialogComponent extends Component<
                                     hashtag={
                                         post.get('tags', List<string>([])).count() > 0
                                             ? `#${post.getIn(['tags', 0], 'hashtag')}`
-                                            : null
+                                            : undefined
                                     }
                                 >
                                     <MenuItem>
@@ -122,8 +120,8 @@ export class ShareDialogComponent extends Component<
                                 <TwitterShareButton
                                     onShareWindowClose={onClose}
                                     url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
-                                    quote={post.get('body')}
-                                    hashtag={`#${post.getIn(['tags', 0], '')}`}
+                                    title={post.get('body')}
+                                    hashtags={post.getIn(['tags'], [])}
                                 >
                                     <MenuItem>
                                         <ListItemIcon classes={{ root: classes.networkShare }}>
@@ -137,8 +135,7 @@ export class ShareDialogComponent extends Component<
                                 <LinkedinShareButton
                                     onShareWindowClose={onClose}
                                     url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
-                                    quote={post.get('body')}
-                                    hashtag={`#${post.getIn(['tags', 0], '')}`}
+                                    title={post.get('body')}
                                 >
                                     <MenuItem>
                                         <ListItemIcon classes={{ root: classes.networkShare }}>
@@ -147,21 +144,6 @@ export class ShareDialogComponent extends Component<
                                         <ListItemText inset primary={t('post.linkedinButton')} />
                                     </MenuItem>
                                 </LinkedinShareButton>
-                            </div>
-                            <div>
-                                <GooglePlusShareButton
-                                    onShareWindowClose={onClose}
-                                    url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
-                                    quote={post.get('body')}
-                                    hashtag={`#${post.getIn(['tags', 0], '')}`}
-                                >
-                                    <MenuItem>
-                                        <ListItemIcon classes={{ root: classes.networkShare }}>
-                                            <GooglePlusIcon size={32} round />
-                                        </ListItemIcon>
-                                        <ListItemText inset primary={t('post.googlePlusButton')} />
-                                    </MenuItem>
-                                </GooglePlusShareButton>
                             </div>
                             <MenuItem onClick={onCopyLink}>
                                 <ListItemIcon>

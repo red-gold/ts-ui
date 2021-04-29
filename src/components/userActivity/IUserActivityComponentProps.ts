@@ -1,4 +1,5 @@
 import { User } from 'core/domain/users/user';
+import { ImuMap } from 'core/ImuMap';
 
 export interface IUserActivityComponentProps {
     /**
@@ -24,7 +25,7 @@ export interface IUserActivityComponentProps {
     /**
      * User profile
      */
-    profile: User;
+    profile: ImuMap<User>;
 
     chatRequest?: (userId: string) => any;
 
