@@ -12,34 +12,44 @@
 ## Demo
 https://social.telar.dev
 
+## Pre-required
+
+- [Node.js](https://nodejs.org/en/)
+- [Docker](https://www.docker.com/)
+
 ## Running locally
 
-1. Add `[127.0.0.1 social.example.com]` domain into your host file. [Doc you may refer to](https://phoenixnap.com/kb/how-to-edit-hosts-file-in-windows-mac-or-linux)
-2. Rename `ts-ui/docker/config/.env.secrets.init` file to `.env.secrets`.
-3. Config email to receive email notification for signup, reset password, etc. Please refer to [doc #2](https://github.com/Qolzam/telar-cli/blob/master/docs/ofcc-setup/8.md#2-enter-your-valid-gmail-and-password-for-sending-signupreset-password-verfication-code-to-telar-social-users)
-   1. Set your smtp email`(e.g. smtp.gmail.com:587)` and your email my@email.com
+1. Clone repository
+```sh
+$ git clone git@github.com:red-gold/ts-ui.git
+```
+2. Add `[127.0.0.1 social.example.com]` domain into your host file. [Doc you may refer to](https://phoenixnap.com/kb/how-to-edit-hosts-file-in-windows-mac-or-linux)
+3. Copy `ts-ui/docker/config/.env.secrets.init` file and set the name `.env.secrets`.
+4. Config email to receive email notification for signup, reset password, etc. Please refer to [doc #2](https://github.com/Qolzam/telar-cli/blob/master/docs/ofcc-setup/8.md#2-enter-your-valid-gmail-and-password-for-sending-signupreset-password-verfication-code-to-telar-social-users)
+   1. Set your smtp email`(e.g. for gmail is smtp.gmail.com:587)` and your email my@email.com
 
    ```sh
    $ npx envedit -s ./docker/config/.env.app_config -l smtp_email=YOUR_EMAIL_SMTP -l ref_email=YOUR_EMAIL
    ```
    
-   2. Set your email password
+   1. Set your email password
 
    ```sh
    $ npx envedit -s ./docker/config/.env.secrets -l ref_email_pass=YOUR_EMAIL_PASS -b64
    ```
-4. Run **back-end**
+5. Run **back-end**
 ```sh
+$ cd docker
 $ docker-compose up
+
+#or new docker compose installed by docker
+$ docker compose up
 ```
 5. Run **front-end**
 ```sh
 $ yarn
 $ yarn start
 
-#or
-$ npm i
-$ npm start
 ```
 
 ### Video Tutorial
