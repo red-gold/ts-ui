@@ -8,9 +8,6 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
             overflow: 'hidden',
             backgroundColor: theme.palette.background.paper,
             '&.inprogress': {
@@ -19,13 +16,14 @@ export const useStyles = makeStyles((theme: Theme) =>
         },
         gridList: {
             padding: '10px 10px',
-            height: '400px',
+            overflowY: 'hidden',
         },
         icon: {
             color: '#ffffffcf',
         },
         header: {
             padding: '10px 0',
+            textAlign: 'center',
         },
         uploadInput: {
             cursor: 'pointer',
@@ -54,6 +52,19 @@ export const useStyles = makeStyles((theme: Theme) =>
         tile: {
             borderRadius: 8,
             border: '1px solid #0000001a',
+        },
+        tileHeader: {
+            textTransform: 'capitalize',
+            marginLeft: '15px',
+        },
+        body: {
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            height: 400,
+            [theme.breakpoints.down('sm')]: {
+                height: 'calc(100% - 50px)',
+                margin: 0,
+            },
         },
     }),
 );

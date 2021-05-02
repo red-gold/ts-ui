@@ -12,7 +12,6 @@ import { connectGallery } from './connectGallery';
 import config from 'config';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/DeleteSweep';
 import SelectIcon from '@material-ui/icons/CheckCircle';
@@ -22,6 +21,7 @@ import { WithTranslation } from 'react-i18next';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import classNames from 'classnames';
+import Typography from '@material-ui/core/Typography';
 
 /**
  * The example data is structured as follows:
@@ -54,7 +54,6 @@ export function GalleryComponent(props: IGalleryProps & WithTranslation) {
      * Handle send image resize event that pass the resized image
      */
     const handleSendResizedImage = (event: any) => {
-        debugger;
         const { resizedImage, fileName } = event.detail;
         const { uploadOneImage, folder } = props;
         uploadOneImage(resizedImage, fileName, folder);
@@ -90,12 +89,15 @@ export function GalleryComponent(props: IGalleryProps & WithTranslation) {
         const elmList: any[] = [];
         gallery.forEach((tiles, dir) => {
             elmList.push(
-                <GridListTile key={`subheader-${dir}`} cols={3} style={{ height: 'auto' }}>
-                    <ListSubheader component="div">{dir}</ListSubheader>
-                </GridListTile>,
+                <div key={`subheader-${dir}`} className={classes.tileHeader}>
+                    <Typography variant="h6" color="textSecondary">
+                        {dir}
+                    </Typography>
+                </div>,
             );
+            const elmTiles: any[] = [];
             tiles.forEach((tile) =>
-                elmList.push(
+                elmTiles.push(
                     <GridListTile classes={{ tile: classes.tile }} key={tile.get('objectId')}>
                         <img src={tile.get('url')} alt={tile.get('fileName')} />
                         <GridListTileBar
@@ -124,6 +126,11 @@ export function GalleryComponent(props: IGalleryProps & WithTranslation) {
                         />
                     </GridListTile>,
                 ),
+            );
+            elmList.push(
+                <GridList cellHeight={180} cols={3} className={classes.gridList}>
+                    {elmTiles}
+                </GridList>,
             );
         });
         return elmList;
@@ -164,9 +171,7 @@ export function GalleryComponent(props: IGalleryProps & WithTranslation) {
                     </Button>
                 </label>
             </div>
-            <GridList cellHeight={180} cols={3} className={classes.gridList}>
-                {getListElm()}
-            </GridList>
+            <div className={classes.body}>{getListElm()}</div>
         </div>
     );
 }

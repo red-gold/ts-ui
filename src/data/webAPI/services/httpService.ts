@@ -48,9 +48,8 @@ export class HttpService implements IHttpService {
     ) {
         const validURL = config.rewrites[url] || url;
         const reqConfig = {
-            onUploadProgress: function (progressEvent: any) {
-                const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                onProgress(percentCompleted, true, fileName);
+            headers: {
+                'Content-Type': 'multipart/form-data',
             },
         };
 

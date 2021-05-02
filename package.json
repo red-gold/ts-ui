@@ -189,7 +189,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/red-gold/react-social-network.git"
+    "url": "git+https://github.com/red-gold/ts-ui.git"
   },
   "keywords": [
     "react",
@@ -204,7 +204,7 @@
     "mobile"
   ],
   "bugs": {
-    "url": "https://github.com/Qolzam/react-social-network/issues"
+    "url": "https://github.com/Qolzam/ts-ui/issues"
   },
   "browserslist": [
     ">0.2%",
