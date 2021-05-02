@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   proxy:
-    image: traefik:v2.4.2
+    image: traefik:latest
     command:
       # - "--log.level=DEBUG"
       - "--api=true"
@@ -9,20 +9,7 @@ services:
       - "--api.insecure=true" # Don't do that in production
       - "--providers.docker"
       - "--entrypoints.web.address=:80"
-      # add pilot token service
-      # - "--pilot.token=3d1bd97f-cb9d-4cde-8112-77ce2f5abc92"
-      # install plugin rewrite body
-      # - "--experimental.plugins.plugin-rewrite.modulename=github.com/traefik/plugin-rewritebody"
-      # - "--experimental.plugins.plugin-rewrite.version=v0.3.1"
     labels: {}
-      # Create basics middlewares
-      # - "traefik.http.middlewares.my-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/"
-      # - "traefik.http.middlewares.my-compress.compress=true"
-      # - "traefik.http.middlewares.my-header.headers.customresponseheaders.X-Custom-Response-Header=cinema"
-      # Create middlewares for plugins
-      # - "traefik.http.middlewares.my-rewrite.plugin.plugin-rewrite.lastModified=true"
-      # - "traefik.http.middlewares.my-rewrite.plugin.plugin-rewrite.rewrites[0].regex=ID"
-      # - "traefik.http.middlewares.my-rewrite.plugin.plugin-rewrite.rewrites[0].replacement=MY-ID"
     volumes:
       - type: bind
         source: /var/run/docker.sock
@@ -37,6 +24,39 @@ services:
         published: 8080
         protocol: tcp
         mode: host
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    env_file:
+      - ./.env
+    volumes:
+      # seeding scripts
+      - ./mongo-entrypoint:/docker-entrypoint-initdb.d
+      # named volumes
+      - ./mongodb:/data/db
+      - ./mongoconfig:/data/configdb
+  minio:
+    image: 'bitnami/minio:latest'
+    ports:
+      - '9000:9000'
+    env_file:
+      - ./config/.env.minio
+    volumes:
+      - ./minio-persistence:/data
+    labels:
+      # Enable public access
+      - "traefik.enable=true"
+      - "traefik.http.routers.minio.rule=Host(`minio.example.com`)"
+      - "traefik.http.services.minio.loadbalancer.server.port=9000"
+      - "traefik.http.routers.minio.entrypoints=web"
+  websocket:
+    image: ${DOCKER_USER}/vang-ws:${VANG_WS_TAG}
+    ports:
+      - '3001:3001'
+    env_file:
+      - ./config/.env.ws_config
 
 ###################################
 ###### Telar Web services ######
@@ -133,19 +153,20 @@ services:
       - ./config/.env.setting_config
 
   storage:
-    image: ${DOCKER_USER}/storage:${TELAR_WEB_TAG}
+    image: ${DOCKER_USER}/minio-microservice:${MINIO_MICROSERVICE_TAG}
     labels:
       # Enable public access
+      - "traefik.enable=true"
       - "traefik.http.routers.storage.rule=PathPrefix(`/storage`)"
       - "traefik.http.services.storage.loadbalancer.server.port=8080"
       - "traefik.http.routers.storage.entrypoints=web"
       - "traefik.http.routers.storage.middlewares=storage-stripprefix"
       - "traefik.http.middlewares.storage-stripprefix.stripprefix.prefixes=/storage"
     env_file:
-      - ./config/.env.app_config
+      - ./config/.env.minio
       - ./config/.env.secrets
-      - ./config/.env.gateway_config
       - ./config/.env.storage_config
+      - ./config/.env.gateway_config
 
 ###################################
 ###### Telar Social services ######
@@ -182,7 +203,7 @@ services:
       - ./config/.env.comment_config
 
   gallery:
-    image: ${DOCKER_USER}/gallery:${TELAR_SOCIAL_TAG}
+    image: ${DOCKER_USER}/media:${TELAR_SOCIAL_TAG}
     labels:
       # Enable public access
       - "traefik.http.routers.media.rule=PathPrefix(`/media`)"

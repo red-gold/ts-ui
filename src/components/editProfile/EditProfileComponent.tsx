@@ -479,7 +479,7 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
 
                 {/* Image gallery for banner*/}
                 {this.state.openBanner && (
-                    <MobileDialog open={this.state.openBanner} onClose={this.handleCloseBannerGallery}>
+                    <MobileDialog fullWidth open={this.state.openBanner} onClose={this.handleCloseBannerGallery}>
                         <AppDialogTitle
                             title={t('profile.chooseBannerDialogTitle')}
                             onRequestClose={this.handleCloseBannerGallery}
@@ -502,7 +502,7 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
 
                 {/* Image gallery for avatar */}
                 {this.state.openAvatar && (
-                    <MobileDialog open={this.state.openAvatar} onClose={this.handleCloseAvatarGallery}>
+                    <MobileDialog fullWidth open={this.state.openAvatar} onClose={this.handleCloseAvatarGallery}>
                         <AppDialogTitle
                             title={t('profile.chooseAvatarDialogTitle')}
                             onRequestClose={this.handleCloseAvatarGallery}

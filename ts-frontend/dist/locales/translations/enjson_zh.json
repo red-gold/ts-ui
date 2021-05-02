@@ -113,7 +113,7 @@
         "headPostsLabel": "${userName}的发布",
         "nothingSharedLabel": " 没什么分享",
         "chooseAvatarDialogTitle": "选择照片",
-        "chooseBanerDialogTitle": "选择封面照片",
+        "chooseBannerDialogTitle": "选择封面照片",
         "twitterExampleLabel": "you twitter user name ex. twitter",
         "facebookExampleLabel": "your facebook page name ex. facebook"
     },

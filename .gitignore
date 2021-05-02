@@ -26,3 +26,5 @@ src/components/AWS.tsx
 */.DS_Store
 docker/config/.env.secrets
 ts-frontend/dist
+docker/mongodb/*
+docker/minio-persistence/*

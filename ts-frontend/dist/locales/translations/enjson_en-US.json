@@ -86,7 +86,7 @@
         "maxExceedMessage": "Maximum file size must be 20 MB!"
     },
     "imageGallery": {
-        "uploadButton": "UPLOAD",
+        "uploadButton": "+ Upload Photo",
         "cancelButton": "CANCEL"
     },
     "image": {
@@ -121,7 +121,7 @@
         "headPostsLabel": "{{userName}}'s posts",
         "nothingSharedLabel": " Nothing shared",
         "chooseAvatarDialogTitle": "Choose an avatar image",
-        "chooseBanerDialogTitle": "Choose an baner image",
+        "chooseBannerDialogTitle": "Choose an banner image",
         "twitterExampleLabel": "you twitter user name ex. twitter",
         "facebookExampleLabel": "your facebook page name ex. facebook"
     },
