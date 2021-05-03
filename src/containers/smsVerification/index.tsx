@@ -18,7 +18,7 @@ import { push } from 'connected-react-router';
 import { LoginUser } from 'core/domain/authorize/loginUser';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
-import FlagIcon from 'layouts/flagIcon';
+import { flag } from 'country-emoji';
 import Footer from 'layouts/footer';
 import { AsYouType, isValidNumber } from 'libphonenumber-js';
 import React, { Component } from 'react';
@@ -340,9 +340,7 @@ export class SmsVerificationComponent extends Component<
                                             autoFocus
                                             endAdornment={
                                                 <InputAdornment position="end">
-                                                    <IconButton>
-                                                        <FlagIcon code={countryCode} />
-                                                    </IconButton>
+                                                    <IconButton>{flag(countryCode)}</IconButton>
                                                 </InputAdornment>
                                             }
                                         />

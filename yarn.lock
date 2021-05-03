@@ -4688,6 +4688,11 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+country-emoji@^1.5.6:
+  version "1.5.6"
+  resolved "https://registry.npmjs.org/country-emoji/-/country-emoji-1.5.6.tgz#cca1e637f3eac8cd2c3f2f910213d9a521b1307e"
+  integrity sha512-pSB8OOROfimFc2bcN+H41DuzXYIod/JQ6SgF4pYXkRCm9f8uF1JAJ0vXPhenug6xkpt3Gv33mdypMXB49CJWRA==
+
 create-ecdh@^4.0.0:
   version "4.0.4"
   resolved "https://registry.npmjs.org/create-ecdh/-/create-ecdh-4.0.4.tgz#d6e7f4bffa66736085a0762fd3a632684dabcc4e"
@@ -6601,11 +6606,6 @@ find-up@^3.0.0:
   integrity sha512-1yD6RmLI1XBfxugvORwlck6f75tYL+iR0jqwsOrOxMZyGYqUuDhJ0l4AXdO1iX/FTs9cBAMEk1gWSEx1kSbylg==
   dependencies:
     locate-path "^3.0.0"
-
-flag-icon-css@^3.2.1:
-  version "3.5.0"
-  resolved "https://registry.npmjs.org/flag-icon-css/-/flag-icon-css-3.5.0.tgz#430747d5cb91e60babf85494de99173c16dc7cf2"
-  integrity sha512-pgJnJLrtb0tcDgU1fzGaQXmR8h++nXvILJ+r5SmOXaaL/2pocunQo2a8TAXhjQnBpRLPtZ1KCz/TYpqeNuE2ew==
 
 flat-cache@^3.0.4:
   version "3.0.4"
@@ -12580,15 +12580,6 @@ react-fast-compare@^3.0.1, react-fast-compare@^3.1.1:
   version "3.2.0"
   resolved "https://registry.npmjs.org/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
-
-react-flag-icon-css@^1.0.25:
-  version "1.0.25"
-  resolved "https://registry.npmjs.org/react-flag-icon-css/-/react-flag-icon-css-1.0.25.tgz#ac2e99f635ce333c210f593576f12908db8bf3ba"
-  integrity sha512-UJll3zpmbZvkwZvu4HI00iGF8ya4OdFzMR5k3cAluIwdHn8l5cB3CPYt+hw0tt7fLKaYIfncxNEO/qTtvBw2qw==
-  dependencies:
-    classnames "^2.2.6"
-    flag-icon-css "^3.2.1"
-    prop-types "^15.6.2"
 
 react-google-recaptcha@^2.1.0:
   version "2.1.0"
