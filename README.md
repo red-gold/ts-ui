@@ -68,7 +68,7 @@ Our top backers [Become a backer](https://www.patreon.com/qolzam)
 Our top sponsors [Become a sponsor](https://www.patreon.com/qolzam)
 
 ## New Features
-- [ ] Supporting Progressive Web App
+- [x] Supporting Progressive Web App
 
 ## Built With
 
