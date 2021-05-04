@@ -1,8 +1,9 @@
 import { PostType } from 'core/domain/posts/postType';
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
 import { Map } from 'immutable';
+import { PhotoGalleryFile } from 'models/gallery/photoGalleryFile';
 
-export interface IPostWriteComponentState {
+export interface IPostWriteState {
     /**
      * Post text
      */
@@ -23,10 +24,6 @@ export interface IPostWriteComponentState {
      * The path identifier of image on the server
      */
     imageFullPath: string;
-    /**
-     * If it's true gallery will be open
-     */
-    galleryOpen: boolean;
     /**
      * If it's true post button will be disabled
      */
@@ -73,7 +70,7 @@ export interface IPostWriteComponentState {
     /**
      * Selected photos
      */
-    selectedPhotos: { src: string; fileName: string }[];
+    selectedPhotos: PhotoGalleryFile[];
 
     /**
      * The list of user can access to post

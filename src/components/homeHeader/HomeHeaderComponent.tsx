@@ -28,6 +28,7 @@ import { IHomeHeaderProps } from './IHomeHeaderProps';
 import { IHomeHeaderState } from './IHomeHeaderState';
 import { connectHomeHeader } from './connectHomeHeader';
 import RoomListComponent from '../roomList';
+import PostWrite from 'components/postWrite';
 
 export class HomeHeaderComponent extends Component<IHomeHeaderProps & WithTranslation, IHomeHeaderState> {
     /**
@@ -231,7 +232,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderProps & WithTransl
 
     // Render app DOM component
     render() {
-        const { classes, t, theme, myProfileAccountOpen, unreadRoomsCount } = this.props;
+        const { classes, t, theme, myProfileAccountOpen, unreadRoomsCount, postWriteOpen } = this.props;
         const { isSearchPage, previousLocation } = this.state;
         const anchor = theme.direction === 'rtl' ? 'right' : 'left';
 
@@ -381,6 +382,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderProps & WithTransl
 
                     {isWidthDown('xs', this.props.width) && isSearchPage ? '' : rightHeader}
                 </Toolbar>
+                {postWriteOpen && <PostWrite />}
             </AppBar>
         );
     }

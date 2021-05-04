@@ -13,6 +13,7 @@ export enum ServerRequestType {
     UploadFileInGallery = 'UploadFileInGallery',
     ProfileGetPosts = 'ProfileGetPosts',
     ProfileGetAlbums = 'ProfileGetAlbums',
+    PostUpdate = 'PostUpdate',
     AuthLogin = 'AuthLogin',
     AuthSignup = 'AuthSignup',
     UserFetchRequest = 'UserFetchRequest',

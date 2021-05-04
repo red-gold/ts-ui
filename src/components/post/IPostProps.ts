@@ -1,79 +1,12 @@
 import { Map } from 'immutable';
-export interface IPostProps {
+
+export type IPostProps = IOwnProps & IDispatchProps & IStateProps;
+
+export interface IOwnProps {
     /**
      * Post object
      */
     post: Map<string, any>;
-
-    /**
-     * Owner's post avatar
-     */
-    avatar?: string;
-
-    /**
-     * User full name
-     */
-    fullName?: string;
-
-    /**
-     * Number of vote on a post
-     */
-    voteCount?: number;
-
-    /**
-     * Current user vote the post {true} or not {false}
-     */
-    currentUserVote?: boolean;
-
-    /**
-     * Current user is the owner of the post {true} or not {false}
-     */
-    isPostOwner?: boolean;
-
-    /**
-     * Vote a post
-     */
-    vote?: () => any;
-
-    /**
-     * Delete a vote on the post
-     */
-    unvote?: () => any;
-
-    /**
-     * Delte a post
-     */
-    delete?: (id: string) => any;
-
-    /**
-     * Toggle comment disable/enable
-     */
-    toggleDisableComments?: (status: boolean) => any;
-
-    /**
-     * Toggle sharing disable/enable
-     */
-    toggleSharingComments?: (status: boolean) => any;
-
-    /**
-     * Redirect to {url} route
-     */
-    goTo?: (url: string) => any;
-
-    /**
-     * Set tile of top bar
-     */
-    setHomeTitle?: (title: string) => any;
-
-    /**
-     * Get the comments of a post
-     */
-    getPostComments?: (ownerUserId: string, postId: string, page: number, limit: number) => any;
-
-    /**
-     * Commnets
-     */
-    commentList?: Map<string, Map<string, any>>;
 
     /**
      * Styles
@@ -84,9 +17,25 @@ export interface IPostProps {
      * Class name
      */
     className?: string;
+}
 
-    /**
-     * Translate to locale string
-     */
-    t?: (state: any) => any;
+export interface IStateProps {
+    commentList: Map<string, Map<string, any>>;
+    currentUser: Map<string, any>;
+    voteCount: number;
+    currentUserVote: boolean;
+    isPostOwner: boolean;
+}
+
+export interface IDispatchProps {
+    vote: () => any;
+    unvote: () => any;
+    delete: (id: string) => any;
+    toggleDisableComments: (status: boolean) => any;
+    toggleSharingComments: (status: boolean) => any;
+    goTo: (url: string) => any;
+    setHomeTitle: (title: string) => any;
+    getPostComments: (ownerUserId: string, postId: string, page: number, limit: number) => any;
+    setPostWriteModel: (model: Map<string, any>) => any;
+    openPostWrite: () => any;
 }

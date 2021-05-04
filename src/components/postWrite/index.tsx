@@ -13,7 +13,6 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
@@ -40,32 +39,24 @@ import { Album } from 'core/domain/imageGallery/album';
 import { PostType } from 'core/domain/posts/postType';
 import { fromJS, List as ImuList, Map } from 'immutable';
 import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import uuid from 'uuid';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import moment from 'moment/moment';
+import config from 'config';
 
 import { connectPostWrite } from './connectPostWrite';
-import { IPostWriteComponentProps } from './IPostWriteComponentProps';
-import { IPostWriteComponentState } from './IPostWriteComponentState';
-import { postWriteStyles } from './postWriteStyles';
+import { IPostWriteProps } from './IPostWriteProps';
+import { IPostWriteState } from './IPostWriteState';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { Post } from 'core/domain/posts/post';
 
-// - Material-UI
-// - Import app components
-// - Import API
-// - Import actions
-// - Create PostWrite component class
-export class PostWriteComponent extends Component<
-    IPostWriteComponentProps & WithTranslation,
-    IPostWriteComponentState
-> {
-    /**
-     * Fields
-     */
-    selectedPhotos: { file: any; fileName: string }[] = [];
+export class PostWriteComponent extends Component<IPostWriteProps & WithTranslation, IPostWriteState> {
     /**
      * Component constructor
      *
      */
-    constructor(props: IPostWriteComponentProps & WithTranslation) {
+    constructor(props: IPostWriteProps & WithTranslation) {
         super(props);
 
         const { postModel } = props;
@@ -79,9 +70,7 @@ export class PostWriteComponent extends Component<
                       })
                       .toJS()
                 : [];
-
-        const galleryOpen = !!(this.props.edit && selectedPhotos && selectedPhotos.length > 0);
-
+        console.log('=======>>> Selected photos ', selectedPhotos);
         // Default state
         this.state = {
             /**
@@ -96,10 +85,6 @@ export class PostWriteComponent extends Component<
              * The path identifier of image on the server
              */
             imageFullPath: this.props.edit && postModel ? postModel.get('imageFullPath', '') : '',
-            /**
-             * If it's true gallery will be open
-             */
-            galleryOpen: galleryOpen,
             /**
              * Whether menu is open
              */
@@ -166,8 +151,6 @@ export class PostWriteComponent extends Component<
 
         // Binding functions to `this`
         this.handleOnChange = this.handleOnChange.bind(this);
-        this.handleCloseGallery = this.handleCloseGallery.bind(this);
-        this.handleOpenGallery = this.handleOpenGallery.bind(this);
         this.onRequestSetImage = this.onRequestSetImage.bind(this);
         this.handlePost = this.handlePost.bind(this);
         this.handleRemoveImage = this.handleRemoveImage.bind(this);
@@ -243,6 +226,8 @@ export class PostWriteComponent extends Component<
         }
     };
 
+    handleClosePostAlbum = () => {};
+
     /**
      * Handle send post to the server
      */
@@ -260,12 +245,11 @@ export class PostWriteComponent extends Component<
             thumbnail,
             postType,
             accessUserList,
-            permission,
-            galleryOpen,
             selectedPhotos,
+            permission,
         } = this.state;
 
-        const { ownerAvatar, ownerDisplayName, edit, onRequestClose, post, update, postModel, progress } = this.props;
+        const { currentUser, edit, post, update, postModel } = this.props;
         if (!this.isPostChangeValid(this.state)) {
             this.setState({
                 disabledPost: true,
@@ -276,64 +260,68 @@ export class PostWriteComponent extends Component<
         const tags = PostAPI.getContentTags(postText);
 
         const albumPhotos: Album = new Album();
-        if (galleryOpen && progress) {
-            selectedPhotos.forEach((photo) => {
-                const meta = progress.getIn([photo.fileName, 'meta']);
-                let photoURL = '';
-                if (meta) {
-                    photoURL = meta.url;
-                } else {
-                    photoURL = photo.src;
-                }
+        const files: {
+            src: string;
+            file: any;
+            fileName: string;
+        }[] = [];
 
-                albumPhotos.photos.push(photoURL);
-            });
-        }
+        selectedPhotos.forEach((photo) => {
+            if (photo.file) {
+                files.push(photo);
+            } else {
+                albumPhotos.photos.push(photo.src);
+            }
+        });
 
         // In edit status we should fire update if not we should fire post function
-        const newPost = {
-            body: postText,
-            tags: tags,
-            image: image,
-            video: video,
-            thumbnail: thumbnail,
-            imageFullPath: imageFullPath,
-            ownerAvatar: ownerAvatar,
-            ownerDisplayName: ownerDisplayName,
-            disableComments: disableComments,
-            disableSharing: disableSharing,
-            postTypeId: postType,
+
+        const nowDate = moment().utc().valueOf();
+        const newPost: Post = {
+            postTypeId: postType || 0,
+            creationDate: nowDate,
+            deleteDate: 0,
             score: 0,
-            album: { ...albumPhotos },
             viewCount: 0,
-            accessUserList: accessUserList,
-            permission: permission,
+            body: postText,
+            ownerUserId: currentUser.get('userId'),
+            ownerDisplayName: currentUser.get('fullName'),
+            ownerAvatar: currentUser.get('avatar'),
+            lastEditDate: nowDate,
+            album: { ...albumPhotos },
+            tags: tags || [],
+            commentCounter: 0,
+            image: image || '',
+            imageFullPath: imageFullPath || '',
+            video: video || '',
+            thumbnail: thumbnail || '',
+            disableComments: disableComments || false,
+            disableSharing: disableSharing || false,
+            accessUserList: accessUserList || [],
+            permission: permission || UserPermissionType.Public,
+            deleted: false,
+            version: config.dataFormat.postVersion,
         };
 
         if (!edit) {
-            if (post) {
-                post(newPost, onRequestClose);
-            }
-        } else {
+            post(newPost, files);
+        } else if (postModel) {
             // In edit status we pass post to update functions
+            const updatedPost = postModel
+                .set('body', postText)
+                .set('tags', ImuList(tags))
+                .set('image', image)
+                .set('imageFullPath', imageFullPath)
+                .set('video', video)
+                .set('album', fromJS({ ...albumPhotos }))
+                .set('thumbnail', thumbnail)
+                .set('disableComments', disableComments)
+                .set('disableSharing', disableSharing)
+                .set('postTypeId', postType)
+                .set('accessUserList', ImuList(accessUserList))
+                .set('permission', permission);
 
-            if (postModel && update) {
-                const updatedPost = postModel
-                    .set('body', postText)
-                    .set('tags', ImuList(tags))
-                    .set('image', image)
-                    .set('imageFullPath', imageFullPath)
-                    .set('video', video)
-                    .set('album', fromJS({ ...albumPhotos }))
-                    .set('thumbnail', thumbnail)
-                    .set('disableComments', disableComments)
-                    .set('disableSharing', disableSharing)
-                    .set('postTypeId', postType)
-                    .set('accessUserList', ImuList(accessUserList))
-                    .set('permission', permission);
-
-                update(updatedPost, onRequestClose);
-            }
+            update(updatedPost, files);
         }
     };
 
@@ -367,8 +355,11 @@ export class PostWriteComponent extends Component<
      */
     handleOnChange = (event: any) => {
         const data = event.target.value;
-        this.setState({ postText: data });
-        if (data.length === 0 || data.trim() === '' || (this.props.edit && data.trim() === this.props.text)) {
+        const { selectedPhotos } = this.state;
+        if (
+            (data.length === 0 || data.trim() === '' || (this.props.edit && data.trim() === this.props.text)) &&
+            !selectedPhotos.length
+        ) {
             this.setState({
                 postText: data,
                 disabledPost: true,
@@ -379,24 +370,6 @@ export class PostWriteComponent extends Component<
                 disabledPost: false,
             });
         }
-    };
-
-    /**
-     * Close image gallery
-     */
-    handleCloseGallery = () => {
-        this.setState({
-            galleryOpen: false,
-        });
-    };
-
-    /**
-     * Open image gallery
-     */
-    handleOpenGallery = () => {
-        this.setState({
-            galleryOpen: true,
-        });
     };
 
     /**
@@ -472,7 +445,8 @@ export class PostWriteComponent extends Component<
     handleDeletePhoto = (fileName: string) => {
         const { selectedPhotos, postText } = this.state;
         const updatedPhotos: {
-            src: any;
+            src: string;
+            file: any;
             fileName: string;
         }[] = [];
         selectedPhotos.forEach((photo) => {
@@ -496,40 +470,35 @@ export class PostWriteComponent extends Component<
      * Handle on change file upload
      */
     onUploadAlbumChange = (event: any) => {
-        const { uploadImage } = this.props;
-        const { galleryOpen, selectedPhotos } = this.state;
-        if (uploadImage) {
-            const files: File[] = event.currentTarget.files;
-            const parsedFiles: { src: string; fileName: string }[] = [];
-            for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
-                const file = files[fileIndex];
-                const extension = FileAPI.getExtension(file.name);
-                const fileName = `${uuid()}.${extension}`;
-                parsedFiles.push({ src: URL.createObjectURL(file), fileName });
-                uploadImage(file, fileName);
-            }
-            const photos = [...selectedPhotos, ...parsedFiles];
+        const { selectedPhotos } = this.state;
 
-            if (files.length > 3 && !galleryOpen) {
-                this.selectedPhotos = photos.map((photo) => ({ file: photo.src, fileName: photo.fileName }));
-                this.openAlbumDialog();
-            } else {
-                // this.handleOpenGallery()
-                this.setState({
-                    selectedPhotos: [...photos],
-                    galleryOpen: true,
-                    disabledPost: false,
-                    postType: PostType.PhotoGallery,
-                });
-            }
-            event.currentTarget.value = null;
+        const files: File[] = event.currentTarget.files;
+        const parsedFiles: { src: string; fileName: string; file: File }[] = [];
+        for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
+            const file = files[fileIndex];
+            const extension = FileAPI.getExtension(file.name);
+            const fileName = `${uuid()}.${extension}`;
+            parsedFiles.push({ src: URL.createObjectURL(file), fileName, file });
         }
+        const photos = [...selectedPhotos, ...parsedFiles];
+
+        // TODO: add upload album dialog
+        // if (files.length > 3) {
+        //     this.openAlbumDialog();
+        // } else {
+        // }
+        this.setState({
+            selectedPhotos: [...photos],
+            disabledPost: false,
+            postType: PostType.PhotoGallery,
+        });
+        event.currentTarget.value = null;
     };
 
     /**
      * Is post change valid
      */
-    isPostChangeValid = (prevState: IPostWriteComponentState) => {
+    isPostChangeValid = (prevState: IPostWriteState) => {
         const { image, video, postText, selectedPhotos } = prevState;
 
         return (
@@ -557,17 +526,20 @@ export class PostWriteComponent extends Component<
         return permissionLabel;
     };
 
+    componentWillUnmount() {
+        const { setPostWriteModel } = this.props;
+        setPostWriteModel(null);
+    }
     /**
      * Reneder component DOM
      */
     render() {
-        const { classes, t, progress, albumDialogOpen } = this.props;
+        const { classes, t, progress, albumDialogOpen, currentUser, updatePostRequestStatus } = this.props;
         const {
             menuOpen,
             videoLinkOpen,
             image,
             postType,
-            galleryOpen,
             selectedPhotos,
             thumbnail,
             permissionOpen,
@@ -577,7 +549,7 @@ export class PostWriteComponent extends Component<
         const albumOpen = albumDialogOpen !== undefined ? albumDialogOpen : false;
         const rightIconMenu = (
             <div>
-                <Tooltip id="tooltip-icon" title={t('post.moreTooltip')} placement="bottom-start">
+                <Tooltip id="tooltip-icon" title={t('post.moreTooltip') as string} placement="bottom-start">
                     <IconButton onClick={this.handleOpenMenu}>
                         <MoreVertIcon />
                     </IconButton>
@@ -606,8 +578,8 @@ export class PostWriteComponent extends Component<
         );
         const postAvatar = (
             <UserAvatarComponent
-                fullName={this.props.ownerDisplayName || ''}
-                fileName={this.props.ownerAvatar || ''}
+                fullName={currentUser.get('fullName', '')}
+                fileName={currentUser.get('avatar', '')}
                 size={36}
             />
         );
@@ -624,7 +596,7 @@ export class PostWriteComponent extends Component<
                         overflow: 'hidden',
                         lineHeight: '25px',
                     }}
-                >{`${this.props.ownerDisplayName} |`}</span>
+                >{`${currentUser.get('fullName')} |`}</span>
                 <span
                     onClick={this.handleTogglePermission}
                     className={classNames(classes.permission, classes.disableComponent)}
@@ -711,6 +683,7 @@ export class PostWriteComponent extends Component<
             ) : (
                 ''
             );
+        const inprogress = updatePostRequestStatus === ServerRequestStatusType.Sent;
 
         return (
             <div style={this.props.style}>
@@ -719,9 +692,14 @@ export class PostWriteComponent extends Component<
                     BackdropProps={{ className: classes.backdrop } as any}
                     PaperProps={{ className: classes.fullPageXs }}
                     key={this.props.id || 0}
-                    open={this.props.open}
+                    open={this.props.postWriteOpen}
                     onClose={this.props.onRequestClose}
                 >
+                    {inprogress && (
+                        <div className={classes.inprogress}>
+                            <CircularProgress color="secondary" />
+                        </div>
+                    )}
                     <DialogTitle className={classes.dialogTitle}>
                         <CardHeader title={author} avatar={postAvatar} action={rightIconMenu}></CardHeader>
                     </DialogTitle>
@@ -759,7 +737,7 @@ export class PostWriteComponent extends Component<
                                             />
 
                                             {loadImage}
-                                            {galleryOpen && (
+                                            {selectedPhotos.length > 0 && (
                                                 <PostImageUploadComponent
                                                     photos={selectedPhotos}
                                                     progress={progress}
@@ -895,7 +873,7 @@ export class PostWriteComponent extends Component<
                     <AlbumDialogComponent
                         open={albumOpen}
                         progress={progress}
-                        photos={this.selectedPhotos}
+                        photos={selectedPhotos}
                         onClose={this.closeAlbumDialog}
                     />
                 ) : (
@@ -937,7 +915,4 @@ export class PostWriteComponent extends Component<
     }
 }
 
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(PostWriteComponent);
-
-export default connectPostWrite(withStyles(postWriteStyles)(translateWrapper as any) as any);
+export default connectPostWrite(PostWriteComponent);

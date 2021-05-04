@@ -82,6 +82,8 @@ export interface IStateProps {
 
     // Whether profile account edit is open or not
     myProfileAccountOpen: boolean;
+
+    postWriteOpen: boolean;
 }
 
 export interface IDispatchProps {

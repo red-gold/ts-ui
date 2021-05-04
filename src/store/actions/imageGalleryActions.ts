@@ -110,7 +110,7 @@ export const dbDeleteImage = (fileId: string, folderName: string, fileName: stri
  */
 export const dbUploadImage = (file: any, fileName: string) => {
     return {
-        type: ImageGalleryActionType.DB_UPLOAD_IMAGE,
+        type: ImageGalleryActionType.SG_UPLOAD_IMAGE,
         payload: { file, fileName },
     };
 };

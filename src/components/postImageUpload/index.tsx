@@ -134,7 +134,7 @@ export class PostImageUploadComponent extends Component<
             const progressVisible = progress.getIn([photo.fileName, 'visible'], false);
 
             return (
-                <GridListTile key={`album-dialog-tile-${photo.fileName}`}>
+                <GridListTile classes={{ tile: classes.tile }} key={`album-dialog-tile-${photo.fileName}`}>
                     <img src={photo.src} alt={'something'} />
                     <GridListTileBar
                         title={
@@ -217,5 +217,5 @@ const makeMapStateToProps = () => {
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(PostImageUploadComponent);
 
-const componentWithStyles: any = withStyles(postImageUploadStyles as any, { withTheme: true })(translateWrapper as any);
+const componentWithStyles: any = withStyles(postImageUploadStyles, { withTheme: true })(translateWrapper);
 export default connect<{}, {}, any, any>(makeMapStateToProps, mapDispatchToProps)(componentWithStyles);

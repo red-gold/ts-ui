@@ -110,4 +110,15 @@ export const postWriteStyles = (theme: any) =>
             opacity: '0.2',
             'pointer-events': 'none',
         },
+        inprogress: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            background: '#ffffff82',
+            zIndex: 2,
+        },
     });

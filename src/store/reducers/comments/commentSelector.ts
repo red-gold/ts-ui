@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
  * Get from store
  ***************************/
 const getPostComments = (state: Map<string, any>, props: { postId: string }) => {
-    return state.getIn(['comment', 'postComments', props.postId], Map({}));
+    return state.getIn(['comment', 'postComments', props.postId], Map({})) as Map<string, Map<string, any>>;
 };
 
 /****************************

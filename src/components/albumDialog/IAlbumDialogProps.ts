@@ -1,24 +1,18 @@
 import { Map } from 'immutable';
 import { Post } from 'core/domain/posts/post';
-import { User } from 'core/domain/users/user';
-import { Media } from 'core/domain/imageGallery/media';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { Media } from 'core/domain/imageGallery/media';
 
-export interface IAlbumDialogProps {
-    /**
-     * Upload image to the server
-     */
-    uploadImage?: (image: any, imageName: string) => any;
+export type IAlbumDialogProps = IOwnProps & IDispatchProps & IStateProps;
 
+export interface IOwnProps {
     /**
      * Whether dialog is open
      */
-    open: boolean;
 
     /**
      * Close image gallery
      */
-    onClose: () => void;
 
     /**
      * Styles
@@ -36,32 +30,22 @@ export interface IAlbumDialogProps {
     progress: Map<string, any>;
 
     /**
-     * Selected photos
-     */
-    photos: { file: any; fileName: string }[];
-
-    /**
-     * Create album request
-     */
-    createAlbumRequestStatus?: ServerRequestStatusType;
-
-    /**
-     * Current user information
-     */
-    currentUser?: User;
-
-    /**
      * Current album to edit
      */
     currentAlbum?: Post;
+    open: boolean;
+    photos: { src: string; file: any; fileName: string }[];
+    onClose: () => any;
+}
 
-    /**
-     * Create post
-     */
-    post?: (albumPost: Post, images: Media[]) => any;
+export interface IStateProps {
+    currentUser: Map<string, any>;
+    createAlbumRequestStatus: ServerRequestStatusType;
+}
 
-    /**
-     * Translate to locale string
-     */
-    t?: (state: any) => any;
+export interface IDispatchProps {
+    post: (albumPost: Post, images: Media[]) => any;
+    uploadImage: (image: any, imageName: string) => any;
+    deleteImage: (fileId: string, fileName: string) => any;
+    progressChange: (percent: number, status: boolean) => any;
 }

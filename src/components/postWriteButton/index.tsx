@@ -25,7 +25,6 @@ export class PostWriteButton extends Component<IPostWriteButtonProps & WithTrans
         super(props);
 
         this.handleOpenPostWrite = this.handleOpenPostWrite.bind(this);
-        this.handleClosePostWrite = this.handleClosePostWrite.bind(this);
     }
 
     /**
@@ -39,30 +38,13 @@ export class PostWriteButton extends Component<IPostWriteButtonProps & WithTrans
     };
 
     /**
-     * Close post write
-     */
-    handleClosePostWrite = () => {
-        const { closePostWrite } = this.props;
-        if (closePostWrite) {
-            closePostWrite();
-        }
-    };
-
-    /**
      * Reneder component DOM
      *
      */
     render() {
-        const { tag, displayWriting, classes, t, postWriteDilogOpen } = this.props;
+        const { tag, displayWriting, classes, t } = this.props;
         return (
             <div className={classNames('grid-cell animate-top', classes.gridCell)}>
-                {postWriteDilogOpen && (
-                    <PostWriteComponent
-                        open={postWriteDilogOpen}
-                        onRequestClose={this.handleClosePostWrite}
-                        edit={false}
-                    />
-                )}
                 {displayWriting && !tag ? (
                     <>
                         <Paper elevation={2}>

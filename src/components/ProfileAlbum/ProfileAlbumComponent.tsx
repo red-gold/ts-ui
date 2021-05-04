@@ -19,22 +19,12 @@ import { IProfileAlbumProps } from './IProfileAlbumProps';
 import { IProfileAlbumState } from './IProfileAlbumState';
 import { profileAlbumStyles } from './profileAlbumStyles';
 
-// - Material-UI
-// - Import app components
-// - Import actions
-/**
- * Create component class
- */
 export class ProfileAlbumComponent extends Component<IProfileAlbumProps & WithTranslation, IProfileAlbumState> {
     /**
      * Fields
      */
-    selectedPhotos: { file: any; fileName: string }[] = [];
+    selectedPhotos: { src: string; file: any; fileName: string }[] = [];
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IProfileAlbumProps & WithTranslation) {
         super(props);
 
@@ -99,12 +89,12 @@ export class ProfileAlbumComponent extends Component<IProfileAlbumProps & WithTr
         const { uploadImage } = this.props;
         if (uploadImage) {
             const files: File[] = event.currentTarget.files;
-            const parsedFiles: { file: any; fileName: string }[] = [];
+            const parsedFiles: { src: string; file: any; fileName: string }[] = [];
             for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
                 const file = files[fileIndex];
                 const extension = FileAPI.getExtension(file.name);
                 const fileName = `${uuid()}.${extension}`;
-                parsedFiles.push({ file: URL.createObjectURL(file), fileName });
+                parsedFiles.push({ src: URL.createObjectURL(file), fileName, file });
                 uploadImage(file, fileName);
             }
             this.selectedPhotos = parsedFiles;

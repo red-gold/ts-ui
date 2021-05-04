@@ -235,7 +235,7 @@ function* dbFetchVideoGallery() {
 /**
  * Upload image
  */
-function* dbUploadImage(file: any, rootName: string, fileName: string) {
+export function* uploadImage(file: any, rootName: string, fileName: string) {
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
     if (uid) {
@@ -247,16 +247,12 @@ function* dbUploadImage(file: any, rootName: string, fileName: string) {
             if (error) {
                 yield put(globalActions.showMessage(error.message));
                 yield put(globalActions.progressChangeWithKey(100, false, fileName));
-                yield put(globalActions.hideTopLoading());
-                return;
+                throw error;
             }
 
             if (success) {
                 yield put(globalActions.progressChangeWithKey(100, false, fileName, meta));
-
-                yield put(globalActions.hideTopLoading());
-
-                return success;
+                return success as FileResult;
             }
 
             yield put(globalActions.progressChangeWithKey(progress, true, fileName));
@@ -398,7 +394,7 @@ function* watchFetchCoverImages(action: { type: ImageGalleryActionType; payload:
  */
 function* watchUploadImage(action: { type: ImageGalleryActionType; payload: any }) {
     const { file, fileName } = action.payload;
-    yield call(dbUploadImage, file, config.data.imageFolderPath, fileName);
+    yield call(uploadImage, file, config.data.imageFolderPath, fileName);
 }
 
 /**
@@ -413,7 +409,7 @@ function* watchUploadOneImage(action: { type: ImageGalleryActionType; payload: a
     yield put(serverActions.sendRequest(serverRequest));
 
     try {
-        const result: { fileURL: string } = yield call(dbUploadImage, file, dir, fileName);
+        const result: { fileURL: string } = yield call(uploadImage, file, dir, fileName);
 
         const { fileURL } = result;
         const fileId = (fileName as string).split('.')[0];
@@ -496,7 +492,7 @@ export default function* gallerySaga() {
         takeLatest(ImageGalleryActionType.DB_FETCH_COVER_IMAGES, watchFetchCoverImages),
         takeLatest(ImageGalleryActionType.DB_DELETE_IMAGE, watchDeleteImage),
         takeLatest(ImageGalleryActionType.DB_UPLOAD_VIDEO, watchUploadVideo),
-        takeEvery(ImageGalleryActionType.DB_UPLOAD_IMAGE, watchUploadImage),
+        takeEvery(ImageGalleryActionType.SG_UPLOAD_IMAGE, watchUploadImage),
         takeLatest(ImageGalleryActionType.UPLOAD_ONE_IMAGE, watchUploadOneImage),
         takeLatest(ImageGalleryActionType.DB_CREATE_ALBUM, watchCreateAlbum),
         takeLatest(ImageGalleryActionType.DB_FETCH_VIDEO_GALLERY, dbFetchVideoGallery),

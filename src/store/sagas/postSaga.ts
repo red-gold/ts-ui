@@ -3,9 +3,10 @@ import { PostActionType } from 'constants/postActionType';
 import { UserActionType } from 'constants/userActionType';
 import { IPostService } from 'core/services/posts/IPostService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { all, call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import { provider } from 'socialEngine';
+import { FileResult } from 'models/files/fileResult';
 import * as globalActions from 'store/actions/globalActions';
 import * as postActions from 'store/actions/postActions';
 import * as serverActions from 'store/actions/serverActions';
@@ -15,6 +16,11 @@ import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { circleSelector } from 'store/reducers/circles/circleSelector';
 import { postSelector } from 'store/reducers/posts/postSelector';
 import { userGetters } from '../reducers/users/userGetters';
+import { uploadImage } from './gallerySaga';
+import config from 'config';
+import { Post } from 'core/domain/posts/post';
+import { Album } from 'core/domain/imageGallery/album';
+import { DialogType } from 'models/common/dialogType';
 
 /**
  * Get service providers
@@ -206,6 +212,110 @@ function* watchSearchPost(action: { type: PostActionType; payload: any }) {
 }
 
 /**
+ * Watch update post
+ */
+function* watchUpdatePost(action: {
+    type: PostActionType;
+    payload: {
+        post: Map<string, any>;
+        filesToUpload: {
+            src: string;
+            file: any;
+            fileName: string;
+        }[];
+    };
+}) {
+    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
+    const postUpdateRequest = PostAPI.createUpdatePostRequest(authedUser.get('uid'));
+    yield put(serverActions.sendRequest(postUpdateRequest));
+    const { payload } = action;
+    const { post, filesToUpload } = payload;
+    try {
+        let updatedPost = post;
+        let uploadedFiles: FileResult[] = [];
+        if (filesToUpload && filesToUpload.length) {
+            uploadedFiles = yield all(
+                filesToUpload.map((item) => call(uploadImage, item.file, config.data.imageFolderPath, item.fileName)),
+            );
+            updatedPost = post.mergeIn(
+                ['album', 'photos'],
+                uploadedFiles.map((item) => item.fileURL),
+            );
+        }
+
+        yield call(postService.updatePost, updatedPost.toJS() as Post);
+        yield put(globalActions.closeDialog(DialogType.PostWrite));
+        yield put(postActions.updatePost(updatedPost));
+        postUpdateRequest.status = ServerRequestStatusType.OK;
+        yield put(serverActions.sendRequest(postUpdateRequest));
+    } catch (error) {
+        postUpdateRequest.status = ServerRequestStatusType.Error;
+        yield put(serverActions.sendRequest(postUpdateRequest));
+        yield put(globalActions.showMessage(error.message));
+    }
+}
+
+/**
+ * Watch create post
+ */
+function* watchCreatePost(action: {
+    type: PostActionType;
+    payload: {
+        post: Post;
+        filesToUpload: {
+            src: string;
+            file: any;
+            fileName: string;
+        }[];
+    };
+}) {
+    const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
+    const uid = authedUser.get('uid');
+    const postUpdateRequest = PostAPI.createUpdatePostRequest(uid);
+    yield put(serverActions.sendRequest(postUpdateRequest));
+    const { payload } = action;
+    const { post, filesToUpload } = payload;
+    try {
+        const updatedPost = post;
+        let uploadedFiles: FileResult[] = [];
+        if (filesToUpload && filesToUpload.length) {
+            uploadedFiles = yield all(
+                filesToUpload.map((item) => call(uploadImage, item.file, config.data.imageFolderPath, item.fileName)),
+            );
+
+            const photoURLs = uploadedFiles.map((item) => item.fileURL);
+            if (post.album && post.album.photos) {
+                post.album.photos.push(...photoURLs);
+            } else {
+                post.album = new Album();
+                post.album.photos.push(...photoURLs);
+            }
+        }
+
+        const postKey: string = yield call(postService.addPost, updatedPost);
+
+        yield put(globalActions.closeDialog(DialogType.PostWrite));
+        yield put(
+            postActions.addPost(
+                fromJS({
+                    ...post,
+                    id: postKey,
+                }),
+            ),
+        );
+        yield put(postActions.addStreamPosts(Map({ [postKey]: true })));
+        yield put(userActions.increasePostCountUser(uid));
+
+        postUpdateRequest.status = ServerRequestStatusType.OK;
+        yield put(serverActions.sendRequest(postUpdateRequest));
+    } catch (error) {
+        postUpdateRequest.status = ServerRequestStatusType.Error;
+        yield put(serverActions.sendRequest(postUpdateRequest));
+        yield put(globalActions.showMessage(error.message));
+    }
+}
+
+/**
  * Fetch posts by user identifier from server
  */
 function* watchFetchPostByUserId(action: { type: PostActionType; payload: any }) {
@@ -251,6 +361,8 @@ export default function* postSaga() {
     yield all([
         takeEvery(PostActionType.DB_GET_POST, watchFetchPostStream),
         takeEvery(PostActionType.DB_SEARCH_POST, watchSearchPost),
+        takeEvery(PostActionType.SG_UPDATE_POST, watchUpdatePost),
+        takeEvery(PostActionType.SG_CREATE_POST, watchCreatePost),
         takeEvery(PostActionType.DB_GET_POST_BY_USER_ID, watchFetchPostByUserId),
         takeEvery(UserActionType.DB_GET_ALBUM_POST_BY_USER_ID, watchFetchAlbumPosts),
         takeLatest(PostActionType.DB_GET_POST_SEARCH_KEY, getPostSearchKey),

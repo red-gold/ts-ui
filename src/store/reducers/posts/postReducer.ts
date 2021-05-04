@@ -98,8 +98,8 @@ export const postReducer = (state = Map(new PostState() as any), action: IPostAc
         case PostActionType.LAST_POST_STREAM:
             return state.setIn(['stream', 'lastPostId'], payload.lastPostId);
 
-        case PostActionType.LAST_POST_SEARCH:
-            return state.setIn(['search', 'lastPostId'], payload.lastPostId);
+        case PostActionType.SET_POST_WRITE_MODEL:
+            return state.setIn(['ui', 'postWrite', 'model'], payload.model);
 
         default:
             return state;

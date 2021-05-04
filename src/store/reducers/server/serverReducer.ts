@@ -8,7 +8,7 @@ import { ServerState } from './ServerState';
 export const serverReducer = (state = Map(new ServerState() as any), action: IServerAction) => {
     const { payload } = action;
     switch (action.type) {
-        case ServerActionType.ADD_REQUEST:
+        case ServerActionType.SET_REQUEST:
             return state.setIn(['request', payload.request.get('id', 'no-id')], payload.request);
 
         case ServerActionType.DELETE_REQUEST:

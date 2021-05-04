@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
 import SvgComment from '@material-ui/icons/Comment';
 import SvgFavorite from '@material-ui/icons/Favorite';
 import SvgFavoriteBorder from '@material-ui/icons/FavoriteBorder';
@@ -19,7 +18,6 @@ import SvgShare from '@material-ui/icons/Share';
 import classNames from 'classnames';
 import CommentGroup from 'components/commentGroup/CommentGroupComponent';
 import Img from 'components/img';
-import PostWrite from 'components/postWrite';
 import ReadMoreComponent from 'components/readMore';
 import ShareDialog from 'components/shareDialog';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
@@ -30,7 +28,7 @@ import PostAlbumComponent from 'layouts/postAlbum';
 import moment from 'moment/moment';
 import * as R from 'ramda';
 import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import Linkify from 'react-linkify';
 import ReactPlayer from 'react-player';
 import { NavLink } from 'react-router-dom';
@@ -40,7 +38,6 @@ import config from 'config';
 import { connectPost } from './connectPost';
 import { IPostProps } from './IPostProps';
 import { IPostState } from './IPostState';
-import { postStyles } from './postStyles';
 
 export class PostComponent extends Component<IPostProps & WithTranslation, IPostState> {
     styles = {
@@ -88,10 +85,6 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
              */
             openCopyLink: false,
             /**
-             * If it's true, post write will be open
-             */
-            openPostWrite: false,
-            /**
              * Post menu anchor element
              */
             postMenuAnchorEl: null,
@@ -113,10 +106,9 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
         this.handleCloseShare = this.handleCloseShare.bind(this);
         this.handleCopyLink = this.handleCopyLink.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
-        this.handleOpenPostWrite = this.handleOpenPostWrite.bind(this);
-        this.handleClosePostWrite = this.handleClosePostWrite.bind(this);
         this.handleOpenComments = this.handleOpenComments.bind(this);
         this.rightIconMenu = this.rightIconMenu.bind(this);
+        this.handleEditPost = this.handleEditPost.bind(this);
     }
 
     /**
@@ -136,25 +128,6 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
     };
 
     /**
-     * Open post write
-     */
-    handleOpenPostWrite = () => {
-        this.closePostMenu();
-        this.setState({
-            openPostWrite: true,
-        });
-    };
-
-    /**
-     * Close post write
-     */
-    handleClosePostWrite = () => {
-        this.setState({
-            openPostWrite: false,
-        });
-    };
-
-    /**
      * Delete a post
      */
     handleDelete = () => {
@@ -163,6 +136,15 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
         if (this.props.delete) {
             this.props.delete(post.get('id'));
         }
+    };
+
+    /**
+     * Handle edit a post
+     */
+    handleEditPost = () => {
+        const { post, openPostWrite, setPostWriteModel } = this.props;
+        setPostWriteModel(post);
+        openPostWrite();
     };
 
     /**
@@ -298,9 +280,7 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
     rightIconMenu = () => {
         const { post, t, toggleDisableComments, toggleSharingComments } = this.props;
         const { postMenuAnchorEl, isPostMenuOpen } = this.state;
-        if (!toggleDisableComments || !toggleSharingComments) {
-            return <div />;
-        }
+
         return (
             <div>
                 <IconButton onClick={this.openPostMenu.bind(this)}>
@@ -321,7 +301,7 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
                     onClose={this.closePostMenu}
                 >
                     {post.get('postTypeId') !== PostType.Album && (
-                        <MenuItem onClick={this.handleOpenPostWrite}> {t('post.edit')} </MenuItem>
+                        <MenuItem onClick={this.handleEditPost}> {t('post.edit')} </MenuItem>
                     )}
                     <MenuItem onClick={this.handleDelete}> {t('post.delete')} </MenuItem>
                     <MenuItem onClick={() => toggleDisableComments(!post.get('disableComments'))}>
@@ -356,9 +336,6 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
         const { post, setHomeTitle, goTo, isPostOwner, commentList, classes } = this.props;
         const { showVideo } = this.state;
 
-        if (!goTo || !setHomeTitle) {
-            return <div />;
-        }
         const ownerUserId = post.get('ownerUserId');
         const ownerDisplayName = post.get('ownerDisplayName');
         const creationDate = post.get('creationDate');
@@ -506,21 +483,9 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
                     openCopyLink={this.state.openCopyLink}
                     post={post}
                 />
-
-                {this.state.openPostWrite && (
-                    <PostWrite
-                        key={`post-component-post-write-${id}`}
-                        open={this.state.openPostWrite}
-                        onRequestClose={this.handleClosePostWrite}
-                        edit={true}
-                        postModel={post}
-                    />
-                )}
             </Card>
         );
     }
 }
 
-const translateWrapper = withTranslation('translations')(PostComponent);
-
-export default connectPost(withStyles(postStyles as any)(translateWrapper as any) as any);
+export default connectPost(PostComponent);
