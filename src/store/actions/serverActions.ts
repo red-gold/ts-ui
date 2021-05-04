@@ -9,7 +9,7 @@ import { SocialError } from 'core/domain/common/socialError';
  * @param {Request} request
  */
 export const sendRequest = (request: ServerRequestModel) => {
-    return { type: ServerActionType.ADD_REQUEST, payload: { request: Map({ ...request }) } };
+    return { type: ServerActionType.SET_REQUEST, payload: { request: Map({ ...request }) } };
 };
 
 /**

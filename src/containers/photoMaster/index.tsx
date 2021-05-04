@@ -32,11 +32,6 @@ import { photoMasterStyles } from './photoMasterStyles';
 import { log } from 'utils/log';
 import { defaultNoValue } from 'utils/errorHandling';
 
-// - Material-UI
-// - Import app components
-// - Import API
-// - Import actions
-// - Create component class
 export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTranslation, IPhotoMasterState> {
     static propTypes = {
         /**
@@ -53,7 +48,7 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
     /**
      * Selected photos
      */
-    selectedPhotos: { file: any; fileName: string }[] = [];
+    selectedPhotos: { src: string; file: any; fileName: string }[] = [];
 
     /**
      * Handle close menu
@@ -100,13 +95,12 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
         const { uploadImage } = this.props;
         if (uploadImage) {
             const files: File[] = event.currentTarget.files;
-            const parsedFiles: { file: any; fileName: string }[] = [];
+            const parsedFiles: { src: string; file: any; fileName: string }[] = [];
             for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
                 const file = files[fileIndex];
                 const extension = FileAPI.getExtension(file.name);
                 const fileName = `${uuid()}.${extension}`;
-                parsedFiles.push({ file: URL.createObjectURL(file), fileName });
-                uploadImage(file, fileName);
+                parsedFiles.push({ src: URL.createObjectURL(file), fileName, file });
             }
             this.selectedPhotos = parsedFiles;
             this.openAlbumDialog();

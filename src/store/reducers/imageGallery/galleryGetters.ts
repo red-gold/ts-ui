@@ -3,7 +3,8 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
+import { PhotoGalleryFile } from 'models/gallery/photoGalleryFile';
 
 const getImages = (state: Map<string, any>) => {
     return state.getIn(['imageGallery', 'entities'], Map({})) as Map<string, any>;
@@ -36,6 +37,10 @@ const getImageGalleryLoaded = (state: Map<string, any>) => {
     return state.getIn(['imageGallery', 'loaded']);
 };
 
+const getGalleryStatus = (state: Map<string, any>) => {
+    return state.getIn(['imageGallery', 'status']) as List<Map<string, any>>;
+};
+
 export default {
     getImages,
     hasMoreImages,
@@ -44,4 +49,5 @@ export default {
     getCoverImages,
     getAlbumLastImageId,
     getImageGalleryLoaded,
+    getGalleryStatus,
 };

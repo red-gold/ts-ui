@@ -81,6 +81,14 @@ const createFetchPostUserRequest = (userId: string) => {
 };
 
 /**
+ * Create request for updating post
+ */
+const createUpdatePostRequest = (userId: string) => {
+    const requestId = StringAPI.createServerRequestId(ServerRequestType.PostUpdate, userId);
+    return new ServerRequestModel(ServerRequestType.PostUpdate, requestId, '', ServerRequestStatusType.Sent);
+};
+
+/**
  * Create reques get album from server
  */
 const createFetchAlbumRequest = (userId: string) => {
@@ -114,6 +122,7 @@ export const PostAPI = {
     createFetchStreamRequest,
     createSearchPostRequest,
     createFetchPostUserRequest,
+    createUpdatePostRequest,
     sortImuObjectsDate,
     createFetchAlbumRequest,
 };

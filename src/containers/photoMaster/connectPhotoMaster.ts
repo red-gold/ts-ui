@@ -26,7 +26,7 @@ import { IPhotoMasterProps } from './IPhotoMasterProps';
 const mapDispatchToProps = (dispatch: any, ownProps: IPhotoMasterProps) => {
     const { userId, albumId } = ownProps.match.params;
     return {
-        updateAlbum: (post: Map<string, any>, callBack: Function) => dispatch(postActions.dbUpdatePost(post, callBack)),
+        updateAlbum: (post: Map<string, any>) => dispatch(postActions.dbUpdatePost(post)),
         loadImages: () => dispatch(imageGalleryActions.dbFetchAlbumImages(userId, albumId)),
         loadAlbum: () => dispatch(postActions.dbGetPostById(userId, albumId)),
         uploadImage: (image: any, imageName: string) => dispatch(imageGalleryActions.dbUploadImage(image, imageName)),

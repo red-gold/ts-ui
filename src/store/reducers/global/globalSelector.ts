@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import { DialogType } from 'models/common/dialogType';
 import { createSelector } from 'reselect';
 
@@ -7,7 +7,7 @@ const getCaller = (state: Map<string, any>) => {
 };
 
 const getProgress = (state: Map<string, any>) => {
-    return state.getIn(['global', 'progress']);
+    return state.getIn(['global', 'progress'], Map({})) as Map<string, any>;
 };
 
 const getFeedbackStatus = (state: Map<string, any>) => {

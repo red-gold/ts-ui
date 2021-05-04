@@ -9,7 +9,7 @@ export interface IAlbumDialogState {
     saveDisabled: boolean;
     description: string;
     albumName: string;
-    selectedPhotos: { file: any; fileName: string }[];
+    selectedPhotos: { src: string; file: any; fileName: string }[];
     accessUserList: Array<string>;
     permission: UserPermissionType;
     permissionOpen: boolean;

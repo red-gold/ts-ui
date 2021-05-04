@@ -15,7 +15,6 @@ import { postWriteButtonStyles } from './postWriteButtonStyles';
 const mapDispatchToProps = (dispatch: any) => {
     return {
         openPostWrite: () => dispatch(globalActions.openDialog(DialogType.PostWrite)),
-        closePostWrite: () => dispatch(globalActions.closeDialog(DialogType.PostWrite)),
     };
 };
 

@@ -1,10 +1,6 @@
 // - Import domain
 import { PostActionType } from 'constants/postActionType';
-import { UserPermissionType } from 'core/domain/common/userPermissionType';
-import { User } from 'core/domain/users/user';
 import { fromJS, Map } from 'immutable';
-import moment from 'moment/moment';
-import config from 'config';
 import { SocialError } from 'core/domain/common/socialError';
 import { Post } from 'core/domain/posts/post';
 import { IPostService } from 'core/services/posts/IPostService';
@@ -12,14 +8,7 @@ import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { provider } from '../../socialEngine';
 import * as globalActions from 'store/actions/globalActions';
 import * as userActions from 'store/actions/userActions';
-import { userGetters } from '../reducers/users/userGetters';
 
-// - Import utility components
-// - Import action types
-// - Import actions
-/**
- * Get service providers
- */
 const postService: IPostService = provider.get<IPostService>(SocialProviderTypes.PostService);
 
 /* _____________ CRUD DB _____________ */
@@ -27,74 +16,23 @@ const postService: IPostService = provider.get<IPostService>(SocialProviderTypes
 /**
  * Add a normal post
  */
-export const dbAddPost = (newPost: Post, callBack: Function) => {
-    return (dispatch: any, getState: Function) => {
-        const state: Map<string, any> = getState();
-        const uid: string = state.getIn(['authorize', 'uid']);
-        const currentUser = userGetters.getUserProfileById(state, { userId: uid }).toJS() as User;
-        const post: Post = {
-            postTypeId: newPost.postTypeId || 0,
-            creationDate: moment().utc().valueOf(),
-            deleteDate: 0,
-            score: 0,
-            viewCount: 0,
-            body: newPost.body,
-            ownerUserId: uid,
-            ownerDisplayName: currentUser.fullName,
-            ownerAvatar: currentUser.avatar,
-            lastEditDate: 0,
-            album: newPost.album && newPost.album,
-            tags: newPost.tags || [],
-            commentCounter: 0,
-            image: newPost.image || '',
-            imageFullPath: newPost.imageFullPath || '',
-            video: newPost.video || '',
-            thumbnail: newPost.thumbnail || '',
-            disableComments: newPost.disableComments ? newPost.disableComments : false,
-            disableSharing: newPost.disableSharing ? newPost.disableSharing : false,
-            accessUserList: newPost.accessUserList ? newPost.accessUserList : [],
-            permission: newPost.permission ? newPost.permission : UserPermissionType.Public,
-            deleted: false,
-            version: config.dataFormat.postVersion,
-        };
-
-        return postService
-            .addPost(post)
-            .then((postKey: string) => {
-                dispatch(
-                    addPost(
-                        fromJS({
-                            ...post,
-                            id: postKey,
-                        }),
-                    ),
-                );
-                dispatch(addStreamPosts(Map({ [postKey]: true })));
-                dispatch(userActions.increasePostCountUser(uid));
-                callBack();
-            })
-            .catch((error: SocialError) => dispatch(globalActions.showMessage(error.message)));
+export const dbAddPost = (post: Post, filesToUpload: { src: string; file: any; fileName: string }[]) => {
+    return {
+        type: PostActionType.SG_CREATE_POST,
+        payload: { post, filesToUpload },
     };
 };
 
 /**
- * Update a post from database
+ * Update a post on database
  */
-export const dbUpdatePost = (updatedPost: Map<string, any>, callBack: Function) => {
-    return (dispatch: any) => {
-        dispatch(globalActions.showTopLoading());
-
-        return postService
-            .updatePost(updatedPost.toJS() as Post)
-            .then(() => {
-                dispatch(updatePost(updatedPost));
-                callBack();
-                dispatch(globalActions.hideTopLoading());
-            })
-            .catch((error: SocialError) => {
-                dispatch(globalActions.showMessage(error.message));
-                dispatch(globalActions.hideTopLoading());
-            });
+export const dbUpdatePost = (
+    post: Map<string, any>,
+    filesToUpload?: { src: string; file: any; fileName: string }[],
+) => {
+    return {
+        type: PostActionType.SG_UPDATE_POST,
+        payload: { post, filesToUpload },
     };
 };
 
@@ -415,5 +353,15 @@ export const lastPostProfile = (userId: string, lastPostId: string) => {
     return {
         type: PostActionType.LAST_POST_PROFILE,
         payload: { userId, lastPostId },
+    };
+};
+
+/**
+ * Set post write dialog model to edit
+ */
+export const setPostWriteModel = (model: Map<string, any> | null) => {
+    return {
+        type: PostActionType.SET_POST_WRITE_MODEL,
+        payload: { model },
     };
 };

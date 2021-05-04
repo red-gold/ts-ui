@@ -6,6 +6,7 @@ import galleryGetters from './galleryGetters';
 /****************************
  * Selectors
  ***************************/
+
 const selectImages = () => {
     return createSelector([galleryGetters.getImages], (images) => images);
 };
@@ -58,6 +59,10 @@ const selectImageGalleryLoaded = () => {
     return createSelector([galleryGetters.getImageGalleryLoaded], (loaded: boolean) => loaded);
 };
 
+const selectGalleryStatus = () => {
+    return createSelector([galleryGetters.getGalleryStatus], (status) => status);
+};
+
 export const gallerySelector = {
     selectImages,
     selectLastImageId,
@@ -65,4 +70,5 @@ export const gallerySelector = {
     selectAlbumImages,
     selectGallery,
     selectImageGalleryLoaded,
+    selectGalleryStatus,
 };

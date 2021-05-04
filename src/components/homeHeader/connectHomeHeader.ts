@@ -19,6 +19,7 @@ import { globalSelector } from 'store/reducers/global/globalSelector';
 import { userSelector } from 'store/reducers/users/userSelector';
 import { chatSelector } from 'store/reducers/chat/chatSelector';
 import { withRouter } from 'react-router';
+import { DialogType } from 'models/common/dialogType';
 
 /**
  * Map dispatch to props
@@ -40,12 +41,16 @@ const makeMapStateToProps = () => {
     const selectHeaderTitle = globalSelector.selectHeaderTitle();
     const selectOpenEditProfile = userSelector.selectOpenEditProfile();
     const selectUnreadRoomsCount = chatSelector.selectUnreadRoomsCount();
+    const selectDialogState = globalSelector.selectDialogState();
+
     const mapStateToProps = (state: Map<string, any>) => {
         const notifyCount = selectNotificationsCount(state);
         const user = selectCurrentUser(state);
         const title = selectHeaderTitle(state);
         const myProfileAccountOpen = selectOpenEditProfile(state);
         const unreadRoomsCount = selectUnreadRoomsCount(state);
+        const postWriteOpen = selectDialogState(state, { type: DialogType.PostWrite });
+
         return {
             avatar: user.get('avatar', ''),
             fullName: user.get('fullName', ''),
@@ -54,6 +59,7 @@ const makeMapStateToProps = () => {
             notifyCount,
             myProfileAccountOpen,
             unreadRoomsCount,
+            postWriteOpen,
         };
     };
     return mapStateToProps;

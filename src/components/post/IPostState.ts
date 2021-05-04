@@ -35,10 +35,6 @@ export interface IPostState {
      * If it's true, post link will be visible in share post dialog
      */
     openCopyLink: boolean;
-    /**
-     * If it's true, post write will be open
-     */
-    openPostWrite: boolean;
 
     /**
      * Open the comment group

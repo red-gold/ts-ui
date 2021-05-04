@@ -69,9 +69,18 @@ const getSearchKey = (state: Map<string, any>) => {
     return state.getIn(['post', 'searchKey']);
 };
 
+const getPostWriteModel = (state: Map<string, any>) => {
+    return (state.getIn(['post', 'ui', 'postWrite', 'model']) as Map<string, any>) || undefined;
+};
+
 /****************************
  * Selectors
  ***************************/
+
+const selectPostWriteModel = () => {
+    return createSelector([getPostWriteModel], (model) => model);
+};
+
 const selectPost = () => {
     return createSelector([getPost], (post) => post);
 };
@@ -152,6 +161,7 @@ export const postSelector = {
     getSearchLastPostId,
     getProfileLatPostId,
     getInstagramPosts,
+    selectPostWriteModel,
     selectPost,
     selectHasMorePostStream,
     selectHasMorePostSeach,

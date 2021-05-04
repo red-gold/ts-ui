@@ -11,7 +11,6 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Paper from '@material-ui/core/Paper';
 import Slide from '@material-ui/core/Slide';
-import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import AddPhotoIcon from '@material-ui/icons/AddPhotoAlternate';
@@ -22,33 +21,24 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LockIcon from '@material-ui/icons/VpnLock';
 import FileAPI from 'api/FileAPI';
 import StringAPI from 'api/StringAPI';
-import { albumDialogStyles } from 'components/albumDialog/albumDialogStyles';
 import UserPermissionComponent from 'components/userPermission/UserPermissionComponent';
-import { ServerRequestType } from 'constants/serverRequestType';
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
 import { Album } from 'core/domain/imageGallery/album';
 import { Media } from 'core/domain/imageGallery/media';
 import { Post } from 'core/domain/posts/post';
 import { PostType } from 'core/domain/posts/postType';
-import { User } from 'core/domain/users/user';
-import { Map } from 'immutable';
 import moment from 'moment/moment';
 import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
+import { WithTranslation } from 'react-i18next';
 import SwipeableViews from 'react-swipeable-views';
 import config from 'config';
-import * as globalActions from 'store/actions/globalActions';
-import * as imageGalleryActions from 'store/actions/imageGalleryActions';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
-import { serverSelector } from 'store/reducers/server/serverSelector';
 import uuid from 'uuid';
 import { TransitionProps } from '@material-ui/core/transitions';
-
+import { Map } from 'immutable';
 import { IAlbumDialogProps } from './IAlbumDialogProps';
 import { IAlbumDialogState } from './IAlbumDialogState';
-import { throwNoValue } from 'utils/errorHandling';
+import { connectAlbumDialog } from './connectAlbumDialog';
 
 const tutorialSteps = [
     {
@@ -231,7 +221,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
      * Save album
      */
     saveAlbum = () => {
-        const { progress, post, t, currentUser, currentAlbum } = this.props;
+        const { progress, t, currentUser, currentAlbum } = this.props;
         const { accessUserList, permission } = this.state;
 
         const description = StringAPI.isEmpty(this.state.description) ? '' : this.state.description;
@@ -246,13 +236,13 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
                 fileId,
                 0,
                 0,
-                meta.url || URL.createObjectURL(photo.file),
-                meta.url || URL.createObjectURL(photo.file),
+                URL.createObjectURL(photo.src),
+                URL.createObjectURL(photo.src),
                 photo.fileName,
                 '',
                 '',
                 photo.fileName,
-                currentUser && currentUser.userId ? currentUser.userId : '0',
+                currentUser.get('userId'),
                 0,
                 '',
                 0,
@@ -270,38 +260,36 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
             };
         });
 
-        if (post && currentUser) {
-            const album = {
-                photos: mappedPhotos.slice(0, 4),
-                cover: mappedPhotos[0].url,
-                coverId: mappedPhotos[0].fileId,
-                count: mappedPhotos.length,
-                title: albumTitle,
-            };
-            const photos: string[] = album.photos.map((image) => image.url);
-            const parsedAlbum = new Album(photos, album.cover, album.coverId, album.count, album.title);
-            if (!currentAlbum) {
-                this.createAlbum(
-                    currentUser,
-                    description,
-                    mappedPhotos[0].url,
-                    parsedAlbum,
-                    accessUserList,
-                    permission,
-                    images,
-                );
-            } else {
-                this.updateAlbum(
-                    { ...currentAlbum },
-                    currentUser,
-                    description,
-                    mappedPhotos[0].url,
-                    parsedAlbum,
-                    accessUserList,
-                    permission,
-                    images,
-                );
-            }
+        const album = {
+            photos: mappedPhotos.slice(0, 4),
+            cover: mappedPhotos[0].url,
+            coverId: mappedPhotos[0].fileId,
+            count: mappedPhotos.length,
+            title: albumTitle,
+        };
+        const photos: string[] = album.photos.map((image) => image.url);
+        const parsedAlbum = new Album(photos, album.cover, album.coverId, album.count, album.title);
+        if (!currentAlbum) {
+            this.createAlbum(
+                currentUser,
+                description,
+                mappedPhotos[0].url,
+                parsedAlbum,
+                accessUserList,
+                permission,
+                images,
+            );
+        } else {
+            this.updateAlbum(
+                { ...currentAlbum },
+                currentUser,
+                description,
+                mappedPhotos[0].url,
+                parsedAlbum,
+                accessUserList,
+                permission,
+                images,
+            );
         }
     };
 
@@ -309,7 +297,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
      * Create new album
      */
     createAlbum = (
-        currentUser: User,
+        currentUser: Map<string, any>,
         description: string,
         url: string,
         album: Album,
@@ -328,9 +316,9 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
             0,
             {},
             description,
-            currentUser.userId,
-            currentUser.fullName,
-            currentUser.avatar,
+            currentUser.get('userId'),
+            currentUser.get('fullName'),
+            currentUser.get('avatar'),
             0,
             [],
             0,
@@ -356,7 +344,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
      */
     updateAlbum = (
         currentPostAlbum: Post,
-        currentUser: User,
+        currentUser: Map<string, any>,
         description: string,
         url: string,
         album: Album,
@@ -386,25 +374,22 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
      * Handle on change file upload
      */
     onFileChange = (event: any) => {
-        const { uploadImage } = this.props;
         const selectedPhotos = [...this.state.selectedPhotos];
-        if (uploadImage) {
-            const files: File[] = event.currentTarget.files;
-            const parsedFiles: { file: any; fileName: string }[] = [];
-            for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
-                const file = files[fileIndex];
-                const extension = FileAPI.getExtension(file.name);
-                const fileName = `${uuid()}.${extension}`;
-                parsedFiles.push({ file: URL.createObjectURL(file), fileName });
-                uploadImage(file, fileName);
-            }
-            const joinedPhotos = [...selectedPhotos, ...parsedFiles];
 
-            this.setState({
-                selectedPhotos: joinedPhotos,
-            });
-            event.currentTarget.value = null;
+        const files: File[] = event.currentTarget.files;
+        const parsedFiles: { src: string; file: any; fileName: string }[] = [];
+        for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
+            const file = files[fileIndex];
+            const extension = FileAPI.getExtension(file.name);
+            const fileName = `${uuid()}.${extension}`;
+            parsedFiles.push({ src: URL.createObjectURL(file), fileName, file });
         }
+        const joinedPhotos = [...selectedPhotos, ...parsedFiles];
+
+        this.setState({
+            selectedPhotos: joinedPhotos,
+        });
+        event.currentTarget.value = null;
     };
 
     /**
@@ -632,42 +617,4 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
     }
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        post: (albumPost: Post, images: Media[]) => dispatch(imageGalleryActions.dbCreateAlbum(albumPost, images)),
-        uploadImage: (image: any, imageName: string) => dispatch(imageGalleryActions.dbUploadImage(image, imageName)),
-        deleteImage: (fileId: string, fileName: string) =>
-            dispatch(imageGalleryActions.dbDeleteImage(fileId, config.data.imageFolderPath, fileName)),
-        progressChange: (percent: number, status: boolean) => dispatch(globalActions.progressChange(percent, status)),
-    };
-};
-
-/**
- * Map state to props
- */
-const makeMapStateToProps = () => {
-    const selectCurrentUser = authorizeSelector.selectCurrentUser();
-    const selectRequest = serverSelector.selectRequest();
-
-    const mapStateToProps = (state: Map<string, any>) => {
-        const currentUser = selectCurrentUser(state).toJS() as User;
-        const requestId = StringAPI.createServerRequestId(
-            ServerRequestType.GalleryCreateAlbum,
-            throwNoValue(currentUser.userId, 'currentUser.userId'),
-        );
-        const createAlbumRequestStatus = selectRequest(state, { requestId });
-        return {
-            currentUser,
-            createAlbumRequestStatus: createAlbumRequestStatus.get('status', ServerRequestStatusType.NoAction),
-        };
-    };
-    return mapStateToProps;
-};
-
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(AlbumDialogComponent);
-const componentWithStyles: any = withStyles(albumDialogStyles as any, { withTheme: true })(translateWrapper);
-export default connect<{}, {}, IAlbumDialogProps, any>(makeMapStateToProps, mapDispatchToProps)(componentWithStyles);
+export default connectAlbumDialog(AlbumDialogComponent);
