@@ -3,9 +3,9 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { createStyles } from '@material-ui/styles';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
-export const notifyItemStyles = createStyles((theme: any) => ({
+export const useStyles = makeStyles((theme: any) => ({
     root: {
         width: '100%',
         maxWidth: 360,
