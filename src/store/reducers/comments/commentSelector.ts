@@ -12,7 +12,10 @@ const getPostComments = (state: Map<string, any>, props: { postId: string }) => 
  * Selectors
  ***************************/
 const selectPostComments = () => {
-    return createSelector([getPostComments], (comments) => comments);
+    return createSelector([getPostComments], (comments) => {
+        const sortedComments = comments.sortBy((item) => item.get('creationDate'));
+        return sortedComments;
+    });
 };
 
 export const commentSelector = {
