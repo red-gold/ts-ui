@@ -28,11 +28,6 @@ import {
 import { IShareDialogComponentProps } from './IShareDialogComponentProps';
 import { IShareDialogComponentState } from './IShareDialogComponentState';
 
-// - Import app components
-
-// - Import API
-
-// - Import actions
 const styles = (theme: any) => ({
     image: {
         verticalAlign: 'top',
@@ -47,9 +42,9 @@ const styles = (theme: any) => ({
         color: '#1e882d',
         fontWeight: 400,
     },
-    networkShare: {
+    networkShare: {},
+    shareButton: {
         width: '100%',
-        height: '100%',
     },
     fullPageXs: {
         [theme.breakpoints.down('xs')]: {
@@ -86,12 +81,9 @@ export class ShareDialogComponent extends Component<
         // Binding functions to `this`
     }
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes, t, shareOpen, onClose, openCopyLink, post, onCopyLink } = this.props;
+
         return (
             <Dialog className={classes.fullPageXs} title="Share On" open={shareOpen} onClose={onClose}>
                 <Paper className={classes.shareLinkPaper}>
@@ -107,12 +99,13 @@ export class ShareDialogComponent extends Component<
                                             ? `#${post.getIn(['tags', 0], 'hashtag')}`
                                             : undefined
                                     }
+                                    className={classes.shareButton}
                                 >
                                     <MenuItem>
                                         <ListItemIcon classes={{ root: classes.networkShare }}>
                                             <FacebookIcon size={32} round />
                                         </ListItemIcon>
-                                        <ListItemText inset primary={t('post.facebookButton')} />
+                                        <ListItemText primary={t('post.facebookButton')} />
                                     </MenuItem>
                                 </FacebookShareButton>
                             </div>
@@ -121,13 +114,14 @@ export class ShareDialogComponent extends Component<
                                     onShareWindowClose={onClose}
                                     url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
                                     title={post.get('body')}
-                                    hashtags={post.getIn(['tags'], [])}
+                                    hashtags={[...post.get('tags', [])]}
+                                    className={classes.shareButton}
                                 >
                                     <MenuItem>
                                         <ListItemIcon classes={{ root: classes.networkShare }}>
                                             <TwitterIcon size={32} round />
                                         </ListItemIcon>
-                                        <ListItemText inset primary={t('post.twitterButton')} />
+                                        <ListItemText primary={t('post.twitterButton')} />
                                     </MenuItem>
                                 </TwitterShareButton>
                             </div>
@@ -136,12 +130,13 @@ export class ShareDialogComponent extends Component<
                                     onShareWindowClose={onClose}
                                     url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
                                     title={post.get('body')}
+                                    className={classes.shareButton}
                                 >
                                     <MenuItem>
                                         <ListItemIcon classes={{ root: classes.networkShare }}>
                                             <LinkedinIcon size={32} round />
                                         </ListItemIcon>
-                                        <ListItemText inset primary={t('post.linkedinButton')} />
+                                        <ListItemText primary={t('post.linkedinButton')} />
                                     </MenuItem>
                                 </LinkedinShareButton>
                             </div>
@@ -149,7 +144,7 @@ export class ShareDialogComponent extends Component<
                                 <ListItemIcon>
                                     <SvgLink />
                                 </ListItemIcon>
-                                <ListItemText inset primary={t('post.copyLinkButton')} />
+                                <ListItemText primary={t('post.copyLinkButton')} />
                             </MenuItem>
                         </MenuList>
                     ) : (
