@@ -120,8 +120,8 @@
         "personalInformationLabel": "Personal Information",
         "headPostsLabel": "{{userName}}'s posts",
         "nothingSharedLabel": " Nothing shared",
-        "chooseAvatarDialogTitle": "Choose an avatar image",
-        "chooseBannerDialogTitle": "Choose an banner image",
+        "chooseAvatarDialogTitle": "Choose your profile avatar",
+        "chooseBannerDialogTitle": "Choose your profile cover",
         "twitterExampleLabel": "you twitter user name ex. twitter",
         "facebookExampleLabel": "your facebook page name ex. facebook"
     },
