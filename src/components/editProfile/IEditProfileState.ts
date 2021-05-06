@@ -58,14 +58,9 @@ export interface IEditProfileState {
     openAvatar: boolean;
 
     /**
-     * Default birth day
-     */
-    defaultBirthday: any;
-
-    /**
      * Seleted birth day
      */
-    selectedBirthday: number;
+    selectedBirthday: Date | null;
 
     /**
      * Web URL

@@ -123,7 +123,8 @@
         "chooseAvatarDialogTitle": "Choose your profile avatar",
         "chooseBannerDialogTitle": "Choose your profile cover",
         "twitterExampleLabel": "you twitter user name ex. twitter",
-        "facebookExampleLabel": "your facebook page name ex. facebook"
+        "facebookExampleLabel": "your facebook page name ex. facebook",
+        "chooseBirthday": "Pick your birthday"
     },
     "people": {
         "findPeopleTab": "FIND PEOPLE",
