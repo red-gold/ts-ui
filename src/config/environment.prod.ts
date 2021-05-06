@@ -48,12 +48,12 @@ export const environment = {
         profile: 'auth/profile',
     },
     header: {
-        title: 'React Social',
+        title: 'Telar Social Engine',
         meta: [
             {
                 name: 'description',
                 content:
-                    'The React Social Network is an open source project relying on React a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network. The structure of this project give the ability to developer to develop their project on their own idea and environment.',
+                    'The Telar Social Engine is an open source project relying on React a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network. The structure of this project give the ability to developer to develop their project on their own idea and environment.',
             },
         ],
     },

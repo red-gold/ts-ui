@@ -6,12 +6,12 @@
 </p>
 <!-- Name -->
 <h1 align="center">
-  <a href="https://github.com/red-gold/react-social-network">React Social Network </a>:rocket:<span style="font-variant-caps: petite-caps;font-size: 30px;font-weight: 400;"> Version NEXT! </span>:rocket:
+  <a href="https://github.com/red-gold/react-social-network">Telar Social Engine </a>:rocket:<span style="font-variant-caps: petite-caps;font-size: 30px;font-weight: 400;"> Version NEXT! </span>:rocket:
 </h1>
 
 [![Gitter](https://badges.gitter.im/react-social-network/Lobby.svg)](https://gitter.im/react-social-network/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-React Social Network是一个open source 项目，利用React强大的javascript库来构建用户界面。在这个项目中，我用社交网络为个例子来显示 react/react components 的一些试功能。这个项目的结构使帮助 开发人员能够根据自己的想法和环境发展他们自己项目。
+Telar Social Engine是一个open source 项目，利用React强大的javascript库来构建用户界面。在这个项目中，我用社交网络为个例子来显示 react/react components 的一些试功能。这个项目的结构使帮助 开发人员能够根据自己的想法和环境发展他们自己项目。
 <p align="center">
   <a href="http://greensocial.herokuapp.com/">
     <img src="https://raw.githubusercontent.com/red-gold/react-social-network/next/docs/app/multi-device.png">
@@ -19,7 +19,7 @@ React Social Network是一个open source 项目，利用React强大的javascript
 </p>
 
 ## 🌟新升级
-React Social Network正在发展基于redux-saga，但我们在 v0.5分支中保留了React Social Network的redux-thunk版本。 ❤️我们非常感谢任何贡献。
+Telar Social Engine正在发展基于redux-saga，但我们在 v0.5分支中保留了Telar Social Engine的redux-thunk版本。 ❤️我们非常感谢任何贡献。
 
 > 有关更多信息，请参阅CHANGELOG及相关问题
 
@@ -45,7 +45,7 @@ React Social Network正在发展基于redux-saga，但我们在 v0.5分支中保
 
 ## 所需的知识
 
-我建议您在使用React Social Network之前了解React。 React社交网络由React components 构建，因此了解React如何适应Web发展非常重要。
+我建议您在使用Telar Social Engine之前了解React。 React社交网络由React components 构建，因此了解React如何适应Web发展非常重要。
 
 （如果您不熟悉Single Page Applications（SPA）的概念，请在阅读之前先到此处进行快速介绍。
 

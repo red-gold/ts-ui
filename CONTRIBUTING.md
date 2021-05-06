@@ -1,6 +1,6 @@
 # Contributing
 
-If you're reading this, you're awesome! Thank you for helping us make this project great and being a part of the React Social Network community. Here are a few guidelines that will help you along the way.
+If you're reading this, you're awesome! Thank you for helping us make this project great and being a part of the Telar Social Engine community. Here are a few guidelines that will help you along the way.
 
 ## Asking Questions
 
@@ -13,7 +13,7 @@ If you think you have found a bug, or have a new feature idea, please start by m
 Next, create a new issue that briefly explains the problem, and provides a bit of background as to the circumstances that triggered it, and steps to reproduce it.
 
 For code issues please include:
-* React Social Network version
+* Telar Social Engine version
 * React version
 * Browser version
 * A code example or link to a repo, gist or running site.
@@ -31,7 +31,7 @@ And please don't just '+1' an issue. It spams the maintainers and doesn't help m
 
 ## Submitting a Pull Request
 
-React Social Network is a community project, so pull requests are always welcome, but before working on a large change, it is best to open an issue first to discuss it with the maintainers.
+Telar Social Engine is a community project, so pull requests are always welcome, but before working on a large change, it is best to open an issue first to discuss it with the maintainers.
 
 When in doubt, keep your pull requests small. To give a PR the best chance of getting accepted, don't bundle more than one feature or bug fix per pull request. It's always best to create two smaller PRs than one big one.
 
@@ -73,7 +73,7 @@ Test coverage is limited at present, but where possible, please add tests for an
 
 ### Coding style
 
-Please follow the coding style of the current code base. React Social Network uses eslint, so if possible, enable linting in your editor to get realtime feedback.
+Please follow the coding style of the current code base. Telar Social Engine uses eslint, so if possible, enable linting in your editor to get realtime feedback.
 
 Finally, when you submit a pull request, linting is run again by Continuous Integration testing, but hopefully by then your code is already clean!
 
