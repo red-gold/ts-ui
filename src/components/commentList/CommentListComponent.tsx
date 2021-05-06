@@ -1,7 +1,6 @@
 // - Import react components
 import List from '@material-ui/core/List';
 import { withStyles } from '@material-ui/core/styles';
-import * as PostAPI from 'api/PostAPI';
 import CommentComponent from 'components/comment/CommentComponent';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
@@ -62,7 +61,7 @@ export class CommentListComponent extends Component<ICommentListComponentProps, 
         const comments = Map<string, Map<string, any>>(this.props.comments);
         const commentsEditorStatus = Map<string, boolean>(this.props.commentsEditorStatus as any);
         if (!comments.isEmpty()) {
-            const sortedComments = PostAPI.sortImuIndexDate(comments.valueSeq());
+            const sortedComments = comments.valueSeq();
 
             const parsedElemetList: any[] = [];
             sortedComments.forEach((comment: Map<string, any>) => {
