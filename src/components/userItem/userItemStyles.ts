@@ -2,11 +2,6 @@ import { createStyles } from '@material-ui/styles';
 
 export const userItemStyles = (theme: any) =>
     createStyles({
-        root: {
-            width: '100%',
-            maxWidth: 360,
-            backgroundColor: theme.palette.background.paper,
-        },
         paper: {
             height: 254,
             width: 243,
@@ -32,5 +27,24 @@ export const userItemStyles = (theme: any) =>
                 margin: 0,
                 overflowY: 'auto',
             },
+        },
+        avatar: {
+            minWidth: 45,
+            flexShrink: 0,
+            cursor: 'pointer',
+        },
+        root: {
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'start',
+            alignItems: 'center',
+        },
+        name: {
+            flex: 1,
+            overflow: 'hidden',
+            padding: 5,
+            minWidth: 0,
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
         },
     });
