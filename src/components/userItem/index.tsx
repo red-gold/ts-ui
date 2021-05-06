@@ -9,13 +9,9 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { IUserItemProps } from './IUserItemProps';
 import { IUserItemState } from './IUserItemState';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import { userItemStyles } from './userItemStyles';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction/ListItemSecondaryAction';
-/**
- * Create component class
- */
+import Typography from '@material-ui/core/Typography';
+
 export class UserItem extends Component<IUserItemProps & WithTranslation, IUserItemState> {
     /**
      * Component constructor
@@ -72,27 +68,24 @@ export class UserItem extends Component<IUserItemProps & WithTranslation, IUserI
      *
      */
     render() {
-        const { user, follow } = this.props;
+        const { user, follow, classes } = this.props;
 
         return (
             <ListItem onClick={this.handleClick}>
-                <ListItemAvatar>
-                    <span onClick={this.goToProfile} style={{ cursor: 'pointer' }}>
+                <div className={classes.root}>
+                    <span onClick={this.goToProfile} className={classes.avatar}>
                         <UserAvatar fullName={user.get('fullName')} fileName={user.get('avatar')} size={30} />
                     </span>
-                </ListItemAvatar>
-                <ListItemText
-                    primary={
-                        <span onClick={this.goToProfile} style={{ cursor: 'pointer' }}>
-                            {user.get('fullName')}
-                        </span>
-                    }
-                />
-                {follow && (
-                    <ListItemSecondaryAction>
-                        <FollowDialogComponent user={user} />
-                    </ListItemSecondaryAction>
-                )}
+                    <Typography
+                        className={classes.name}
+                        onClick={this.goToProfile}
+                        style={{ cursor: 'pointer' }}
+                        variant="body1"
+                    >
+                        {user.get('fullName')}
+                    </Typography>
+                    {follow && <FollowDialogComponent user={user} />}
+                </div>
             </ListItem>
         );
     }
