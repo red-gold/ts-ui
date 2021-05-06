@@ -8,4 +8,5 @@ export interface IDatePickerProps {
     placeholder: string;
     selectedDate: Date | null;
     dateChange: (date: MaterialUiPickersDate, value?: string | null | undefined) => void;
+    fullWidth?: boolean | undefined;
 }

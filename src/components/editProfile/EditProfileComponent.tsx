@@ -444,6 +444,7 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
                                 placeholder={t('profile.chooseBirthday')}
                                 selectedDate={selectedBirthday}
                                 dateChange={this.handleBirthdayDateChange}
+                                fullWidth
                             />
                         </div>
                         <br />

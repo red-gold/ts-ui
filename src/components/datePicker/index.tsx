@@ -21,7 +21,7 @@ export default function DatePicker(props: IDatePickerProps) {
                 KeyboardButtonProps={{
                     'aria-label': 'change date',
                 }}
-                fullWidth
+                fullWidth={props.fullWidth}
             />
         </MuiPickersUtilsProvider>
     );
