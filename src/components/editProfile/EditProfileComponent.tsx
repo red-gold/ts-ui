@@ -13,20 +13,18 @@ import ImageEditor from 'components/ImageEditor';
 import ImgCover from 'components/imgCover';
 import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
-import AppInput from 'layouts/appInput';
 import AppDialogTitle from 'layouts/dialogTitle/DialogTitleComponent';
 import moment from 'moment/moment';
 import React, { Component } from 'react';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import MomentLocaleUtils, { formatDate, parseDate } from 'react-day-picker/moment';
 import { WithTranslation } from 'react-i18next';
 import config from 'config';
-
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { IEditProfileProps } from './IEditProfileProps';
 import { IEditProfileState } from './IEditProfileState';
 import { connectEditProfile } from './connectEditProfile';
 import MobileDialog from '../mobileDialog';
 import GalleryComponent from '../gallery';
+import DatePicker from '../datePicker';
 
 export class EditProfileComponent extends Component<IEditProfileProps & WithTranslation, IEditProfileState> {
     constructor(props: IEditProfileProps & WithTranslation) {
@@ -78,15 +76,12 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
              * User's original banner URL
              */
             originalBanner: '',
-            /**
-             * Default birth day
-             */
-            defaultBirthday:
-                currentUser && currentUser.get('birthday') ? moment.unix(currentUser.get('birthday')).toDate() : '',
+
             /**
              * Seleted birth day
              */
-            selectedBirthday: 0,
+            selectedBirthday:
+                currentUser && currentUser.get('birthday') ? moment.unix(currentUser.get('birthday')).toDate() : null,
             /**
              * Web URL
              */
@@ -245,7 +240,7 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
                 twitterId: twitterId,
                 facebookId: facebookId,
                 creationDate: currentUser.get('creationDate'),
-                birthday: selectedBirthday > 0 ? selectedBirthday : currentUser && currentUser.get('birthday', 0),
+                birthday: !!selectedBirthday ? moment(selectedBirthday).unix() : 0,
                 permission,
                 accessUserList,
                 userId: currentUser.get('userId'),
@@ -288,8 +283,8 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
     /**
      * Handle birthday date changed
      */
-    handleBirthdayDateChange = (date: any) => {
-        this.setState({ selectedBirthday: moment(date).unix() });
+    handleBirthdayDateChange = (date: MaterialUiPickersDate) => {
+        this.setState({ selectedBirthday: date });
     };
 
     componentDidMount() {}
@@ -299,12 +294,12 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
      *
      */
     render() {
-        const { classes, t, currentLanguage, coverImages, avatarImages, currentUser } = this.props;
+        const { classes, t, coverImages, avatarImages, currentUser } = this.props;
         const {
-            defaultBirthday,
             webUrl,
             twitterId,
             companyName,
+            selectedBirthday,
             isImageEditorOpen,
             originalBanner,
             facebookId,
@@ -445,19 +440,11 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
                             />
                         </div>
                         <div className={classes.box}>
-                            <DayPickerInput
-                                classNames={{ container: classes.dayPicker, overlay: '' }}
-                                value={defaultBirthday}
-                                onDayChange={this.handleBirthdayDateChange}
-                                formatDate={formatDate}
-                                parseDate={parseDate}
-                                component={AppInput}
-                                format="LL"
-                                placeholder={`${moment().format('LL')}`}
-                                dayPickerProps={{
-                                    locale: currentLanguage,
-                                    localeUtils: MomentLocaleUtils,
-                                }}
+                            <DatePicker
+                                placeholder={t('profile.chooseBirthday')}
+                                selectedDate={selectedBirthday}
+                                dateChange={this.handleBirthdayDateChange}
+                                fullWidth
                             />
                         </div>
                         <br />
