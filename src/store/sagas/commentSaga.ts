@@ -11,6 +11,7 @@ import * as globalActions from 'store/actions/globalActions';
 import * as postActions from 'store/actions/postActions';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import { postSelector } from '../reducers/posts/postSelector';
+import moment from 'moment/moment';
 
 /**
  * Get service providers
@@ -61,8 +62,8 @@ function* asyncSaveComment(action: any) {
     const post: Map<string, any> = yield select(postSelector.getPost, { postId });
 
     try {
-        const newCommentId = yield call(commentService.addComment, newComment.toJS());
-        const savedComment = newComment.set('id', newCommentId);
+        const newCommentId: string = yield call(commentService.addComment, newComment.toJS());
+        const savedComment = newComment.set('objectId', newCommentId).set('creationDate', moment().utc().valueOf());
         yield put(commentActions.addComment(savedComment));
 
         // Update post comment counter in local store
@@ -95,7 +96,7 @@ function* asyncUpdateComment(action: any) {
     try {
         yield call(commentService.updateComment, comment.toJS());
         yield put(commentActions.updateComment(comment));
-        yield put(commentActions.closeCommentEditor(comment.get('postId'), comment.get('id')));
+        yield put(commentActions.closeCommentEditor(comment.get('postId'), comment.get('objectId')));
         yield put(globalActions.hideTopLoading());
     } catch (error) {
         yield put(globalActions.showMessage(error.message));

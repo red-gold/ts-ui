@@ -3,9 +3,6 @@
         "baseUrl": "src", // enables you to import relative to this folder
         "isolatedModules": true,
         "paths": {
-            "src/*": [
-                "*"
-            ],
             "core/*": [
                 "core/*"
             ],

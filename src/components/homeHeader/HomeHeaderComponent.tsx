@@ -310,7 +310,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderProps & WithTransl
                         onClick={this.props.openEditor}
                     >
                         {' '}
-                        {t('header.myAccount')}{' '}
+                        {t('header.editProfile')}{' '}
                     </MenuItem>
                     <MenuItem style={{ fontSize: '14px' }} onClick={this.handleLogout.bind(this)}>
                         {' '}

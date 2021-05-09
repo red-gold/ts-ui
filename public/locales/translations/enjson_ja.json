@@ -28,7 +28,7 @@
         "home":"Home",
         "notificationTooltip": "Notifications",
         "messengerTooltip": "Chat Box",
-        "myAccount": "My Account",
+        "editProfile": "Profile",
         "logout": "Logout",
         "homeCaption": "Home",
         "peopleCaption": "People",
@@ -288,7 +288,7 @@
     },
     "config": {
         "changePasswordLabel": "Change Password",
-        "notificationLabel": "Notification Setting",
+        "notificationActivity": "Activity",
         "notificationCaption": "Manage your notification if you wish disable/enable.",
         "homeLabel": "Home",
         "saveChangesButton": "Save Changes",

@@ -12,7 +12,6 @@ import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import * as userActions from 'store/actions/userActions';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { circleSelector } from 'store/reducers/circles/circleSelector';
-import { globalSelector } from 'store/reducers/global/globalSelector';
 
 /**
  * Get service providers

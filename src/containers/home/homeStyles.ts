@@ -59,7 +59,9 @@ export const homeStyles = (theme: Theme) =>
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
             }),
-            height: 'calc(100% - 56px)',
+            overflow: 'auto',
+            minHeight: '100%',
+            paddingBottom: 80,
             marginTop: 44,
             [theme.breakpoints.up('sm')]: {
                 height: 'calc(100% - 64px)',

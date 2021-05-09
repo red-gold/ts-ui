@@ -2,7 +2,6 @@ import { Map } from 'immutable';
 import { Message } from 'core/domain/chat/message';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
-import { ServerRequestModel } from 'models/server/serverRequestModel';
 
 export type IChatProps = IOwnProps & IDispatchProps & IStateProps;
 

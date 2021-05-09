@@ -1,5 +1,5 @@
 // - Import react components
-import { Card, CardHeader } from '@material-ui/core';
+import { Card, CardHeader, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -223,13 +223,6 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
         this.setState({ openMenu: false });
     };
 
-    componentDidMount() {
-        const { commentOwner, isCommentOwner, getUserInfo } = this.props;
-        if (!isCommentOwner && !commentOwner && getUserInfo) {
-            getUserInfo();
-        }
-    }
-
     /**
      * Reneder component DOM
      *
@@ -286,7 +279,7 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
                             <MenuItem
                                 className={classes.rightIconMenuItem}
                                 onClick={(evt: any) =>
-                                    this.handleDelete(evt, comment.get('id', '0'), comment.get('postId', '0'))
+                                    this.handleDelete(evt, comment.get('objectId'), comment.get('postId'))
                                 }
                             >
                                 {t('comment.deleteButton')}
@@ -319,13 +312,16 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
         const commentBody = (
             <div style={{ outline: 'none', flex: 'auto', flexGrow: 1 }}>
                 {editorStatus ? (
-                    <TextareaAutosize
+                    <TextField
+                        className={classes.inputRoot}
                         placeholder={t('comment.updateCommentPlaceholder')}
                         autoFocus
-                        rowsMax="4"
+                        multiline
+                        variant="outlined"
                         value={this.state.text}
                         onChange={this.handleOnChange}
-                        className={classes.textField}
+                        rowsMax={2}
+                        fullWidth
                     />
                 ) : (
                     <div className={classNames('animate2-top10', classes.commentBody)}>{this.state.text}</div>
@@ -349,7 +345,7 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
             </div>
         );
         return (
-            <div className="animate-top" key={comment.get('id', '0')}>
+            <div className="animate-top" key={comment.get('objectId', '0')}>
                 <Paper
                     elevation={0}
                     className="animate2-top10"
@@ -375,6 +371,7 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
                                     ? ''
                                     : rightIconMenu
                             }
+                            classes={{ avatar: classes.avatar }}
                         ></CardHeader>
                     </Card>
                 </Paper>

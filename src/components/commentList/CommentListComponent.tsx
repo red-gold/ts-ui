@@ -1,77 +1,33 @@
-// - Import react components
-import List from '@material-ui/core/List';
-import { withStyles } from '@material-ui/core/styles';
 import CommentComponent from 'components/comment/CommentComponent';
 import { Map } from 'immutable';
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css';
 
-import { ICommentListComponentProps } from './ICommentListComponentProps';
-import { ICommentListComponentState } from './ICommentListComponentState';
-
-// - Material UI
-// - Import app components
-// - Import actions
-
-const styles = () => ({
-    list: {
-        width: '100%',
-        maxHeight: 290,
-        overflowY: 'auto',
-        overflowX: 'visible',
-    },
-});
+import { ICommentListProps } from './ICommentListProps';
 
 /**
  * Create component class
  */
-export class CommentListComponent extends Component<ICommentListComponentProps, ICommentListComponentState> {
-    static propTypes = {
-        /**
-         * If it's true the post owner is the logged in user which this post be long to the comment
-         */
-        isPostOwner: PropTypes.bool,
-        /**
-         * If it's true the comment is disable to write
-         */
-        disableComments: PropTypes.bool,
-    };
+export function CommentListComponent(props: ICommentListProps) {
+    const scrollableNodeRef = React.createRef();
+    const { comments, editorStatus } = props;
 
     /**
-     * Component constructor
-     *
+     * Get comment list elements
+     * @returns comment list
      */
-    constructor(props: ICommentListComponentProps) {
-        super(props);
-
-        /**
-         * Default state
-         */
-        this.state = {};
-
-        // Binding functions to `this`
-    }
-
-    /**
-     * Get comments' DOM
-     * @return {DOM} list of comments' DOM
-     */
-    commentList = () => {
-        const comments = Map<string, Map<string, any>>(this.props.comments);
-        const commentsEditorStatus = Map<string, boolean>(this.props.commentsEditorStatus as any);
+    const commentList = () => {
         if (!comments.isEmpty()) {
-            const sortedComments = comments.valueSeq();
-
             const parsedElemetList: any[] = [];
-            sortedComments.forEach((comment: Map<string, any>) => {
+            comments.forEach((comment: Map<string, any>) => {
                 parsedElemetList.push(
                     <CommentComponent
-                        key={comment.get('id')}
+                        key={comment.get('objectId')}
                         comment={comment}
-                        isPostOwner={this.props.isPostOwner}
-                        disableComments={this.props.disableComments}
-                        editorStatus={commentsEditorStatus.get(comment.get('id', '0'), false)}
+                        isPostOwner={props.isPostOwner}
+                        disableComments={props.disableComments}
+                        editorStatus={editorStatus.get(comment.get('objectId'), false)}
                     />,
                 );
             });
@@ -79,40 +35,18 @@ export class CommentListComponent extends Component<ICommentListComponentProps, 
         }
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
-    render() {
-        const { classes, postId } = this.props;
+    React.useEffect(() => {
+        const scrollableRoot: any = scrollableNodeRef.current;
+        if (scrollableRoot) {
+            scrollableRoot.scrollTop = scrollableRoot.scrollHeight;
+        }
+    }, [comments, scrollableNodeRef]);
 
-        return (
-            <List key={`comment-list-${postId}`} className={classes.list}>
-                {this.commentList()}
-            </List>
-        );
-    }
+    return (
+        <SimpleBar style={{ maxHeight: 300 }} scrollableNodeProps={{ ref: scrollableNodeRef }}>
+            {commentList()}
+        </SimpleBar>
+    );
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = () => {
-    return {};
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = (state: Map<string, any>, ownProps: ICommentListComponentProps) => {
-    const commentsEditorStatus = state.getIn(['comment', 'editorStatus', ownProps.postId], {});
-    return {
-        commentsEditorStatus,
-    };
-};
-
-// - Connect component to redux store
-export default connect<{}, {}, any, any>(
-    mapStateToProps,
-    mapDispatchToProps,
-)(withStyles(styles as any)(CommentListComponent as any) as any);
+export default CommentListComponent;

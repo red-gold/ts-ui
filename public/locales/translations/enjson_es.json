@@ -28,7 +28,7 @@
         "home":"Inicio",
         "notificationTooltip": "Notificaciones",
         "messengerTooltip": "Messenger",
-        "myAccount": "Mi cuenta",
+        "editProfile": "Mi cuenta",
         "logout": "Salir",
         "homeCaption": "Inicio",
         "peopleCaption": "Usuarios",
@@ -288,7 +288,7 @@
     },
     "config": {
         "changePasswordLabel": "Modificar Contraseña",
-        "notificationLabel": "Ajustes de Notificación",
+        "notificationActivity": "Ajustes de Notificación",
         "notificationCaption": "Administre su notificación si desea deshabilitar / habilitar.",
         "homeLabel": "Inicio",
         "saveChangesButton": "Guardar cambios",

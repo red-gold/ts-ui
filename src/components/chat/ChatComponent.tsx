@@ -10,7 +10,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Popover from '@material-ui/core/Popover';
 import BackIcon from '@material-ui/icons/ArrowBack';
-import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import SendIcon from '@material-ui/icons/Send';
 import EmojiIcon from '@material-ui/icons/SentimentSatisfied';
@@ -237,7 +236,7 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
     /**
      * Set current chat
      */
-    setCurrentChat(recieverId: string) {}
+    setCurrentChat() {}
 
     /**
      * Contact list
@@ -251,7 +250,7 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
                 const userId = user.get('userId');
                 parsedDOM.push(
                     <ListItem
-                        onClick={() => this.setCurrentChat(userId)}
+                        onClick={() => this.setCurrentChat()}
                         key={`chat-component-contact-user-${userId}`}
                         button
                         className={classNames({ [classes.activeUserItem]: receiverUser.get('userId') === userId })}
@@ -427,53 +426,6 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
          * Whether left side is close
          */
         const leftSideClose = leftSideDisabled || smallSize || isMinimized;
-
-        /**
-         * Left chat side
-         */
-        const leftSide = (
-            <Card className={classNames(classes.leftSideChatRoot, { [classes.noDisplay]: leftSideClose })}>
-                <ListItem classes={{ container: classes.currentUserItem }} className={classNames(classes.userItem)}>
-                    <UserAvatar fullName={currentUser.get('fullName')} size={30} fileName={currentUser.get('avatar')} />
-                    <ListItemText
-                        className={classes.listItemText}
-                        classes={{ primary: classes.primaryText, secondary: classes.secondaryText }}
-                        primary={currentUser.get('fullName')}
-                        secondary={currentUser.get('tagLine')}
-                    />
-                    <ListItemSecondaryAction>
-                        <IconButton className={classes.moreMenu} onClick={this.toggleLeftSide}>
-                            <MenuIcon className={classes.moreMenuIcon} />
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ListItem>
-                {/* <FormControl fullWidth component='div' className={classes.searchField}>
-            <Input
-              className={classes.searchInput}
-              id='adornment-search'
-              placeholder={t('chat.searchText')}
-              type={'text'}
-              disableUnderline
-              fullWidth
-              value={searchText}
-              onChange={this.handleChange('searchText')}
-              startAdornment={
-                <InputAdornment position='end'>
-                  <IconButton
-                    onClick={this.handleSearch}
-                    onMouseDown={this.handleMouseDown}
-                  >
-                    <SearchIcon className={classes.searchIcon} />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl> */}
-                <List className={classNames(classes.listContainer, classes.leftListContainer)}>
-                    {this.contactList()}
-                </List>
-            </Card>
-        );
 
         const userItem = (
             <ListItem className={classNames(classes.userItem, classes.receiverUserItem)}>

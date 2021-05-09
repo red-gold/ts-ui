@@ -1,71 +1,72 @@
+import { createStyles } from '@material-ui/styles';
+
 const drawerWidth = 240;
 
-export const configStyles = (theme: any) => ({
-    root: {
-        flexGrow: 1,
-        height: '100%',
-        zIndex: 1,
-        overflow: 'hidden',
-        position: 'relative',
-        display: 'flex',
-        width: '100%',
-    },
-    appBar: {
-        position: 'absolute',
-        marginLeft: drawerWidth,
-        [theme.breakpoints.up('md')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
+export const configStyles = (theme: any) =>
+    createStyles({
+        root: {
+            paddingLeft: 24,
+            paddingRight: 24,
         },
-    },
-    navIconHide: {
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
+        tabRoot: {
+            flexGrow: 1,
         },
-    },
-    toolbar: {
-        backgroundColor: theme.palette.secondary.main,
-        padding: 10,
-        textAlign: 'center',
-    },
-    drawerPaper: {
-        width: drawerWidth,
-        [theme.breakpoints.up('md')]: {
-            position: 'relative',
+        appBar: {
+            position: 'absolute',
+            marginLeft: drawerWidth,
+            [theme.breakpoints.up('md')]: {
+                width: `calc(100% - ${drawerWidth}px)`,
+            },
         },
-    },
-    content: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
-        padding: theme.spacing(3),
-    },
-    appBarTitle: {
-        fontSize: 'x-large',
-        textAlign: 'center',
-        marginLeft: 15,
-        fontWeight: 300,
-        paddingTop: '8%',
-        color: theme.palette.primary.main,
-    },
-    container: {
-        padding: '10px',
-    },
-    fullBox: {
-        [theme.breakpoints.down('xs')]: {
-            padding: 0,
-            with: '100%',
-            maxWidth: '100%',
+        navIconHide: {
+            [theme.breakpoints.up('md')]: {
+                display: 'none',
+            },
         },
-    },
-    logo: {
-        fill: 'currentColor',
-        height: '2em',
-        display: 'inline-block',
-        fontSize: '17px',
-        transition: 'fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-        userSelect: 'none',
-        flexShrink: 0,
-    },
-    rootDawer: {
-        height: '100%',
-    },
-});
+        toolbar: {
+            backgroundColor: theme.palette.secondary.main,
+            padding: 10,
+            textAlign: 'center',
+        },
+        drawerPaper: {
+            width: drawerWidth,
+            [theme.breakpoints.up('md')]: {
+                position: 'relative',
+            },
+        },
+        content: {
+            flexGrow: 1,
+            backgroundColor: theme.palette.background.default,
+            padding: theme.spacing(3),
+        },
+        appBarTitle: {
+            fontSize: 'x-large',
+            textAlign: 'center',
+            marginLeft: 15,
+            fontWeight: 300,
+            paddingTop: '8%',
+            color: theme.palette.primary.main,
+        },
+        container: {
+            padding: '10px',
+        },
+        fullBox: {
+            [theme.breakpoints.down('xs')]: {
+                padding: 0,
+                with: '100%',
+                maxWidth: '100%',
+            },
+        },
+        logo: {
+            fill: 'currentColor',
+            height: '2em',
+            display: 'inline-block',
+            fontSize: '17px',
+            transition: 'fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+            userSelect: 'none',
+            flexShrink: 0,
+        },
+        rootDawer: {
+            height: '100%',
+        },
+    });

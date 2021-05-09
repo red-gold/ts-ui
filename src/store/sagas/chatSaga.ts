@@ -11,7 +11,6 @@ import * as serverActions from 'store/actions/serverActions';
 import * as globalActions from 'store/actions/globalActions';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import config from 'config';
-import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
 import moment from 'moment/moment';
 import { initServerRequest } from 'utils/serverUtil';
 import { ServerRequestType } from 'constants/serverRequestType';
@@ -23,7 +22,6 @@ import { addBadge } from 'utils/badge';
  * Get service providers
  */
 const chatService: IChatService = provider.get<IChatService>(SocialProviderTypes.ChatService);
-const authService: IAuthorizeService = provider.get<IAuthorizeService>(SocialProviderTypes.AuthorizeService);
 
 /***************************** Subroutines ************************************/
 

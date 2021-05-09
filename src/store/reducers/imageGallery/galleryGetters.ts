@@ -4,7 +4,6 @@
 // https://opensource.org/licenses/MIT
 
 import { Map, List } from 'immutable';
-import { PhotoGalleryFile } from 'models/gallery/photoGalleryFile';
 
 const getImages = (state: Map<string, any>) => {
     return state.getIn(['imageGallery', 'entities'], Map({})) as Map<string, any>;

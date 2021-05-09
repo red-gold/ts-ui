@@ -1,8 +1,5 @@
-// - Import react components
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
 import CloseIcon from '@material-ui/icons/Close';
-import React, { Component } from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';

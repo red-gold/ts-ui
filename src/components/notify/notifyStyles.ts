@@ -50,8 +50,6 @@ export const notifyStyles = createStyles((theme: any) => ({
         overflow: 'hidden',
     },
     list: {
-        maxHeight: 380,
-        overflowY: 'auto',
         padding: 5,
         width: '100%',
     },

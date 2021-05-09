@@ -28,7 +28,7 @@
         "home":"Trang chủ",
         "notificationTooltip": "Thông báo",
         "messengerTooltip": "Trò chuyện",
-        "myAccount": "Tài khoản của tôi",
+        "editProfile": "Tài khoản của tôi",
         "logout": "Đăng xuất",
         "homeCaption": "Trang chủ",
         "peopleCaption": "Mọi người",
@@ -288,7 +288,7 @@
     },
     "config": {
         "changePasswordLabel": "Change Password",
-        "notificationLabel": "Notification Setting",
+        "notificationActivity": "Activity",
         "notificationCaption": "Manage your notification if you wish disable/enable.",
         "homeLabel": "Home",
         "saveChangesButton": "Save Changes",

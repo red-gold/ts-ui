@@ -10,7 +10,6 @@
         "allowSyntheticDefaultImports": true, // see below
         "baseUrl": "src", // enables you to import relative to this folder
         "paths": {
-            "src/*": ["*"],
             "core/*": ["core/*"],
             "routes/*": ["routes/*"],
             "data/*": ["data/*"],

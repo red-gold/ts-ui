@@ -7,17 +7,12 @@ export interface INotificationSettingProps {
     classes?: any;
 
     /**
-     * Translate to locale string
-     */
-    t?: (state: any, param?: {}) => any;
-
-    /**
      * Notification setting
      */
-    notificationSetting: Map<string, any>;
+    userSettings: Map<string, any>;
 
     /**
      * Update user setting
      */
-    updateUserSetting?: (type: string, setting: object) => any;
+    updateUserSetting: (type: string, setting: object) => any;
 }

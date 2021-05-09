@@ -1,4 +1,4 @@
-import { Map, List } from 'immutable';
+import { Map } from 'immutable';
 import { DialogType } from 'models/common/dialogType';
 import { createSelector } from 'reselect';
 
@@ -82,6 +82,7 @@ export const globalSelector = {
     getGlobal,
     getFeedbackStatus,
     getProgress,
+    getImageGalleryLoaded,
     selectDialogState,
     selectProgress,
     selectFeedbackStatus,

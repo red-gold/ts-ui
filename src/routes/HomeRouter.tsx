@@ -2,7 +2,6 @@
 import MasterLoadingComponent from 'components/masterLoading';
 import React, { Component } from 'react';
 import Loadable from 'react-loadable';
-import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { RouteType } from 'routes/routeType';
 
@@ -55,10 +54,20 @@ const AsyncHelp = Loadable({
     loading: MasterLoadingComponent,
 });
 
+const AsyncSetting = Loadable({
+    loader: () => import('containers/config'),
+    loading: MasterLoadingComponent,
+});
+
 /**
  * Routes
  */
 const routes = [
+    {
+        path: '/settings',
+        component: AsyncSetting,
+        privateAuth: true,
+    },
     {
         path: '/people/:tab?',
         component: AsyncPeople,
@@ -143,16 +152,4 @@ export class HomeRouter extends Component<IRouterProps, any> {
     }
 }
 
-// - Map dispatch to props
-const mapDispatchToProps = () => {
-    return {};
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = () => {
-    return {};
-};
-
-export default withRouter(connect<{}, {}, any, any>(mapStateToProps, mapDispatchToProps)(HomeRouter as any) as any);
+export default withRouter<any, any>(HomeRouter);

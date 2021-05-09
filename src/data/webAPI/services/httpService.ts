@@ -43,7 +43,9 @@ export class HttpService implements IHttpService {
     public async postFile(
         url: string,
         payload: any,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         fileName: string,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onProgress: (percentage: number, status: boolean, fileName: string, meta?: any) => void,
     ) {
         const validURL = config.rewrites[url] || url;

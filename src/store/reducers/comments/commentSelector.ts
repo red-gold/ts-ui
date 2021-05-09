@@ -8,6 +8,11 @@ const getPostComments = (state: Map<string, any>, props: { postId: string }) => 
     return state.getIn(['comment', 'postComments', props.postId], Map({})) as Map<string, Map<string, any>>;
 };
 
+const getEditorStatus = (state: Map<string, any>, props: { postId: string }) => {
+    const commentsEditorStatus = state.getIn(['comment', 'editorStatus', props.postId], Map({}));
+    return commentsEditorStatus as Map<string, any>;
+};
+
 /****************************
  * Selectors
  ***************************/
@@ -18,7 +23,12 @@ const selectPostComments = () => {
     });
 };
 
+const selectEditorStatus = () => {
+    return createSelector([getEditorStatus], (status) => status);
+};
+
 export const commentSelector = {
     getPostComments,
     selectPostComments,
+    selectEditorStatus,
 };

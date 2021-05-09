@@ -124,7 +124,7 @@ export class HomeComponent extends Component<IHomeProps & WithTranslation, IHome
                 })}
                 <div className={classes.info}>
                     <Typography className={classes.pos} color="textSecondary">
-                        What do you feel about Telar Social community version? Please share with us{' '}
+                        What do you think about Telar Social? Please share with us{' '}
                         <a href="https://github.com/Qolzam/feedback/issues/5" target="blank">
                             here
                         </a>

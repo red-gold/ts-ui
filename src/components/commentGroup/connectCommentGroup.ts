@@ -1,16 +1,17 @@
 import { Map } from 'immutable';
-import { ComponentType } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { serverSelector } from 'store/reducers/server/serverSelector';
-import { ICommentGroupComponentProps } from './ICommentGroupComponentProps';
+import { ICommentGroupProps, IDispatchProps, IOwnProps, IStateProps } from './ICommentGroupProps';
 import * as commentActions from 'store/actions/commentActions';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import withStyles from '@material-ui/styles/withStyles/withStyles';
 import { commentGroupStyles } from './commentGroupStyles';
+import { commentSelector } from 'store/reducers/comments/commentSelector';
 
 /**
  * Map dispatch to props
@@ -29,27 +30,30 @@ const mapDispatchToProps = (dispatch: any) => {
 const makeMapStateToProps = () => {
     const selectCurrentUser = authorizeSelector.selectCurrentUser();
     const selectRequest = serverSelector.selectRequest();
-    const mapStateToProps = (state: Map<string, any>, ownProps: ICommentGroupComponentProps) => {
+    const selectEditorStatus = commentSelector.selectEditorStatus();
+    const mapStateToProps = (state: Map<string, any>, ownProps: IOwnProps) => {
         const { postId } = ownProps;
         const requestId = StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId);
         const currentUser = selectCurrentUser(state);
-        const commentsRequestStatus = selectRequest(state, { requestId: requestId });
-
+        const commentsRequest = selectRequest(state, { requestId: requestId });
+        const commentsRequestStatus: ServerRequestStatusType = commentsRequest.get(
+            'status',
+            ServerRequestStatusType.NoAction,
+        );
+        const editorStatus = selectEditorStatus(state, { postId });
         return {
-            commentsRequestStatus: commentsRequestStatus.get('status', ServerRequestStatusType.NoAction),
-            uid: currentUser.get('userId', ''),
-            avatar: currentUser.get('avatar', ''),
-            fullName: currentUser.get('fullName', ''),
+            commentsRequestStatus,
+            currentUser,
+            editorStatus,
         };
     };
     return mapStateToProps;
 };
 
-// - Connect component to redux store
-export const connectCommentGroup = (component: ComponentType<ICommentGroupComponentProps & WithTranslation>) => {
+export const connectCommentGroup = (component: React.ComponentType<ICommentGroupProps & WithTranslation>) => {
     const translateWrapper = withTranslation('translations')(component);
-    return connect<{}, {}, any, any>(
+    return connect<IStateProps, IDispatchProps, IOwnProps, any>(
         makeMapStateToProps,
         mapDispatchToProps,
-    )(withStyles(commentGroupStyles as any)(translateWrapper as any));
+    )(withStyles(commentGroupStyles)(translateWrapper));
 };

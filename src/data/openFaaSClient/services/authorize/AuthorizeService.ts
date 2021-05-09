@@ -7,7 +7,6 @@ import { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { AuthAPI } from 'api/AuthAPI';
 import jwtDecode from 'jwt-decode';
-import { SocialError } from 'core/domain/common/socialError';
 import { log } from 'utils/log';
 
 /**

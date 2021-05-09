@@ -1,24 +1,22 @@
 import { Map } from 'immutable';
 
-export interface ICommentListComponentProps {
+export interface ICommentListProps {
     /**
      * Ad dictionary of comment
      *
      * @type {{[commentId: string]: Comment}}
-     * @memberof ICommentListComponentProps
      */
     comments: Map<string, Map<string, any>>;
 
     /**
      * Comments editor status
      */
-    commentsEditorStatus?: { [commentId: string]: boolean };
+    editorStatus: Map<string, any>;
 
     /**
      * Current user is post the post owner {true} or not false
      *
      * @type {boolean}
-     * @memberof ICommentListComponentProps
      */
     isPostOwner: boolean;
 
@@ -31,7 +29,6 @@ export interface ICommentListComponentProps {
      * Comment on the post is disabled {false} or not {true}
      *
      * @type {boolean}
-     * @memberof ICommentListComponentProps
      */
     disableComments: boolean;
 

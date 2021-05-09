@@ -1,4 +1,3 @@
-// - Import react components
 import UserBoxList from 'components/userBoxList/UserBoxListComponent';
 import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
 import React, { Component } from 'react';
@@ -10,13 +9,6 @@ import { connectFindPeople } from './connectFindPeople';
 import { IFindPeopleComponentProps } from './IFindPeopleComponentProps';
 import { IFindPeopleComponentState } from './IFindPeopleComponentState';
 
-// - Import app components
-// - Import API
-
-// - Import actions
-/**
- * Create component class
- */
 export class FindPeopleComponent extends Component<
     IFindPeopleComponentProps & WithTranslation,
     IFindPeopleComponentState

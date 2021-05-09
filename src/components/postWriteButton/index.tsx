@@ -7,7 +7,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import { WithTranslation } from 'react-i18next';
-import PostWriteComponent from 'components/postWrite';
 import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
 import { IPostWriteButtonProps } from './IPostWriteButtonProps';
 import { IPostWriteButtonState } from './IPostWriteButtonState';

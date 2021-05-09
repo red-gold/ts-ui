@@ -1,9 +1,8 @@
-export interface ICommentGroupComponentState {
+export interface ICommentGroupState {
     /**
      * Comment text
      *
      * @type {string}
-     * @memberof ICommentGroupComponentState
      */
     commentText: string;
 
@@ -11,7 +10,6 @@ export interface ICommentGroupComponentState {
      * Disable post comment
      *
      * @type {boolean}
-     * @memberof ICommentGroupComponentState
      */
     postDisable: boolean;
 }

@@ -30,10 +30,7 @@ const AsyncLogin = Loadable({
     loader: () => import('containers/loginWrapper'),
     loading: MasterLoadingComponent,
 });
-const AsyncSetting = Loadable({
-    loader: () => import('containers/config'),
-    loading: MasterLoadingComponent,
-});
+
 const AsyncTerms = Loadable({
     loader: () => import('containers/terms'),
     loading: MasterLoadingComponent,
@@ -62,11 +59,6 @@ const routes = [
     {
         path: '/smsVerification',
         component: AsyncSmsVerification,
-        privateAuth: true,
-    },
-    {
-        path: '/settings',
-        component: AsyncSetting,
         privateAuth: true,
     },
     {

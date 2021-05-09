@@ -20,13 +20,12 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentComponentProps) => 
         },
         openEditor: () =>
             dispatch(
-                commentActions.openCommentEditor({
-                    id: ownProps.comment.get('id', '0'),
-                    postId: ownProps.comment.get('postId'),
-                }),
+                commentActions.openCommentEditor(ownProps.comment.get('postId'), ownProps.comment.get('objectId')),
             ),
         closeEditor: () =>
-            dispatch(commentActions.closeCommentEditor(ownProps.comment.get('postId'), ownProps.comment.get('id'))),
+            dispatch(
+                commentActions.closeCommentEditor(ownProps.comment.get('postId'), ownProps.comment.get('objectId')),
+            ),
         getUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(ownProps.comment.get('ownerUserId'))),
     };
 };
@@ -39,12 +38,12 @@ const makeMapStateToProps = () => {
     const selectUserProfileById = userSelector.selectUserProfileById();
 
     const mapStateToProps = (state: Map<string, any>, ownProps: ICommentComponentProps) => {
-        const commentOwnerId = ownProps.comment.get('ownerUserId', '0');
+        const commentOwnerId = ownProps.comment.get('ownerUserId');
         const currentUser = selectCurrentUser(state);
-        const uid = currentUser.get('userId', '0');
+        const uid = currentUser.get('userId');
         return {
             uid,
-            avatar: ownProps.comment.get('ownerAvatar', '0'),
+            avatar: ownProps.comment.get('ownerAvatar'),
             fullName: currentUser.get('ownerDisplayName', 'loading...'),
             isCommentOwner: uid === commentOwnerId,
             commentOwner: selectUserProfileById(state, { userId: commentOwnerId }),

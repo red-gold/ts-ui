@@ -114,16 +114,16 @@ export const clearAllData = (): any => {
     };
 };
 
-export const openCommentEditor = (comment: Comment): any => {
+export const openCommentEditor = (postId: string, commentId: string): any => {
     return {
         type: CommentActionType.OPEN_COMMENT_EDITOR,
-        payload: comment,
+        payload: { postId, commentId },
     };
 };
 
-export const closeCommentEditor = (postId: string, id: string): any => {
+export const closeCommentEditor = (postId: string, commentId: string): any => {
     return {
         type: CommentActionType.CLOSE_COMMENT_EDITOR,
-        payload: { postId, id },
+        payload: { postId, commentId },
     };
 };

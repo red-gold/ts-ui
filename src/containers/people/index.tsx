@@ -1,7 +1,3 @@
-// - Import react components
-import AppBar from '@material-ui/core/AppBar';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 import { push } from 'connected-react-router';
 import { Map } from 'immutable';
@@ -17,11 +13,8 @@ import * as globalActions from 'store/actions/globalActions';
 
 import { IPeopleComponentProps } from './IPeopleComponentProps';
 import { IPeopleComponentState } from './IPeopleComponentState';
+import { AntTab, AntTabs } from 'components/tab';
 
-// - Import app components
-// - Import API
-
-// - Import actions
 const TabContainer = (props: any) => {
     return (
         <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -131,19 +124,17 @@ export class PeopleComponent extends Component<IPeopleComponentProps & WithTrans
         }
         return (
             <div style={styles.people}>
-                <AppBar position="static" color="default">
-                    <Tabs
-                        indicatorColor={'secondary'}
-                        onChange={this.handleChangeTab}
-                        value={tabIndex}
-                        centered
-                        textColor="primary"
-                    >
-                        <Tab label={t('people.findPeopleTab')} />
-                        <Tab label={t('people.followingTab')} />
-                        <Tab label={t('people.followersTab')} />
-                    </Tabs>
-                </AppBar>
+                <AntTabs
+                    indicatorColor={'secondary'}
+                    onChange={this.handleChangeTab}
+                    value={tabIndex}
+                    centered
+                    textColor="primary"
+                >
+                    <AntTab label={t('people.findPeopleTab')} />
+                    <AntTab label={t('people.followingTab')} />
+                    <AntTab label={t('people.followersTab')} />
+                </AntTabs>
                 {tabIndex === 0 && <TabContainer>{circlesLoaded ? <FindPeople /> : ''}</TabContainer>}
                 {tabIndex === 1 && (
                     <TabContainer>

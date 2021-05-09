@@ -28,7 +28,7 @@
         "home":"主页",
         "notificationTooltip": "通知",
         "messengerTooltip": "Chat Box",
-        "myAccount": "個人主页",
+        "editProfile": "個人主页",
         "logout": "退出",
         "homeCaption": "Home",
         "peopleCaption": "People",
@@ -288,7 +288,7 @@
     },
     "config": {
         "changePasswordLabel": "Change Password",
-        "notificationLabel": "Notification Setting",
+        "notificationActivity": "Activity",
         "notificationCaption": "Manage your notification if you wish disable/enable.",
         "homeLabel": "Home",
         "saveChangesButton": "Save Changes",

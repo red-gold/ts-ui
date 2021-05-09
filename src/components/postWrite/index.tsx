@@ -70,7 +70,6 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
                       })
                       .toJS()
                 : [];
-        console.log('=======>>> Selected photos ', selectedPhotos);
         // Default state
         this.state = {
             /**

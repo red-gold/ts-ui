@@ -17,14 +17,14 @@ export const commentReducer = (state = Map(new CommentState() as any), action: I
     switch (action.type) {
         /* _____________ CRUD _____________ */
         case CommentActionType.ADD_COMMENT:
-            return state.setIn(['postComments', payload.get('postId'), payload.get('id')], payload);
+            return state.setIn(['postComments', payload.get('postId'), payload.get('objectId')], payload);
 
         case CommentActionType.ADD_COMMENT_LIST:
             return state.mergeIn(['postComments', payload.postId], payload.entities).set('loaded', true);
 
         case CommentActionType.UPDATE_COMMENT:
             const { comment } = payload;
-            return state.updateIn(['postComments', comment.get('postId'), comment.get('id'), 'text'], () =>
+            return state.updateIn(['postComments', comment.get('postId'), comment.get('objectId'), 'text'], () =>
                 comment.get('text'),
             );
 
@@ -32,10 +32,10 @@ export const commentReducer = (state = Map(new CommentState() as any), action: I
             return state.deleteIn(['postComments', payload.postId, payload.id]);
 
         case CommentActionType.CLOSE_COMMENT_EDITOR:
-            return state.setIn(['editorStatus', payload.postId, payload.id], false);
+            return state.setIn(['editorStatus', payload.postId, payload.commentId], false);
 
         case CommentActionType.OPEN_COMMENT_EDITOR:
-            return state.setIn(['editorStatus', payload.postId, payload.id], true);
+            return state.setIn(['editorStatus', payload.postId, payload.commentId], true);
 
         case CommentActionType.HAS_MORE_COMMENTS:
             return state.setIn(['ui', 'posts', payload.postId, 'hasMoreData'], true);
