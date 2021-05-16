@@ -20,7 +20,7 @@
         "fun": "Fun",
         "company": "Company",
         "sponser": "Sponser",
-        "help": "Help"
+        "support": "support"
 
     },
     "rightPanel": {
@@ -31,12 +31,15 @@
     },
     "header": {
         "home":"Home",
+        "support": "Support",
+        "settings": "Settings",
         "notificationTooltip": "Notifications",
         "notificationTitle": "Notifications",
         "messengerTitle": "Messenger",
         "messengerTooltip": "Messenger",
         "noRoom": "No one is in your contacts!",
-        "myAccount": "My Account",
+        "editProfile": "Profile",
+        "accountSettings": "Settings",
         "logout": "Logout",
         "homeCaption": "Home",
         "peopleCaption": "People",
@@ -57,6 +60,7 @@
         "edit": "Edit",
         "delete": "Delete",
         "disableComments": "Disable Comments",
+        "createPostTitle": "Create post",
         "disableSharing": "Disable Sharing",
         "enableComments": "Enable Comments",
         "enableSharing": "Enable Sharing",
@@ -109,7 +113,7 @@
         "aboutButton": "About",
         "about": "About",
         "fullName": "Full Name",
-        "tagline": "Tagline",
+        "bio": "Bio",
         "birthday": "Birthday",
         "companyName": "Company Name",
         "twitterId": "Twitter",
@@ -284,7 +288,7 @@
         "getApp": "Get the app."
     },
     "yourCircles": {
-        "title": "Your circles"
+        "title": "Your groups"
     },
     "userActivity": {
         "privilegesTitle": "Privileges",
@@ -319,7 +323,9 @@
     },
     "config": {
         "changePasswordLabel": "Change Password",
-        "notificationLabel": "Notification Setting",
+        "notificationActivity": "Activity",
+        "languageTab": "Language",
+        "notificationTab": "Notifications",
         "notificationCaption": "Manage your notification if you wish disable/enable.",
         "homeLabel": "Home",
         "saveChangesButton": "Save Changes",
@@ -327,6 +333,10 @@
             "emailOnVote": "Send email notification on like your post",
             "emailOnComment": "Send email notification on commenting on your post",
             "emailOnFollow": "Send email notification on follow you"
+        },
+        "lang": {
+            "currentLang": "Current Language",
+            "currentLangCaption": "Select your current language"
 
         }
     },
@@ -371,7 +381,7 @@
     "masterLoading": {
         "loading": "Loading",
         "unexpectedError": "Unexpected Error Happened",
-        "timeout": "It takes long time"
+        "timeout": "It's taking long time!"
     },
     "search": {
         "users": "People",
@@ -408,6 +418,9 @@
         "deleteAlbum": "Delete Album",
         "noExistAlbum": "The album doesn't exist or you do not have enough access to this album !"
 
+    },
+    "support": {
+        "content": "### Support  \nFor general questions the best place is our community in [Slack](https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform). The [Slack](https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform) community is the place for questions and advice about [Telar Social](https://telar.dev) project. If you are not sure where to aks, we will guide you to the right place.  \n\nTo request technical support, reporting a bug or want a new feature, [Github](https://github.com/red-gold/ts-ui/issues) is the right place to track. Please make sure to add as many information as possible, in order for us to reproduce your issue. \n\nCustomers who purchased Sky plan or Enterprise plan are in high priority for thechnical support. You are always welcome to ask for feature requests and give suggestions that can improve this project. \n\n\nCheers,  \nThe Telar team"
     }
   
     

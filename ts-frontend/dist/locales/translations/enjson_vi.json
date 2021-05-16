@@ -15,7 +15,7 @@
         "fun": "Giải trí",
         "company": "Công ty",
         "sponser": "Nhà tài trợ",
-        "help": "Trợ giúp"
+        "support": "Trợ giúp"
 
     },
     "rightPanel": {
@@ -28,7 +28,7 @@
         "home":"Trang chủ",
         "notificationTooltip": "Thông báo",
         "messengerTooltip": "Trò chuyện",
-        "myAccount": "Tài khoản của tôi",
+        "editProfile": "Tài khoản của tôi",
         "logout": "Đăng xuất",
         "homeCaption": "Trang chủ",
         "peopleCaption": "Mọi người",
@@ -253,7 +253,7 @@
         "getApp": "Get the app."
     },
     "yourCircles": {
-        "title": "Your circles"
+        "title": "Your groups"
     },
     "userActivity": {
         "privilegesTitle": "Privileges",
@@ -288,7 +288,7 @@
     },
     "config": {
         "changePasswordLabel": "Change Password",
-        "notificationLabel": "Notification Setting",
+        "notificationActivity": "Activity",
         "notificationCaption": "Manage your notification if you wish disable/enable.",
         "homeLabel": "Home",
         "saveChangesButton": "Save Changes",
@@ -339,7 +339,7 @@
     "masterLoading": {
         "loading": "Loading",
         "unexpectedError": "Unexpected Error Happened",
-        "timeout": "It takes long time"
+        "timeout": "It's taking long time!"
     },
     "search": {
         "users": "People",

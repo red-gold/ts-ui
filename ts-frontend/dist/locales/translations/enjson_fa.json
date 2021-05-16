@@ -15,7 +15,7 @@
         "fun": "Fun",
         "company": "Company",
         "sponser": "Sponser",
-        "help": "Help"
+        "support": "support"
 
     },
     "rightPanel": {
@@ -28,7 +28,7 @@
         "home":"Home",
         "notificationTooltip": "Notifications",
         "messengerTooltip": "Messenger",
-        "myAccount": "My Account",
+        "editProfile": "Profile",
         "logout": "Logout",
         "homeCaption": "Home",
         "peopleCaption": "People",
@@ -101,7 +101,7 @@
         "aboutButton": "About",
         "about": "About",
         "fullName": "Full Name",
-        "tagline": "Tagline",
+        "bio": "Bio",
         "birthday": "Birthday",
         "companyName": "Company Name",
         "twitterId": "Twitter",
@@ -253,7 +253,7 @@
         "getApp": "Get the app."
     },
     "yourCircles": {
-        "title": "Your circles"
+        "title": "Your groups"
     },
     "userActivity": {
         "privilegesTitle": "Privileges",
@@ -288,7 +288,7 @@
     },
     "config": {
         "changePasswordLabel": "Change Password",
-        "notificationLabel": "Notification Setting",
+        "notificationActivity": "Activity",
         "notificationCaption": "Manage your notification if you wish disable/enable.",
         "homeLabel": "Home",
         "saveChangesButton": "Save Changes",
@@ -339,7 +339,7 @@
     "masterLoading": {
         "loading": "Loading",
         "unexpectedError": "Unexpected Error Happened",
-        "timeout": "It takes long time"
+        "timeout": "It's taking long time!"
     },
     "search": {
         "users": "People",
