@@ -14,4 +14,5 @@ export interface IStateProps {
 export interface IDispatchProps {
     updateUserSetting: (type: string, setting: object) => any;
     getUserSetting: () => any;
+    setHeaderTitle: (title: string) => any;
 }

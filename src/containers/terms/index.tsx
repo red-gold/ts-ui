@@ -1,30 +1,13 @@
-// - Import external components
 import AppBar from '@material-ui/core/AppBar';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import TermsIcon from '@material-ui/icons/Assignment';
-import SendIcon from '@material-ui/icons/Autorenew';
-import CookieIcon from '@material-ui/icons/Fingerprint';
-import PrivacyIcon from '@material-ui/icons/Https';
 import MenuIcon from '@material-ui/icons/Menu';
-import { push } from 'connected-react-router';
-import { localeDocs } from 'locales/localeDocs';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import ReactMarkdown from 'react-markdown';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import config from 'config';
 import { OAuthType } from 'core/domain/authorize/oauthType';
 import * as authorizeActions from 'store/actions/authorizeActions';
 
@@ -33,14 +16,7 @@ import { ITermsState } from './ITermsState';
 import { termsStyles } from './termsStyles';
 import { TermsType } from './termsType';
 
-// - Material-UI
-// - Components
-// - Import actions
-// - Create Login component class
 export class TermsComponent extends Component<ITermsProps & WithTranslation, ITermsState> {
-    /**
-     * Component constructor
-     */
     constructor(props: ITermsProps & WithTranslation) {
         super(props);
         this.state = {
@@ -65,62 +41,9 @@ export class TermsComponent extends Component<ITermsProps & WithTranslation, ITe
      * Reneder component DOM
      */
     render() {
-        const { classes, t, signupPage, currentLanguage, theme } = this.props;
-
-        if (!t || !signupPage || !currentLanguage) {
-            return <div />;
-        }
-        const menuList = (
-            <div>
-                <ListItem button onClick={() => this.handleChange(TermsType.Terms, t('terms.termsTitle'))}>
-                    <ListItemIcon>
-                        <TermsIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={t('terms.termsTitle')} />
-                </ListItem>
-                <ListItem button onClick={() => this.handleChange(TermsType.Privacy, t('terms.privacyTitle'))}>
-                    <ListItemIcon>
-                        <PrivacyIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={t('terms.privacyTitle')} />
-                </ListItem>
-                <ListItem button onClick={() => this.handleChange(TermsType.Cookie, t('terms.cookieTitle'))}>
-                    <ListItemIcon>
-                        <CookieIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={t('terms.cookieTitle')} />
-                </ListItem>
-                <ListItem
-                    button
-                    onClick={() => {
-                        signupPage();
-                    }}
-                >
-                    <ListItemIcon>
-                        <SendIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={t('terms.signUpTile')} />
-                </ListItem>
-            </div>
-        );
+        const { classes, t } = this.props;
 
         const { selectedItem, selectedText } = this.state;
-
-        const drawer = (
-            <Drawer
-                variant="permanent"
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
-                anchor={'left'}
-            >
-                <div className={classes.toolbar}>
-                    <img src={config.settings.logoHead} alt={config.settings.appName} className={classes.logo} />
-                </div>
-                <Divider />
-                <List>{menuList}</List>
-            </Drawer>
-        );
 
         return (
             <div className={classes.root}>
@@ -139,58 +62,23 @@ export class TermsComponent extends Component<ITermsProps & WithTranslation, ITe
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Hidden mdUp>
-                    <Drawer
-                        variant="temporary"
-                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                        open={this.state.mobileOpen}
-                        onClose={this.handleDrawerToggle}
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        ModalProps={{
-                            keepMounted: true, // Better open performance on mobile.
-                        }}
-                    >
-                        {drawer}
-                    </Drawer>
-                </Hidden>
-                <Hidden smDown implementation="css">
-                    <Drawer
-                        variant="permanent"
-                        open
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                    >
-                        {drawer}
-                    </Drawer>
-                </Hidden>
+
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     <Paper>
                         <div className={classes.container}>
                             {selectedItem === TermsType.Terms ? (
-                                <Typography component="div">
-                                    {' '}
-                                    <ReactMarkdown source={localeDocs.getTerm(currentLanguage)} />{' '}
-                                </Typography>
+                                <Typography component="div"> </Typography>
                             ) : (
                                 <div></div>
                             )}
                             {selectedItem === TermsType.Privacy ? (
-                                <Typography component="div">
-                                    {' '}
-                                    <ReactMarkdown source={localeDocs.getPrivacyPolicy(currentLanguage)} />{' '}
-                                </Typography>
+                                <Typography component="div"> </Typography>
                             ) : (
                                 <div></div>
                             )}
                             {selectedItem === TermsType.Cookie ? (
-                                <Typography component="div">
-                                    {' '}
-                                    <ReactMarkdown source={localeDocs.getCookiePolicy(currentLanguage)} />{' '}
-                                </Typography>
+                                <Typography component="div"> </Typography>
                             ) : (
                                 <div></div>
                             )}
@@ -211,9 +99,6 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(authorizeActions.dbLogin(email, password));
         },
         loginWithOAuth: (type: OAuthType) => dispatch(authorizeActions.dbLoginWithOAuth(type)),
-        signupPage: () => {
-            dispatch(push('/signup'));
-        },
     };
 };
 
@@ -227,9 +112,7 @@ const mapStateToProps = () => {
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(TermsComponent);
 
-export default withRouter<any, any>(
-    connect<{}, {}, any, any>(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(withStyles(termsStyles as any, { withTheme: true })(translateWrapper as any) as any),
-);
+export default connect<{}, {}, any, any>(
+    mapStateToProps,
+    mapDispatchToProps,
+)(withStyles(termsStyles as any, { withTheme: true })(translateWrapper as any));

@@ -37,10 +37,10 @@ export const postStyles = (theme: any) =>
         postBody: {
             wordWrap: 'break-word',
             color: 'rgba(0, 0, 0, 0.87)',
-            fontSize: '0.875rem',
+            fontSize: '1rem',
             fontWeight: 400,
             fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-            lineHeight: '1.46429em',
+            lineHeight: '1.5',
             whiteSpace: 'pre-line',
         },
         image: {

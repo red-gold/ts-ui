@@ -1,11 +1,11 @@
-// - Import react components
+
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { SignupStepEnum } from 'models/authorize/signupStepEnum';
 import * as authorizeActions from 'store/actions/authorizeActions';
 
@@ -13,16 +13,7 @@ import { ISignupMessageProps } from './ISignupMessageProps';
 import { ISignupMessageState } from './ISignupMessageState';
 import { signupMessageStyles } from './signupMessageStyles';
 
-// - Components
-
-// - Import actions
-// - Import app API
-// - Create Verify Signup component class
 export class SignupMessageComponent extends Component<ISignupMessageProps & WithTranslation, ISignupMessageState> {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: ISignupMessageProps & WithTranslation) {
         super(props);
 
@@ -37,10 +28,6 @@ export class SignupMessageComponent extends Component<ISignupMessageProps & With
         resetStep();
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes, t } = this.props;
         return (
@@ -82,9 +69,7 @@ const mapStateToProps = () => {
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(SignupMessageComponent);
 
-export default withRouter(
-    connect<{}, {}, any, any>(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(withStyles(signupMessageStyles as any)(translateWrapper as any) as any) as any,
-);
+export default connect<{}, {}, any, any>(
+    mapStateToProps,
+    mapDispatchToProps,
+)(withStyles(signupMessageStyles as any)(translateWrapper as any) as any);

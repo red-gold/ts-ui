@@ -1,4 +1,4 @@
-// - Import react components
+
 import Avatar from '@material-ui/core/Avatar';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
@@ -21,9 +21,7 @@ import { IBountyBoxComponentState } from './IBountyBoxComponentState';
 // - Import API
 
 // - Import actions
-/**
- * Create component class
- */
+
 export class BountyBoxComponent extends Component<
     IBountyBoxComponentProps & WithTranslation,
     IBountyBoxComponentState

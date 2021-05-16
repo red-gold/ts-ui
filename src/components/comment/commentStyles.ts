@@ -58,9 +58,11 @@ export const commentStyles = () =>
         },
         menuRoot: {
             marginTop: 7,
-            marginRight: 7,
+            marginLeft: -15,
+            alignSelf: 'center',
         },
         avatar: {
             alignSelf: 'flex-start',
+            marginTop: 10,
         },
     });

@@ -1,10 +1,9 @@
 export const userActivityStyles = (theme: any) => ({
-    paper: theme.mixins.gutters({
+    paper: {
         maxWith: 900,
-        minWidth: 346,
-        margin: '30px auto',
-        padding: 20,
-    }),
+        marginTop: -300,
+        maxWidth: 220,
+    },
     userAvatar: {
         padding: 0,
         margin: 'auto',
@@ -13,17 +12,13 @@ export const userActivityStyles = (theme: any) => ({
     userNameText: {
         textAlign: 'center',
         padding: 20,
-    },
-    paperContainer: {
-        height: '100%',
-        position: 'relative',
+        'text-transform': 'capitalize',
     },
     impactIcon: {
         fontSize: 20,
     },
     paperBackground: {
         padding: '17px 12px 15px 15px',
-        backgroundColor: 'white',
     },
     paperBackground1: {
         backgroundColor: theme.palette.secondary.light,
@@ -85,16 +80,13 @@ export const userActivityStyles = (theme: any) => ({
         display: 'block',
     },
     card: {
-        visibility: 'hidden',
         overflow: 'hidden',
-        position: 'absolute',
         WebkitTransition: 'all .218s cubic-bezier(0.4,0.0,0.2,1)',
         transition: 'all .218s cubic-bezier(0.4,0.0,0.2,1)',
         margin: '5px',
         boxShadow: '0 2px 11px rgba(0,0,0,0.2)',
     },
     container: {
-        top: '-61px',
         position: 'relative',
         WebkitTransition: 'all .218s cubic-bezier(0.4,0.0,0.2,1)',
         transition: 'all .218s cubic-bezier(0.4,0.0,0.2,1)',

@@ -1,20 +1,20 @@
 <!-- Logo -->
 <p align="center">
-  <a href="https://github.com/red-gold/react-social-network">
-    <img height="128" width="128" src="https://raw.githubusercontent.com/red-gold/react-social-network/next/docs/app/logo.png">
+  <a href="https://github.com/red-gold/ts-ui">
+    <img height="128" width="128" src="https://raw.githubusercontent.com/red-gold/ts-ui/next/docs/app/logo.png">
   </a>
 </p>
 <!-- Name -->
 <h1 align="center">
-  <a href="https://github.com/red-gold/react-social-network">Telar Social Engine </a>:rocket:<span style="font-variant-caps: petite-caps;font-size: 30px;font-weight: 400;"> Version NEXT! </span>:rocket:
+  <a href="https://github.com/red-gold/ts-ui">Telar Social Engine </a>:rocket:<span style="font-variant-caps: petite-caps;font-size: 30px;font-weight: 400;"> Version NEXT! </span>:rocket:
 </h1>
 
-[![Gitter](https://badges.gitter.im/react-social-network/Lobby.svg)](https://gitter.im/react-social-network/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/ts-ui/Lobby.svg)](https://gitter.im/ts-ui/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Telar Social Engine是一个open source 项目，利用React强大的javascript库来构建用户界面。在这个项目中，我用社交网络为个例子来显示 react/react components 的一些试功能。这个项目的结构使帮助 开发人员能够根据自己的想法和环境发展他们自己项目。
 <p align="center">
   <a href="http://greensocial.herokuapp.com/">
-    <img src="https://raw.githubusercontent.com/red-gold/react-social-network/next/docs/app/multi-device.png">
+    <img src="https://raw.githubusercontent.com/red-gold/ts-ui/next/docs/app/multi-device.png">
   </a>
 </p>
 

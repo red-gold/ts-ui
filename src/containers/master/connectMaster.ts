@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { Map } from 'immutable';
 import { IMasterProps } from './IMasterProps';
-import { withRouter } from 'react-router-dom';
 
 // - Import actions
 import * as globalActions from 'store/actions/globalActions';
+import * as authorizeActions from 'store/actions/authorizeActions';
 import * as chatActions from 'store/actions/chatActions';
 import { ComponentType } from 'react';
 import { globalSelector } from 'store/reducers/global/globalSelector';
@@ -34,6 +34,7 @@ const mapDispatchToProps = (dispatch: any) => {
         showMasterLoading: () => dispatch(globalActions.showMasterLoading()),
         hideMasterLoading: () => dispatch(globalActions.hideMasterLoading()),
         hideMessage: () => dispatch(globalActions.hideMessage()),
+        logout: () => dispatch(authorizeActions.dbLogout()),
     };
 };
 
@@ -45,8 +46,10 @@ const makeMapStateToProps = () => {
     const selectChatRequests = chatSelector.selectChatRequests();
     const selectGlobal = globalSelector.selectGlobal();
     const selectUsers = userSelector.selectUsers();
+    const selectAllDataLoaded = globalSelector.selectAllDataLoaded();
 
     const mapStateToProps = (state: Map<string, any>) => {
+        const dataLoaded: boolean = selectAllDataLoaded(state);
         const currentUser = selectCurrentUser(state);
         const uid = currentUser.get('userId');
         const guest = currentUser.get('guest');
@@ -67,10 +70,11 @@ const makeMapStateToProps = () => {
             callingUsers,
             chatRequests,
             users,
+            dataLoaded,
         };
     };
     return mapStateToProps;
 };
 
 export const connectMaster = (component: ComponentType<IMasterProps>) =>
-    withRouter(connect<{}, {}, any, any>(makeMapStateToProps, mapDispatchToProps)(component as any) as any);
+    connect<{}, {}, any, any>(makeMapStateToProps, mapDispatchToProps)(component as any);

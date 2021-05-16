@@ -1,4 +1,3 @@
-// - Import react components
 import { SocialError } from 'core/domain/common/socialError';
 import { User } from 'core/domain/users/user';
 import { IUserService } from 'core/services/users/IUserService';
@@ -49,9 +48,6 @@ export class UserService implements IUserService {
     public updateUserProfile = async (userId: string, profile: User) => {
         const updateProfile$ = this._httpService.put('auth/profile', { ...profile });
         await updateProfile$;
-        const updatePostProfile$ = this._httpService.put('posts/profile');
-        const updateCommentProfile$ = this._httpService.put('comments/profile');
-        await Promise.all([updateCommentProfile$, updatePostProfile$]);
     };
 
     /**

@@ -1,23 +1,17 @@
-// - Import external components
 import { withStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
-import { push } from 'connected-react-router';
-import Footer from 'layouts/footer';
+import config from 'config';
+// import classNames from 'classnames';
+// import Footer from 'layouts/footer';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import config from 'config';
+// import config from 'config';
 
-import LoginComponent from '../login';
+// import LoginComponent from '../login';
 import { ILoginWrapperProps } from './ILoginWrapperProps';
 import { ILoginWrapperState } from './ILoginWrapperState';
 import { loginWrapperStyles } from './loginWrapperStyles';
 
-// - Material-UI
-// - Components
-// - Import actions
-// - Create Login component class
 export class LoginWrapperComponent extends Component<ILoginWrapperProps & WithTranslation, ILoginWrapperState> {
     /**
      * Component constructor
@@ -25,6 +19,10 @@ export class LoginWrapperComponent extends Component<ILoginWrapperProps & WithTr
     constructor(props: ILoginWrapperProps & WithTranslation) {
         super(props);
         this.state = {};
+    }
+
+    componentDidMount() {
+        window.location.href = config.gateway.auth_web_uri + '/login';
     }
 
     /**
@@ -35,7 +33,7 @@ export class LoginWrapperComponent extends Component<ILoginWrapperProps & WithTr
 
         return (
             <div className={classes.root}>
-                <div className={classes.appbar}>
+                {/* <div className={classes.appbar}>
                     <img src={config.settings.logo} alt={config.settings.appName} className={classes.logo} />
                 </div>
                 <div className={classes.pageContainer}>
@@ -48,7 +46,7 @@ export class LoginWrapperComponent extends Component<ILoginWrapperProps & WithTr
                     </div>
                     <div style={{ height: 30 }}></div>
                     <Footer />
-                </div>
+                </div> */}
             </div>
         );
     }
@@ -57,10 +55,10 @@ export class LoginWrapperComponent extends Component<ILoginWrapperProps & WithTr
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = () => {
     return {
         signupPage: () => {
-            dispatch(push('/signup'));
+            location.href = '/signup';
         },
     };
 };
@@ -75,6 +73,4 @@ const mapStateToProps = () => {
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(LoginWrapperComponent);
 const styleWrapper = withStyles(loginWrapperStyles as any, { withTheme: true })(translateWrapper as any);
-export default withRouter<any, any>(
-    connect<{}, {}, any, any>(mapStateToProps, mapDispatchToProps)(styleWrapper as any),
-);
+export default connect<{}, {}, any, any>(mapStateToProps, mapDispatchToProps)(styleWrapper as any);

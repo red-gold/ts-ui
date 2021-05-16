@@ -1,113 +1,83 @@
-// - Import react components
-import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import UserBoxList from 'components/userBoxList/UserBoxListComponent';
 import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
 import queryString from 'query-string';
-import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { withRouter } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import SearchComponent from '../search';
-import { connectSearchUser } from './connectSearchUser';
-import { ISearchUserProps } from './ISearchUserProps';
-import { ISearchUserState } from './ISearchUserState';
-import { searchUserStyles } from './searchUserStyles';
+import { useStyles } from './searchUserStyles';
+import * as userActions from 'store/actions/userActions';
+import { userSelector } from 'store/reducers/users/userSelector';
+import { Map } from 'immutable';
 
-export class SearchUserComponent extends Component<ISearchUserProps & WithTranslation, ISearchUserState> {
-    /**
-     * Fields
-     */
-    unlisten: any;
-    nextPage = 0;
+const selectHasMorePeople = userSelector.selectMoreSearchPeople();
+const selectFindPeople = userSelector.selectSearchPeople();
+export function SearchUserComponent() {
+    const [currentPage, setCurrentPage] = React.useState(0);
+    const location = useLocation();
+    const { t } = useTranslation();
+    const classes = useStyles();
 
-    /**
-     * Component constructor
-     *
-     */
-    constructor(props: ISearchUserProps & WithTranslation) {
-        super(props);
+    // Dispatcher
+    const dispatch = useDispatch();
+    const search = (query: string, page: number, limit: number) =>
+        dispatch(userActions.fetchUserSearch(query, page, limit));
 
-        // Defaul state
-        this.state = {};
-        this.searchQuery = this.searchQuery.bind(this);
-        this.executeSearch = this.executeSearch.bind(this);
-        this.searchParam = this.searchParam.bind(this);
-    }
+    // Selectors
+    const hasMorePeople = useSelector((state: Map<string, any>) => selectHasMorePeople(state));
+    const peopleInfo = useSelector((state: Map<string, any>) => selectFindPeople(state));
 
-    searchQuery() {
-        const { location } = this.props;
-        this.executeSearch(location);
-    }
+    const searchQuery = () => {
+        executeSearch(location);
+    };
 
-    executeSearch(location: any) {
-        const { search } = this.props;
+    const executeSearch = (location: any, page?: number) => {
         const params: { q: string } = queryString.parse(location.search) as any;
-        search(params.q, this.nextPage, 10);
-        this.nextPage++;
-    }
+        const pageNumber = page === undefined ? currentPage : page;
+        search(params.q, pageNumber, 10);
+        setCurrentPage(pageNumber + 1);
+    };
 
-    searchParam = () => {
-        const params: { q: string } = queryString.parse(window.location.search) as any;
+    const searchParam = () => {
+        const params: { q: string } = queryString.parse(location.search) as any;
         return params.q;
     };
 
-    componentDidMount() {
-        const { history } = this.props;
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        const scope = this;
-        this.unlisten = history.listen((location: any) => {
-            scope.nextPage = 0;
-            this.executeSearch(location);
-        });
-        this.searchQuery();
-    }
+    React.useEffect(() => {
+        executeSearch(location, 0);
+    }, [location]);
 
-    componentWillUnmount() {
-        this.unlisten();
-    }
-
-    /**
-     * Reneder component DOM
-     *
-     */
-    render() {
-        const { hasMorePeople, t, classes, peopleInfo } = this.props;
-
-        return (
-            <SearchComponent tab="people">
-                <InfiniteScroll
-                    dataLength={peopleInfo ? peopleInfo.count() : 0}
-                    next={this.searchQuery}
-                    hasMore={hasMorePeople}
-                    endMessage={<p style={{ textAlign: 'center' }}></p>}
-                    loader={<LoadMoreProgressComponent key="find-people-load-more-progress" />}
-                >
-                    <div className="tracks">
-                        {peopleInfo && peopleInfo.count() > 0 ? (
-                            <div>
-                                <UserBoxList users={peopleInfo} />
-                                <div style={{ height: '24px' }}></div>
-                            </div>
-                        ) : (
-                            ''
-                        )}
-                    </div>
-                </InfiniteScroll>
-                <div className={classNames({ [classes.noDisplay]: !peopleInfo.isEmpty() })}>
-                    <Typography className={classes.notFound}>
-                        {t('search.notFoundUser', { query: this.searchParam() })}
-                    </Typography>
+    return (
+        <SearchComponent tab="people">
+            <InfiniteScroll
+                dataLength={peopleInfo ? peopleInfo.count() : 0}
+                next={searchQuery}
+                hasMore={hasMorePeople}
+                endMessage={<p style={{ textAlign: 'center' }}></p>}
+                loader={<LoadMoreProgressComponent key="find-people-load-more-progress" />}
+            >
+                <div className="tracks">
+                    {peopleInfo && peopleInfo.count() > 0 ? (
+                        <div>
+                            <UserBoxList users={peopleInfo} />
+                            <div style={{ height: '24px' }}></div>
+                        </div>
+                    ) : (
+                        ''
+                    )}
                 </div>
-            </SearchComponent>
-        );
-    }
+            </InfiniteScroll>
+            <div className={classNames({ [classes.noDisplay]: !peopleInfo.isEmpty() })}>
+                <Typography className={classes.notFound}>
+                    {t('search.notFoundUser', { query: searchParam() })}
+                </Typography>
+            </div>
+        </SearchComponent>
+    );
 }
 
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(SearchUserComponent);
-
-export default withRouter<any, any>(
-    connectSearchUser(withStyles(searchUserStyles as any)(translateWrapper as any) as any),
-);
+export default SearchUserComponent;

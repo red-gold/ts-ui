@@ -145,10 +145,10 @@ export const chatStyles = (theme: Theme) =>
             },
         },
         messageField: {
-            margin: '0px 1px 0px 16px',
+            margin: '0px 1px 0px 16px !important',
             backgroundColor: 'white',
-            borderRadius: 5,
-            padding: '3px 10px',
+            'border-radius': '5px !important',
+            padding: '3px 10px !important',
         },
         messageInput: {},
         container: {

@@ -122,6 +122,10 @@ export interface IFollowDialogProps {
      */
     classes?: any;
 
+    variant?: 'text' | 'outlined' | 'contained';
+
+    color?: 'inherit' | 'primary' | 'secondary';
+
     /**
      * Translate to locale string
      */

@@ -1,19 +1,15 @@
-// - Import react components
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ImageList from '@material-ui/core/ImageList';
+import ImageListItem from '@material-ui/core/ImageListItem';
+import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import withStyles from '@material-ui/core/styles/withStyles';
 import NoAlbumIcon from '@material-ui/icons/SettingsSystemDaydream';
 import StringAPI from 'api/StringAPI';
-import classNames from 'classnames';
-import { push } from 'connected-react-router';
 import { User } from 'core/domain/users/user';
 import { Map } from 'immutable';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
 import PictureDialogComponent from 'layouts/pictureDialog';
 import * as globalActions from 'store/actions/globalActions';
@@ -30,10 +26,6 @@ export class AlbumStreamComponent extends Component<IAlbumStreamProps & WithTran
      */
     nextPage = 0;
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IAlbumStreamProps & WithTranslation) {
         super(props);
 
@@ -132,11 +124,7 @@ export class AlbumStreamComponent extends Component<IAlbumStreamProps & WithTran
             }
             const imgSrc = post.get('image');
             return (
-                <GridListTile
-                    key={`album-dialog-tile-${post.get('id')}`}
-                    cols={1}
-                    classes={{ tile: classNames({ [classes.noAlbum]: StringAPI.isEmpty(imgSrc) }) }}
-                >
+                <ImageListItem key={`album-dialog-tile-${post.get('id')}`} cols={1}>
                     {!StringAPI.isEmpty(imgSrc) ? (
                         <img alt="" src={imgSrc} onClick={() => this.hanleClickAlbum(post.get('id'))} />
                     ) : (
@@ -144,7 +132,7 @@ export class AlbumStreamComponent extends Component<IAlbumStreamProps & WithTran
                             <NoAlbumIcon className={classes.noAlbumIcon} />
                         </div>
                     )}
-                    <GridListTileBar
+                    <ImageListItemBar
                         title={post.getIn(['album', 'title'], '')}
                         subtitle={post.getIn(['body'], '')}
                         classes={{
@@ -152,7 +140,7 @@ export class AlbumStreamComponent extends Component<IAlbumStreamProps & WithTran
                             title: classes.title,
                         }}
                     />
-                </GridListTile>
+                </ImageListItem>
             );
         });
     };
@@ -165,10 +153,10 @@ export class AlbumStreamComponent extends Component<IAlbumStreamProps & WithTran
         const albumList = this.albumList();
         return (
             <div className={classes.gridTileRoot}>
-                <GridList cellHeight={202} cols={3} className={classes.gridList}>
-                    <GridListTile key="Subheader" cols={3} style={{ height: 'auto' }}></GridListTile>
+                <ImageList rowHeight={202} cols={3} className={classes.ImageList}>
+                    <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}></ImageListItem>
                     {albumList.count() > 0 && albumList}
-                </GridList>
+                </ImageList>
             </div>
         );
     };
@@ -177,10 +165,6 @@ export class AlbumStreamComponent extends Component<IAlbumStreamProps & WithTran
         this.loader();
     }
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { hasMoreAlbum, classes, posts } = this.props;
         const { picutreDialogOpen, pictureDialogImages } = this.state;
@@ -214,7 +198,9 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         showTopLoading: () => dispatch(globalActions.showTopLoading()),
         hideTopLoading: () => dispatch(globalActions.hideTopLoading()),
-        goTo: (url: string) => dispatch(push(url)),
+        goTo: (url: string) => {
+            location.href = url;
+        },
     };
 };
 
@@ -237,9 +223,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IAlbumStreamProps) =
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(AlbumStreamComponent);
 
-export default withRouter<any, any>(
-    connect<any>(
-        mapStateToProps as any,
-        mapDispatchToProps,
-    )(withStyles(albumStreamStyles as any)(translateWrapper as any)),
-);
+export default connect<any>(
+    mapStateToProps as any,
+    mapDispatchToProps,
+)(withStyles(albumStreamStyles as any)(translateWrapper as any));

@@ -1,4 +1,4 @@
-// - Import react components
+
 
 import { injectable, inject } from 'inversify';
 import { IHttpService } from 'core/services/webAPI/IHttpService';

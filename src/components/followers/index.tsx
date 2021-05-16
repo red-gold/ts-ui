@@ -1,4 +1,3 @@
-// - Import react components
 import UserBoxList from 'components/userBoxList/UserBoxListComponent';
 import { Map } from 'immutable';
 import React, { Component } from 'react';
@@ -8,24 +7,12 @@ import { connect } from 'react-redux';
 import { IFollowersComponentProps } from './IFollowersComponentProps';
 import { IFollowersComponentState } from './IFollowersComponentState';
 
-// - Import app components
-// - Import API
-
-// - Import actions
-
-/**
- * Create component class
- */
 export class FollowersComponent extends Component<
     IFollowersComponentProps & WithTranslation,
     IFollowersComponentState
 > {
     static propTypes = {};
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IFollowersComponentProps & WithTranslation) {
         super(props);
 
@@ -35,10 +22,6 @@ export class FollowersComponent extends Component<
         // Binding functions to `this`
     }
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { t } = this.props;
         const followers = this.props.followers;

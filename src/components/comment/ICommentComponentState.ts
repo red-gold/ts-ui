@@ -48,4 +48,5 @@ export interface ICommentComponentState {
      * Anchor element
      */
     anchorEl: any;
+    emojiOpen: boolean;
 }

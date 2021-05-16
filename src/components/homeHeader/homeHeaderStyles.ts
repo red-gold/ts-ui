@@ -1,6 +1,7 @@
-import { createStyles } from '@material-ui/styles';
+import { Theme } from '@material-ui/core/styles/createTheme';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
-export const homeHeaderStyles = createStyles((theme: any) => ({
+export const useStyles = makeStyles((theme: Theme) => ({
     root: {
         backgroundColor: '#a5792a',
     },
@@ -16,9 +17,9 @@ export const homeHeaderStyles = createStyles((theme: any) => ({
         borderLeftColor: theme.palette.common.white,
     },
     appIcon: {
-        height: 40,
-        width: 40,
-        marginLeft: 10,
+        height: '40px !important',
+        width: '40px !important',
+        'margin-left': '10px !important',
     },
     searchBox: {},
     fullBox: {
@@ -29,5 +30,8 @@ export const homeHeaderStyles = createStyles((theme: any) => ({
     },
     smallSearchBox: {
         marginRight: 25,
+    },
+    appBar: {
+        'z-index': theme.zIndex.drawer + 1 + ' !important',
     },
 }));

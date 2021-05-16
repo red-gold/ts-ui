@@ -2,10 +2,10 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
-import GridList from '@material-ui/core/GridList';
+import ImageList from '@material-ui/core/ImageList';
 import Fab from '@material-ui/core/Fab';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ImageListItem from '@material-ui/core/ImageListItem';
+import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import MobileStepper from '@material-ui/core/MobileStepper';
@@ -56,9 +56,6 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-/**
- * Create component class
- */
 export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTranslation, IAlbumDialogState> {
     static getDerivedStateFromProps(props: IAlbumDialogProps & WithTranslation, state: IAlbumDialogState) {
         if (props.progress) {
@@ -77,10 +74,6 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
         return null;
     }
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IAlbumDialogProps & WithTranslation) {
         super(props);
 
@@ -427,9 +420,9 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
             const progressVisible = progress.getIn([photo.fileName, 'visible'], true);
 
             return (
-                <GridListTile key={`album-dialog-tile-${photo.fileName}`}>
+                <ImageListItem key={`album-dialog-tile-${photo.fileName}`}>
                     <img src={photo.file} alt={'something'} />
-                    <GridListTileBar
+                    <ImageListItemBar
                         title={
                             progressVisible ? (
                                 <LinearProgress variant="determinate" value={progressPercent} color="secondary" />
@@ -450,7 +443,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
                             )
                         }
                     />
-                </GridListTile>
+                </ImageListItem>
             );
         });
     };
@@ -462,10 +455,10 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
         const { classes } = this.props;
         return (
             <div className={classes.gridTileRoot}>
-                <GridList cellHeight={180} className={classes.gridList}>
-                    <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}></GridListTile>
+                <ImageList rowHeight={180} className={classes.ImageList}>
+                    <ImageListItem key="Subheader" cols={2} style={{ height: 'auto' }}></ImageListItem>
                     {this.imageList()}
-                </GridList>
+                </ImageList>
             </div>
         );
     };
@@ -548,7 +541,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
                                 placeholder={t('album.description')}
                                 multiline
                                 rows={2}
-                                rowsMax={4}
+                                maxRows={4}
                                 style={{
                                     fontWeight: 400,
                                     fontSize: '14px',

@@ -1,4 +1,4 @@
-// - Import react components
+
 import { withStyles } from '@material-ui/core/styles';
 import SvgImage from '@material-ui/icons/Image';
 import { Map } from 'immutable';
@@ -23,9 +23,6 @@ const styles = () => ({
     },
 });
 
-/**
- * Create component class
- */
 export class ImgComponent extends Component<IImgComponentProps & WithTranslation, IImgComponentState> {
     styles = {
         loding: {
@@ -50,10 +47,6 @@ export class ImgComponent extends Component<IImgComponentProps & WithTranslation
         },
     };
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IImgComponentProps & WithTranslation) {
         super(props);
 
@@ -86,10 +79,6 @@ export class ImgComponent extends Component<IImgComponentProps & WithTranslation
         });
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { fileName, style, t } = this.props;
         const { isImageLoaded } = this.state;

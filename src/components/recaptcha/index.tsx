@@ -1,4 +1,4 @@
-// - Import react components
+
 import { withStyles } from '@material-ui/core/styles';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
@@ -27,10 +27,6 @@ export class RecaptchaComponent extends Component<IRecaptchaComponentProps, IRec
     captchaRef: any;
     _authorizeService: IAuthorizeService;
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IRecaptchaComponentProps) {
         super(props);
         this._authorizeService = provider.get<IAuthorizeService>(SocialProviderTypes.AuthorizeService);

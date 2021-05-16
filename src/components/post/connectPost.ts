@@ -1,4 +1,3 @@
-import { push } from 'connected-react-router';
 import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import * as commentActions from 'store/actions/commentActions';
@@ -29,10 +28,12 @@ const mapDispatchToProps = (dispatch: any, ownProps: IOwnProps) => {
         toggleSharingComments: (status: boolean) => {
             dispatch(postActions.dbUpdatePost(post.set('disableSharing', status)));
         },
-        goTo: (url: string) => dispatch(push(url)),
+        goTo: (url: string) => {
+            location.href = url;
+        },
         setHomeTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title || '')),
         getPostComments: (ownerUserId: string, postId: string, page: number, limit: number) =>
-            dispatch(commentActions.dbFetchComments(ownerUserId, postId, page, limit)),
+            dispatch(commentActions.dbFetchComments(postId, page, limit)),
         setPostWriteModel: (model: Map<string, any>) => dispatch(postActions.setPostWriteModel(model)),
         openPostWrite: () => dispatch(globalActions.openDialog(DialogType.PostWrite)),
     };

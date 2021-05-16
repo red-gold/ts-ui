@@ -2,13 +2,13 @@ import LanguageIcon from '@material-ui/icons/Language';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import React, { Component } from 'react';
 import { WithTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
 import NotificationSettingComponent from '../notificationSetting';
 import { ConfigComponentType } from './configComponentType';
 import { IConfigProps } from './IConfigProps';
 import { IConfigState } from './IConfigState';
 import { AntTab, AntTabs } from 'components/tab';
 import { connectConfig } from './connectConfig';
+import { LangSettingComponent } from 'containers/langSetting';
 
 export class ConfigComponent extends Component<IConfigProps & WithTranslation, IConfigState> {
     /**
@@ -34,10 +34,9 @@ export class ConfigComponent extends Component<IConfigProps & WithTranslation, I
     };
 
     componentDidMount() {
-        const { getUserSetting } = this.props;
-        if (getUserSetting) {
-            getUserSetting();
-        }
+        const { getUserSetting, setHeaderTitle, t } = this.props;
+        setHeaderTitle(t('header.settings'));
+        getUserSetting();
     }
 
     /**
@@ -58,11 +57,11 @@ export class ConfigComponent extends Component<IConfigProps & WithTranslation, I
                 {selectedItem === ConfigComponentType.Notification ? (
                     <NotificationSettingComponent updateUserSetting={updateUserSetting} userSettings={userSetting} />
                 ) : (
-                    <div></div>
+                    <LangSettingComponent updateUserSetting={updateUserSetting} userSettings={userSetting} />
                 )}
             </div>
         );
     }
 }
 
-export default withRouter(connectConfig(ConfigComponent));
+export default connectConfig(ConfigComponent);

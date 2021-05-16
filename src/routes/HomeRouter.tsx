@@ -1,17 +1,7 @@
-// - Import react components
+import React from 'react';
 import MasterLoadingComponent from 'components/masterLoading';
-import React, { Component } from 'react';
 import Loadable from 'react-loadable';
-import { Route, Switch, withRouter } from 'react-router-dom';
-import { RouteType } from 'routes/routeType';
 
-import { IRouterProps } from './IRouterProps';
-import PrivateRoute from './PrivateRoute';
-import PublicRoute from './PublicRoute';
-
-/**
- * Loadable components
- */
 // - Async Components
 const AsyncStream = Loadable({
     loader: () => import('containers/stream'),
@@ -49,8 +39,8 @@ const AsyncCompany = Loadable({
     loader: () => import('containers/company'),
     loading: MasterLoadingComponent,
 });
-const AsyncHelp = Loadable({
-    loader: () => import('containers/help'),
+const AsyncSupport = Loadable({
+    loader: () => import('containers/support'),
     loading: MasterLoadingComponent,
 });
 
@@ -62,94 +52,57 @@ const AsyncSetting = Loadable({
 /**
  * Routes
  */
-const routes = [
+export const homeRoutes = [
     {
         path: '/settings',
-        component: AsyncSetting,
-        privateAuth: true,
+        element: <AsyncSetting />,
     },
     {
         path: '/people/:tab?',
-        component: AsyncPeople,
-        privateAuth: true,
+        element: <AsyncPeople />,
+    },
+    {
+        path: '/people/*',
+        element: <AsyncPeople />,
     },
     {
         path: '/tag/:tag',
-        component: AsyncStream,
-        privateAuth: true,
+        element: <AsyncStream />,
     },
     {
         path: '/:userId/posts/:postId/:tag?',
-        component: AsyncPostPage,
+        element: <AsyncPostPage />,
     },
     {
         path: '/search/post',
-        component: AsyncSearchPost,
+        element: <AsyncSearchPost />,
     },
     {
         path: '/company',
-        component: AsyncCompany,
+        element: <AsyncCompany />,
     },
     {
-        path: '/help',
-        component: AsyncHelp,
+        path: '/support',
+        element: <AsyncSupport />,
     },
     {
         path: '/u/:userId/album/:albumId',
-        component: AsyncPhotoMaster,
+        element: <AsyncPhotoMaster />,
     },
     {
         path: '/search/user',
-        component: AsyncSearchUser,
+        element: <AsyncSearchUser />,
     },
     {
         path: '/search',
-        component: AsyncSearch,
+        element: <AsyncSearch />,
     },
     {
         path: '/:userId',
-        component: AsyncProfile,
+        element: <AsyncProfile />,
     },
     {
         path: '/',
-        component: AsyncStream,
-        privateAuth: true,
+        element: <AsyncStream />,
     },
 ];
-
-/**
- * Home Router
- */
-export class HomeRouter extends Component<IRouterProps, any> {
-    render() {
-        return (
-            <Switch>
-                {routes.map((route: RouteType, index) => {
-                    if (route.privateAuth) {
-                        return (
-                            <PrivateRoute
-                                key={`home-route-private-${index}`}
-                                path={route.path}
-                                component={route.component}
-                            />
-                        );
-                    } else if (route.publicAuth) {
-                        return (
-                            <PublicRoute
-                                key={`home-route-public-${index}`}
-                                path={route.path}
-                                component={route.component}
-                            />
-                        );
-                    } else if (route.defaultPath) {
-                        return <Route key={`home-route-default-${index}`} component={route.component} />;
-                    } else {
-                        return <Route key={`home-route-${index}`} path={route.path} component={route.component} />;
-                    }
-                })}
-            </Switch>
-        );
-    }
-}
-
-export default withRouter<any, any>(HomeRouter);

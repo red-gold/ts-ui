@@ -1,4 +1,3 @@
-// - Import external components
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
@@ -6,13 +5,12 @@ import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import StringAPI from 'api/StringAPI';
-import { push } from 'connected-react-router';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { Map } from 'immutable';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import config from 'config';
 import { OAuthType } from 'core/domain/authorize/oauthType';
 import * as authorizeActions from 'store/actions/authorizeActions';
@@ -35,10 +33,6 @@ export class LoginComponent extends Component<ILoginComponentProps & WithTransla
         },
     };
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: ILoginComponentProps & WithTranslation) {
         super(props);
 
@@ -110,10 +104,6 @@ export class LoginComponent extends Component<ILoginComponentProps & WithTransla
         }
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes, loginWithOAuth, t, loginRequest } = this.props;
         const { emailInput } = this.state;
@@ -218,7 +208,7 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         loginWithOAuth: (type: OAuthType) => dispatch(authorizeActions.dbLoginWithOAuth(type)),
         signupPage: () => {
-            dispatch(push('/signup'));
+            location.href = '/signup';
         },
     };
 };
@@ -236,9 +226,7 @@ const mapStateToProps = (state: Map<string, any>) => {
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(LoginComponent);
 
-export default withRouter<any, any>(
-    connect<{}, {}, any, any>(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(withStyles(loginStyles as any)(translateWrapper as any) as any),
-);
+export default connect<{}, {}, any, any>(
+    mapStateToProps,
+    mapDispatchToProps,
+)(withStyles(loginStyles as any)(translateWrapper as any) as any);

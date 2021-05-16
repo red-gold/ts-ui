@@ -7,7 +7,7 @@ export const postAlbumStyles = (theme: any) => ({
         position: 'relative',
         backgroundColor: theme.palette.background.paper,
     },
-    gridList: {
+    ImageList: {
         width: 500,
         height: 450,
     },

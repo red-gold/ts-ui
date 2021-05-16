@@ -1,4 +1,4 @@
-// - Import react components
+
 import UserBoxList from 'components/userBoxList/UserBoxListComponent';
 import { Circle } from 'core/domain/circles/circle';
 import { Map } from 'immutable';
@@ -13,19 +13,12 @@ import { IFollowingComponentState } from './IFollowingComponentState';
 // - Import API
 // - Import actions
 
-/**
- * Create component class
- */
 export class FollowingComponent extends Component<
     IFollowingComponentProps & WithTranslation,
     IFollowingComponentState
 > {
     static propTypes = {};
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IFollowingComponentProps & WithTranslation) {
         super(props);
 
@@ -35,10 +28,6 @@ export class FollowingComponent extends Component<
         // Binding functions to `this`
     }
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { t } = this.props;
         const followingUsers = this.props.followingUsers;

@@ -1,6 +1,4 @@
-// - Import react components
-import React, { Component } from 'react';
-import * as R from 'ramda';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -8,62 +6,80 @@ import Paper from '@material-ui/core/Paper';
 import CommentListComponent from 'components/commentList/CommentListComponent';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import { ICommentGroupProps } from './ICommentGroupProps';
-import { ICommentGroupState } from './ICommentGroupState';
-import { connectCommentGroup } from './connectCommentGroup';
-import { WithTranslation } from 'react-i18next';
 import CommentInput from 'components/commentInput';
+import { teal } from '@material-ui/core/colors';
+import { useStyles } from './commentGroupStyles';
+import * as commentActions from 'store/actions/commentActions';
+import StringAPI from 'api/StringAPI';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { serverSelector } from 'store/reducers/server/serverSelector';
+import { Map } from 'immutable';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { commentSelector } from 'store/reducers/comments/commentSelector';
 
-export class CommentGroupComponent extends Component<ICommentGroupProps & WithTranslation, ICommentGroupState> {
-    constructor(props: ICommentGroupProps & WithTranslation) {
-        super(props);
+const LoadMoreRoot = styled('div')({
+    textAlign: 'center',
+});
 
-        /**
-         * Defaul state
-         */
-        this.state = {
-            commentText: '',
-            postDisable: true,
-        };
+const selectCurrentUser = authorizeSelector.selectCurrentUser();
+const selectRequest = serverSelector.selectRequest();
+const selectEditorStatus = commentSelector.selectEditorStatus();
+const selectHasMoreData = commentSelector.selectHasMoreData();
 
-        // Binding functions to `this`
-        this.loadCommentsList = this.loadCommentsList.bind(this);
-    }
+export function CommentGroupComponent(props: ICommentGroupProps) {
+    const [commentPage, setCommentPage] = React.useState(1);
 
-    shouldComponentUpdate(nextProps: ICommentGroupProps, nextState: ICommentGroupState) {
-        let shouldUpdate = false;
+    const classes = useStyles();
+    const { t } = useTranslation();
+    const { postId, comments, open } = props;
 
-        if (!R.equals(this.state, nextState)) {
-            shouldUpdate = true;
-        } else if (nextProps.open !== this.props.open) {
-            shouldUpdate = true;
-        } else if (nextProps.disableComments !== this.props.disableComments) {
-            shouldUpdate = true;
-        } else if (nextProps.commentsRequestStatus !== this.props.commentsRequestStatus) {
-            shouldUpdate = true;
-        } else if (!nextProps.comments.equals(this.props.comments)) {
-            shouldUpdate = true;
-        } else if (!nextProps.editorStatus.equals(this.props.editorStatus)) {
-            shouldUpdate = true;
-        }
-        return shouldUpdate;
-    }
+    // Dispatcher
+    const dispatch = useDispatch();
+    const send = (newComment: Map<string, any>) => {
+        dispatch(commentActions.dbAddComment(newComment));
+    };
+    const loadComments = () => {
+        dispatch(commentActions.dbFetchComments(postId, commentPage, 10));
+        setCommentPage(commentPage + 1);
+    };
+
+    // Selectors
+    const requestId = StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId);
+    const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
+    const commentsRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId: requestId }));
+    const commentsRequestStatus: ServerRequestStatusType = commentsRequest.get(
+        'status',
+        ServerRequestStatusType.NoAction,
+    );
+    const editorStatus = useSelector((state: Map<string, any>) => selectEditorStatus(state, { postId }));
+    const hasMoreDate = useSelector((state: Map<string, any>) => selectHasMoreData(state, { postId }));
 
     /**
      * Loading Comments listItem
      *
      */
-    loadCommentsList = () => {
-        const { postId, open, editorStatus, comments } = this.props;
+    const loadCommentsList = () => {
+        const { postId } = props;
         const showComments =
             comments.size > 0 ? (
                 <Paper
                     elevation={0}
                     style={open ? { display: 'block', padding: '10px 0px' } : { display: 'none', padding: '12px 16px' }}
                 >
+                    {hasMoreDate && commentsRequestStatus !== ServerRequestStatusType.Sent && (
+                        <LoadMoreRoot>
+                            <Button sx={{ color: 'text.secondary', textTransform: 'initial' }} onClick={loadComments}>
+                                {t('comment.loadMoreComment')}
+                            </Button>
+                        </LoadMoreRoot>
+                    )}
                     <CommentListComponent
                         comments={comments}
-                        isPostOwner={this.props.isPostOwner}
-                        disableComments={this.props.disableComments}
+                        isPostOwner={props.isPostOwner}
+                        disableComments={props.disableComments}
                         postId={postId}
                         editorStatus={editorStatus}
                     />
@@ -74,52 +90,37 @@ export class CommentGroupComponent extends Component<ICommentGroupProps & WithTr
         return showComments;
     };
 
+    const commentProgress = (
+        <LinearProgress
+            sx={{ height: '1.5px', backgroundColor: 'rgb(245, 243, 243)', color: teal['A400'] }}
+            variant="indeterminate"
+        />
+    );
+
     /**
-     * Reneder component DOM
-     *
+     * Return Elements
      */
-    render() {
-        const { postId, open, comments, commentsRequestStatus, classes, currentUser, send, t } = this.props;
-
-        const commentProgress = <LinearProgress className={classes.progressbar} variant="indeterminate" />;
-
-        /**
-         * Return Elements
-         */
-        return (
-            <div key={postId + '-comments-group'}>
-                {comments && comments.size > 0 && <Divider />}
-                <div style={open ? { display: 'block' } : { display: 'none' }}>
-                    <Paper
-                        elevation={0}
-                        className="animate-top"
-                        style={!open ? { display: 'block' } : { display: 'none' }}
-                    >
-                        <div style={{ position: 'relative', height: '60px' }}>
-                            <Button
-                                className={classes.toggleShowList}
-                                fullWidth={true}
-                                onClick={this.props.onToggleRequest}
-                            >
-                                {' '}
-                            </Button>
-                        </div>
-                    </Paper>
-                </div>
-
-                {open
-                    ? commentsRequestStatus === ServerRequestStatusType.Sent
-                        ? commentProgress
-                        : this.loadCommentsList()
-                    : ''}
-                {!this.props.disableComments && open ? (
-                    <CommentInput currentUser={currentUser} postId={postId} send={send} t={t} />
-                ) : (
-                    ''
-                )}
+    return (
+        <div key={postId + '-comments-group'}>
+            {comments && comments.size > 0 && <Divider />}
+            <div style={open ? { display: 'block' } : { display: 'none' }}>
+                <Paper elevation={0} className="animate-top" style={!open ? { display: 'block' } : { display: 'none' }}>
+                    <div style={{ position: 'relative', height: '60px' }}>
+                        <Button className={classes.toggleShowList} fullWidth={true} onClick={props.onToggleRequest}>
+                            {' '}
+                        </Button>
+                    </div>
+                </Paper>
             </div>
-        );
-    }
+            {commentsRequestStatus === ServerRequestStatusType.Sent && commentProgress}
+            {open && loadCommentsList()}
+            {!props.disableComments && open ? (
+                <CommentInput currentUser={currentUser} postId={postId} send={send} />
+            ) : (
+                ''
+            )}
+        </div>
+    );
 }
 
-export default connectCommentGroup(CommentGroupComponent);
+export default CommentGroupComponent;

@@ -1,4 +1,3 @@
-// - Import react components
 import {
     Dialog,
     ListItemIcon,
@@ -61,17 +60,10 @@ const styles = (theme: any) => ({
     },
 });
 
-/**
- * Create component class
- */
 export class ShareDialogComponent extends Component<
     IShareDialogComponentProps & WithTranslation,
     IShareDialogComponentState
 > {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IShareDialogComponentProps & WithTranslation) {
         super(props);
 

@@ -6,31 +6,29 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import red from '@material-ui/core/colors/red';
 import IconButton from '@material-ui/core/IconButton';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import classNames from 'classnames';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import { ICallSnackProps } from './ICallSnackProps';
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        root: {
-            maxWidth: 400,
-        },
-        avatar: {
-            width: 50,
-            height: 50,
-        },
-        content: {
-            maxHeight: 80,
-            padding: 0,
-        },
-        listRoot: {
-            paddingTop: 0,
-        },
-    }),
-);
+const useStyles = makeStyles(() => ({
+    root: {
+        maxWidth: 400,
+    },
+    avatar: {
+        width: 50,
+        height: 50,
+    },
+    content: {
+        maxHeight: 80,
+        padding: 0,
+    },
+    listRoot: {
+        paddingTop: 0,
+    },
+}));
 
 function CallSnackComponent(props: ICallSnackProps) {
     let audio: HTMLAudioElement;

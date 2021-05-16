@@ -1,4 +1,6 @@
-export const searchPostStyles = (theme: any) => ({
+import { makeStyles } from '@material-ui/core';
+
+export const useStyles = makeStyles((theme: any) => ({
     banner: {
         backgroundAttachment: 'scroll',
         borderRadius: '2px',
@@ -29,6 +31,6 @@ export const searchPostStyles = (theme: any) => ({
         color: 'rgba(152, 150, 150, 0.87)',
     },
     postGrid: {
-        maxWidth: 600,
+        'max-width': '600px !important',
     },
-});
+}));

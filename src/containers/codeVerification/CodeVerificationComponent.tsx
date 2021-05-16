@@ -1,9 +1,7 @@
-// - Import react components
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
-import { push } from 'connected-react-router';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
@@ -33,10 +31,6 @@ export class CodeVerificationComponent extends Component<
     ICodeVerificationProps & WithTranslation,
     ICodeVerificationState
 > {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: ICodeVerificationProps & WithTranslation) {
         super(props);
 
@@ -90,10 +84,6 @@ export class CodeVerificationComponent extends Component<
         }
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes, t, signupRequest } = this.props;
         const { emailInput } = this.state;
@@ -164,7 +154,9 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(authorizeActions.asyncVerifyUserRegisterCode(code));
         },
         loginPage: () => {
-            dispatch(push('/login'));
+            {
+                location.href = '/login';
+            }
         },
     };
 };
@@ -182,9 +174,7 @@ const mapStateToProps = (state: Map<string, any>) => {
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(CodeVerificationComponent);
 
-export default withRouter(
-    connect<{}, {}, any, any>(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(withStyles(codeVerificationStyles as any)(translateWrapper as any) as any) as any,
-);
+export default connect<{}, {}, any, any>(
+    mapStateToProps,
+    mapDispatchToProps,
+)(withStyles(codeVerificationStyles as any)(translateWrapper as any) as any);

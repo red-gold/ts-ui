@@ -1,4 +1,3 @@
-// - Import react components
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import SvgClose from '@material-ui/icons/Close';
@@ -11,22 +10,23 @@ import { INotifyItemProps } from './INotifyItemProps';
 import { Button } from '@material-ui/core';
 import { useStyles } from './notifyItemStyles';
 import Typography from '@material-ui/core/Typography';
+import { useNavigate } from 'react-router';
 
 export function NotifyItemComponent(props: INotifyItemProps) {
     const classes = useStyles();
-
+    const navigate = useNavigate();
     const { description, fullName, avatar, isSeen, id, notifierUserId, url, deleteNotify } = props;
     const handleSeenNotify = (event: any) => {
         event.preventDefault();
 
-        const { seenNotify, id, url, goTo, isSeen, closeNotify } = props;
+        const { seenNotify, id, url, isSeen, closeNotify } = props;
 
         if (id) {
             if (!isSeen) {
                 seenNotify(id);
             }
             closeNotify();
-            goTo(url);
+            navigate(url);
         }
     };
 

@@ -1,4 +1,3 @@
-// - Import react components
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component } from 'react';
@@ -12,10 +11,6 @@ import { IFooterComponentProps } from './IFooterComponentProps';
 import { IFooterComponentState } from './IFooterComponentState';
 
 export class FooterComponent extends Component<IFooterComponentProps & WithTranslation, IFooterComponentState> {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IFooterComponentProps & WithTranslation) {
         super(props);
 
@@ -25,10 +20,6 @@ export class FooterComponent extends Component<IFooterComponentProps & WithTrans
         // Binding functions to `this`
     }
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes, t } = this.props;
         if (!t) {

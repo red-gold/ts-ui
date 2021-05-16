@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classNames from 'classnames';
-import { WithTranslation } from 'react-i18next';
 import SimpleBar from 'simplebar-react';
 import List from '@material-ui/core/List';
 import Popover from '@material-ui/core/Popover';
@@ -8,28 +7,33 @@ import NotifyItem from 'components/notifyItem';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import 'simplebar/dist/simplebar.min.css';
-
+import { Map } from 'immutable';
 import { INotifyProps } from './INotifyProps';
-import { INotifyState } from './INotifyState';
 
 import CommonAPI from 'api/CommonAPI';
-import { connectNotify } from './connectNotify';
+import { useDispatch, useSelector } from 'react-redux';
+import * as notifyActions from 'store/actions/notifyActions';
+import { notificationSelector } from 'store/reducers/notifications/notificationSelector';
+import { useTranslation } from 'react-i18next';
+import { useStyles } from './notifyStyles';
 
-export class NotifyComponent extends Component<INotifyProps & WithTranslation, INotifyState> {
-    /**
-     * Component constructor
-     *
-     */
-    constructor(props: INotifyProps & WithTranslation) {
-        super(props);
+const selectNotifications = notificationSelector.selectNotifications();
 
-        // Defaul state
-        this.state = {};
-    }
+export function NotifyComponent(props: INotifyProps) {
+    const { t } = useTranslation();
+    const classes = useStyles();
 
-    notifyItemList = () => {
-        const { onClose, seenNotify, deleteNotify, goTo } = this.props;
-        const notifications = this.props.notifications;
+    // Dispatchers
+    const dispatch = useDispatch();
+    const seenNotify = (id: string) => dispatch(notifyActions.dbSeenNotification(id));
+    const deleteNotify = (id: string) => dispatch(notifyActions.dbDeleteNotification(id));
+
+    // Selectors
+    const notifications = useSelector((state: Map<string, any>) => selectNotifications(state));
+
+    const notifyItemList = () => {
+        const { onClose } = props;
+
         const parsedDOM: any[] = [];
         if (notifications) {
             const sortedNotifications = CommonAPI.sortImmutableV2(notifications.toList());
@@ -49,7 +53,6 @@ export class NotifyComponent extends Component<INotifyProps & WithTranslation, I
                         closeNotify={onClose}
                         seenNotify={seenNotify}
                         deleteNotify={deleteNotify}
-                        goTo={goTo}
                     />,
                 );
             });
@@ -57,50 +60,48 @@ export class NotifyComponent extends Component<INotifyProps & WithTranslation, I
         return parsedDOM;
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
-    render() {
-        const { open, anchorEl, onClose, classes, t } = this.props;
-        const noNotify = <div className={classes.noNotify}>{t('header.notification.emptyCaption')} </div>;
-        const items = this.notifyItemList();
-        return (
-            <Popover
-                open={open}
-                anchorEl={anchorEl}
-                onClose={onClose}
-                PaperProps={{ className: classNames(classes.paper) }}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                }}
-                elevation={4}
-            >
-                <div className={classes.container}>
-                    <div className={classes.header}>
-                        <div className={classes.haederContent}>
-                            <Typography variant="subtitle1" color="inherit" className={classes.title}>
-                                {t('header.notificationTitle')}
-                            </Typography>
-                        </div>
-                    </div>
-                    <Divider />
-                    <div className={classes.listRoot}>
-                        <div className={classes.listWrapper}>
-                            <SimpleBar style={{ maxHeight: 300 }}>
-                                {items.length > 0 ? <List className={classes.list}>{items}</List> : noNotify}
-                            </SimpleBar>
-                        </div>
+    const { open, anchorEl, onClose } = props;
+    const noNotify = (
+        <Typography variant="subtitle1" className={classes.noNotify}>
+            {t('header.notification.emptyCaption')}{' '}
+        </Typography>
+    );
+    const items = notifyItemList();
+    return (
+        <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={onClose}
+            PaperProps={{ className: classNames(classes.paper) }}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+            }}
+            elevation={4}
+        >
+            <div className={classes.container}>
+                <div className={classes.header}>
+                    <div className={classes.headerContent}>
+                        <Typography variant="subtitle1" color="inherit">
+                            {t('header.notificationTitle')}
+                        </Typography>
                     </div>
                 </div>
-            </Popover>
-        );
-    }
+                <Divider />
+                <div className={classes.listRoot}>
+                    <div className={classes.listWrapper}>
+                        <SimpleBar style={{ maxHeight: 300 }}>
+                            {items.length > 0 ? <List className={classes.list}>{items}</List> : noNotify}
+                        </SimpleBar>
+                    </div>
+                </div>
+            </div>
+        </Popover>
+    );
 }
 
-export default connectNotify(NotifyComponent);
+export default NotifyComponent;

@@ -40,13 +40,6 @@ export interface INotifyItemProps {
     id: string;
 
     /**
-     * Rediret to {url} route
-     *
-     * @memberof INotifyItemProps
-     */
-    goTo: (url: string) => any;
-
-    /**
      * Close a notification
      *
      * @memberof INotifyItemProps

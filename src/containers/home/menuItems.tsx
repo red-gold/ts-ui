@@ -1,25 +1,24 @@
-import SvgAccountCircle from '@material-ui/icons/AccountCircle';
-import SvgHome from '@material-ui/icons/Home';
-import SvgPeople from '@material-ui/icons/People';
-import SvgSettings from '@material-ui/icons/Settings';
-import HelpIcon from '@material-ui/icons/Help';
-import React from 'react';
+import ProfileIcon from '@material-ui/icons/AssignmentIndRounded';
+import HomeIcon from '@material-ui/icons/HomeRounded';
+import PeopleIcon from '@material-ui/icons/PeopleRounded';
+import SettingsIcon from '@material-ui/icons/SettingsRounded';
+import HelpIcon from '@material-ui/icons/HelpRounded';
 
 export const menuItems = (userId: string, translate: (key: string) => string) => [
     {
         label: translate('sidebar.home'),
         path: '/',
-        icon: <SvgHome />,
+        icon: HomeIcon,
     },
     {
         label: translate('sidebar.profile'),
         path: `/${userId}`,
-        icon: <SvgAccountCircle />,
+        icon: ProfileIcon,
     },
     {
         label: translate('sidebar.people'),
         path: `/people`,
-        icon: <SvgPeople />,
+        icon: PeopleIcon,
     },
     {
         divider: true,
@@ -27,19 +26,11 @@ export const menuItems = (userId: string, translate: (key: string) => string) =>
     {
         label: translate('sidebar.settings'),
         path: `/settings`,
-        icon: <SvgSettings />,
+        icon: SettingsIcon,
     },
-    // {
-    //   label: translate!('sidebar.sendFeedback'),
-    //   onClick: () => onFeedback(),
-    //   icon: <SvgFeedback />
-    // },
-    // {
-    //   divider: true
-    // },
     {
-        label: translate('sidebar.help'),
-        path: `/help`,
-        icon: <HelpIcon />,
+        label: translate('sidebar.support'),
+        path: `/support`,
+        icon: HelpIcon,
     },
 ];

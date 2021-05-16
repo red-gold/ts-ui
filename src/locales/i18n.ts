@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import Backend from 'i18next-xhr-backend';
+import Backend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 const localePath = process.env.NODE_ENV === 'production' ? 'locales' : 'locales';
 i18n.use(Backend)
@@ -11,7 +11,7 @@ i18n.use(Backend)
         // have a common namespace used around the full app
         ns: ['translations'],
         defaultNS: 'translations',
-        preload: ['en', 'zh', 'vi'],
+        preload: ['en'],
         backend: {
             loadPath: `${localePath}/{{ns}}/enjson_{{lng}}.json`,
         },

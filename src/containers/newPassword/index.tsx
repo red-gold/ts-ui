@@ -1,4 +1,3 @@
-// - Import external components
 import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -9,15 +8,12 @@ import Footer from 'layouts/footer';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import config from 'config';
 import * as authorizeActions from 'store/actions/authorizeActions';
 
 import { INewPasswordComponentProps } from './INewPasswordComponentProps';
 import { INewPasswordComponentState } from './INewPasswordComponentState';
 
-// - Components
-// - Import actions
 const styles = (theme: any) => ({
     textField: {
         minWidth: 280,
@@ -61,10 +57,6 @@ export class NewPasswordComponent extends Component<
     INewPasswordComponentProps & WithTranslation,
     INewPasswordComponentState
 > {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: INewPasswordComponentProps & WithTranslation) {
         super(props);
 
@@ -138,10 +130,6 @@ export class NewPasswordComponent extends Component<
         }
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes, t, footerDisabled, logoDisabled } = this.props;
         const logoElement = (
@@ -234,6 +222,7 @@ const mapStateToProps = () => {
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(NewPasswordComponent);
 
-export default withRouter<any, any>(
-    connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(styles as any)(translateWrapper as any)),
-);
+export default connect<any>(
+    mapStateToProps as any,
+    mapDispatchToProps,
+)(withStyles(styles as any)(translateWrapper as any));

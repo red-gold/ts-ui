@@ -8,12 +8,12 @@ export const timelineStyles = (theme: any) => ({
     flex: {
         flex: 1,
     },
-    paper: theme.mixins.gutters({
+    paper: {
         maxWidth: 670,
         minWidth: 350,
         margin: '30px auto',
         padding: 20,
-    }),
+    },
     table: {
         marginTop: 10,
         marginBottom: 10,

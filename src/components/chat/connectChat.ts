@@ -6,7 +6,6 @@ import { IChatProps, IDispatchProps, IOwnProps, IStateProps } from './IChatProps
 import { chatStyles } from './chatStyles';
 import { userSelector } from 'store/reducers/users/userSelector';
 import { withStyles } from '@material-ui/core/styles';
-import withWidth from '@material-ui/core/withWidth';
 import { chatSelector } from 'store/reducers/chat/chatSelector';
 import { Message } from 'core/domain/chat/message';
 import * as chatActions from 'store/actions/chatActions';
@@ -86,5 +85,5 @@ export const connectChat = (component: React.ComponentType<IChatProps & WithTran
     return connect<IStateProps, IDispatchProps, IOwnProps, any>(
         makeMapStateToProps,
         mapDispatchToProps,
-    )(withWidth({ resizeInterval: 200 })(withStyles(chatStyles)(translateWrapper)));
+    )(withStyles(chatStyles)(translateWrapper));
 };

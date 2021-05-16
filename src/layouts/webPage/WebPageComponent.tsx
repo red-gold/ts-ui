@@ -1,4 +1,4 @@
-// - Import react components
+
 import React, { Component } from 'react';
 
 // - Material UI
@@ -36,9 +36,6 @@ export class BackDropIOSWorkaround extends React.PureComponent<BackdropProps> {
     }
 }
 
-/**
- * Create component class
- */
 export class WebPageComponent extends Component<IWebPageProps, IWebPageState> {
     /**
      * Fields

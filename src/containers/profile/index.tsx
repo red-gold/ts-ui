@@ -1,105 +1,115 @@
 import ImgCover from 'components/imgCover';
 import UserActivity from 'components/userActivity';
-import React, { Component } from 'react';
-import { WithTranslation } from 'react-i18next';
+import React, { useState } from 'react';
 import config from 'config';
 import Grid from '@material-ui/core/Grid';
-
+import { useTranslation } from 'react-i18next';
 import PostStreamComponent from '../postStream';
+import { useLocation } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+
+import StringAPI from 'api/StringAPI';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { Map } from 'immutable';
+import * as postActions from 'store/actions/postActions';
+import * as userActions from 'store/actions/userActions';
+import * as globalActions from 'store/actions/globalActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { postSelector } from 'store/reducers/posts/postSelector';
+import { serverSelector } from 'store/reducers/server/serverSelector';
+import { userSelector } from 'store/reducers/users/userSelector';
+import { useParams } from 'react-router-dom';
+import { useStyles } from './profileStyles';
 import { IProfileProps } from './IProfileProps';
-import { IProfileState } from './IProfileState';
-import { withRouter } from 'react-router-dom';
-import { connectProfile } from './connectProfile';
 
-export class ProfileComponent extends Component<IProfileProps & WithTranslation, IProfileState> {
-    static propTypes = {};
+// Create selctors
+const selectCurrentUser = authorizeSelector.selectCurrentUser();
+const selectRequest = serverSelector.selectRequest();
+const selectProfilePosts = postSelector.selectProfilePosts();
+const selectHasMorePostProfile = postSelector.selectHasMorePostProfile();
+const selectUserProfileById = userSelector.selectUserProfileById();
 
-    constructor(props: IProfileProps & WithTranslation) {
-        super(props);
+import classNames from 'classnames';
+import Typography from '@material-ui/core/Typography';
+import RightPanel from 'components/profileRightPanel';
 
-        // Defaul state
-        this.state = {
-            timeout: false,
-        };
-    }
+export function ProfileComponent(props: IProfileProps) {
+    const [timeout, setProfileTimeout] = useState(false);
+    const { t } = useTranslation();
+    const location = useLocation();
+    const { userId } = useParams();
+    const classes = useStyles();
+    // Dispatcher
+    const dispatch = useDispatch();
+    const loadPosts = (page: number) => dispatch(postActions.dbGetPostsByUserId(userId, page));
+    const loadUserInfo = () => dispatch(userActions.dbGetUserInfoByUserId(userId));
+    const setHeaderTitle = (title: string) => dispatch(globalActions.setHeaderTitle(title));
 
-    componentDidUpdate(prevProps: any) {
-        if (this.props.location !== prevProps.location) {
-            const { profile } = this.props;
-            this.forceUpdate();
-            this.setState({ timeout: true });
-            setTimeout(() => {
-                this.setState({ timeout: false });
-            }, 100);
-            this.props.setHeaderTitle(profile.get('fullName', ''));
-        }
-    }
+    // Selectors
+    const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
+    const currentUserId = currentUser.get('userId');
+    const requestId = StringAPI.createServerRequestId(ServerRequestType.ProfileGetPosts, userId);
+    const postsRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId }));
+    const postsRequestStatus: ServerRequestStatusType = postsRequest.get('status', ServerRequestStatusType.NoAction);
+    const hasMorePosts: boolean = useSelector((state: Map<string, any>) => selectHasMorePostProfile(state, { userId }));
+    const posts = useSelector((state: Map<string, any>) => selectProfilePosts(state, { userId }));
+    const profile = useSelector((state: Map<string, any>) => selectUserProfileById(state, { userId }));
 
-    componentDidMount() {
-        const { profile, loadUserInfo } = this.props;
+    const isCurrentUser = userId === currentUserId;
+
+    React.useEffect(() => {
+        const { profile } = props;
         loadUserInfo();
-        this.props.setHeaderTitle(profile.get('fullName', ''));
-    }
+        if (profile) {
+            setHeaderTitle(profile.get('fullName'));
+        }
+        setProfileTimeout(true);
+        setTimeout(() => {
+            setProfileTimeout(false);
+        }, 100);
+    }, [location]);
 
-    /**
-     * Reneder component DOM
-     *
-     */
-    render() {
-        const {
-            loadPosts,
-            hasMorePosts,
-            t,
-            classes,
-            profile,
-            isCurrentUser,
-            posts,
-            requestId,
-            postsRequestStatus,
-        } = this.props;
-        return (
-            <>
-                <div className={classes.bannerContainer}>
-                    <ImgCover
-                        height={'384px'}
-                        width={'100%'}
-                        className={classes.banner}
-                        src={
-                            profile && profile.get('banner')
-                                ? profile.get('banner')
-                                : config.settings.defaultProfileCover
-                        }
-                    />
-                </div>
+    return (
+        <>
+            <div className={classes.bannerContainer}>
+                <ImgCover
+                    height={'384px'}
+                    width={'100%'}
+                    className={classes.banner}
+                    src={profile && profile.get('banner') ? profile.get('banner') : config.settings.defaultProfileCover}
+                />
                 <UserActivity profile={profile} isCurrentUser={isCurrentUser} />
-                <div style={{ height: '24px' }}></div>
+            </div>
+            <Grid container justifyContent="space-around" spacing={3}>
+                <Grid className={classes.gridItem} md={4} item>
+                    <RightPanel isCurrentUser={isCurrentUser} profile={profile} />
+                </Grid>
+
                 {/* <ProfileAlbumComponent userId={userId} isOwner={isCurrentUser}/> */}
-                <div>
-                    {!posts.isEmpty() ? (
+
+                <Grid className={classNames(classes.gridItem, classes.postGrid)} xs={12} md={8} item>
+                    {!posts.isEmpty() && props.profile ? (
                         <div className="profile__title">
-                            {t('profile.headPostsLabel', { userName: this.props.profile.get('fullName') })}
+                            {t('profile.headPostsLabel', { userName: props.profile.get('fullName') })}
                         </div>
                     ) : (
                         ''
                     )}
                     <div style={{ height: '24px' }}></div>
-                    <Grid container justify="center" spacing={3}>
-                        <Grid className={classes.gridItem} classes={{ root: classes.postGrid }} xs={12} md={8} item>
-                            {!this.state.timeout && (
-                                <PostStreamComponent
-                                    posts={posts}
-                                    requestId={requestId}
-                                    loadStream={loadPosts}
-                                    hasMorePosts={hasMorePosts}
-                                    requestStatus={postsRequestStatus}
-                                />
-                            )}
-                        </Grid>
-                    </Grid>
-                </div>
-            </>
-        );
-    }
+                    {!timeout && (
+                        <PostStreamComponent
+                            posts={posts}
+                            requestId={requestId}
+                            loadStream={loadPosts}
+                            hasMorePosts={hasMorePosts}
+                            requestStatus={postsRequestStatus}
+                        />
+                    )}
+                </Grid>
+            </Grid>
+        </>
+    );
 }
 
-export default withRouter(connectProfile(ProfileComponent));
+export default ProfileComponent;

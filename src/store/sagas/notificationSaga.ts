@@ -39,8 +39,8 @@ function subscribeNotification(userId: string) {
 function* dbFetchNotification() {
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
-    const channelSubscription: Channel<Map<string, Map<string, any>>> = yield call(subscribeNotification, uid);
 
+    const channelSubscription: Channel<Map<string, Map<string, any>>> = yield call(subscribeNotification, uid);
     try {
         while (true) {
             const notifications: Map<string, Map<string, any>> = yield take(channelSubscription);

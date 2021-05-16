@@ -12,14 +12,7 @@ import { IRoomItemState } from './IRoomItemState';
 import { roomItemStyles } from './roomItemStyles';
 import { Button } from '@material-ui/core';
 
-/**
- * Create component class
- */
 export class RoomItemComponent extends Component<IRoomItemProps, IRoomItemState> {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IRoomItemProps) {
         super(props);
 
@@ -38,10 +31,6 @@ export class RoomItemComponent extends Component<IRoomItemProps, IRoomItemState>
         closeRoomList();
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { avatar, fullName, classes, room } = this.props;
         const roomId: string = room.get('objectId');

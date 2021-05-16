@@ -2,12 +2,7 @@ import { Map } from 'immutable';
 
 export interface INotificationSettingProps {
     /**
-     * Styles
-     */
-    classes?: any;
-
-    /**
-     * Notification setting
+     * User setting
      */
     userSettings: Map<string, any>;
 

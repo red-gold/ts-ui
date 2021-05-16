@@ -1,4 +1,3 @@
-// - Import react components
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -38,7 +37,14 @@ import config from 'config';
 import { connectPost } from './connectPost';
 import { IPostProps } from './IPostProps';
 import { IPostState } from './IPostState';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 
+const DisplayName = styled(NavLink)({
+    color: '#212b36',
+    textTransform: 'capitalize',
+});
+
+const Link = styled(NavLink)({});
 export class PostComponent extends Component<IPostProps & WithTranslation, IPostState> {
     styles = {
         dialog: {
@@ -115,13 +121,12 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
      * Toggle on show/hide comment
      */
     handleOpenComments = () => {
-        const { getPostComments, post } = this.props;
-        if (!post || !getPostComments) {
-            return;
+        if (!this.state.openComments) {
+            const { getPostComments, post } = this.props;
+            const ownerUserId = post.get('ownerUserId');
+            const id = post.get('id');
+            getPostComments(ownerUserId, id, 0, 10);
         }
-        const ownerUserId = post.get('ownerUserId');
-        const id = post.get('id');
-        getPostComments(ownerUserId, id, 0, 10);
         this.setState({
             openComments: !this.state.openComments,
         });
@@ -356,7 +361,7 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
         return (
             <Card key={id + 'post-card'} className={classNames(classes.postBox, 'animate-top')}>
                 <CardHeader
-                    title={<NavLink to={`/${ownerUserId}`}>{ownerDisplayName}</NavLink>}
+                    title={<DisplayName to={`/${ownerUserId}`}>{ownerDisplayName}</DisplayName>}
                     subheader={
                         creationDate ? (
                             (version === config.dataFormat.postVersion
@@ -367,12 +372,39 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
                         )
                     }
                     avatar={
-                        <NavLink to={`/${ownerUserId}`}>
+                        <DisplayName to={`/${ownerUserId}`}>
                             <UserAvatar fullName={ownerDisplayName} fileName={ownerAvatar} size={36} />
-                        </NavLink>
+                        </DisplayName>
                     }
                     action={isPostOwner ? this.rightIconMenu() : ''}
                 ></CardHeader>
+                <CardContent className={classes.postBody}>
+                    <ReadMoreComponent body={body}>
+                        <Linkify
+                            properties={{
+                                target: '_blank',
+                                style: { color: 'blue' },
+                                onClick: (event: React.MouseEvent<HTMLAnchorElement>) => event.stopPropagation(),
+                            }}
+                        >
+                            {reactStringReplace(body, /#(\w+)/g, (match: string, i: number) => (
+                                <Link
+                                    style={{ color: 'green' }}
+                                    key={match + i}
+                                    to={`/tag/${match}`}
+                                    onClick={(evt) => {
+                                        evt.preventDefault();
+                                        evt.stopPropagation();
+                                        goTo(`/tag/${match}`);
+                                        setHomeTitle(`#${match}`);
+                                    }}
+                                >
+                                    #{match}
+                                </Link>
+                            ))}
+                        </Linkify>
+                    </ReadMoreComponent>
+                </CardContent>
                 {(image && image !== '' && postTypeId === PostType.Photo) ||
                 (thumbnail && thumbnail !== '' && video && video !== '' && postTypeId === PostType.Video) ? (
                     <CardMedia className={classes.cardMedia} image={postTypeId === PostType.Photo ? image : thumbnail}>
@@ -396,7 +428,7 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
                                     })}
                                 >
                                     <IconButton className={classes.playIconButtonRoot} onClick={this.onShowVideo}>
-                                        <SvgPlay className={classes.playIcon} />
+                                        <SvgPlay sx={{ fontSize: '50px' }} />
                                     </IconButton>
                                 </span>
                             </>
@@ -406,34 +438,6 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
                     ''
                 )}
                 {this.getAlbum()}
-
-                <CardContent className={classes.postBody}>
-                    <ReadMoreComponent body={body}>
-                        <Linkify
-                            properties={{
-                                target: '_blank',
-                                style: { color: 'blue' },
-                                onClick: (event: React.MouseEvent<HTMLAnchorElement>) => event.stopPropagation(),
-                            }}
-                        >
-                            {reactStringReplace(body, /#(\w+)/g, (match: string, i: number) => (
-                                <NavLink
-                                    style={{ color: 'green' }}
-                                    key={match + i}
-                                    to={`/tag/${match}`}
-                                    onClick={(evt) => {
-                                        evt.preventDefault();
-                                        evt.stopPropagation();
-                                        goTo(`/tag/${match}`);
-                                        setHomeTitle(`#${match}`);
-                                    }}
-                                >
-                                    #{match}
-                                </NavLink>
-                            ))}
-                        </Linkify>
-                    </ReadMoreComponent>
-                </CardContent>
 
                 <CardActions>
                     <div className={classes.vote}>

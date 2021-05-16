@@ -1,9 +1,6 @@
 import { Map } from 'immutable';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 
-export type ICommentGroupProps = IOwnProps & IDispatchProps & IStateProps;
-
-export interface IOwnProps {
+export interface ICommentGroupProps {
     /**
      * Commnets
      */
@@ -43,19 +40,4 @@ export interface IOwnProps {
      * The identifier of post owner
      */
     ownerPostUserId: string;
-
-    /**
-     * Styles
-     */
-    classes?: any;
-}
-
-export interface IStateProps {
-    commentsRequestStatus: ServerRequestStatusType;
-    currentUser: Map<string, any>;
-    editorStatus: Map<string, any>;
-}
-
-export interface IDispatchProps {
-    send: (newComment: Map<string, any>) => void;
 }

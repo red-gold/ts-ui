@@ -95,4 +95,6 @@ export interface IMasterProps {
      * Subscibe auth state change
      */
     subscribeAuthStateChange?: () => any;
+
+    dataLoaded?: boolean;
 }

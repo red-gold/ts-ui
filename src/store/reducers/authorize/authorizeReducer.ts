@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 import { AuthorizeState } from './AuthorizeState';
 import { IAuthorizeAction } from './IAuthorizeAction';
 
-// - Import react components
+
 // - Import action types
 /**
  *  Authorize reducer

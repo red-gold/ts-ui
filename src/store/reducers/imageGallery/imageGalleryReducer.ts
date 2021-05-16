@@ -1,4 +1,3 @@
-// - Import react components
 import { ImageGalleryActionType } from 'constants/imageGalleryActionType';
 import { List, Map } from 'immutable';
 

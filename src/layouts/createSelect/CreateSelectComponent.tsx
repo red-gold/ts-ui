@@ -1,4 +1,4 @@
-// - Import react components
+
 import React from 'react';
 import CreatableSelect from 'react-select/lib/Creatable';
 

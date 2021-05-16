@@ -1,4 +1,4 @@
-// - Import react components
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SvgClose from '@material-ui/icons/Close';
@@ -7,9 +7,6 @@ import Divider from '@material-ui/core/Divider';
 import { IDialogTitleComponentProps } from './IDialogTitleComponentProps';
 import { IDialogTitleComponentState } from './IDialogTitleComponentState';
 
-/**
- * Create component class
- */
 export default class DialogTitleComponent extends Component<IDialogTitleComponentProps, IDialogTitleComponentState> {
     static propTypes = {
         /**
@@ -47,10 +44,6 @@ export default class DialogTitleComponent extends Component<IDialogTitleComponen
         },
     };
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IDialogTitleComponentProps) {
         super(props);
 
@@ -60,10 +53,6 @@ export default class DialogTitleComponent extends Component<IDialogTitleComponen
         // Binding functions to `this`
     }
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { buttonLabel, disabledButton, onClickButton, onRequestClose, title } = this.props;
 

@@ -1,4 +1,4 @@
-// - Import react components
+
 import AppBar from '@material-ui/core/AppBar';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
@@ -28,9 +28,6 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-/**
- * Create component class
- */
 export class TimelineComponent extends Component<ITimelineComponentProps, ITimelineComponentState> {
     /**
      * Component constructor

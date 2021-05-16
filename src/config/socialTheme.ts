@@ -1,6 +1,6 @@
 import lightBlue from '@material-ui/core/colors/lightBlue';
 import blue from '@material-ui/core/colors/blue';
-import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
+import { ThemeOptions } from '@material-ui/core/styles/createTheme';
 
 export const socialTheme: ThemeOptions = {
     shape: {

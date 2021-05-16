@@ -1,4 +1,4 @@
-// - Import react components
+
 import { UserTie } from 'core/domain/circles/userTie';
 import { SocialError } from 'core/domain/common/socialError';
 import { IUserTieService } from 'core/services/circles/IUserTieService';

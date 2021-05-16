@@ -1,35 +1,20 @@
-// - Import react components
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import SvgFavorite from '@material-ui/icons/Favorite';
-import GroupAdd from '@material-ui/icons/GroupAdd';
 import MailIcon from '@material-ui/icons/Mail';
-import PersonPinIcon from '@material-ui/icons/PersonPin';
-import SvgShare from '@material-ui/icons/Share';
 import StringAPI from 'api/StringAPI';
 import classNames from 'classnames';
 import AboutDialogComponent from 'components/aboutDialog/AboutDialogComponent';
-import BountiesDialog from 'components/bountiesDialog/BountiesDialogComponent';
 import EditProfile from 'components/editProfile/EditProfileComponent';
 import FollowDialogComponent from 'components/followDialog/FollowDialogComponent';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import { Map } from 'immutable';
-import CircleActivity from 'layouts/circleActivity';
 import TimelineComponent from 'layouts/timeline';
-import debounce from 'lodash/debounce';
-import numbro from 'numbro';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import ReactResizeDetector from 'react-resize-detector';
-import config from 'config';
 import PictureDialogComponent from 'layouts/pictureDialog';
 import * as globalActions from 'store/actions/globalActions';
 import * as userActions from 'store/actions/userActions';
@@ -49,8 +34,6 @@ export class UserActivityComponent extends Component<
      */
     constructor(props: IUserActivityComponentProps & WithTranslation) {
         super(props);
-
-        this.handleWidthChanged = debounce(this.handleWidthChanged, 200);
 
         // Defaul state
         this.state = {
@@ -165,73 +148,6 @@ export class UserActivityComponent extends Component<
     };
 
     /**
-     * Handle resize
-     */
-    handleResize = (event: any) => {
-        this.handleWidthChanged(event);
-    };
-
-    /**
-     * Handle window width changed
-     */
-    handleWidthChanged = (value: number) => {
-        this.transformBoxes(value, 280, 5);
-    };
-
-    /**
-     * Transform boxes
-     */
-    transformBoxes = (documentWidth: number, boxSize: number, numberOfBox: number, boxMargin = 5) => {
-        const boxStyles = [];
-        const minSpace = 70;
-        let boxCounter = numberOfBox;
-        let boxContainer = boxSize * boxCounter + boxCounter * (boxMargin * 2);
-        let windowContainer = boxContainer + minSpace * 2;
-        while (windowContainer > documentWidth && boxCounter > 1) {
-            --boxCounter;
-            boxContainer = boxSize * boxCounter + boxCounter * (boxMargin * 2);
-            windowContainer = boxContainer + minSpace * 2;
-        }
-        let rowCounter = 0;
-        let columnCounter = 0;
-        const leftSpace = (documentWidth - boxContainer) / 2;
-        for (let index = 0; index < numberOfBox; index++) {
-            if (columnCounter > boxCounter - 1) {
-                columnCounter = 0;
-                ++rowCounter;
-            }
-            const x = leftSpace + columnCounter * (boxSize + boxMargin * 2);
-            const y = rowCounter * (boxSize + boxMargin * 2);
-
-            boxStyles[index] = {
-                width: boxSize,
-                height: boxSize,
-                transform: `translate(${x}px, ${y}px)`,
-                visibility: 'visible',
-            };
-            ++columnCounter;
-        }
-
-        this.setState({
-            boxesStyle: boxStyles,
-            parentHeight: (rowCounter + 1) * (boxSize + boxMargin * 2),
-        });
-    };
-
-    getReputation() {
-        const { profile } = this.props;
-        const rep =
-            (profile.get('postCount') || 0) * 10 +
-            (profile.get('voteCount') || 0) * 10 +
-            (profile.get('shareCount') || 0) * 10 +
-            (profile.get('followCount') || 0) * 10;
-        return numbro(rep).format({
-            spaceSeparated: false,
-            average: true,
-        });
-    }
-
-    /**
      * Handle send message
      */
     handleSendMessage = () => {
@@ -244,239 +160,54 @@ export class UserActivityComponent extends Component<
         }
     };
 
-    componentDidMount() {
-        this.handleWidthChanged(window.innerWidth);
-    }
-
     /**
      * Reneder component DOM
      */
     render() {
         const { t, classes, profile, isCurrentUser, editProfileOpen, openEditor } = this.props;
-        const { boxesStyle, parentHeight, privilegeOpen, pictureDialogURL, picutreDialogOpen, aboutOpen } = this.state;
+        const { privilegeOpen, pictureDialogURL, picutreDialogOpen, aboutOpen } = this.state;
 
         return (
             <>
-                <ReactResizeDetector handleWidth onResize={this.handleResize} />
-                <div className={classes.container} style={{ height: parentHeight }}>
-                    <div className={classes.card} style={boxesStyle ? boxesStyle[0] : {}}>
-                        <Paper className={classNames(classes.paperContainer, classes.paperBackground)}>
-                            <div onClick={() => this.openPictureDialog(profile.get('avatar'))}>
-                                <UserAvatar
-                                    className={classes.userAvatar}
-                                    fullName={profile.get('fullName')}
-                                    fileName={profile.get('avatar')}
-                                    size={110}
-                                />
-                            </div>
-                            <Typography variant="h5" className={classes.userNameText}>
-                                {profile.get('fullName')}
-                            </Typography>
-
-                            <div className={classes.editButtonContainer}>
-                                {isCurrentUser ? (
-                                    <Button color={'primary'} onClick={openEditor}>
-                                        {' '}
-                                        {t('profile.editProfileButton')}{' '}
-                                    </Button>
-                                ) : (
-                                    <div>
-                                        <FollowDialogComponent user={profile} />
-                                        <IconButton onClick={this.handleSendMessage}>
-                                            <MailIcon />
-                                        </IconButton>
-                                        <Button color={'primary'} onClick={this.handleOpenAbout}>
-                                            {' '}
-                                            {t('profile.aboutButton')}{' '}
-                                        </Button>
-                                    </div>
-                                )}
-                            </div>
-                            {isCurrentUser && editProfileOpen ? (
-                                <EditProfile
-                                    avatar={profile.get('avatar')}
-                                    banner={profile.get('banner')}
-                                    fullName={profile.get('fullName')}
-                                />
-                            ) : (
-                                ''
-                            )}
-                        </Paper>
+                <Paper
+                    sx={{ backgroundColor: '#ffffff80', marginLeft: 10 }}
+                    className={classNames(classes.paper, classes.paperBackground)}
+                >
+                    <div onClick={() => this.openPictureDialog(profile.get('avatar'))}>
+                        <UserAvatar
+                            className={classes.userAvatar}
+                            fullName={profile.get('fullName')}
+                            fileName={profile.get('avatar')}
+                            size={110}
+                        />
                     </div>
+                    <Typography variant="h5" className={classes.userNameText}>
+                        {profile.get('fullName')}
+                    </Typography>
 
-                    <AboutDialogComponent targetUser={profile} open={aboutOpen} onClose={this.handleCloseAbout} />
-
-                    {/* <div className={classes.card} style={boxesStyle ? boxesStyle[1] : {}}>
-                        <Paper className={classes.paperContainer}>
-                            <Typography variant='h6'
-                                className={classes.title}>
-                                {translate!('userActivity.privilegesTitle')}
-                            </Typography>
-                            <div className={classes.content}>
-                                <ActivityProgress
-                                    value={20}
-                                    caption={'20% completed'} />
-                                <List component='nav' dense>
-                                    <ListItem button className={classes.listItem}>
-                                        <ListItemText primary='Complete Profile' />
-                                    </ListItem>
-                                    <ListItem button className={classes.listItem}>
-                                        <ListItemText primary='Connect Social Account' />
-                                    </ListItem> <ListItem button className={classes.listItem}>
-                                        <ListItemText primary='Verify Phone Number' />
-                                    </ListItem> <ListItem button className={classes.listItem}>
-                                        <ListItemText primary='Verify Bank Account' />
-                                    </ListItem>
-                                </List>
+                    <div className={classes.editButtonContainer}>
+                        {!isCurrentUser && (
+                            <div>
+                                <FollowDialogComponent color="secondary" variant="contained" user={profile} />
+                                <IconButton onClick={this.handleSendMessage}>
+                                    <MailIcon />
+                                </IconButton>
                             </div>
-                           
-                        </Paper>
-                    </div> */}
-
-                    <div className={classes.card} style={boxesStyle ? boxesStyle[1] : {}}>
-                        <Paper
-                            className={classNames(
-                                classes.paperContainer,
-                                classes.paperBackground1,
-                                classes.disableComponent,
-                            )}
-                        >
-                            <Typography variant="h6" className={classNames(classes.title, classes.titleSpecial)}>
-                                {t('userActivity.reputationTitle')}
-                            </Typography>
-                            <Typography
-                                // onClick={this.handleOpenStoreRep}
-                                className={classes.repText}
-                            >
-                                {this.getReputation()}
-                                <span className={classes.repCaption}>{t('userActivity.reputationCaption')}</span>
-                            </Typography>
-                            {/* <Typography component='div'
-                                className={classes.repLabel}>
-                                <ListItem button className={classes.listItem} onClick={this.handleOpenStore}>
-                                    <SvgStar /> 
-                                <DiamondIcon className={classes.diamond} viewBox='0 0 60 60' />
-                                </ListItem>
-                            </Typography> */}
-                        </Paper>
+                        )}
                     </div>
+                    {isCurrentUser && editProfileOpen ? (
+                        <EditProfile
+                            avatar={profile.get('avatar')}
+                            banner={profile.get('banner')}
+                            fullName={profile.get('fullName')}
+                        />
+                    ) : (
+                        ''
+                    )}
+                </Paper>
 
-                    <div className={classes.card} style={boxesStyle ? boxesStyle[2] : {}}>
-                        <Paper className={classNames(classes.paperContainer, classes.disableComponent)}>
-                            <Typography variant="h6" className={classes.title}>
-                                {t('userActivity.impactTitle')}
-                            </Typography>
-                            <div className={classes.content}>
-                                <List component="nav">
-                                    <ListItem button className={classes.listItem}>
-                                        <ListItemIcon>
-                                            <SvgFavorite className={classes.impactIcon} />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={`${profile.get('voteCount') || 0} ${t(
-                                                'userActivity.likeCaption',
-                                            )}`}
-                                        />
-                                    </ListItem>
-                                    <ListItem button className={classes.listItem}>
-                                        <ListItemIcon>
-                                            <SvgShare className={classes.impactIcon} />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={`${profile.get('shareCount') || 0} ${t(
-                                                'userActivity.shareCaption',
-                                            )}`}
-                                        />
-                                    </ListItem>
-                                    <ListItem button className={classes.listItem}>
-                                        <ListItemIcon>
-                                            <MailIcon className={classes.impactIcon} />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={`${profile.get('postCount') || 0} ${t(
-                                                'userActivity.publishCaption',
-                                            )}`}
-                                        />
-                                    </ListItem>
-                                    <ListItem button className={classes.listItem}>
-                                        <ListItemIcon>
-                                            <GroupAdd className={classes.impactIcon} />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={`${profile.get('followCount') || 0} ${t(
-                                                'userActivity.followingCaption',
-                                            )}`}
-                                        />
-                                    </ListItem>
-                                    <ListItem button className={classes.listItem}>
-                                        <ListItemIcon>
-                                            <PersonPinIcon className={classes.impactIcon} />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={`${profile.get('followerCount') || 0} ${t(
-                                                'userActivity.followersCaption',
-                                            )}`}
-                                        />
-                                    </ListItem>
-                                </List>
-                            </div>
-                        </Paper>
-                    </div>
+                <AboutDialogComponent targetUser={profile} open={aboutOpen} onClose={this.handleCloseAbout} />
 
-                    <div className={classes.card} style={boxesStyle ? boxesStyle[3] : {}}>
-                        <Paper className={classNames(classes.paperContainer, classes.disableComponent)}>
-                            <Typography variant="h6" className={classes.title}>
-                                {t('userActivity.privilegesTitle')}
-                            </Typography>
-                            <div className={classes.content}>
-                                <Typography variant="caption">
-                                    {/* {t('userActivity.currentPrivilegeCaption')} : {t('privilege.normal')} */}
-                                </Typography>
-                                <Typography variant="caption">
-                                    {t('userActivity.nextPrivilegeCaption')} : {t('privilege.newUser')}
-                                </Typography>
-                                <CircleActivity
-                                    value={20}
-                                    percent={'20%'}
-                                    title={t('userActivity.goal', { rep: 100 })}
-                                    // guideline={t('privilege.approvedUser')}
-                                    guideline={t(' ')}
-                                />
-                            </div>
-
-                            <Button
-                                color={'primary'}
-                                className={classes.allPrivilegesButton}
-                                disabled
-                                onClick={this.handleOpenPrivileges}
-                            >
-                                {' '}
-                                {t('userActivity.allPrivilegesButton')}
-                            </Button>
-                        </Paper>
-                    </div>
-
-                    <div className={classes.card} style={boxesStyle ? boxesStyle[4] : {}}>
-                        <Paper className={classNames(classes.paperContainer, classes.disableComponent)}>
-                            <Typography variant="h6" className={classes.title}>
-                                {t('userActivity.bountiesTitle')}
-                            </Typography>
-                            <div className={classes.content}>
-                                <BountiesDialog text={t('userActivity.allBounties')} />
-                                <Button classes={{ root: classes.buttonBounties }}>
-                                    {t('userActivity.nextBountiesButton')}
-                                </Button>
-                                <CircleActivity
-                                    value={20}
-                                    percent={'10/50'}
-                                    title={t('userActivity.bountyCommingSoon')}
-                                    // guideline={t('userActivity.bountyFrom', { company: config.settings.companyName })}
-                                    guideline={t(' ', { company: config.settings.companyName })}
-                                />
-                            </div>
-                        </Paper>
-                    </div>
-                </div>
                 <TimelineComponent
                     title={t('userActivity.privileges')}
                     open={privilegeOpen}

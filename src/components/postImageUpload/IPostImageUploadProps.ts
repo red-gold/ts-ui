@@ -1,24 +1,8 @@
 import { Map } from 'immutable';
 import { Post } from 'core/domain/posts/post';
-import { User } from 'core/domain/users/user';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { PhotoGalleryFile } from 'models/gallery/photoGalleryFile';
 
 export interface IPostImageUploadProps {
-    /**
-     * Upload image to the server
-     */
-    uploadImage?: (image: any, imageName: string) => any;
-
-    /**
-     * Styles
-     */
-    classes?: any;
-
-    /**
-     * Theme
-     */
-    theme?: any;
-
     /**
      * File progress state
      */
@@ -27,12 +11,7 @@ export interface IPostImageUploadProps {
     /**
      * Selected photos
      */
-    photos: { src: string; fileName: string }[];
-
-    /**
-     * Create album request
-     */
-    createAlbumRequestStatus?: ServerRequestStatusType;
+    photos: PhotoGalleryFile[];
 
     /**
      * Handle delete file
@@ -40,17 +19,7 @@ export interface IPostImageUploadProps {
     onDelete: (fileName: string) => void;
 
     /**
-     * Current user information
-     */
-    currentUser?: User;
-
-    /**
      * Current album to edit
      */
     currentAlbum?: Post;
-
-    /**
-     * Translate to locale string
-     */
-    t?: (state: any) => any;
 }

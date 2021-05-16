@@ -1,4 +1,3 @@
-// - Import react components
 import Button from '@material-ui/core/Button';
 import EditProfile from 'components/editProfile/EditProfileComponent';
 import ImgCover from 'components/imgCover';
@@ -15,22 +14,10 @@ import * as userActions from 'store/actions/userActions';
 import { IProfileHeaderComponentProps } from './IProfileHeaderComponentProps';
 import { IProfileHeaderComponentState } from './IProfileHeaderComponentState';
 
-// - Material UI
-// - Import app components
-// - Import API
-
-// - Import actions
-/**
- * Create component class
- */
 export class ProfileHeaderComponent extends Component<
     IProfileHeaderComponentProps & WithTranslation,
     IProfileHeaderComponentState
 > {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IProfileHeaderComponentProps & WithTranslation) {
         super(props);
 
@@ -69,10 +56,6 @@ export class ProfileHeaderComponent extends Component<
         this.handleResize();
     }
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { t, isAuthedUser, editProfileOpen } = this.props;
         const styles = {
@@ -113,7 +96,7 @@ export class ProfileHeaderComponent extends Component<
                         <ImgCover
                             width="100%"
                             height="510px"
-                            borderRadius="2px"
+                            borderRadius="12px"
                             src={this.props.banner || config.settings.defaultProfileCover}
                         />
                     </Background>

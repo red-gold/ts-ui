@@ -143,7 +143,6 @@ var ReactPhotoGrid =
             }
 
             var imageData = _this.props.data.length <= 4 ? _this.props.data : first(_this.props.data, 4);
-           
 
             // take care of variations in property data
             // if someone just passes an array of path strings

@@ -1,4 +1,3 @@
-// - Import react components
 import CardMedia from '@material-ui/core/CardMedia';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
@@ -10,9 +9,7 @@ import { IPostPhotoGridState } from './IPostPhotoGridState';
 import { postPhotoGridStyles } from './postPhotoGridStyles';
 
 // - Material UI
-/**
- * Create component class
- */
+
 export class PostPhotoGridComponent extends Component<IPostPhotoGridProps, IPostPhotoGridState> {
     /**
      * Component constructor

@@ -1,4 +1,3 @@
-// - Import react components
 import { Comment } from 'core/domain/comments/comment';
 import { SocialError } from 'core/domain/common/socialError';
 import { ICommentService } from 'core/services/comments/ICommentService';

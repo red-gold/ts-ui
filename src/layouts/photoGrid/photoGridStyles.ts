@@ -1,5 +1,5 @@
 export const photoGridStyles = () => ({
-    gridList: {
+    ImageList: {
         overflowY: 'hidden',
     },
     deleteIcon: {

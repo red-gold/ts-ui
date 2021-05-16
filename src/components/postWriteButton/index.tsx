@@ -1,4 +1,4 @@
-// - Import react components
+
 import React, { Component, Fragment } from 'react';
 import SvgCamera from '@material-ui/icons/PhotoCamera';
 import classNames from 'classnames';
@@ -12,14 +12,7 @@ import { IPostWriteButtonProps } from './IPostWriteButtonProps';
 import { IPostWriteButtonState } from './IPostWriteButtonState';
 import { connectPostWriteButton } from './connectPostWriteButton';
 
-/**
- * Create component class
- */
 export class PostWriteButton extends Component<IPostWriteButtonProps & WithTranslation, IPostWriteButtonState> {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IPostWriteButtonProps & WithTranslation) {
         super(props);
 
@@ -36,10 +29,6 @@ export class PostWriteButton extends Component<IPostWriteButtonProps & WithTrans
         }
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { tag, displayWriting, classes, t } = this.props;
         return (

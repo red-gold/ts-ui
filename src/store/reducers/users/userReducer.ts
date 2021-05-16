@@ -56,7 +56,7 @@ export const userReducer = (
 
         case UserActionType.ADD_USER_INFO:
             return state
-                .setIn(['entities', payload.uid], payload.info)
+                .mergeIn(['entities', payload.uid], payload.info)
                 .setIn(['entities', payload.uid, DEFAULT_KEY], generateCacheTTL())
                 .set('loaded', true);
 

@@ -1,86 +1,88 @@
 import UserBoxList from 'components/userBoxList/UserBoxListComponent';
-import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
-import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { throwNoValue } from 'utils/errorHandling';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import * as userActions from 'store/actions/userActions';
+import { userSelector } from 'store/reducers/users/userSelector';
+import { Map } from 'immutable';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { serverSelector } from 'store/reducers/server/serverSelector';
+import StringAPI from 'api/StringAPI';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import UserBoxSkeleton from 'components/userBoxSkeleton';
+import { useStyles } from './findPeopleStyles';
 
-import { connectFindPeople } from './connectFindPeople';
-import { IFindPeopleComponentProps } from './IFindPeopleComponentProps';
-import { IFindPeopleComponentState } from './IFindPeopleComponentState';
+const selectHasMorePeople = userSelector.selectMoreFindPeople();
+const selectFindPeople = userSelector.selectFindPeople();
+const selectPage = userSelector.selectFindPeoplePage();
+const selectRequest = serverSelector.selectRequest();
+const selectCurrentUser = authorizeSelector.selectCurrentUser();
 
-export class FindPeopleComponent extends Component<
-    IFindPeopleComponentProps & WithTranslation,
-    IFindPeopleComponentState
-> {
+export function FindPeopleComponent() {
+    const { t } = useTranslation();
+    const classes = useStyles();
+    // Dispatcher
+    const dispatch = useDispatch();
+    const loadPeople = (page: number, limit: number) => dispatch(userActions.dbFetchFindPeople(page, limit));
+    const increasePage = () => dispatch(userActions.increaseFindPagePeoplePage());
+
+    // Selectors
+    const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
+    const currentUserId = currentUser.get('userId');
+    const hasMorePeople = useSelector((state: Map<string, any>) => selectHasMorePeople(state));
+    const peopleInfo = useSelector((state: Map<string, any>) => selectFindPeople(state));
+    const page = useSelector((state: Map<string, any>) => selectPage(state));
+    const requestId = StringAPI.createServerRequestId(ServerRequestType.UserFetchRequest, currentUserId);
+    const findRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId }));
+    const findRequestStatus: ServerRequestStatusType = findRequest.get('status', ServerRequestStatusType.NoAction);
+
     /**
-     * Fields
+     * Load more
      */
-    nextPage = 0;
-
-    /**
-     * Component constructor
-     *
-     */
-    constructor(props: IFindPeopleComponentProps & WithTranslation) {
-        super(props);
-
-        // Defaul state
-        this.state = {};
-    }
-
-    /**
-     * Scroll loader
-     */
-    scrollLoad = () => {
-        const { loadPeople, page, increasePage } = this.props;
-        if (loadPeople && page !== undefined && loadPeople && increasePage) {
+    const loadMore = () => {
+        if (page !== undefined) {
             loadPeople(page, 10);
             increasePage();
         }
     };
 
-    componentDidMount() {
-        this.scrollLoad();
-    }
+    const loading = findRequestStatus === ServerRequestStatusType.Sent;
+    const [sentryRef] = useInfiniteScroll({
+        loading,
+        hasNextPage: hasMorePeople,
+        onLoadMore: loadMore,
+        // When there is an error, we stop infinite loading.
+        // It can be reactivated by setting "error" state as undefined.
+        disabled: false,
+        // `rootMargin` is passed to `IntersectionObserver`.
+        // We can use it to trigger 'onLoadMore' when the sentry comes near to become
+        // visible, instead of becoming fully visible on the screen.
+        rootMargin: '0px 0px 400px 0px',
+    });
 
-    /**
-     * Reneder component DOM
-     *
-     */
-    render() {
-        const { hasMorePeople, t } = this.props;
-        const peopleInfo = throwNoValue(this.props.peopleInfo, 'this.props.peopleInfo');
-        if (!t) {
-            return <div />;
-        }
-        return (
-            <div>
-                <InfiniteScroll
-                    dataLength={peopleInfo ? peopleInfo.count() : 0}
-                    next={this.scrollLoad}
-                    hasMore={hasMorePeople || false}
-                    endMessage={<p style={{ textAlign: 'center' }}></p>}
-                    loader={<LoadMoreProgressComponent key="find-people-load-more-progress" />}
-                >
-                    <div className="tracks">
-                        {peopleInfo && peopleInfo.count() > 0 ? (
-                            <div>
-                                <div className="profile__title">{t('people.suggestionsForYouLabel')}</div>
-                                <UserBoxList users={peopleInfo} />
-                                <div style={{ height: '24px' }}></div>
-                            </div>
-                        ) : (
-                            <div className="g__title-center">{t('people.nothingToShowLabel')}</div>
-                        )}
-                    </div>
-                </InfiniteScroll>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <div className="profile__title">{t('people.suggestionsForYouLabel')}</div>
+            {peopleInfo && peopleInfo.count() > 0 ? (
+                <div>
+                    <UserBoxList users={peopleInfo} />
+                    <div style={{ height: '24px' }}></div>
+                </div>
+            ) : (
+                <div className="g__title-center">{t('people.nothingToShowLabel')}</div>
+            )}
+
+            {(loading || hasMorePeople) && (
+                <div ref={sentryRef} className={classes.skeletonRoot}>
+                    <UserBoxSkeleton />
+                    <UserBoxSkeleton />
+                    <UserBoxSkeleton />
+                </div>
+            )}
+        </div>
+    );
 }
 
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(FindPeopleComponent);
-
-export default connectFindPeople(translateWrapper as any);
+export default FindPeopleComponent;

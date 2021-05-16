@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 import React from 'react';
-import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -17,57 +17,56 @@ export const AntTabs = withStyles({
     },
 })(Tabs);
 
-export const AntTab = withStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            textTransform: 'none',
-            maxWidth: 264,
-            minWidth: 72,
-            position: 'relative',
-            flexShrink: 0,
-            minHeight: '48px',
-            padding: '0px',
-            fontWeight: theme.typography.fontWeightRegular,
-            marginRight: theme.spacing(4),
-            fontFamily: [
-                '-apple-system',
-                'BlinkMacSystemFont',
-                '"Segoe UI"',
-                'Roboto',
-                '"Helvetica Neue"',
-                'Arial',
-                'sans-serif',
-                '"Apple Color Emoji"',
-                '"Segoe UI Emoji"',
-                '"Segoe UI Symbol"',
-            ].join(','),
-            '&:hover': {
-                color: '#40a9ff',
-                opacity: 1,
-            },
-            '&$selected': {
-                color: '#1890ff',
-                fontWeight: theme.typography.fontWeightMedium,
-            },
-            '&:focus': {
-                color: '#40a9ff',
-            },
+export const AntTab = withStyles((theme: Theme) => ({
+    root: {
+        textTransform: 'none',
+        maxWidth: 264,
+        minWidth: 72,
+        position: 'relative',
+        flexShrink: 0,
+        'min-height': '48px !important',
+        padding: '0px',
+        fontWeight: theme.typography.fontWeightRegular,
+        marginRight: theme.spacing(4),
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+        '&:hover': {
+            color: '#40a9ff',
+            opacity: 1,
         },
-        selected: {},
-        wrapper: {
-            flexDirection: 'row',
-            whiteSpace: 'nowrap',
-            '&> *:first-child': {
-                marginBottom: '0 !important',
-                marginRight: 8,
-            },
+        '&$selected': {
+            color: '#1890ff',
+            fontWeight: theme.typography.fontWeightMedium,
         },
-    }),
-)((props: StyledTabProps & { icon?: string | React.ReactElement }) => <Tab disableRipple {...props} />);
+        '&:focus': {
+            color: '#40a9ff',
+        },
+    },
+    selected: {},
+    wrapper: {
+        'flex-direction': 'row !important',
+        whiteSpace: 'nowrap',
+        '&> *:first-of-type': {
+            marginBottom: '0 !important',
+            marginRight: 8,
+        },
+    },
+}))((props: StyledTabProps & { icon?: string | React.ReactElement }) => <Tab disableRipple {...props} />);
 
 interface StyledTabsProps {
     value: number;
-    onChange: (event: React.ChangeEvent<{}>, newValue: number) => void;
+    onChange: (event: React.SyntheticEvent, newValue: number) => void;
+    children: React.ReactNode;
 }
 
 const StyledTabs = withStyles({
@@ -87,20 +86,18 @@ interface StyledTabProps {
     label: string;
 }
 
-const StyledTab = withStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            textTransform: 'none',
-            color: '#fff',
-            fontWeight: theme.typography.fontWeightRegular,
-            fontSize: theme.typography.pxToRem(15),
-            marginRight: theme.spacing(1),
-            '&:focus': {
-                opacity: 1,
-            },
+const StyledTab = withStyles((theme: Theme) => ({
+    root: {
+        textTransform: 'none',
+        color: '#fff',
+        fontWeight: theme.typography.fontWeightRegular,
+        fontSize: theme.typography.pxToRem(15),
+        marginRight: theme.spacing(1),
+        '&:focus': {
+            opacity: 1,
         },
-    }),
-)((props: StyledTabProps) => <Tab disableRipple {...props} />);
+    },
+}))((props: StyledTabProps) => <Tab disableRipple {...props} />);
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -121,7 +118,7 @@ export default function CustomizedTabs() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
-    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 

@@ -1,4 +1,3 @@
-// - Import react components
 import FormControl from '@material-ui/core/FormControl';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
@@ -9,10 +8,9 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Popover from '@material-ui/core/Popover';
-import BackIcon from '@material-ui/icons/ArrowBack';
 import CloseIcon from '@material-ui/icons/Close';
 import SendIcon from '@material-ui/icons/Send';
-import EmojiIcon from '@material-ui/icons/SentimentSatisfied';
+import EmojiIcon from '@material-ui/icons/EmojiEmotionsOutlined';
 import classNames from 'classnames';
 import ChatBodyComponent from 'components/chatBody/ChatBodyComponent';
 import ChatRoomSettingComponent from 'components/chatRoomSetting/ChatRoomSettingComponent';
@@ -35,9 +33,6 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import { connectChat } from './connectChat';
 import { Map } from 'immutable';
 
-/**
- * Create component class
- */
 export class ChatComponent extends Component<IChatProps & WithTranslation, IChatState> {
     /**
      * Component constructor
@@ -429,9 +424,6 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
 
         const userItem = (
             <ListItem className={classNames(classes.userItem, classes.receiverUserItem)}>
-                <IconButton className={classes.header}>
-                    <BackIcon />
-                </IconButton>
                 <div className={classes.avatarRoot}>
                     <ListItemAvatar>
                         <UserAvatar
@@ -503,9 +495,6 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
                                 disableUnderline
                                 fullWidth
                                 value={messageText}
-                                multiline
-                                rows={1}
-                                rowsMax={4}
                                 onKeyDown={this.handleKeyPress}
                                 onChange={this.handleChange('messageText')}
                                 endAdornment={

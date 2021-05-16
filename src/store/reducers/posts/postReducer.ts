@@ -1,4 +1,4 @@
-// - Import react components
+
 import { PostActionType } from 'constants/postActionType';
 import { Map } from 'immutable';
 

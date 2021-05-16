@@ -1,5 +1,3 @@
-// - Import external components
-import { routerMiddleware } from 'connected-react-router/immutable';
 import { createBrowserHistory } from 'history';
 import { fromJS, Map } from 'immutable';
 import jwtDecode from 'jwt-decode';
@@ -43,9 +41,9 @@ const composeEnhancers = composeWithDevTools({
     // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
 });
 const store: Store<any> = createStore(
-    rootReducer(history),
+    rootReducer(),
     fromJS(initialState),
-    composeEnhancers(applyMiddleware(logger, thunk, routerMiddleware(history), sagaMiddleware), cacheEnhancer()),
+    composeEnhancers(applyMiddleware(logger, thunk, sagaMiddleware), cacheEnhancer()),
 );
 
 export default { store, runSaga: sagaMiddleware.run, close: () => store.dispatch(END), history };

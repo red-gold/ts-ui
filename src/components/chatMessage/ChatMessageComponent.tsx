@@ -1,4 +1,4 @@
-// - Import react components
+
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
@@ -19,9 +19,6 @@ const emojiOptions = {
     },
 };
 
-/**
- * Create component class
- */
 export class ChatMessageComponent extends Component<IChatMessageProps & WithTranslation, IChatMessageState> {
     /**
      * Component constructor

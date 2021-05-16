@@ -1,4 +1,3 @@
-// - Import react components
 import { useTheme } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import React from 'react';
@@ -10,7 +9,7 @@ export function UserAvatarComponent(props: IUserAvatarProps) {
     const { fileName, fullName, style, size, onClick, className } = props;
 
     return (
-        <div style={{ display: 'inherit' }}>
+        <>
             {fileName && fileName !== '' && fileName !== 'noImage' ? (
                 <Avatar
                     variant="rounded"
@@ -34,7 +33,7 @@ export function UserAvatarComponent(props: IUserAvatarProps) {
                     {fullName ? fullName.slice(0, 1) : ''}
                 </Avatar>
             )}
-        </div>
+        </>
     );
 }
 export default UserAvatarComponent;

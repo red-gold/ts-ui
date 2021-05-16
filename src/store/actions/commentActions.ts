@@ -1,7 +1,5 @@
-// - Import react components
 import { CommentActionType } from 'constants/commentActionType';
 import { Map } from 'immutable';
-import { Comment } from 'core/domain/comments/comment';
 
 /* _____________ CRUD DB _____________ */
 
@@ -18,10 +16,10 @@ export const dbAddComment = (newComment: Map<string, any>): any => {
 /**
  * Get all comments from database
  */
-export const dbFetchComments = (ownerUserId: string, postId: string, page: number, limit: number): any => {
+export const dbFetchComments = (postId: string, page: number, limit: number): any => {
     return {
         type: CommentActionType.DB_FETCH_COMMENTS,
-        payload: { postId, ownerUserId, page, limit },
+        payload: { postId, page, limit },
     };
 };
 

@@ -1,4 +1,7 @@
-export const searchBoxStyles = (theme: any) => ({
+import { Theme } from '@material-ui/core/styles';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+
+export const useStyles = makeStyles((theme: Theme) => ({
     root: {
         backgroundColor: '#a5792a',
     },
@@ -16,21 +19,20 @@ export const searchBoxStyles = (theme: any) => ({
     },
     searchInput: {
         backgroundColor: 'rgba(255, 255, 255, 0.15)',
-        color: theme.palette.common.white,
+        color: theme.palette.common.white + ' !important',
         padding: 5,
         borderRadius: 4,
     },
     searchField: {
-        marginLeft: 20,
+        'margin-left': '20px !important',
         maxWidth: 720,
     },
     searchIcon: {
         marginLeft: 0,
         marginRight: 9,
-    },
-    searchButton: {
         color: theme.palette.common.white,
     },
+    searchButton: {},
     searchItemIcon: {
         width: 18,
         height: 18,
@@ -76,4 +78,4 @@ export const searchBoxStyles = (theme: any) => ({
     noDisplay: {
         display: 'none',
     },
-});
+}));

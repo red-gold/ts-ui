@@ -1,5 +1,4 @@
 import { AuthAPI } from 'api/AuthAPI';
-import { push } from 'connected-react-router';
 import { AuthorizeActionType } from 'constants/authorizeActionType';
 import { OAuthType } from 'core/domain/authorize/oauthType';
 import { LoginUser } from 'core/domain/authorize/loginUser';
@@ -14,13 +13,6 @@ import * as globalActions from 'store/actions/globalActions';
 import * as serverActions from 'store/actions/serverActions';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import config from 'config';
-
-// - Import react components
-// -Import domain
-// - Import action types
-// - Import services
-// - Import actions
-/* _____________ CRUD State _____________ */
 
 /**
  * Loing user
@@ -152,7 +144,7 @@ export const dbLogin = (email: string, password: string) => {
 
                 dispatch(globalActions.showNotificationSuccess());
                 dispatch(login(result));
-                dispatch(push('/'));
+                //dispatch(push('/'));
             },
             (error: SocialError) => {
                 loginRequest.status = ServerRequestStatusType.Error;
@@ -187,7 +179,7 @@ export const dbSendEmailVerfication = (value: any) => {
             .then(() => {
                 // Send email verification successful.
                 dispatch(globalActions.showNotificationSuccess());
-                dispatch(push('/'));
+                // dispatch(push('/'));
             })
             .catch((error: SocialError) => {
                 // An error happened.
@@ -238,7 +230,7 @@ export const dbResetPassword = (email: string) => {
             .then(() => {
                 // Reset password successful.
                 dispatch(globalActions.showNotificationSuccess());
-                dispatch(push('/login'));
+                // dispatch(push('/login'));
             })
             .catch((error: SocialError) => {
                 // An error happened.
@@ -260,7 +252,7 @@ export const dbLoginWithOAuth = (type: OAuthType) => {
                 // Send email verification successful.
                 dispatch(globalActions.showNotificationSuccess());
                 dispatch(login(result));
-                dispatch(push('/'));
+                // dispatch(push('/'));
             })
             .catch((error: SocialError) => {
                 // An error happened.

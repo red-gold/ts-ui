@@ -1,4 +1,4 @@
-// - Import react components
+
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -11,7 +11,6 @@ import { ActiveTabType } from 'components/ProfileAlbum/activeTabType';
 import AlbumStreamComponent from 'containers/albumStream';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { withRouter } from 'react-router';
 import uuid from 'uuid';
 
 import { connectProfileAlbum } from './connectProfileAlbum';
@@ -111,10 +110,6 @@ export class ProfileAlbumComponent extends Component<IProfileAlbumProps & WithTr
         this.loadData();
     }
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { t, classes, albumDialogOpen, progress, posts, isOwner, hasMoreAlbum, userId } = this.props;
         const { activeTab } = this.state;
@@ -186,7 +181,7 @@ export class ProfileAlbumComponent extends Component<IProfileAlbumProps & WithTr
 
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(ProfileAlbumComponent);
-const routerWrapper = withRouter<any, any>(
-    connectProfileAlbum(withStyles(profileAlbumStyles as any, { withTheme: true })(translateWrapper as any) as any),
-) as any;
-export default routerWrapper as typeof ProfileAlbumComponent;
+const routerWrapper = connectProfileAlbum(
+    withStyles(profileAlbumStyles as any, { withTheme: true })(translateWrapper as any) as any,
+);
+export default routerWrapper;

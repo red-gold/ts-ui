@@ -1,139 +1,106 @@
-// - Import react components
+import { makeStyles } from '@material-ui/core';
 import SvgImage from '@material-ui/icons/Image';
-import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
+import classNames from 'classnames';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { IImgCoverProps } from './IImgCoverProps';
 
-import { IImgCoverComponentProps } from './IImgCoverComponentProps';
-import { IImgCoverComponentState } from './IImgCoverComponentState';
+const useStyles = makeStyles(() => ({
+    cover: {
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'top center',
+    },
+    loading: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '100px',
+        fontWeight: 400,
+        minHeight: 384,
+        backgroundImage: 'url(https://source.unsplash.com/Q7PclNhVRI0)',
+        backgroundPosition: 'bottom',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+    },
+    loadingContent: {
+        width: '100%',
+        height: '288px',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loadingImage: {
+        width: '50px',
+        height: '50px',
+        background: 'rgba(255, 255, 255, 0.2)',
+        backdropFilter: 'blur(8px)',
+    },
+    noDisplay: {
+        display: 'none',
+    },
+}));
+export function ImgCoverComponent(props: IImgCoverProps) {
+    const { t } = useTranslation();
+    const classes = useStyles();
 
-// - Import app components
-
-// - Import API
-
-// - Import actions
-/**
- * Create component class
- */
-export class ImgCoverComponent extends Component<IImgCoverComponentProps & WithTranslation, IImgCoverComponentState> {
-    styles = {
-        cover: {
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'top center',
-        },
-        loding: {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            height: '100px',
-            position: 'relative',
-            fontWeight: 400,
-        },
-        loadingContent: {
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-        },
-        loadingImage: {
-            width: '50px',
-            height: '50px',
-        },
-    };
-
-    /**
-     * Component constructor
-     */
-    constructor(props: IImgCoverComponentProps & WithTranslation) {
-        super(props);
-
-        // Defaul state
-        this.state = {
-            isImageLoaded: false,
-        };
-
-        // Binding functions to `this`
-        this.handleLoadImage = this.handleLoadImage.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-    }
+    const [isImageLoaded, setIsImageLoaded] = React.useState(false);
 
     /**
      * Will be called on loading image
      */
-    handleLoadImage = () => {
-        this.setState({
-            isImageLoaded: true,
-        });
+    const handleLoadImage = () => {
+        setIsImageLoaded(true);
     };
 
     /**
      * Handle click
      */
-    handleClick = (event: any) => {
-        const { onClick } = this.props;
+    const handleClick = (event: any) => {
+        const { onClick } = props;
         if (onClick) {
             onClick(event);
         }
     };
 
-    /**
-     * Reneder component DOM
-     */
-    render() {
-        const { src, style, t, className } = this.props;
-        const { isImageLoaded } = this.state;
+    const { src, style, className } = props;
 
-        return (
-            <div>
-                <div
-                    onClick={this.handleClick}
-                    className={className}
-                    style={
-                        !isImageLoaded
-                            ? { display: 'none' }
-                            : (Object.assign(
-                                  {},
-                                  this.styles.cover,
-                                  {
-                                      backgroundImage: 'url(' + (src || '') + ')',
-                                      width: this.props.width,
-                                      height: this.props.height,
-                                      borderRadius: this.props.borderRadius,
-                                  },
-                                  style,
-                              ) as any)
-                    }
-                >
-                    {this.props.children}
-                </div>
-                <div style={isImageLoaded ? { display: 'none' } : (this.styles.loding as any)}>
-                    <div style={this.styles.loadingContent as any}>
-                        <SvgImage style={this.styles.loadingImage} />
-                        <div>{t('image.notLoaded')}</div>
-                    </div>
-                </div>
-                <img alt="..." onLoad={this.handleLoadImage} src={src || ''} style={{ display: 'none' }} />
+    return (
+        <>
+            <div
+                onClick={handleClick}
+                className={classNames(className, { [classes.cover]: isImageLoaded })}
+                style={
+                    !isImageLoaded
+                        ? { display: 'none' }
+                        : (Object.assign(
+                              {},
+                              {
+                                  backgroundImage: 'url(' + (src || 'https://picsum.photos/id/41/900/300/?blur') + ')',
+                                  width: props.width,
+                                  height: props.height,
+                                  borderRadius: props.borderRadius || 20,
+                              },
+                              style,
+                          ) as any)
+                }
+            >
+                {props.children}
             </div>
-        );
-    }
+            <div
+                className={classNames({ [classes.noDisplay]: isImageLoaded, [classes.loading]: !isImageLoaded })}
+                style={{ borderRadius: props.borderRadius || 20 }}
+            ></div>
+            <img
+                alt="..."
+                onLoad={handleLoadImage}
+                src={src || 'https://picsum.photos/id/41/900/300/?blur'}
+                style={{ display: 'none' }}
+            />
+        </>
+    );
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = () => {
-    return {};
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = () => {
-    return {};
-};
-
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(ImgCoverComponent);
-
-export default connect<{}, {}, any, any>(mapStateToProps, mapDispatchToProps)(translateWrapper);
+export default ImgCoverComponent;

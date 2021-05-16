@@ -1,12 +1,7 @@
-// - Import react components
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import SvgCamera from '@material-ui/icons/PhotoCamera';
 import ImageEditor from 'components/ImageEditor';
@@ -18,7 +13,6 @@ import moment from 'moment/moment';
 import React, { Component } from 'react';
 import { WithTranslation } from 'react-i18next';
 import config from 'config';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { IEditProfileProps } from './IEditProfileProps';
 import { IEditProfileState } from './IEditProfileState';
 import { connectEditProfile } from './connectEditProfile';
@@ -283,16 +277,12 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
     /**
      * Handle birthday date changed
      */
-    handleBirthdayDateChange = (date: MaterialUiPickersDate) => {
+    handleBirthdayDateChange = (date: any) => {
         this.setState({ selectedBirthday: date });
     };
 
     componentDidMount() {}
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes, t, coverImages, avatarImages, currentUser } = this.props;
         const {
@@ -367,28 +357,29 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
 
                         {/* Edit user information box*/}
                         <div className={classes.box}>
-                            <FormControl fullWidth aria-describedby="fullNameInputError">
-                                <InputLabel htmlFor="fullNameInput">{t('profile.fullName')}</InputLabel>
-                                <Input
-                                    id="fullNameInput"
-                                    onChange={this.handleInputChange}
-                                    name="fullNameInput"
-                                    value={this.state.fullNameInput}
-                                />
-                                <FormHelperText id="fullNameInputError">{this.state.fullNameInputError}</FormHelperText>
-                            </FormControl>
+                            <TextField
+                                error={!!this.state.fullNameInputError}
+                                id="fullNameInput"
+                                label={t('profile.fullName')}
+                                onChange={this.handleInputChange}
+                                name="fullNameInput"
+                                value={this.state.fullNameInput}
+                                fullWidth
+                                helperText={this.state.fullNameInputError}
+                            />
                         </div>
                         <div className={classes.box}>
-                            <FormControl fullWidth aria-describedby="tagLineInputError">
-                                <InputLabel htmlFor="tagLineInput">{t('profile.tagline')}</InputLabel>
-                                <Input
-                                    id="tagLineInput"
-                                    onChange={this.handleInputChange}
-                                    name="tagLineInput"
-                                    value={this.state.tagLineInput}
-                                />
-                                <FormHelperText id="tagLineInputError">{this.state.fullNameInputError}</FormHelperText>
-                            </FormControl>
+                            <TextField
+                                id="tagLineInput"
+                                label={t('profile.bio')}
+                                onChange={this.handleInputChange}
+                                name="tagLineInput"
+                                value={this.state.tagLineInput}
+                                multiline
+                                maxRows={3}
+                                fullWidth
+                                helperText={this.state.fullNameInputError}
+                            />
                         </div>
                         <div className={classes.box}>
                             <TextField

@@ -16,7 +16,7 @@ export const albumStreamStyles = (theme: any) => ({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    gridList: {
+    ImageList: {
         overflow: 'unset',
         margin: '0 !important',
     },

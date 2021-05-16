@@ -1,4 +1,3 @@
-// - Import external components
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
@@ -11,7 +10,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import classnames from 'classnames';
 import Captcha from 'components/recaptcha';
-import { push } from 'connected-react-router';
 import { LoginUser } from 'core/domain/authorize/loginUser';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
@@ -19,7 +17,6 @@ import Footer from 'layouts/footer';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { provider } from 'socialEngine';
 import config from 'config';
 import * as authorizeActions from 'store/actions/authorizeActions';
@@ -33,19 +30,13 @@ import { resetPasswordStyles } from './resetPasswordStyles';
 // - Material UI
 // - Components
 // - Import actions
-/**
- * Create component class
- */
+
 export class ResetPasswordComponent extends Component<
     IResetPasswordComponentProps & WithTranslation,
     IResetPasswordComponentState
 > {
     _authorizeService: IAuthorizeService;
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IResetPasswordComponentProps & WithTranslation) {
         super(props);
         this._authorizeService = provider.get<IAuthorizeService>(SocialProviderTypes.AuthorizeService);
@@ -204,10 +195,6 @@ export class ResetPasswordComponent extends Component<
         this.handleReset();
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes, t, logout } = this.props;
         const {
@@ -361,8 +348,12 @@ export class ResetPasswordComponent extends Component<
 const mapDispatchToProps = (dispatch: Function) => {
     return {
         logout: () => dispatch(authorizeActions.dbLogout()),
-        home: () => dispatch(push('/')),
-        updatePassword: () => dispatch(push('/newPassword')),
+        home: () => {
+            location.href = '/';
+        },
+        updatePassword: () => {
+            location.href = '/newPassword';
+        },
         showMessage: (message: string) => dispatch(globalActions.showMessage(message)),
         login: (user: LoginUser) => dispatch(authorizeActions.login(user)),
     };
@@ -378,9 +369,7 @@ const mapStateToProps = () => {
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(ResetPasswordComponent);
 
-export default withRouter<any, any>(
-    connect<{}, {}, any, any>(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(withStyles(resetPasswordStyles as any)(translateWrapper as any)),
-);
+export default connect<{}, {}, any, any>(
+    mapStateToProps,
+    mapDispatchToProps,
+)(withStyles(resetPasswordStyles as any)(translateWrapper as any));

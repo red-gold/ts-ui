@@ -1,4 +1,4 @@
-// - Import react components
+
 import React, { Component } from 'react';
 
 // - Material-UI
@@ -10,9 +10,6 @@ import { activityProgressStyles } from './activityProgressStyles';
 import { IActivityProgressComponentProps } from './IActivityProgressComponentProps';
 import { IActivityProgressComponentState } from './IActivityProgressComponentState';
 
-/**
- * Create component class
- */
 export class ActivityProgressComponent extends Component<
     IActivityProgressComponentProps,
     IActivityProgressComponentState

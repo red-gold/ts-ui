@@ -1,11 +1,11 @@
-export const bountyBoxStyles = (theme: any) => ({
-    paper: theme.mixins.gutters({
+export const bountyBoxStyles = () => ({
+    paper: {
         padding: 20,
         height: 160,
         position: 'relative',
         width: '100%',
         minWidth: 200,
-    }),
+    },
 
     bigAvatar: {
         width: 30,

@@ -4,14 +4,14 @@
 // https://opensource.org/licenses/MIT
 
 import React, { useEffect } from 'react';
-import GridList from '@material-ui/core/GridList';
+import ImageList from '@material-ui/core/ImageList';
 import Button from '@material-ui/core/Button';
 import { useStyles } from './galleryStyles';
 import { IGalleryProps } from './IGalleryProps';
 import { connectGallery } from './connectGallery';
 import config from 'config';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ImageListItem from '@material-ui/core/ImageListItem';
+import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/DeleteSweep';
 import SelectIcon from '@material-ui/icons/CheckCircle';
@@ -22,11 +22,17 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 
-/**
- * The example data is structured as follows:
- *
- */
+const CustomIconButton = styled(IconButton)({
+    color: '#fffffff5',
+    background: '#5454547d',
+    padding: 6,
+    margin: 5,
+    fontSize: '1.2rem',
+    '&:hover, &.Mui-focusVisible': { backgroundColor: '#545454a6' },
+});
+
 export function GalleryComponent(props: IGalleryProps & WithTranslation) {
     const { loadImageGallery, gallery, t, uploadRequestStatus } = props;
     const classes = useStyles();
@@ -98,39 +104,42 @@ export function GalleryComponent(props: IGalleryProps & WithTranslation) {
             const elmTiles: any[] = [];
             tiles.forEach((tile) =>
                 elmTiles.push(
-                    <GridListTile classes={{ tile: classes.tile }} key={tile.get('objectId')}>
+                    <ImageListItem
+                        key={tile.get('objectId')}
+                        sx={{ border: '1px solid #0000001a', borderRadius: 1.3, overflow: 'hidden' }}
+                    >
                         <img src={tile.get('url')} alt={tile.get('fileName')} />
-                        <GridListTileBar
-                            titlePosition="top"
-                            className={classes.titleBar}
+                        <ImageListItemBar
+                            position="top"
+                            sx={{ background: 'none' }}
                             actionIcon={
                                 <>
-                                    <IconButton
+                                    <CustomIconButton
                                         onClick={(evt) =>
                                             handleDeleteImage(evt, tile.get('objectId'), tile.get('fileName'))
                                         }
                                         aria-label={`info about ${dir}`}
                                         className={classes.icon}
                                     >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                    <IconButton
+                                        <DeleteIcon fontSize="inherit" />
+                                    </CustomIconButton>
+                                    <CustomIconButton
                                         onClick={(evt) => handleSetImage(evt, tile.get('url'))}
                                         aria-label={`info about ${dir}`}
                                         className={classes.icon}
                                     >
-                                        <SelectIcon />
-                                    </IconButton>
+                                        <SelectIcon fontSize="inherit" />
+                                    </CustomIconButton>
                                 </>
                             }
                         />
-                    </GridListTile>,
+                    </ImageListItem>,
                 ),
             );
             elmList.push(
-                <GridList cellHeight={180} cols={3} className={classes.gridList}>
+                <ImageList cols={3} rowHeight={164}>
                     {elmTiles}
-                </GridList>,
+                </ImageList>,
             );
         });
         return elmList;

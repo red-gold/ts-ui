@@ -1,4 +1,3 @@
-// - Import react components
 import { UserActionType } from 'constants/userActionType';
 import { Map } from 'immutable';
 import { SocialError } from 'core/domain/common/socialError';

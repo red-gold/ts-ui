@@ -1,4 +1,4 @@
-// - Import react components
+
 import List from '@material-ui/core/List';
 import CircleComponent from 'components/circle/CircleComponent';
 import { Map } from 'immutable';
@@ -14,19 +14,12 @@ import { IYourCirclesComponentState } from './IYourCirclesComponentState';
 
 // - Import actions
 
-/**
- * Create component class
- */
 export class YourCirclesComponent extends Component<
     IYourCirclesComponentProps & WithTranslation,
     IYourCirclesComponentState
 > {
     static propTypes = {};
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IYourCirclesComponentProps & WithTranslation) {
         super(props);
 
@@ -50,10 +43,6 @@ export class YourCirclesComponent extends Component<
         return parsedCircles;
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { t } = this.props;
         const circleItems = this.circleList();

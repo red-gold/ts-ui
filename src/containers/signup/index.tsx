@@ -1,16 +1,14 @@
-// - Import react components
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { push } from 'connected-react-router';
 import { Map } from 'immutable';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import StringAPI from 'api/StringAPI';
 import RecaptchaComponent from 'components/recaptcha';
 import { ServerRequestType } from 'constants/serverRequestType';
@@ -23,16 +21,7 @@ import { ISignupComponentProps } from './ISignupComponentProps';
 import { ISignupComponentState } from './ISignupComponentState';
 import { signupStyles } from './signupStyles';
 
-// - Components
-
-// - Import actions
-// - Import app API
-// - Create Signup component class
 export class SignupComponent extends Component<ISignupComponentProps & WithTranslation, ISignupComponentState> {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: ISignupComponentProps & WithTranslation) {
         super(props);
 
@@ -189,10 +178,6 @@ export class SignupComponent extends Component<ISignupComponentProps & WithTrans
         }
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes, t, signupRequest } = this.props;
         const { emailInput } = this.state;
@@ -302,7 +287,7 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(authorizeActions.fetchUserRegisterToken(userRegister, captchaVerifier));
         },
         loginPage: () => {
-            dispatch(push('/login'));
+            location.href = '/login';
         },
     };
 };
@@ -320,9 +305,7 @@ const mapStateToProps = (state: Map<string, any>) => {
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(SignupComponent);
 
-export default withRouter(
-    connect<{}, {}, any, any>(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(withStyles(signupStyles as any)(translateWrapper as any) as any) as any,
-);
+export default connect<{}, {}, any, any>(
+    mapStateToProps,
+    mapDispatchToProps,
+)(withStyles(signupStyles as any)(translateWrapper as any) as any);

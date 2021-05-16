@@ -1,4 +1,4 @@
-// - Import react components
+
 import { SocialError } from 'core/domain/common/socialError';
 import { Vote } from 'core/domain/votes/vote';
 import { IVoteService } from 'core/services/votes/IVoteService';

@@ -1,61 +1,64 @@
-// - Import react components
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import classNames from 'classnames';
 import ChatComponent from 'components/chat/ChatComponent';
-import React, { Component } from 'react';
+import React from 'react';
 import CookieConsent from 'react-cookie-consent';
-import { WithTranslation } from 'react-i18next';
-import IdleTimer from 'react-idle-timer';
-import TelarTextLogo from 'layouts/telarTextLogo';
-import { NavLink } from 'react-router-dom';
-import { HomeRouter } from 'routes/HomeRouter';
+import { useIdleTimer } from 'react-idle-timer';
+import { Outlet } from 'react-router-dom';
 import HomeHeader from 'components/homeHeader/HomeHeaderComponent';
 import Typography from '@material-ui/core/Typography';
-
-import { IHomeProps } from './IHomeProps';
-import { IHomeState } from './IHomeState';
+import { chatSelector } from 'store/reducers/chat/chatSelector';
+import * as chatActions from 'store/actions/chatActions';
 import { menuItems } from './menuItems';
 import { log } from 'utils/log';
-import { connectHome } from './connectHome';
 import { addNotifyAudio } from 'utils/audio';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { Map, List } from 'immutable';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { useStyles } from './homeStyles';
+import useTheme from '@material-ui/core/styles/useTheme';
+import { Theme } from '@material-ui/core/styles/createTheme';
+import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
+import NavItem from 'components/navItem';
+import TelarSocialLogo from 'layouts/telarSocialLogo';
 
-export class HomeComponent extends Component<IHomeProps & WithTranslation, IHomeState> {
-    idleTimer: any;
-    /**
-     * Portal Container
-     */
-    container: any = null;
+const selectCurrentUser = authorizeSelector.selectCurrentUser();
+const selectChatOpen = chatSelector.selectChatOpen();
+const selectActiveRooms = chatSelector.selectActiveRooms();
 
-    // Constructor
-    constructor(props: IHomeProps & WithTranslation) {
-        super(props);
-        this.idleTimer = React.createRef();
+export function HomeComponent() {
+    const [drawerOpen, setDrawerOpen] = React.useState(true);
 
-        // Default state
-        this.state = {
-            drawerOpen: false,
-        };
+    const { t } = useTranslation();
+    const classes = useStyles();
+    const theme = useTheme();
+    const mdUpHidden = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+    const smDownHidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-        // Binding function to `this`
-        this.toggleChat = this.toggleChat.bind(this);
-        this.onActive = this.onActive.bind(this);
-        this.onIdle = this.onIdle.bind(this);
-    }
+    // Dispatcher
+    const dispatch = useDispatch();
+    const openChat = () => dispatch(chatActions.openRoom(''));
+    const closeChat = () => dispatch(chatActions.closeChat());
+
+    // Selectors
+    const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
+    const isChatOpen: boolean = useSelector((state: Map<string, any>) => selectChatOpen(state));
+    const activeRooms = useSelector((state: Map<string, any>) => selectActiveRooms(state)) as List<Map<string, any>>;
 
     /**
      * Handle drawer toggle
      */
-    handleDrawerToggle = () => {
-        this.setState({ drawerOpen: !this.state.drawerOpen });
+    const handleDrawerToggle = () => {
+        setDrawerOpen(!drawerOpen);
     };
 
-    componentDidMount() {
+    React.useEffect(() => {
         window.addEventListener(
             'click',
             () => {
@@ -63,171 +66,150 @@ export class HomeComponent extends Component<IHomeProps & WithTranslation, IHome
             },
             { once: true },
         );
-    }
+    }, []);
 
     /**
      * Toggle chat window to open/close
      */
-    toggleChat() {
-        const { isChatOpen, openChat, closeChat } = this.props;
+    const toggleChat = () => {
         if (isChatOpen) {
             closeChat();
         } else {
             openChat();
         }
-    }
+    };
 
-    onActive() {
-        log.info('time remaining', this.idleTimer.current.getRemainingTime());
-    }
+    const handleOnIdle = () => {
+        log.info('last active', getLastActiveTime());
+    };
 
-    onIdle() {
-        log.info('last active', this.idleTimer.current.getLastActiveTime());
-    }
+    const handleOnActive = () => {
+        log.info('time remaining', getRemainingTime());
+    };
 
-    /**
-     * Render DOM component
-     */
-    render() {
-        const HR = HomeRouter;
-        const { loaded, authed, t, classes, theme, activeRooms, currentUser } = this.props;
-        const { drawerOpen } = this.state;
-        if (!currentUser || !currentUser.get('userId')) {
-            return <div />;
-        }
-        const drawer = (
-            <div>
-                {menuItems(currentUser.get('userId'), t).map((item: any, index) => {
-                    if (item.path) {
-                        return (
-                            <NavLink key={`home-menu-${index}`} to={item.path}>
-                                <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
-                                    <ListItemIcon>{item.icon}</ListItemIcon>
-                                    <ListItemText key={`home-menu-${index}`} primary={item.label} />
-                                </MenuItem>
-                            </NavLink>
-                        );
-                    } else if (item.onClick) {
-                        return (
-                            <MenuItem
-                                key={`home-menu-${index}`}
-                                onClick={item.onClick}
-                                style={{ color: 'rgb(117, 117, 117)' }}
-                            >
-                                <ListItemIcon>{item.icon}</ListItemIcon>
-                                <ListItemText primary={item.label} />
-                            </MenuItem>
-                        );
-                    } else {
-                        return <Divider key={`home-menu-divider${index}`} />;
-                    }
-                })}
-                <div className={classes.info}>
-                    <Typography className={classes.pos} color="textSecondary">
-                        What do you think about Telar Social? Please share with us{' '}
-                        <a href="https://github.com/Qolzam/feedback/issues/5" target="blank">
-                            here
-                        </a>
-                        . Or join us on{' '}
-                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform">
-                            Slack
-                        </a>
-                        .
-                        <br />
-                        <br />
-                        With <span className={classes.heartSymbol}>❤</span> by{' '}
-                        <a href="https://telar.dev" target="blank">
-                            Telar
-                        </a>
-                    </Typography>
-                </div>
+    const handleOnAction = () => {
+        log.info('user did something!');
+    };
+
+    const { getRemainingTime, getLastActiveTime } = useIdleTimer({
+        timeout: 1000 * 60 * 15,
+        onIdle: handleOnIdle,
+        onActive: handleOnActive,
+        onAction: handleOnAction,
+        debounce: 500,
+    });
+
+    const drawer = (
+        <div>
+            {menuItems(currentUser.get('userId'), t).map((item: any, index) => {
+                if (item.path) {
+                    return (
+                        <NavItem key={`home-nav-item-${index}`} icon={item.icon} href={item.path} title={item.label} />
+                    );
+                } else if (item.onClick) {
+                    return (
+                        <MenuItem
+                            key={`home-menu-${index}`}
+                            onClick={item.onClick}
+                            style={{ color: 'rgb(117, 117, 117)' }}
+                        >
+                            <ListItemIcon>{item.icon}</ListItemIcon>
+                            <ListItemText primary={item.label} />
+                        </MenuItem>
+                    );
+                } else {
+                    return <Divider key={`home-menu-divider${index}`} />;
+                }
+            })}
+            <div className={classes.info}>
+                <Typography color="textSecondary">
+                    What do you think about Telar Social? Please share with us{' '}
+                    <a href="https://github.com/Qolzam/feedback/issues/5" target="blank">
+                        here
+                    </a>
+                    . Or join us on{' '}
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform">
+                        Slack
+                    </a>
+                    .
+                    <br />
+                    <br />
+                    With <span className={classes.heartSymbol}>❤</span> by{' '}
+                    <a href="https://telar.dev" target="blank">
+                        Telar
+                    </a>
+                </Typography>
             </div>
-        );
+        </div>
+    );
 
-        const anchor = theme.direction === 'rtl' ? 'right' : 'left';
-        const mainElement = (
-            <div className={classes.root}>
-                <div className={classes.appFrame}>
-                    <HomeHeader
-                        onToggleDrawer={this.handleDrawerToggle}
-                        onToggleMessenger={this.toggleChat}
-                        drawerStatus={this.state.drawerOpen}
-                    />
-                    <Hidden mdUp>
-                        <Drawer
-                            variant="temporary"
-                            open={this.state.drawerOpen}
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            onClose={this.handleDrawerToggle}
-                            ModalProps={{
-                                keepMounted: true, // Better open performance on mobile.
-                            }}
-                        >
-                            <div>
-                                <div className={classes.drawerHeader}>
-                                    <TelarTextLogo viewBox="0 0 700 100" className={classes.logo} />
-                                </div>
-                                <MenuList style={{ color: 'rgb(117, 117, 117)', paddingTop: '0px' }}>
-                                    <Divider />
-                                    {drawer}
-                                </MenuList>
-                            </div>
-                        </Drawer>
-                    </Hidden>
-                    <Hidden smDown implementation="js">
-                        <Drawer
-                            variant="persistent"
-                            open={this.state.drawerOpen}
-                            classes={{
-                                paper: classes.drawerPaperLarge,
-                            }}
-                        >
-                            <div>
-                                <MenuList className={classes.menu} style={{ color: 'rgb(117, 117, 117)' }}>
-                                    {drawer}
-                                </MenuList>
-                            </div>
-                        </Drawer>
-                    </Hidden>
-                    <main
-                        className={classNames(classes.content, classes[`content-${anchor}`], {
-                            [classes.contentShift]: drawerOpen,
-                            [classes[`contentShift-${anchor}`]]: drawerOpen,
-                        })}
+    const anchor = theme.direction === 'rtl' ? 'right' : 'left';
+    return (
+        <div className={classes.root}>
+            <div className={classes.appFrame}>
+                <HomeHeader
+                    onToggleDrawer={handleDrawerToggle}
+                    onToggleMessenger={toggleChat}
+                    drawerStatus={drawerOpen}
+                />
+                {!mdUpHidden && (
+                    <Drawer
+                        variant="temporary"
+                        open={drawerOpen}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        onClose={handleDrawerToggle}
+                        ModalProps={{
+                            keepMounted: true, // Better open performance on mobile.
+                        }}
                     >
-                        {loaded && authed ? <HR /> : ''}
-                    </main>
-                </div>
-
-                {activeRooms
-                    .map((room) => <ChatComponent key={room.get('objectId')} open={true} room={room} />)
-                    .valueSeq()}
-                <CookieConsent
-                    location="bottom"
-                    buttonText={t('home.cookieConsentButton')}
-                    cookieName="social-consent"
-                    style={{ background: '#2B373B', zIndex: 1200 }}
-                    buttonStyle={{ color: '#4e503b', fontSize: '13px' }}
-                    expires={150}
+                        <div className={classes.drawerHeader}>
+                            <TelarSocialLogo
+                                sx={{ width: 40, height: 44, fill: theme.palette.primary.light }}
+                                viewBox="0 0 600 646"
+                            />
+                        </div>
+                        <MenuList style={{ color: 'rgb(117, 117, 117)', padding: '16px' }}>{drawer}</MenuList>
+                    </Drawer>
+                )}
+                {!smDownHidden && (
+                    <Drawer
+                        variant="persistent"
+                        open={drawerOpen}
+                        classes={{
+                            paper: classes.drawerPaperLarge,
+                        }}
+                    >
+                        <MenuList className={classes.menu} style={{ color: 'rgb(117, 117, 117)', padding: '16px' }}>
+                            <div style={{ height: 70 }} />
+                            {drawer}
+                        </MenuList>
+                    </Drawer>
+                )}
+                <main
+                    className={classNames(classes.content, classes[`content-${anchor}`], {
+                        [classes.contentShift]: drawerOpen,
+                        [classes[`contentShift-${anchor}`]]: drawerOpen,
+                    })}
                 >
-                    {t('home.cookieConsentText')}{' '}
-                </CookieConsent>
+                    <Outlet />
+                </main>
             </div>
-        );
-        return (
-            <IdleTimer
-                ref={this.idleTimer}
-                element={document}
-                onActive={this.onActive}
-                onIdle={this.onIdle}
-                timeout={1000 * 6}
+
+            {activeRooms.map((room) => <ChatComponent key={room.get('objectId')} open={true} room={room} />).valueSeq()}
+            <CookieConsent
+                location="bottom"
+                buttonText={t('home.cookieConsentButton')}
+                cookieName="social-consent"
+                style={{ background: '#2B373B', zIndex: 1200 }}
+                buttonStyle={{ color: '#4e503b', fontSize: '13px' }}
+                expires={150}
             >
-                {mainElement}
-            </IdleTimer>
-        );
-    }
+                {t('home.cookieConsentText')}{' '}
+            </CookieConsent>
+        </div>
+    );
 }
 
-export default connectHome(HomeComponent);
+export default HomeComponent;

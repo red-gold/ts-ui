@@ -3,9 +3,10 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { createStyles } from '@material-ui/styles';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import { Theme } from '@material-ui/core/styles/createTheme';
 
-export const notifyStyles = createStyles((theme: any) => ({
+export const useStyles = makeStyles((theme: Theme) => ({
     root: {
         boxShadow: 'rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 12px 24px 0px',
         border: 'solid 1px rgba(145, 158, 171, 0.08)',
@@ -32,10 +33,9 @@ export const notifyStyles = createStyles((theme: any) => ({
         },
     },
     noNotify: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        display: 'flex',
+        textAlign: 'center',
         width: '100%',
+        padding: 10,
     },
     popperClose: {
         pointerEvents: 'none',

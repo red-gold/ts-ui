@@ -16,11 +16,11 @@ const getRequests = (state: Map<string, any>) => {
  * Selectors
  ***************************/
 const selectRequest = () => {
-    return createSelector([getRequest], (request) => request);
+    return createSelector(getRequest, (request) => request);
 };
 
 const selectRequests = () => {
-    return createSelector([getRequests], (requests) => requests);
+    return createSelector(getRequests, (requests) => requests);
 };
 
 export const serverSelector = {

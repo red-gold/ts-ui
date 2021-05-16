@@ -15,7 +15,7 @@
         "fun": "Giải trí",
         "company": "Công ty",
         "sponser": "Nhà tài trợ",
-        "help": "Trợ giúp"
+        "support": "Trợ giúp"
 
     },
     "rightPanel": {
@@ -253,7 +253,7 @@
         "getApp": "Get the app."
     },
     "yourCircles": {
-        "title": "Your circles"
+        "title": "Your groups"
     },
     "userActivity": {
         "privilegesTitle": "Privileges",
@@ -339,7 +339,7 @@
     "masterLoading": {
         "loading": "Loading",
         "unexpectedError": "Unexpected Error Happened",
-        "timeout": "It takes long time"
+        "timeout": "It's taking long time!"
     },
     "search": {
         "users": "People",

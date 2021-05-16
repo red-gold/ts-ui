@@ -1,4 +1,4 @@
-// - Import react components
+
 import Backdrop, { BackdropProps } from '@material-ui/core/Backdrop';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component } from 'react';
@@ -21,9 +21,6 @@ export class BackDropIOSWorkaround extends React.PureComponent<BackdropProps> {
     }
 }
 
-/**
- * Create component class
- */
 export class PictureDialogComponent extends Component<IPictureDialogProps, IPictureDialogState> {
     /**
      * Fields

@@ -12,7 +12,7 @@ import { PhotoModel } from 'models/gallery/photoModel';
 import uuid from 'uuid';
 import { IPostService } from 'core/services/posts/IPostService';
 
-// - Import react components
+
 /**
  * OpenFaaS image gallery service
  */

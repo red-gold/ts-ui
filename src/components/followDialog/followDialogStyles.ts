@@ -16,9 +16,6 @@ export const followDialogStyles = (theme: any) => ({
         paddingTop: '5px',
         padding: '0px 5px 5px 5px',
     },
-    circleName: {
-        fontSize: '1rem',
-    },
     space: {
         height: 20,
     },

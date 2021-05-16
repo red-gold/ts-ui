@@ -8,6 +8,8 @@ import * as globalActions from 'store/actions/globalActions';
 import * as userSettingActions from 'store/actions/userSettingActions';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { UserSetting } from 'core/domain/users/userSetting';
+import { AuthAPI } from 'api/AuthAPI';
+import i18n from 'locales/i18n';
 
 /**
  * Get service providers
@@ -55,9 +57,29 @@ function* dbUpdateUserSetting(action: { type: UserSettingActionType; payload: an
     }
 }
 
+/**
+ * Change current user language
+ */
+function* changeCurrentLang(action: any) {
+    const { lang } = action.payload;
+    AuthAPI.createCookie('social-lang', lang, 100000);
+    i18n.changeLanguage(lang || 'en');
+}
+
+/**
+ * Set current user language from cookie
+ */
+function* SetCurrentLangFromCookie() {
+    const lang = AuthAPI.readCookie('social-lang');
+    i18n.changeLanguage(lang || 'en');
+}
+
 export default function* userSettingSaga() {
     yield all([
         takeLatest(UserSettingActionType.DB_FETCH_USER_SETTING, dbFetchUserSetting),
         takeLatest(UserSettingActionType.DB_UPDATE_USER_SETTING, dbUpdateUserSetting),
+        takeLatest(UserSettingActionType.DB_UPDATE_USER_SETTING, dbUpdateUserSetting),
+        takeLatest(UserSettingActionType.SET_CURRENT_LANG_FROM_COOKIE, SetCurrentLangFromCookie),
+        takeLatest(UserSettingActionType.CHANGE_CURRENT_LANG, changeCurrentLang),
     ]);
 }

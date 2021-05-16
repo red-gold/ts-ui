@@ -1,4 +1,3 @@
-// - Import react components
 import { UserSettingActionType } from 'constants/userSettingActionType';
 import { Map } from 'immutable';
 

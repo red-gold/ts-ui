@@ -1,4 +1,3 @@
-// - Import react components
 import { withStyles } from '@material-ui/core/styles';
 import ChatMessageComponent from 'components/chatMessage/ChatMessageComponent';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
@@ -51,22 +50,26 @@ export function ChatBodyComponent(props: IChatBodyProps & WithTranslation) {
         [rootRef],
     );
 
-    const handleRootScroll = useCallback(() => {
-        const rootNode = scrollableRootRef.current;
-        if (rootNode) {
-            if (rootNode.offsetHeight + rootNode.scrollTop >= rootNode.scrollHeight) {
-                const { handleReadMessage } = props;
-                if (chatMessages.size > 0) {
-                    handleReadMessage(chatMessages.last());
+    const handleRootScroll = useCallback(
+        (event) => {
+            event.stopPropagation();
+            const rootNode = scrollableRootRef.current;
+            if (rootNode) {
+                if (rootNode.offsetHeight + rootNode.scrollTop >= rootNode.scrollHeight) {
+                    const { handleReadMessage } = props;
+                    if (chatMessages.size > 0) {
+                        handleReadMessage(chatMessages.last());
+                    }
+                    !isScrollEnd && setIsScrollEnd(true);
+                } else {
+                    isScrollEnd && setIsScrollEnd(false);
+                    const scrollDistanceToBottom = rootNode.scrollHeight - rootNode.scrollTop;
+                    lastScrollDistanceToBottomRef.current = scrollDistanceToBottom;
                 }
-                !isScrollEnd && setIsScrollEnd(true);
-            } else {
-                isScrollEnd && setIsScrollEnd(false);
-                const scrollDistanceToBottom = rootNode.scrollHeight - rootNode.scrollTop;
-                lastScrollDistanceToBottomRef.current = scrollDistanceToBottom;
             }
-        }
-    }, [chatMessages.size]);
+        },
+        [chatMessages.size],
+    );
 
     // We keep the scroll position when new items are added etc.
     useEffect(() => {

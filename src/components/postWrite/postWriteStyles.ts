@@ -16,6 +16,7 @@ export const postWriteStyles = (theme: any) =>
                 overflowY: 'auto',
             },
         },
+        dialogContent: {},
         backdrop: {
             top: 0,
             left: 0,

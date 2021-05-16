@@ -300,16 +300,6 @@ export const loadDataGuest = () => {
     return (dispatch: Record<string, any>, getState: () => Record<string, any>): any => {};
 };
 
-/**
- * Load twitter media
- */
-export const dbLoadTwitterMedia = (accessToken: string) => {
-    return {
-        type: GlobalActionType.LOAD_TWITTER_MEDIA,
-        payload: { accessToken },
-    };
-};
-
 // - Clear loaded data
 export const clearLoadedData = () => {
     return {

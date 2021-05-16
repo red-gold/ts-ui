@@ -13,10 +13,8 @@ import { voteReducer } from './votes/voteReducer';
 import { serverReducer } from './server/serverReducer';
 import { userSettingReducer } from './userSetting/userSettingReducer';
 import { chatReducer } from './chat/chatReducer';
-import { connectRouter } from 'connected-react-router/immutable';
-
 // - Reducers
-export const rootReducer = (history: any) =>
+export const rootReducer = () =>
     combineReducers({
         imageGallery: imageGalleryReducer,
         post: postReducer,
@@ -25,7 +23,6 @@ export const rootReducer = (history: any) =>
         vote: voteReducer,
         server: serverReducer,
         authorize: authorizeReducer,
-        router: connectRouter(history),
         user: userReducer,
         notify: notificationReducer,
         global: globalReducer,

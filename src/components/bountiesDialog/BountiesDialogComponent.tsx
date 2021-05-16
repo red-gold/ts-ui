@@ -1,4 +1,4 @@
-// - Import react components
+
 import AppBar from '@material-ui/core/AppBar/AppBar';
 import Button from '@material-ui/core/Button/Button';
 import Dialog from '@material-ui/core/Dialog/Dialog';
@@ -30,9 +30,6 @@ const image1 = 'https://i.stack.imgur.com/rp3Cv.png';
 const image2 = 'https://i.stack.imgur.com/EN0AX.png';
 const image3 = 'https://i.stack.imgur.com/SqKnG.png';
 
-/**
- * Create component class
- */
 export class BountiesDialogComponent extends Component<
     IBountiesDialogComponentProps & WithTranslation,
     IBountiesDialogComponentState
@@ -91,7 +88,7 @@ export class BountiesDialogComponent extends Component<
                             </Typography>
                         </Toolbar>
                     </AppBar>
-                    <Grid container spacing={8} justify={'center'} className={classes.gridContainer}>
+                    <Grid container spacing={8} justifyContent={'center'} className={classes.gridContainer}>
                         <BountyBox
                             value={20}
                             caption={'Cinema Ticket 10/50'}

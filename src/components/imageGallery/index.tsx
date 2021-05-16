@@ -1,9 +1,9 @@
 // - Impoer react components
 import Button from '@material-ui/core/Button';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
+import ImageList from '@material-ui/core/ImageList';
+import ImageListItem from '@material-ui/core/ImageListItem';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import SvgAddImage from '@material-ui/icons/AddAPhoto';
 import SvgDelete from '@material-ui/icons/Delete';
 import FileAPI from 'api/FileAPI';
@@ -22,8 +22,6 @@ import { IImageGalleryProps } from './IImageGalleryProps';
 import { IImageGalleryState } from './IImageGalleryState';
 import { throwNoValue } from 'utils/errorHandling';
 import { connectImageGallery } from './connectImageGallery';
-import StringAPI from 'api/StringAPI';
-import { ServerRequestType } from 'constants/serverRequestType';
 
 let isPhotoSelected: boolean;
 
@@ -149,7 +147,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTr
                 progressVisible = progress ? progress.getIn([image.get('fileName'), 'visible'], true) : false;
             }
             return (
-                <GridListTile key={image.get('objectId')}>
+                <ImageListItem key={image.get('objectId')}>
                     <div>
                         <div style={{ overflowY: 'hidden', overflowX: 'auto' }}>
                             <ul
@@ -183,7 +181,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTr
                             </ul>
                         </div>
                     </div>
-                    <GridListTileBar
+                    <ImageListItemBar
                         title={
                             <SvgDelete
                                 className={classes.deleteImage}
@@ -192,7 +190,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTr
                                 }
                             />
                         }
-                        titlePosition="top"
+                        position="top"
                         actionIcon={
                             <SvgAddImage
                                 className={classes.addImage}
@@ -201,7 +199,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTr
                         }
                         actionPosition="left"
                     />
-                    <GridListTileBar
+                    <ImageListItemBar
                         title={
                             progressVisible ? (
                                 <LinearProgress variant="determinate" value={progressPercent} color="secondary" />
@@ -209,9 +207,9 @@ export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTr
                                 ''
                             )
                         }
-                        titlePosition="bottom"
+                        position="bottom"
                     />
-                </GridListTile>
+                </ImageListItem>
             );
         });
     };
@@ -224,8 +222,8 @@ export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTr
 
         return (
             <div className={classes.root}>
-                <GridList cellHeight={180} className={classes.gridList}>
-                    <GridListTile key="upload-image-gallery">
+                <ImageList rowHeight={180} className={classes.ImageList}>
+                    <ImageListItem key="upload-image-gallery">
                         <div
                             style={{
                                 display: 'flex',
@@ -249,9 +247,9 @@ export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTr
                                 </Button>
                             </label>
                         </div>
-                    </GridListTile>
+                    </ImageListItem>
                     {images && images.count() > 0 ? this.imageList() : ''}
-                </GridList>
+                </ImageList>
             </div>
         );
     }

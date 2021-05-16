@@ -1,13 +1,10 @@
-// - Import external components
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { push } from 'connected-react-router';
 import { Map } from 'immutable';
 import Footer from 'layouts/footer';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import VerifySignupComponent from 'components/verifySignup/VerifySignupComponent';
 import config from 'config';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
@@ -17,10 +14,6 @@ import { ISignupWrapperProps } from './ISignupWrapperProps';
 import { ISignupWrapperState } from './ISignupWrapperState';
 import { signupWrapperStyles } from './signupWrapperStyles';
 
-// - Material-UI
-// - Components
-// - Import actions
-// - Create Login component class
 export class SignupWrapperComponent extends Component<ISignupWrapperProps & WithTranslation, ISignupWrapperState> {
     /**
      * Component constructor
@@ -60,10 +53,10 @@ export class SignupWrapperComponent extends Component<ISignupWrapperProps & With
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = () => {
     return {
         loginPage: () => {
-            dispatch(push('/login'));
+            location.href = '/login';
         },
     };
 };
@@ -81,9 +74,7 @@ const makeMapStateToProps = () => {
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(SignupWrapperComponent);
 
-export default withRouter<any, any>(
-    connect<{}, {}, any, any>(
-        makeMapStateToProps,
-        mapDispatchToProps,
-    )(withStyles(signupWrapperStyles as any, { withTheme: true })(translateWrapper as any) as any),
-);
+export default connect<{}, {}, any, any>(
+    makeMapStateToProps,
+    mapDispatchToProps,
+)(withStyles(signupWrapperStyles as any, { withTheme: true })(translateWrapper as any) as any);

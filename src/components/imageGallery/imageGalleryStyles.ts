@@ -13,7 +13,7 @@ export const imageGalleryStyles = (theme: Theme) =>
             flexWrap: 'wrap',
             justifyContent: 'space-around',
         },
-        gridList: {
+        ImageList: {
             width: 500,
             height: 450,
             overflowY: 'auto',

@@ -8,12 +8,12 @@ export const webPageStyles = (theme: any) => ({
     flex: {
         flex: 1,
     },
-    paper: theme.mixins.gutters({
+    paper: {
         maxWidth: 670,
         minWidth: 350,
         margin: '30px auto',
         padding: 20,
-    }),
+    },
     fullPageXs: {
         overflowY: 'auto',
         [theme.breakpoints.down('xs')]: {

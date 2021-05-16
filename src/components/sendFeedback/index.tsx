@@ -1,4 +1,3 @@
-// - Import react components
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
@@ -40,17 +39,10 @@ const styles = (theme: any) => ({
     },
 });
 
-/**
- * Create component class
- */
 export class SendFeedbackComponent extends Component<
     ISendFeedbackComponentProps & WithTranslation,
     ISendFeedbackComponentState
 > {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: ISendFeedbackComponentProps & WithTranslation) {
         super(props);
 
@@ -95,7 +87,7 @@ export class SendFeedbackComponent extends Component<
                     multiline
                     onChange={this.handleFeedText}
                     rows={2}
-                    rowsMax={4}
+                    maxRows={4}
                     autoFocus
                     fullWidth
                 />
@@ -181,10 +173,6 @@ export class SendFeedbackComponent extends Component<
         }
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { hideFeedback, classes } = this.props;
         if (!hideFeedback) {

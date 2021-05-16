@@ -163,10 +163,10 @@ function* watchFindPeople(action: { type: UserActionType; payload: any }) {
     const { page, limit } = payload;
     const uid = authedUser.get('uid');
     try {
-        if (uid) {
-            yield call(dbFindPeopls, uid, '', page, limit);
-        }
+        yield call(dbFindPeopls, uid, '', page, limit);
     } catch (error) {
+        streamServerRequest.status = ServerRequestStatusType.Error;
+        yield put(serverActions.sendRequest(streamServerRequest));
         yield put(globalActions.showMessage(error.message));
         yield put(userActions.notMoreFindPeople());
     }

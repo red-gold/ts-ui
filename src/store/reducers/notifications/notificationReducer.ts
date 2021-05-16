@@ -1,4 +1,3 @@
-// - Import react components
 import { NotificationActionType } from 'constants/notificationActionType';
 import { Map } from 'immutable';
 

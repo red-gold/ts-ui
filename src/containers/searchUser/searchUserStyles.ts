@@ -1,4 +1,6 @@
-export const searchUserStyles = () => ({
+import { makeStyles } from '@material-ui/core';
+
+export const useStyles = makeStyles(() => ({
     noDisplay: {
         display: 'none',
     },
@@ -8,4 +10,4 @@ export const searchUserStyles = () => ({
         fontWeight: 300,
         color: 'rgba(152, 150, 150, 0.87)',
     },
-});
+}));

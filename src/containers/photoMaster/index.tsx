@@ -1,4 +1,4 @@
-// - Import react components
+
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -21,7 +21,6 @@ import { fromJS } from 'immutable';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
 import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
 import uuid from 'uuid';
 
@@ -108,10 +107,6 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
         }
     };
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IPhotoMasterProps & WithTranslation) {
         super(props);
 
@@ -197,10 +192,7 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
         }
         this.loadData();
     }
-    /**
-     * Reneder component DOM
-     *
-     */
+
     render() {
         const { images, t, classes, currentAlbum, albumDialogOpen, isOwner, progress } = this.props;
         const { anchorElMenu } = this.state;
@@ -317,6 +309,4 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(PhotoMasterComponent);
 
-export default withRouter<any, any>(
-    connectPhotoMaster(withStyles(photoMasterStyles as any)(translateWrapper as any) as any),
-);
+export default connectPhotoMaster(withStyles(photoMasterStyles)(translateWrapper));

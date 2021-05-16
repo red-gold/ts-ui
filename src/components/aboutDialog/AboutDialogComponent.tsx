@@ -25,14 +25,8 @@ const Transition = React.forwardRef(function Transition(
 ) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
-/**
- * Create component class
- */
+
 export class AboutDialogComponent extends Component<IAboutDialogProps & WithTranslation, IAboutDialogState> {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IAboutDialogProps & WithTranslation) {
         super(props);
 
@@ -77,7 +71,7 @@ export class AboutDialogComponent extends Component<IAboutDialogProps & WithTran
                 </Typography>
                 <Paper className={classes.paperInfo}>
                     {!StringAPI.isEmpty(targetUser.get('tagLine')) &&
-                        this.infoRender(t('profile.tagline'), targetUser.get('tagLine'))}
+                        this.infoRender(t('profile.bio'), targetUser.get('tagLine'))}
                     {targetUser.get('birthday') &&
                         targetUser.get('birthday') > 0 &&
                         this.infoRender(

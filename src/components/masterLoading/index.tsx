@@ -1,111 +1,61 @@
-// - Import react components
-import { Typography, withStyles } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import useTheme from '@material-ui/core/styles/useTheme';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import red from '@material-ui/core/colors/red';
 import Grid from '@material-ui/core/Grid/Grid';
-import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { log } from 'utils/log';
 
-import { IMasterLoadingComponentProps } from './IMasterLoadingComponentProps';
-import { IMasterLoadingComponentState } from './IMasterLoadingComponentState';
-import { masterLoadingStyles } from './masterLoadingStyles';
+import { IMasterLoadingComponentProps } from './IMasterComponentProps';
+import Backdrop from '@material-ui/core/Backdrop';
 
-// - Import app components
+export function MasterLoadingComponent(props: IMasterLoadingComponentProps) {
+    const { t } = useTranslation();
 
-// - Create MasterLoading component class
-export class MasterLoadingComponent extends Component<
-    IMasterLoadingComponentProps & WithTranslation,
-    IMasterLoadingComponentState
-> {
-    // Constructor
-    // eslint-disable-next-line
-  constructor(props: IMasterLoadingComponentProps & WithTranslation) {
-        super(props);
-        // Binding functions to `this`
-    }
-
-    loadProgress() {
-        const { error, timedOut, pastDelay, t, theme } = this.props;
+    const loadProgress = () => {
+        const { error, timedOut, pastDelay } = props;
         if (error) {
             log.error('error', error);
             return (
-                <Grid container>
-                    <Grid item>
-                        <CircularProgress style={{ color: red[500] }} size={50} />
-                    </Grid>
-                    <Grid item style={{ zIndex: 1 }}>
-                        <Typography variant="h6" color="primary" style={{ marginLeft: '15px' }}>
-                            {t('masterLoading.unexpectedError')}
-                        </Typography>
-                    </Grid>
-                </Grid>
+                <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={true}>
+                    <CircularProgress sx={{ color: red[500] }} />
+                    <Typography variant="h6" style={{ marginLeft: '15px' }}>
+                        {t('masterLoading.unexpectedError')}
+                    </Typography>
+                </Backdrop>
             );
         } else if (timedOut) {
             return (
-                <Grid container>
-                    <Grid item>
-                        <CircularProgress style={{ color: red[500] }} size={50} />
-                    </Grid>
-                    <Grid item style={{ zIndex: 1 }}>
-                        <Typography variant="h6" color="primary" style={{ marginLeft: '15px' }}>
-                            {t('masterLoading.timeout')}
-                        </Typography>
-                    </Grid>
-                </Grid>
+                <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={true}>
+                    <CircularProgress sx={{ color: red[500] }} />
+                    <Typography variant="h6" style={{ marginLeft: '15px' }}>
+                        {t('masterLoading.timeout')}
+                    </Typography>
+                </Backdrop>
             );
         } else if (pastDelay) {
             return (
-                <Grid container>
-                    <Grid item>
-                        <CircularProgress style={{ color: theme.palette.primary.light }} size={50} />
-                    </Grid>
-                    <Grid item style={{ zIndex: 1 }}>
-                        <Typography variant="h6" color="primary" style={{ marginLeft: '15px' }}>
-                            {/* {t('masterLoading.loading')} */}
-                        </Typography>
-                    </Grid>
-                </Grid>
+                <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={true}>
+                    <CircularProgress color="inherit" />
+                    <Typography variant="h6" style={{ marginLeft: '15px' }}>
+                        {/* {t('masterLoading.loading')} */}
+                    </Typography>
+                </Backdrop>
             );
         } else {
             return (
-                <Grid container>
-                    <Grid item>
-                        <CircularProgress style={{ color: theme.palette.primary.light }} size={50} />
-                    </Grid>
-                    <Grid item style={{ zIndex: 1 }}>
-                        <Typography variant="h6" color="primary" style={{ marginLeft: '15px' }}>
-                            {/* {t('masterLoading.loading')} */}
-                        </Typography>
-                    </Grid>
-                </Grid>
+                <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={true}>
+                    <CircularProgress color="inherit" />
+                    <Typography variant="h6" style={{ marginLeft: '15px' }}>
+                        {/* {t('masterLoading.loading')} */}
+                    </Typography>
+                </Backdrop>
             );
         }
-    }
+    };
 
-    // Render app DOM component
-    render() {
-        return <div className="mLoading__loading">{this.loadProgress()}</div>;
-    }
+    return <div className="mLoading__loading">{loadProgress()}</div>;
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = () => {
-    return {};
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = () => {
-    return {};
-};
-
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(MasterLoadingComponent);
-
-const stylesWrappedComponent = withStyles(masterLoadingStyles, { withTheme: true })(translateWrapper as any) as any;
-export default connect<{}, {}, any, any>(mapStateToProps, mapDispatchToProps)(stylesWrappedComponent);
+export default MasterLoadingComponent;

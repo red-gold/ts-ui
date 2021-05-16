@@ -1,9 +1,9 @@
-import { createStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core';
 
-export const profileStyles = createStyles((theme: any) => ({
+export const useStyles = makeStyles((theme: any) => ({
     banner: {
         backgroundAttachment: 'scroll',
-        borderRadius: '2px',
+        borderRadius: '12px',
         backgroundRepeat: 'unset !important',
         backgroundPosition: 'center center !important',
         [theme.breakpoints.down('xs')]: {
@@ -21,7 +21,10 @@ export const profileStyles = createStyles((theme: any) => ({
         height: 0,
         paddingTop: '56.25%', // 16:9
     },
+    gridItem: {
+        padding: '24px !important',
+    },
     postGrid: {
-        maxWidth: 600,
+        'max-width': '700px !important',
     },
 }));

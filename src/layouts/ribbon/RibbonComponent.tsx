@@ -1,4 +1,4 @@
-// - Import react components
+
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
@@ -9,9 +9,6 @@ import { IRibbonComponentProps } from './IRibbonComponentProps';
 import { IRibbonComponentState } from './IRibbonComponentState';
 import { ribbonStyles } from './ribbonStyles';
 
-/**
- * Create component class
- */
 export class RibbonComponent extends Component<IRibbonComponentProps, IRibbonComponentState> {
     /**
      * Component constructor

@@ -1,6 +1,7 @@
 import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import * as userSettingActions from 'store/actions/userSettingActions';
+import * as globalActions from 'store/actions/globalActions';
 
 import { IDispatchProps, IOwnProps, IConfigProps, IStateProps } from './IConfigProps';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -16,6 +17,7 @@ const mapDispatchToProps = (dispatch: any) => {
         updateUserSetting: (type: string, setting: object) =>
             dispatch(userSettingActions.dbUpdateUserSetting(type, setting)),
         getUserSetting: () => dispatch(userSettingActions.dbFetchUserSetting()),
+        setHeaderTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title)),
     };
 };
 

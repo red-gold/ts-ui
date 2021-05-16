@@ -1,4 +1,3 @@
-// - Import react components
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -13,9 +12,7 @@ import { IPhotoGridState } from './IPhotoGridState';
 import { photoGridStyles } from './photoGridStyles';
 
 // - Material UI
-/**
- * Create component class
- */
+
 export class PhotoGridComponent extends Component<IPhotoGridProps, IPhotoGridState> {
     /**
      * Component constructor

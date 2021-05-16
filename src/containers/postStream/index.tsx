@@ -1,15 +1,14 @@
-// - Import react components
 import React, { useState } from 'react';
 import PostComponent from 'components/post';
 import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import { IPostStreamProps } from './IPostStreamProps';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
+import { Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 export function PostStreamComponent(props: IPostStreamProps) {
-    /**
-     * Feilds
-     */
+    const { t } = useTranslation();
     const [nextPage, setNextPage] = useState(0);
     const { hasMorePosts, posts } = props;
 
@@ -54,6 +53,11 @@ export function PostStreamComponent(props: IPostStreamProps) {
     return (
         <div>
             {posts && posts.count() > 0 && getpostList()}
+            {posts && posts.count() === 0 && !loading && !hasMorePosts && (
+                <Typography sx={{ textAlign: 'center' }} variant="subtitle1" color="inherit">
+                    {t('profile.nothingToShowLabel')}
+                </Typography>
+            )}
 
             {(loading || hasMorePosts) && (
                 <div ref={sentryRef}>

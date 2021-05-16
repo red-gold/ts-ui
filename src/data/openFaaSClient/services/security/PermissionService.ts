@@ -1,4 +1,3 @@
-// - Import react components
 import { injectable } from 'inversify';
 import { IPermissionService } from 'core/services/security/IPermissionService';
 /**

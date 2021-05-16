@@ -7,7 +7,7 @@ export const videoGalleryStyles = (theme: any) => ({
             overflowY: 'auto',
         },
     },
-    gridList: {
+    ImageList: {
         width: 500,
         height: 450,
         overflowY: 'auto',

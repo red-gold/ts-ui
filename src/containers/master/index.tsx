@@ -5,15 +5,14 @@ import { Helmet } from 'react-helmet';
 import MasterLoading from 'components/masterLoading';
 import SendFeedback from 'components/sendFeedback';
 import config from 'config';
-import MasterRouter from 'routes/MasterRouter';
 
 import { IMasterProps } from './IMasterProps';
 import { IMasterState } from './IMasterState';
 import CallSnackComponent from 'components/callSnack';
 import { connectMaster } from './connectMaster';
 import { log } from 'utils/log';
+import HomeComponent from 'containers/home';
 
-// - Create Master component class
 export class MasterComponent extends Component<IMasterProps, IMasterState> {
     static isPrivate = true;
 
@@ -92,15 +91,13 @@ export class MasterComponent extends Component<IMasterProps, IMasterState> {
     };
 
     componentDidCatch(error: any, info: any) {
-        log.info('===========Catched by React componentDidCatch==============');
-        log.info(error, info);
-        log.info('====================================');
+        log.error('[componentDidCatch] ', error, info);
     }
 
     componentDidMount() {
-        const { authed } = this.props;
+        const { authed, logout } = this.props;
         if (!authed) {
-            window.location.href = config.gateway.auth_web_uri + '/login';
+            logout();
         }
     }
 
@@ -108,7 +105,7 @@ export class MasterComponent extends Component<IMasterProps, IMasterState> {
      * Render app DOM component
      */
     public render() {
-        const { progress, global, uid, sendFeedbackStatus, hideMessage } = this.props;
+        const { progress, global, sendFeedbackStatus, hideMessage, dataLoaded } = this.props;
 
         const header = (
             <Helmet>
@@ -123,7 +120,7 @@ export class MasterComponent extends Component<IMasterProps, IMasterState> {
         );
 
         return (
-            <div id="master">
+            <>
                 {header}
                 {sendFeedbackStatus ? <SendFeedback /> : ''}
                 <div className="master__progress" style={{ display: progress.get('visible') ? 'block' : 'none' }}>
@@ -135,8 +132,9 @@ export class MasterComponent extends Component<IMasterProps, IMasterState> {
                 >
                     <div className="title">Loading ... </div>
                 </div>
-                {progress.visible ? <MasterLoading /> : ''}
-                <MasterRouter data={{ uid }} />
+                {progress.visible || !dataLoaded ? <MasterLoading /> : ''}
+
+                {dataLoaded && <HomeComponent />}
                 {this.getCallingUsersElms()}
                 {this.getChatRequestsElms()}
                 <Snackbar
@@ -146,7 +144,7 @@ export class MasterComponent extends Component<IMasterProps, IMasterState> {
                     autoHideDuration={4000}
                     style={{ left: '1%', transform: 'none' }}
                 />
-            </div>
+            </>
         );
     }
 }

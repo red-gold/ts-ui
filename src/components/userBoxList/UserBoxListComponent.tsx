@@ -1,76 +1,29 @@
-// - Import react components
 import UserBox from 'components/userBox/UserBoxComponent';
-import { push } from 'connected-react-router';
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { IUserBoxListProps } from './IUserBoxListProps';
 
-import { IUserBoxListComponentProps } from './IUserBoxListComponentProps';
-import { IUserBoxListComponentState } from './IUserBoxListComponentState';
+const selectCurrentUser = authorizeSelector.selectCurrentUser();
 
-export class UserBoxListComponent extends Component<IUserBoxListComponentProps, IUserBoxListComponentState> {
-    static propTypes = {
-        /**
-         * List of users
-         */
-        users: PropTypes.object,
-    };
+export function UserBoxListComponent(props: IUserBoxListProps) {
+    const currentUser = useSelector(selectCurrentUser);
 
-    /**
-     * Component constructor
-     *
-     */
-    constructor(props: IUserBoxListComponentProps) {
-        super(props);
-
-        // Defaul state
-        this.state = {};
-
-        // Binding functions to `this`
-    }
-
-    userList = () => {
-        const { uid, goTo } = this.props;
-        const users = this.props.users;
+    const uid = currentUser.get('userId');
+    const userList = () => {
+        const users = props.users;
         const userBoxList: any[] = [];
         if (users) {
             users.forEach((user) => {
                 const userId = user.get('userId') as string;
                 if (uid !== userId) {
-                    userBoxList.push(<UserBox key={userId} user={user} goTo={goTo} />);
+                    userBoxList.push(<UserBox key={userId} user={user} />);
                 }
             });
         }
         return userBoxList;
     };
-
-    /**
-     * Reneder component DOM
-     *
-     */
-    render() {
-        return <div className="grid grid__1of4 grid__space-around">{this.userList()}</div>;
-    }
+    return <div className="grid grid__1of4 grid__space-around">{userList()}</div>;
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        goTo: (url: string) => dispatch(push(url)),
-    };
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = (state: any) => {
-    const uid = state.getIn(['authorize', 'uid'], 0);
-    return {
-        uid,
-    };
-};
-
-// - Connect component to redux store
-export default connect<{}, {}, any, any>(mapStateToProps, mapDispatchToProps)(UserBoxListComponent as any);
+export default UserBoxListComponent;

@@ -46,7 +46,7 @@ class ReadMoreComponent extends Component<IReadMoreProps, IReadMoreState> {
 
         const readMoreElem = (
             <div onClick={this.toggleLines} className={classNames(classes.root, { [classes.expanded]: !expanded })}>
-                <Collapse in={expanded} collapsedHeight="173px">
+                <Collapse in={expanded} collapsedSize="173px">
                     {children}
                 </Collapse>
             </div>

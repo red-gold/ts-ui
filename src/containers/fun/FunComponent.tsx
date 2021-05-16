@@ -1,32 +1,19 @@
-// - Import react components
+
 import withStyles from '@material-ui/core/styles/withStyles';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
 
 import { connectFun } from './connectFun';
 import { funStyles } from './funStyles';
 import { IFunProps } from './IFunProps';
 import { IFunState } from './IFunState';
 
-// - Material UI
-// - Import app components
-// - Import API
-
-// - Import actions
-/**
- * Create component class
- */
 export class HelpComponent extends Component<IFunProps & WithTranslation, IFunState> {
     /**
      * Fields
      */
     iframeRef: React.RefObject<HTMLIFrameElement>;
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IFunProps & WithTranslation) {
         super(props);
         this.iframeRef = React.createRef();
@@ -35,10 +22,6 @@ export class HelpComponent extends Component<IFunProps & WithTranslation, IFunSt
         this.state = {};
     }
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes } = this.props;
         return <div className={classes.root}></div>;
@@ -48,4 +31,4 @@ export class HelpComponent extends Component<IFunProps & WithTranslation, IFunSt
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(HelpComponent);
 
-export default withRouter<any, any>(connectFun(withStyles(funStyles as any)(translateWrapper as any) as any));
+export default connectFun(withStyles(funStyles as any)(translateWrapper as any) as any);

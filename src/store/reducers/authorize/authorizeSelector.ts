@@ -4,7 +4,8 @@ import { userGetters } from '../users/userGetters';
 
 const getCurrentUser = (state: Map<any, string>) => {
     const uid = state.getIn(['authorize', 'uid']);
-    return userGetters.getUserProfileById(state, { userId: uid });
+    const email = state.getIn(['authorize', 'email']);
+    return userGetters.getUserProfileById(state, { userId: uid }).set('email', email);
 };
 
 const getAuthedUser = (state: Map<any, string>) => {
@@ -19,7 +20,7 @@ const getUserRegisterToken = (state: Map<any, string>) => {
     return state.getIn(['authorize', 'ui', 'registerToken'], '');
 };
 
-const getUserAuthStatus = (state: Map<any, string>) => {
+const getUserAuthStatus = (state: Map<any, string>): boolean => {
     return state.getIn(['authorize', 'authed'], false);
 };
 

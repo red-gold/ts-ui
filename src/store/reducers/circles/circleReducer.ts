@@ -1,4 +1,3 @@
-// - Import react components
 import { CircleActionType } from 'constants/circleActionType';
 import { List, Map } from 'immutable';
 

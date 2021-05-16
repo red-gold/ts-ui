@@ -15,10 +15,6 @@ import { IRoomListState } from './IRoomListState';
 import { connectRoomList } from './connectRoomList';
 
 export class RoomListComponent extends Component<IRoomListProps & WithTranslation, IRoomListState> {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IRoomListProps & WithTranslation) {
         super(props);
 
@@ -47,10 +43,6 @@ export class RoomListComponent extends Component<IRoomListProps & WithTranslatio
         return parsedDOM;
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { open, anchorEl, onClose, classes, t } = this.props;
         const noRoomList = (

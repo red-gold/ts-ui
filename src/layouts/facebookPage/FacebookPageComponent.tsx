@@ -1,4 +1,4 @@
-// - Import react components
+
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
@@ -7,9 +7,6 @@ import { IFacebookPageState } from './IFacebookPageState';
 
 declare const FB: any;
 
-/**
- * Create component class
- */
 export default class FacebookPageComponent extends Component<IFacebookPageProps, IFacebookPageState> {
     static propTypes = {
         adaptContainerWidth: PropTypes.bool,

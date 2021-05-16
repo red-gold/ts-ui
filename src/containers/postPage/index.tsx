@@ -1,4 +1,4 @@
-// - Import react components
+
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Map } from 'immutable';
 import React, { Component } from 'react';
@@ -14,10 +14,6 @@ import { postPageStyles } from './postPageStyles';
 export class PostPageComponent extends Component<IPostPageProps, IPostPageState> {
     static propTypes = {};
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IPostPageProps) {
         super(props);
 
@@ -34,10 +30,6 @@ export class PostPageComponent extends Component<IPostPageProps, IPostPageState>
         }
     }
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes, post, userInfo } = this.props;
         if (!userInfo || !post) {

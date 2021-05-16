@@ -56,6 +56,25 @@ export const getUserSetting = () => {
 };
 
 /**
+ * Change current user language
+ */
+export const changeCurrentLang = (lang: string) => {
+    return {
+        type: UserSettingActionType.CHANGE_CURRENT_LANG,
+        payload: { lang },
+    };
+};
+
+/**
+ * Set current user language from cookie
+ */
+export const SetCurrentLangFromCookie = () => {
+    return {
+        type: UserSettingActionType.SET_CURRENT_LANG_FROM_COOKIE,
+    };
+};
+
+/**
  * Clear all data
  */
 export const clearAllUserSetting = () => {

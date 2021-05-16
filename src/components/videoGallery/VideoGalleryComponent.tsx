@@ -1,8 +1,8 @@
 // - Impoer react components
 import Button from '@material-ui/core/Button';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ImageList from '@material-ui/core/ImageList';
+import ImageListItem from '@material-ui/core/ImageListItem';
+import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import { withStyles } from '@material-ui/core/styles';
 import Zoom from '@material-ui/core/Zoom';
 import AddVideoIcon from '@material-ui/icons/AddToQueue';
@@ -168,7 +168,7 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
         const { videos } = this.props;
         return throwNoValue(videos, 'videos').map((video: VideoFile) => {
             return (
-                <GridListTile key={throwNoValue(video.id, 'video.id')}>
+                <ImageListItem key={throwNoValue(video.id, 'video.id')}>
                     <div>
                         <div style={{ overflowY: 'hidden', overflowX: 'auto' }}>
                             <ul
@@ -199,14 +199,14 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
                             </ul>
                         </div>
                     </div>
-                    <GridListTileBar
+                    <ImageListItemBar
                         title={
                             <SvgDelete
                                 style={this.styles.deleteVideo as any}
                                 onClick={(evt) => this.handleDeleteVideo(evt, video.id || '0')}
                             />
                         }
-                        titlePosition="top"
+                        position="top"
                         actionIcon={
                             <AddVideoIcon
                                 style={this.styles.addImage as any}
@@ -215,7 +215,7 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
                         }
                         actionPosition="left"
                     />
-                </GridListTile>
+                </ImageListItem>
             );
         });
     };
@@ -258,8 +258,8 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
          * Album element
          */
         const album = (
-            <GridList cellHeight={180} className={classNames(classes.gridList, { [classes.noDisplay]: isPreview })}>
-                <GridListTile key="upload-image-gallery">
+            <ImageList rowHeight={180} className={classNames(classes.ImageList, { [classes.noDisplay]: isPreview })}>
+                <ImageListItem key="upload-image-gallery">
                     <div
                         style={{
                             display: 'flex',
@@ -284,9 +284,9 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
                             </Button>
                         </label>
                     </div>
-                </GridListTile>
+                </ImageListItem>
                 {videos && videos.count() > 0 ? this.videoList() : ''}
-            </GridList>
+            </ImageList>
         );
 
         /**

@@ -1,4 +1,3 @@
-// - Import react components
 import { VoteActionType } from 'constants/voteActionType';
 import { Map } from 'immutable';
 

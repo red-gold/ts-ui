@@ -1,15 +1,13 @@
-// - Import react components
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import { grey } from '@material-ui/core/colors';
-import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import AppDialogTitle from 'layouts/dialogTitle/DialogTitleComponent';
+
 import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -17,7 +15,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import SvgAdd from '@material-ui/icons/Add';
 import StringAPI from 'api/StringAPI';
 import { followDialogStyles } from 'components/followDialog/followDialogStyles';
-import { push } from 'connected-react-router';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { UserTie } from 'core/domain/circles/userTie';
 import { List as ImuList, Map } from 'immutable';
@@ -30,12 +27,11 @@ import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 
 import { IFollowDialogProps } from './IFollowDialogProps';
 import { IFollowDialogState } from './IFollowDialogState';
+import MobileDialog from 'components/mobileDialog';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Typography from '@material-ui/core/Typography';
 
 export class FollowDialogComponent extends Component<IFollowDialogProps & WithTranslation, IFollowDialogState> {
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IFollowDialogProps & WithTranslation) {
         super(props);
         // Defaul state
@@ -160,7 +156,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
         });
     };
 
-    handleSelectCircle = (event: object, isInputChecked: boolean, circleId: string) => {
+    handleSelectCircle = (event: React.ChangeEvent<HTMLInputElement>, circleId: string) => {
         const { setSelectedCircles, selectedCircles, user } = this.props;
         const userId = user.get('userId');
 
@@ -168,7 +164,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
             return;
         }
         let newSelectedCircles = selectedCircles;
-        if (isInputChecked) {
+        if (event.target.checked) {
             newSelectedCircles = selectedCircles.push(circleId);
         } else {
             const circleIndex = selectedCircles.indexOf(circleId);
@@ -196,18 +192,15 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
                 // Create checkbox for selected/unselected circle
                 circleDomList.push(
                     <ListItem key={`${circleId}-${userId}`} dense className={classes.listItem}>
-                        <ListItemText
-                            className={classes.circleName}
-                            primary={circleName === 'Following' ? t('userBox.followingLabel') : circleName}
-                        />
-                        <ListItemSecondaryAction>
+                        <ListItemIcon>
                             <Checkbox
-                                onChange={(event: object, isInputChecked: boolean) =>
-                                    this.handleSelectCircle(event, isInputChecked, circleId)
-                                }
+                                onChange={(event) => this.handleSelectCircle(event, circleId)}
                                 checked={isBelong}
                             />
-                        </ListItemSecondaryAction>
+                        </ListItemIcon>
+                        <Typography variant="subtitle1" className={classes.title} color="textPrimary" gutterBottom>
+                            {circleName === 'Following' ? t('userBox.followingLabel') : circleName}
+                        </Typography>
                     </ListItem>,
                 );
             });
@@ -239,10 +232,6 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
         return isChanged;
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { disabledDoneCircles } = this.state;
         const {
@@ -272,7 +261,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
         return (
             <>
                 <Button
-                    color="primary"
+                    color={this.props.color || 'primary'}
                     onClick={this.onFollowUser}
                     disabled={
                         (followRequest ? followRequest.status === ServerRequestStatusType.Sent : false) ||
@@ -280,55 +269,44 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
                             ? deleteFollowingUserRequest.status === ServerRequestStatusType.Sent
                             : false)
                     }
+                    variant={this.props.variant}
                 >
                     {followButtonLable === 'Following' ? t('userBox.followingLabel') : followButtonLable}
                 </Button>
 
-                <Dialog
-                    PaperProps={{ className: classes.fullPageXs }}
+                <MobileDialog
+                    fullWidth
                     key={userId}
                     open={isSelecteCirclesOpen === true}
                     onClose={this.onRequestCloseAddCircle}
                 >
+                    <AppDialogTitle
+                        title={t('userBox.manageGroupsTitle')}
+                        onRequestClose={this.onRequestCloseAddCircle}
+                    />
                     <DialogContent className={classes.dialogContent}>
                         <List>
                             {this.circleList()}
                             <div className={classes.space}></div>
                             <Divider />
-                            <ListItem key={`'circleName'-${userId}`} dense className={classes.listItem}>
-                                <ListItemText
-                                    primary={
-                                        <TextField
-                                            autoFocus
-                                            placeholder={t('userBox.groupNamePlaceholder')}
-                                            onChange={this.handleChangeName}
-                                            value={this.state.circleName}
-                                        />
-                                    }
+                            <ListItem key={`'circleName'-${userId}`}>
+                                <TextField
+                                    autoFocus
+                                    placeholder={t('userBox.groupNamePlaceholder')}
+                                    onChange={this.handleChangeName}
+                                    value={this.state.circleName}
+                                    fullWidth
+                                    sx={{ padding: '11.5px ​14p' }}
                                 />
-                                <ListItemSecondaryAction>
-                                    <IconButton
-                                        onClick={this.onCreateCircle}
-                                        disabled={this.state.disabledCreateCircle}
-                                    >
-                                        <Tooltip title={t('userBox.createCircleTooltip')}>
-                                            <SvgAdd />
-                                        </Tooltip>
-                                    </IconButton>
-                                </ListItemSecondaryAction>
+                                <IconButton onClick={this.onCreateCircle} disabled={this.state.disabledCreateCircle}>
+                                    <Tooltip title={t('userBox.createCircleTooltip')}>
+                                        <SvgAdd />
+                                    </Tooltip>
+                                </IconButton>
                             </ListItem>
                         </List>
                     </DialogContent>
                     <DialogActions>
-                        <Button
-                            color="primary"
-                            disableFocusRipple={true}
-                            disableRipple={true}
-                            onClick={this.onRequestCloseAddCircle}
-                            style={{ color: grey[800] }}
-                        >
-                            {t('userBox.cancelButton')}
-                        </Button>
                         <Button
                             color="primary"
                             disableFocusRipple={true}
@@ -344,7 +322,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps & WithTr
                             {t('userBox.doneButton')}
                         </Button>
                     </DialogActions>
-                </Dialog>
+                </MobileDialog>
             </>
         );
     }
@@ -366,7 +344,6 @@ const mapDispatchToProps = (dispatch: Function) => {
         removeSelectedCircles: (userId: string) => dispatch(circleActions.removeSelectedCircles(userId)),
         openSelectCircles: (userId: string) => dispatch(circleActions.openSelectCircleBox(userId)),
         closeSelectCircles: (userId: string) => dispatch(circleActions.closeSelectCircleBox(userId)),
-        goTo: (url: string) => dispatch(push(url)),
     };
 };
 

@@ -1,29 +1,47 @@
-// - Import react components
-import { Card, CardHeader, TextField } from '@material-ui/core';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import Paper from '@material-ui/core/Paper';
 import Popover from '@material-ui/core/Popover';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import classNames from 'classnames';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import moment from 'moment/moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import FormControl from '@material-ui/core/FormControl';
 import { NavLink } from 'react-router-dom';
-
 import { ICommentComponentProps } from './ICommentComponentProps';
 import { ICommentComponentState } from './ICommentComponentState';
 import { connectComment } from './connectComment';
 import { defaultNoValue } from 'utils/errorHandling';
 import { WithTranslation } from 'react-i18next';
+import Typography from '@material-ui/core/Typography';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import EmojiPopover from 'components/emojiPopover';
+import ListItemText from '@material-ui/core/ListItemText';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 
-/**
- * Create component class
- */
+const CommentPreview = styled('div')({
+    display: 'flex',
+});
+
+const AvatarRoot = styled('div')({
+    width: 40,
+});
+
+const CommentEdit = styled('div')({
+    display: 'flex',
+    outline: 'none',
+    flex: 'auto',
+    flexGrow: 1,
+    paddingRight: 10,
+    padding: 16,
+    width: '100%',
+});
+
 export class CommentComponent extends Component<ICommentComponentProps & WithTranslation, ICommentComponentState> {
     static propTypes = {
         /**
@@ -39,11 +57,6 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
          */
         disableComments: PropTypes.bool,
     };
-
-    /**
-     * Fields
-     */
-    buttonMenu = null;
 
     /**
      * DOM styles
@@ -88,10 +101,6 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
     inputText: any;
     divComment: any;
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: ICommentComponentProps & WithTranslation) {
         super(props);
 
@@ -128,6 +137,7 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
              * Anchor element
              */
             anchorEl: null,
+            emojiOpen: false,
         };
 
         // Binding functions to `this`
@@ -168,6 +178,31 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
     };
 
     /**
+     * Handle toggle emoji
+     */
+    handleToggleEmoji = () => {
+        if (this.state.emojiOpen) {
+            this.handleCloseEmojiMenu();
+        } else {
+            this.handleOpenEmojiMenu();
+        }
+    };
+
+    /**
+     * Handle open emoji menu
+     */
+    handleOpenEmojiMenu = () => {
+        this.setState({ emojiOpen: true });
+    };
+
+    /**
+     * Handle close emoji menu
+     */
+    handleCloseEmojiMenu = () => {
+        this.setState({ emojiOpen: false });
+    };
+
+    /**
      * Handle edit comment
      */
     handleUpdateComment = () => {
@@ -179,6 +214,16 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
         }
         this.setState({
             initialText: this.state.text,
+        });
+    };
+
+    /**
+     * Handle select emoji
+     */
+    handleSelectEmoji = (emoji: any) => {
+        this.setState((prevState) => {
+            const { text } = prevState;
+            return { text: text + emoji.native, editDisabled: false };
         });
     };
 
@@ -223,10 +268,6 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
         this.setState({ openMenu: false });
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         /**
          * Comment object from props
@@ -240,14 +281,7 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
         const rightIconMenu = (
             <div className={classes.menuRoot}>
                 {this.props.isCommentOwner && (
-                    <IconButton
-                        buttonRef={(node: any) => {
-                            this.buttonMenu = node;
-                        }}
-                        aria-owns={defaultNoValue(openMenu, false) ? 'comment-menu' : ''}
-                        aria-haspopup="false"
-                        onClick={this.handleCommentMenu}
-                    >
+                    <IconButton onClick={this.handleCommentMenu}>
                         <MoreVertIcon className={classes.moreIcon} />
                     </IconButton>
                 )}
@@ -296,87 +330,102 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
             <div>
                 <NavLink to={`/${userId}`}>
                     {' '}
-                    <span style={this.styles.author as any}>{comment.get('ownerDisplayName', 'Loading...')}</span>
+                    <Typography component="span" variant="subtitle2" sx={{ color: '#212b36' }}>
+                        {comment.get('ownerDisplayName', 'Loading...')}
+                    </Typography>
                 </NavLink>
-                <span
-                    style={{
-                        fontWeight: 400,
-                        fontSize: '8px',
-                    }}
-                >
+                <Typography component="span" variant="caption" sx={{ color: '#919eab', marginLeft: 2 }}>
                     {moment(comment.get('creationDate', 0)).local().fromNow()}
-                </span>
+                </Typography>
             </div>
         );
         const userId = comment.get('ownerUserId');
-        const commentBody = (
-            <div style={{ outline: 'none', flex: 'auto', flexGrow: 1 }}>
-                {editorStatus ? (
-                    <TextField
-                        className={classes.inputRoot}
-                        placeholder={t('comment.updateCommentPlaceholder')}
-                        autoFocus
-                        multiline
-                        variant="outlined"
-                        value={this.state.text}
-                        onChange={this.handleOnChange}
-                        rowsMax={2}
-                        fullWidth
+        const commentEdit = (
+            <CommentEdit>
+                <AvatarRoot>
+                    <UserAvatar
+                        fullName={comment.get('ownerDisplayName', '')}
+                        fileName={comment.get('ownerAvatar', '')}
+                        size={30}
+                        style={{ width: 40 }}
                     />
-                ) : (
-                    <div className={classNames('animate2-top10', classes.commentBody)}>{this.state.text}</div>
-                )}
+                </AvatarRoot>
+                <div style={{ width: '100%' }}>
+                    <FormControl fullWidth>
+                        <OutlinedInput
+                            sx={{ padding: '10.5px 14px' }}
+                            placeholder={t('comment.updateCommentPlaceholder')}
+                            autoFocus
+                            value={this.state.text}
+                            onChange={this.handleOnChange}
+                            fullWidth
+                            multiline
+                            maxRows="3"
+                            minRows="1"
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <EmojiPopover onSelect={this.handleSelectEmoji} />
+                                </InputAdornment>
+                            }
+                        />
+                    </FormControl>
 
-                <div style={{ display: editorStatus ? 'flex' : 'none', flexDirection: 'row-reverse' }}>
-                    <Button
-                        color="primary"
-                        disabled={this.state.editDisabled}
-                        style={{ float: 'right', clear: 'both', zIndex: 5, margin: '0px 5px 5px 0px', fontWeight: 400 }}
-                        onClick={this.handleUpdateComment}
-                    >
-                        {' '}
-                        {t('comment.updateButton')}{' '}
-                    </Button>
-                    <Button color="primary" style={this.styles.cancel as any} onClick={this.handleCancelEdit}>
-                        {' '}
-                        {t('comment.cancelButton')}{' '}
-                    </Button>
+                    <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                        <Button
+                            color="primary"
+                            disabled={this.state.editDisabled}
+                            style={{
+                                float: 'right',
+                                clear: 'both',
+                                zIndex: 5,
+                                margin: '0px 5px 5px 0px',
+                                fontWeight: 400,
+                            }}
+                            onClick={this.handleUpdateComment}
+                        >
+                            {' '}
+                            {t('comment.updateButton')}{' '}
+                        </Button>
+                        <Button color="primary" style={this.styles.cancel as any} onClick={this.handleCancelEdit}>
+                            {' '}
+                            {t('comment.cancelButton')}{' '}
+                        </Button>
+                    </div>
                 </div>
-            </div>
+            </CommentEdit>
         );
-        return (
-            <div className="animate-top" key={comment.get('objectId', '0')}>
-                <Paper
-                    elevation={0}
-                    className="animate2-top10"
-                    style={{ position: 'relative', padding: '', display: !this.state.display ? 'block' : 'none' }}
-                >
-                    <Card elevation={0}>
-                        <CardHeader
-                            className={classes.header}
-                            title={editorStatus ? '' : <Author />}
-                            subheader={commentBody}
-                            avatar={
-                                <NavLink to={`/${userId}`}>
-                                    <UserAvatar
-                                        fullName={comment.get('ownerDisplayName', '')}
-                                        fileName={comment.get('ownerAvatar', '')}
-                                        size={24}
-                                    />
-                                </NavLink>
-                            }
-                            action={
-                                (!this.props.isCommentOwner && !this.props.isPostOwner && this.props.disableComments) ||
-                                editorStatus
-                                    ? ''
-                                    : rightIconMenu
-                            }
-                            classes={{ avatar: classes.avatar }}
-                        ></CardHeader>
-                    </Card>
-                </Paper>
-            </div>
+
+        const commentPreview = (
+            <CommentPreview>
+                <ListItem alignItems="flex-start">
+                    <ListItemAvatar sx={{ minWidth: '40px' }}>
+                        <NavLink to={`/${userId}`}>
+                            <UserAvatar
+                                fullName={comment.get('ownerDisplayName', '')}
+                                fileName={comment.get('ownerAvatar', '')}
+                                size={30}
+                            />
+                        </NavLink>
+                    </ListItemAvatar>
+                    <ListItemText
+                        sx={{ padding: '12px', borderRadius: '8px', backgroundColor: '#f4f6f8' }}
+                        secondaryTypographyProps={{ component: 'span' }}
+                        primary={<Author />}
+                        secondary={
+                            <React.Fragment>
+                                <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="#637381">
+                                    {this.state.text}
+                                </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                {(!this.props.isCommentOwner && !this.props.isPostOwner && this.props.disableComments) || editorStatus
+                    ? '$'
+                    : rightIconMenu}
+            </CommentPreview>
         );
+        return editorStatus ? commentEdit : commentPreview;
     }
 }
 

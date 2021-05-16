@@ -1,14 +1,9 @@
 import CommentComponent from 'components/comment/CommentComponent';
 import { Map } from 'immutable';
 import React from 'react';
-import SimpleBar from 'simplebar-react';
-import 'simplebar/dist/simplebar.min.css';
 
 import { ICommentListProps } from './ICommentListProps';
 
-/**
- * Create component class
- */
 export function CommentListComponent(props: ICommentListProps) {
     const scrollableNodeRef = React.createRef();
     const { comments, editorStatus } = props;
@@ -42,11 +37,7 @@ export function CommentListComponent(props: ICommentListProps) {
         }
     }, [comments, scrollableNodeRef]);
 
-    return (
-        <SimpleBar style={{ maxHeight: 300 }} scrollableNodeProps={{ ref: scrollableNodeRef }}>
-            {commentList()}
-        </SimpleBar>
-    );
+    return <>{commentList()}</>;
 }
 
 export default CommentListComponent;

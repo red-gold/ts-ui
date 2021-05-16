@@ -15,7 +15,7 @@ export const albumDialogStyles = (theme: any) =>
             overflow: 'hidden',
             backgroundColor: theme.palette.background.paper,
         },
-        gridList: {
+        ImageList: {
             width: 500,
             maxHeight: 380,
         },

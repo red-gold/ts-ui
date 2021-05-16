@@ -2,24 +2,41 @@
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
+
 import Button from '@material-ui/core/Button/Button';
-import Card from '@material-ui/core/Card/Card';
-import CardActions from '@material-ui/core/CardActions/CardActions';
-import CardHeader from '@material-ui/core/CardHeader/CardHeader';
-import Divider from '@material-ui/core/Divider/Divider';
-import TextField from '@material-ui/core/TextField/TextField';
-import { UserAvatarComponent } from 'components/userAvatar/UserAvatarComponent';
 import React from 'react';
 import { ICommentInputProps } from './ICommentInputProps';
 import { Comment } from 'core/domain/comments/comment';
 import { Map } from 'immutable';
-import { useStyles } from './commentInputStyles';
+import { useTranslation } from 'react-i18next';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
+import UserAvatar from 'components/userAvatar/UserAvatarComponent';
+import FormControl from '@material-ui/core/FormControl';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+import EmojiPopover from 'components/emojiPopover';
+
+const AvatarRoot = styled('div')({
+    width: 40,
+});
+
+const CommentEdit = styled('div')({
+    display: 'flex',
+    outline: 'none',
+    flex: 'auto',
+    flexGrow: 1,
+    paddingRight: 10,
+    padding: 16,
+    width: '100%',
+});
 
 function CommentInput(props: ICommentInputProps) {
-    const { postId, currentUser, send, t } = props;
+    const { t } = useTranslation();
+
+    const { postId, currentUser, send } = props;
     const [commentText, setCommentText] = React.useState<string>('');
     const [postDisable, setPostDisable] = React.useState(true);
-    const classes = useStyles();
 
     /**
      * When comment text changed
@@ -60,45 +77,52 @@ function CommentInput(props: ICommentInputProps) {
 
         clearCommentWrite();
     };
+
+    /**
+     * Handle select emoji
+     */
+    const handleSelectEmoji = (emoji: any) => {
+        setCommentText(commentText + emoji.native);
+    };
+
     return (
-        <div>
-            <Divider />
-            <Card elevation={0}>
-                <CardHeader
-                    className={classes.header}
-                    avatar={
-                        <UserAvatarComponent
-                            fullName={currentUser.get('fullName')}
-                            fileName={currentUser.get('avatar')}
-                            size={24}
-                        />
-                    }
-                    subheader={
-                        <TextField
-                            autoFocus
-                            placeholder={t('comment.addCommentPlaceholder')}
-                            multiline
-                            rowsMax="4"
-                            InputProps={{
-                                disableUnderline: true,
-                                autoFocus: true,
-                                fullWidth: true,
-                            }}
-                            value={commentText}
-                            onChange={handleChange}
-                            className={classes.textField}
-                            fullWidth={true}
-                        />
-                    }
-                ></CardHeader>
-                <CardActions className={classes.postButton}>
+        <CommentEdit>
+            <AvatarRoot>
+                <UserAvatar
+                    fullName={currentUser.get('fullName', '')}
+                    fileName={currentUser.get('avatar', '')}
+                    size={30}
+                    style={{ width: 40 }}
+                />
+            </AvatarRoot>
+            <div style={{ width: '100%' }}>
+                <FormControl fullWidth>
+                    <OutlinedInput
+                        sx={{ padding: '10.5px 14px' }}
+                        placeholder={t('comment.addCommentPlaceholder')}
+                        autoFocus
+                        value={commentText}
+                        onChange={handleChange}
+                        fullWidth
+                        multiline
+                        maxRows="3"
+                        minRows="1"
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <EmojiPopover onSelect={handleSelectEmoji} />
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
+
+                <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
                     <Button color="primary" disabled={postDisable} onClick={handlePostComment}>
-                        {t('comment.postButton')}
+                        {' '}
+                        {t('comment.postButton')}{' '}
                     </Button>
-                </CardActions>
-            </Card>
-            {/* </Paper> */}
-        </div>
+                </div>
+            </div>
+        </CommentEdit>
     );
 }
 

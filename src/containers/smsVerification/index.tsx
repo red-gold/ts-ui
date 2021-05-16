@@ -1,4 +1,3 @@
-// - Import external components
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import green from '@material-ui/core/colors/green';
@@ -14,7 +13,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import classnames from 'classnames';
 import Captcha from 'components/recaptcha';
-import { push } from 'connected-react-router';
 import { LoginUser } from 'core/domain/authorize/loginUser';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
@@ -24,7 +22,6 @@ import { AsYouType, isValidNumber } from 'libphonenumber-js';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { provider } from 'socialEngine';
 import * as authorizeActions from 'store/actions/authorizeActions';
 import * as globalActions from 'store/actions/globalActions';
@@ -92,19 +89,12 @@ const styles = (theme: any) => ({
     },
 });
 
-/**
- * Create component class
- */
 export class SmsVerificationComponent extends Component<
     ISmsVerificationComponentProps & WithTranslation,
     ISmsVerificationComponentState
 > {
     _authorizeService: IAuthorizeService;
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: ISmsVerificationComponentProps & WithTranslation) {
         super(props);
         this._authorizeService = provider.get<IAuthorizeService>(SocialProviderTypes.AuthorizeService);
@@ -281,10 +271,6 @@ export class SmsVerificationComponent extends Component<
         this.handleReset();
     };
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes, t, logout } = this.props;
         const {
@@ -446,7 +432,9 @@ export class SmsVerificationComponent extends Component<
 const mapDispatchToProps = (dispatch: Function) => {
     return {
         logout: () => dispatch(authorizeActions.dbLogout()),
-        home: () => dispatch(push('/')),
+        home: () => {
+            location.href = '/';
+        },
         showMessage: (message: string) => dispatch(globalActions.showMessage(message)),
         login: (user: LoginUser) => dispatch(authorizeActions.login(user)),
     };
@@ -462,9 +450,7 @@ const mapStateToProps = () => {
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(SmsVerificationComponent);
 
-export default withRouter<any, any>(
-    connect<{}, {}, any, any>(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(withStyles(styles as any)(translateWrapper as any) as any),
-);
+export default connect<{}, {}, any, any>(
+    mapStateToProps,
+    mapDispatchToProps,
+)(withStyles(styles as any)(translateWrapper as any) as any);

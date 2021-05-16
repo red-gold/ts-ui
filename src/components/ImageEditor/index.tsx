@@ -1,4 +1,4 @@
-// - Import react components
+
 import 'cropperjs/dist/cropper.css';
 
 import Button from '@material-ui/core/Button';
@@ -69,10 +69,6 @@ export class ImageEditorComponent extends Component<
     imageRef: any;
     _imageGalleryService: IImageGalleryService;
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: IImageEditorComponentProps & WithTranslation) {
         super(props);
         this._imageGalleryService = provider.get<IImageGalleryService>(SocialProviderTypes.ImageGalleryService);

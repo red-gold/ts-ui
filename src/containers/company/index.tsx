@@ -1,8 +1,7 @@
-// - Import react components
+
 import withStyles from '@material-ui/core/styles/withStyles';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
 
 import { companyStyles } from './companyStyles';
 import { connectCompany } from './connectCompany';
@@ -15,10 +14,6 @@ export class CompanyComponent extends Component<ICompanyProps & WithTranslation,
      */
     iframeRef: React.RefObject<HTMLIFrameElement>;
 
-    /**
-     * Component constructor
-     *
-     */
     constructor(props: ICompanyProps & WithTranslation) {
         super(props);
         this.iframeRef = React.createRef();
@@ -27,10 +22,6 @@ export class CompanyComponent extends Component<ICompanyProps & WithTranslation,
         this.state = {};
     }
 
-    /**
-     * Reneder component DOM
-     *
-     */
     render() {
         const { classes } = this.props;
         return <div className={classes.root}></div>;
@@ -39,4 +30,4 @@ export class CompanyComponent extends Component<ICompanyProps & WithTranslation,
 
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(CompanyComponent);
-export default withRouter<any, any>(connectCompany(withStyles(companyStyles as any)(translateWrapper as any) as any));
+export default connectCompany(withStyles(companyStyles as any)(translateWrapper as any) as any);

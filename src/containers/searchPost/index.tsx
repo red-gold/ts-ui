@@ -1,116 +1,91 @@
-// - Import react components
 import { Typography } from '@material-ui/core';
-import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 import queryString from 'query-string';
-import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { withRouter } from 'react-router';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 import PostStreamComponent from '../postStream';
 import SearchComponent from '../search';
-import { connectSearchPost } from './connectSearchPost';
-import { ISearchPostProps } from './ISearchPostProps';
-import { ISearchPostState } from './ISearchPostState';
-import { searchPostStyles } from './searchPostStyles';
 import Grid from '@material-ui/core/Grid';
+import { useDispatch, useSelector } from 'react-redux';
+import { Map } from 'immutable';
+import * as postActions from 'store/actions/postActions';
+import StringAPI from 'api/StringAPI';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { serverSelector } from 'store/reducers/server/serverSelector';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { postSelector } from 'store/reducers/posts/postSelector';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { useStyles } from './searchPostStyles';
 
-// - Material-UI
-// - Import actions
-/**
- * Create component class
- */
-export class SearchPostComponent extends Component<ISearchPostProps & WithTranslation, ISearchPostState> {
-    /**
-     * Fields
-     */
-    unlisten: any;
-    currentPage = 0;
+const selectCurrentUser = authorizeSelector.selectCurrentUser();
+const selectHasMorePost = postSelector.selectHasMorePostSeach();
+const selectRequest = serverSelector.selectRequest();
+const selectStreamPosts = postSelector.selectSearchPosts();
 
-    /**
-     * Component constructor
-     *
-     */
-    constructor(props: ISearchPostProps & WithTranslation) {
-        super(props);
+export function SearchPostComponent() {
+    const [currentPage, setCurrentPage] = React.useState(0);
+    const location = useLocation();
+    const classes = useStyles();
+    const { t } = useTranslation();
 
-        // Defaul state
-        this.state = {};
+    // Dispatchers
+    const dispatch = useDispatch();
+    const search = (query: string, page: number, limit: number) =>
+        dispatch(postActions.dbSearchPosts(query, page, limit));
 
-        // Binding functions to `this`
-        this.searchQuery = this.searchQuery.bind(this);
-        this.executeSearch = this.executeSearch.bind(this);
-        this.searchParam = this.searchParam.bind(this);
-    }
+    // Selectors
+    const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
+    const currentUserId = currentUser.get('userId');
+    const requestId = StringAPI.createServerRequestId(ServerRequestType.SearchPosts, currentUserId);
+    const streamRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId }));
+    const searchRequestStatus = streamRequest.get('status', ServerRequestStatusType.NoAction);
+    const hasMorePosts = useSelector((state: Map<string, any>) => selectHasMorePost(state));
+    const posts = useSelector((state: Map<string, any>) => selectStreamPosts(state));
 
-    searchQuery() {
-        const { location } = this.props;
-        this.executeSearch(location);
-    }
+    const searchQuery = () => {
+        executeSearch(location);
+    };
 
-    executeSearch(location: any) {
-        const { search } = this.props;
+    const executeSearch = (location: any, page?: number) => {
         const params: { q: string } = queryString.parse(location.search) as any;
-        search(params.q, this.currentPage, 10);
-        this.currentPage++;
-    }
+        const pageNumber = page === undefined ? currentPage : page;
+        search(params.q, pageNumber, 10);
+        setCurrentPage(pageNumber + 1);
+    };
 
-    searchParam = () => {
-        const params: { q: string } = queryString.parse(window.location.search) as any;
+    const searchParam = () => {
+        const params: { q: string } = queryString.parse(location.search) as any;
         return params.q;
     };
 
-    componentDidMount() {
-        const { history } = this.props;
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        const scope = this;
-        this.unlisten = history.listen((location: any) => {
-            scope.currentPage = 0;
-            this.executeSearch(location);
-        });
-    }
+    React.useEffect(() => {
+        executeSearch(location, 0);
+    }, [location]);
 
-    componentWillUnmount() {
-        this.unlisten();
-    }
-
-    /**
-     * Reneder component DOM
-     *
-     */
-    render() {
-        const { t, classes, posts, hasMorePosts, requestId, searchRequestStatus } = this.props;
-        if (!t) {
-            return;
-        }
-        return (
-            <SearchComponent tab="posts">
-                <div id="stream-parent" className={classNames({ [classes.noDisplay]: posts.isEmpty() })}>
-                    <Grid container justify="center" spacing={3}>
-                        <Grid className={classes.gridItem} classes={{ root: classes.postGrid }} xs={12} md={8} item>
-                            <PostStreamComponent
-                                posts={posts}
-                                requestId={requestId}
-                                loadStream={this.searchQuery}
-                                hasMorePosts={hasMorePosts}
-                                requestStatus={searchRequestStatus}
-                            />
-                        </Grid>
+    return (
+        <SearchComponent tab="posts">
+            <div id="stream-parent" className={classNames({ [classes.noDisplay]: posts.isEmpty() })}>
+                <Grid container justifyContent="center" spacing={3}>
+                    <Grid classes={{ root: classes.postGrid }} xs={12} md={8} item>
+                        <PostStreamComponent
+                            posts={posts}
+                            requestId={requestId}
+                            loadStream={searchQuery}
+                            hasMorePosts={hasMorePosts}
+                            requestStatus={searchRequestStatus}
+                        />
                     </Grid>
-                </div>
-                <div className={classNames({ [classes.noDisplay]: !posts.isEmpty() })}>
-                    <Typography className={classes.notFound}>
-                        {t('search.notFoundPost', { query: this.searchParam() })}
-                    </Typography>
-                </div>
-            </SearchComponent>
-        );
-    }
+                </Grid>
+            </div>
+            <div className={classNames({ [classes.noDisplay]: !posts.isEmpty() })}>
+                <Typography className={classes.notFound}>
+                    {t('search.notFoundPost', { query: searchParam() })}
+                </Typography>
+            </div>
+        </SearchComponent>
+    );
 }
 
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(SearchPostComponent);
-
-export default withRouter<any, any>(
-    connectSearchPost(withStyles(searchPostStyles as any)(translateWrapper as any) as any),
-);
+export default SearchPostComponent;

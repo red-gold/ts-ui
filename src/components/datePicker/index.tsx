@@ -2,27 +2,23 @@
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
-import 'date-fns';
+
 import React from 'react';
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import AdapterMoment from '@material-ui/lab/AdapterMoment';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+import MobileDatePicker from '@material-ui/lab/MobileDatePicker';
 import { IDatePickerProps } from './IDatePickerProps';
+import TextField from '@material-ui/core/TextField/TextField';
 
 export default function DatePicker(props: IDatePickerProps) {
     return (
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-                margin="normal"
-                id="date-picker-dialog"
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+            <MobileDatePicker
                 label={props.placeholder}
-                format="MM/dd/yyyy"
                 value={props.selectedDate}
                 onChange={props.dateChange}
-                KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                }}
-                fullWidth={props.fullWidth}
+                renderInput={(params) => <TextField fullWidth={props.fullWidth} {...params} margin="normal" />}
             />
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
     );
 }

@@ -1,4 +1,4 @@
-// - Import react components
+
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import NoAlbumIcon from '@material-ui/icons/SettingsSystemDaydream';
@@ -14,9 +14,7 @@ import { IPostAlbumState } from './IPostAlbumState';
 import { postAlbumStyles } from './postAlbumStyles';
 
 // - Material UI
-/**
- * Create component class
- */
+
 export class PostAlbumComponent extends Component<IPostAlbumProps, IPostAlbumState> {
     /**
      * Component constructor
