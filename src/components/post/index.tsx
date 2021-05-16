@@ -10,7 +10,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import CommentIcon from '@material-ui/icons/CommentRounded';
 import LikeIcon from '@material-ui/icons/FavoriteRounded';
-import SvgFavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import SvgFavoriteBorder from '@material-ui/icons/FavoriteBorderRounded';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SvgPlay from '@material-ui/icons/PlayCircleFilled';
 import ShareIcon from '@material-ui/icons/ShareRounded';
