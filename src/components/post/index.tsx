@@ -8,12 +8,12 @@ import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import SvgComment from '@material-ui/icons/Comment';
-import SvgFavorite from '@material-ui/icons/Favorite';
+import CommentIcon from '@material-ui/icons/CommentRounded';
+import LikeIcon from '@material-ui/icons/FavoriteRounded';
 import SvgFavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SvgPlay from '@material-ui/icons/PlayCircleFilled';
-import SvgShare from '@material-ui/icons/Share';
+import ShareIcon from '@material-ui/icons/ShareRounded';
 import classNames from 'classnames';
 import CommentGroup from 'components/commentGroup/CommentGroupComponent';
 import Img from 'components/img';
@@ -444,7 +444,7 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
                         <IconButton className={classes.iconButton} onClick={this.handleVote} aria-label="Love">
                             <Checkbox
                                 className={classes.iconButton}
-                                checkedIcon={<SvgFavorite style={{ fill: '#4CAF50' }} />}
+                                checkedIcon={<LikeIcon style={{ fill: '#4CAF50' }} />}
                                 icon={<SvgFavoriteBorder style={{ fill: '#757575' }} />}
                                 checked={this.props.currentUserVote}
                             />
@@ -458,13 +458,13 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
                             onClick={this.handleOpenComments}
                             aria-label="Comment"
                         >
-                            <SvgComment />
+                            <CommentIcon />
                         </IconButton>
                         <div className={classes.commentCounter}>{commentCounter > 0 ? commentCounter : ''} </div>
                     </div>
                     {!disableSharing ? (
                         <IconButton className={classes.iconButton} onClick={this.handleOpenShare} aria-label="Comment">
-                            <SvgShare />
+                            <ShareIcon />
                         </IconButton>
                     ) : (
                         ''
