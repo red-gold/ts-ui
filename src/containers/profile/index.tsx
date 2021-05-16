@@ -3,7 +3,6 @@ import UserActivity from 'components/userActivity';
 import React, { useState } from 'react';
 import config from 'config';
 import Grid from '@material-ui/core/Grid';
-import { useTranslation } from 'react-i18next';
 import PostStreamComponent from '../postStream';
 import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +20,6 @@ import { serverSelector } from 'store/reducers/server/serverSelector';
 import { userSelector } from 'store/reducers/users/userSelector';
 import { useParams } from 'react-router-dom';
 import { useStyles } from './profileStyles';
-import { IProfileProps } from './IProfileProps';
 
 // Create selctors
 const selectCurrentUser = authorizeSelector.selectCurrentUser();
@@ -31,12 +29,10 @@ const selectHasMorePostProfile = postSelector.selectHasMorePostProfile();
 const selectUserProfileById = userSelector.selectUserProfileById();
 
 import classNames from 'classnames';
-import Typography from '@material-ui/core/Typography';
 import RightPanel from 'components/profileRightPanel';
 
-export function ProfileComponent(props: IProfileProps) {
+export function ProfileComponent() {
     const [timeout, setProfileTimeout] = useState(false);
-    const { t } = useTranslation();
     const location = useLocation();
     const { userId } = useParams();
     const classes = useStyles();
@@ -59,7 +55,6 @@ export function ProfileComponent(props: IProfileProps) {
     const isCurrentUser = userId === currentUserId;
 
     React.useEffect(() => {
-        const { profile } = props;
         loadUserInfo();
         if (profile) {
             setHeaderTitle(profile.get('fullName'));
@@ -89,13 +84,6 @@ export function ProfileComponent(props: IProfileProps) {
                 {/* <ProfileAlbumComponent userId={userId} isOwner={isCurrentUser}/> */}
 
                 <Grid className={classNames(classes.gridItem, classes.postGrid)} xs={12} md={8} item>
-                    {!posts.isEmpty() && props.profile ? (
-                        <div className="profile__title">
-                            {t('profile.headPostsLabel', { userName: props.profile.get('fullName') })}
-                        </div>
-                    ) : (
-                        ''
-                    )}
                     <div style={{ height: '24px' }}></div>
                     {!timeout && (
                         <PostStreamComponent
