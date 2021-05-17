@@ -1,4 +1,3 @@
-
 import { UserTie } from 'core/domain/circles/userTie';
 import { SocialError } from 'core/domain/common/socialError';
 import { IUserTieService } from 'core/services/circles/IUserTieService';
@@ -46,7 +45,7 @@ export class UserTieService implements IUserTieService {
             const result = await this._httpService.post('user-rels/follow', payload);
             return result.objectId;
         } catch (error) {
-            throw new SocialError(error.code, 'firestore/tieUseres :' + error.message);
+            throw new SocialError(error.code, 'service/tieUseres :' + error.message);
         }
     };
 
@@ -61,7 +60,7 @@ export class UserTieService implements IUserTieService {
             };
             await this._httpService.put('user-rels/circles', payload);
         } catch (error) {
-            throw new SocialError(error.code, 'firestore/updateUsersTie :' + error.message);
+            throw new SocialError(error.code, 'service/updateUsersTie :' + error.message);
         }
     };
 
@@ -72,7 +71,7 @@ export class UserTieService implements IUserTieService {
         try {
             await this._httpService.delete(`user-rels/unfollow/${secondUserId}`);
         } catch (error) {
-            throw new SocialError(error.code, 'firestore/removeUsersTie :' + error.message);
+            throw new SocialError(error.code, 'service/removeUsersTie :' + error.message);
         }
     };
 
@@ -102,7 +101,7 @@ export class UserTieService implements IUserTieService {
             });
             return parsedData;
         } catch (error) {
-            throw new SocialError(error.code, 'firestore/getUserTies :' + error.message);
+            throw new SocialError(error.code, 'service/getUserTies :' + error.message);
         }
     };
 
@@ -133,7 +132,7 @@ export class UserTieService implements IUserTieService {
             });
             return parsedData;
         } catch (error) {
-            throw new SocialError(error.code, 'firestore/getUserTieSender :' + error.message);
+            throw new SocialError(error.code, 'service/getUserTieSender :' + error.message);
         }
     };
 }

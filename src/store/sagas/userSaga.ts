@@ -49,6 +49,20 @@ function* dbFetchUserProfileById(action: { type: UserActionType; payload: any })
     }
 }
 
+function* getUserProfilePage(action: { type: UserActionType; payload: any }) {
+    const { uid } = action.payload;
+    if (uid) {
+        try {
+            const userProfile: User = yield call(userService.getUserProfile, uid);
+
+            yield put(userActions.addUserInfo(uid, Map({ ...userProfile, userId: uid })));
+        } catch (error) {
+            window.location.href = '/404';
+            yield put(globalActions.showMessage(error.message));
+        }
+    }
+}
+
 /**
  * Fetch users for search
  */
@@ -208,5 +222,6 @@ export default function* userSaga() {
         takeEvery(UserActionType.DB_FETCH_FIND_PEOPLE, watchFindPeople),
         takeLatest(UserActionType.DB_FETCH_USER_PROFILE, dbFetchUserProfile),
         takeLatest(UserActionType.DB_FETCH_USER_PROFILE_BY_ID, dbFetchUserProfileById),
+        takeLatest(UserActionType.GET_USER_PROFILE_PAGE, getUserProfilePage),
     ]);
 }

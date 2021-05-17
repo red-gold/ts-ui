@@ -36,6 +36,17 @@ export const dbGetUserInfoByUserId = (uid: string) => {
         payload: { uid },
     };
 };
+
+/**
+ *  Get user info from database
+ */
+export const getUserProfilePage = (uid: string) => {
+    return {
+        type: UserActionType.GET_USER_PROFILE_PAGE,
+        payload: { uid },
+    };
+};
+
 /**
  * Updata user information
  */

@@ -12,10 +12,10 @@ import * as userActions from 'store/actions/userActions';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './peopleBoxStyles';
 import { IAboutProps } from './IAboutProps';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
 import moment from 'moment/moment';
 import { Link } from '@material-ui/core';
 import { SocialIcon } from 'react-social-icons';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 
 const ProfileItem = styled('div')({
     display: 'flex',

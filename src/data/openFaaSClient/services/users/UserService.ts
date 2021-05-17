@@ -25,7 +25,7 @@ export class UserService implements IUserService {
             const result = await this._httpService.get(`profile/id/${userId}`);
             return { ...result, userId: result.objectId, creationDate: result['created_date'] } as User;
         } catch (error) {
-            throw new SocialError(error.code, 'firestore/getUserProfile :' + error.message);
+            throw new SocialError(error.code, 'service/getUserProfile :' + error.message);
         }
     };
 
@@ -38,7 +38,7 @@ export class UserService implements IUserService {
 
             return { ...result, userId: result.objectId, creationDate: result['created_date'] } as User;
         } catch (error) {
-            throw new SocialError(error.code, 'firestore/getUserProfile :' + error.message);
+            throw new SocialError(error.code, 'service/getUserProfile :' + error.message);
         }
     };
 

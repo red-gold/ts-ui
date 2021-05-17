@@ -36,10 +36,11 @@ export function ProfileComponent() {
     const location = useLocation();
     const { userId } = useParams();
     const classes = useStyles();
+
     // Dispatcher
     const dispatch = useDispatch();
     const loadPosts = (page: number) => dispatch(postActions.dbGetPostsByUserId(userId, page));
-    const loadUserInfo = () => dispatch(userActions.dbGetUserInfoByUserId(userId));
+    const loadUserInfo = () => dispatch(userActions.getUserProfilePage(userId));
     const setHeaderTitle = (title: string) => dispatch(globalActions.setHeaderTitle(title));
 
     // Selectors
