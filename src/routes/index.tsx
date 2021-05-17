@@ -4,6 +4,7 @@ import Loadable from 'react-loadable';
 import { PartialRouteObject } from 'react-router';
 import { MasterLoadingComponent } from 'components/masterLoading';
 import { homeRoutes } from './homeRouter';
+import NotFound from 'pages/notFound';
 
 const AsyncSignup = Loadable({
     loader: () => import('containers/signupWrapper'),
@@ -42,32 +43,36 @@ const AsyncMaster: any = Loadable({
 
 const routes = (isLoggedIn: boolean) => [
     {
-        path: '/signup',
+        path: 'signup',
         element: isLoggedIn ? <Navigate to="/" /> : <AsyncSignup />,
     },
     {
-        path: '/emailVerification',
+        path: 'emailVerification',
         element: isLoggedIn ? <Navigate to="/" /> : <AsyncEmailVerification />,
     },
     {
-        path: '/smsVerification',
+        path: 'smsVerification',
         element: isLoggedIn ? <Navigate to="/" /> : <AsyncSmsVerification />,
     },
     {
-        path: '/resetPassword',
+        path: 'resetPassword',
         element: isLoggedIn ? <Navigate to="/" /> : <AsyncResetPassword />,
     },
     {
-        path: '/terms',
+        path: 'terms',
         element: isLoggedIn ? <Navigate to="/" /> : <AsyncTerms />,
     },
     {
-        path: '/login',
+        path: 'login',
         element: isLoggedIn ? <Navigate to="/" /> : <AsyncLogin />,
     },
     {
-        path: '/newPassword',
+        path: 'newPassword',
         element: isLoggedIn ? <Navigate to="/" /> : <AsyncNewPassword />,
+    },
+    {
+        path: '404',
+        element: <NotFound />,
     },
     {
         path: '/',
