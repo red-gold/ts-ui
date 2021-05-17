@@ -1,76 +1,38 @@
-
-import withStyles from '@material-ui/core/styles/withStyles';
 import { Map } from 'immutable';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PostComponent from 'components/post';
 import * as postActions from 'store/actions/postActions';
-import * as userActions from 'store/actions/userActions';
+import { useParams } from 'react-router';
+import { userSelector } from 'store/reducers/users/userSelector';
+import { postSelector } from 'store/reducers/posts/postSelector';
+import { useStyles } from './postPageStyles';
 
-import { IPostPageProps } from './IPostPageProps';
-import { IPostPageState } from './IPostPageState';
-import { postPageStyles } from './postPageStyles';
+const selectUserProfileById = userSelector.selectUserProfileById();
+const selectPost = postSelector.selectPost();
 
-export class PostPageComponent extends Component<IPostPageProps, IPostPageState> {
-    static propTypes = {};
+export function PostPageComponent() {
+    const { userId, postId } = useParams();
+    const classes = useStyles();
+    // Dispatcher
+    const dispatch = useDispatch();
+    const loadPost = () => dispatch(postActions.dbGetPostById(userId, postId));
 
-    constructor(props: IPostPageProps) {
-        super(props);
+    // Selector
+    const userInfo = useSelector((state: Map<string, any>) => selectUserProfileById(state, { userId }));
+    const post = useSelector((state: Map<string, any>) => selectPost(state, { postId }));
 
-        // Defaul state
-        this.state = {};
+    React.useEffect(() => {
+        loadPost();
+    });
 
-        // Binding functions to `this`
-    }
-    componentDidMount() {
-        const { loadPost, loadUserInfo } = this.props;
-        if (loadPost && loadUserInfo) {
-            loadPost();
-            loadUserInfo();
-        }
-    }
-
-    render() {
-        const { classes, post, userInfo } = this.props;
-        if (!userInfo || !post) {
-            return <div />;
-        }
-        return (
-            <div className={classes.container}>
-                <div className={classes.postBox} key={`post-stream-column-${userInfo.userId}`}>
-                    <PostComponent key={`${post.get('id')}-stream-div-post`} post={post} />
-                </div>
+    return (
+        <div className={classes.container}>
+            <div className={classes.postBox} key={`post-stream-column-${userInfo.get('userId', '')}`}>
+                <PostComponent key={`${post.get('id')}-stream-div-post`} post={post} />
             </div>
-        );
-    }
+        </div>
+    );
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = (dispatch: any, ownProps: IPostPageProps) => {
-    const { userId, postId } = ownProps.match.params;
-    return {
-        loadPost: () => dispatch(postActions.dbGetPostById(userId, postId)),
-        loadUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(userId)),
-    };
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = (state: Map<string, any>, ownProps: IPostPageProps) => {
-    const { userId, postId } = ownProps.match.params;
-    const userInfo: Map<string, any> = state.getIn(['state', 'user', 'entities', userId], Map({}));
-    const post: Map<string, any> = state.getIn(['post', 'entities', postId], Map({}));
-    return {
-        userInfo: userInfo.toJS(),
-        post,
-    };
-};
-
-// - Connect component to redux store
-export default connect<{}, {}, any, any>(
-    mapStateToProps,
-    mapDispatchToProps,
-)(withStyles(postPageStyles as any)(PostPageComponent as any) as any);
+export default PostPageComponent;

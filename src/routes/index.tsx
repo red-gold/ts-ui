@@ -1,5 +1,5 @@
-import { Navigate } from 'react-router-dom';
 import React from 'react';
+import { Navigate } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import { PartialRouteObject } from 'react-router';
 import { MasterLoadingComponent } from 'components/masterLoading';
@@ -43,7 +43,7 @@ const AsyncMaster: any = Loadable({
 const routes = (isLoggedIn: boolean) => [
     {
         path: '/signup',
-        element: <AsyncSignup />,
+        element: isLoggedIn ? <Navigate to="/" /> : <AsyncSignup />,
     },
     {
         path: '/emailVerification',

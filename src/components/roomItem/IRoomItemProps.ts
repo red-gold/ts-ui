@@ -10,9 +10,4 @@ export interface IRoomItemProps {
     closeRoomList: () => void;
 
     openRoom: (roomId: string) => any;
-
-    /**
-     * Material ui styles
-     */
-    classes?: any;
 }

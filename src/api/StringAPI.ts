@@ -71,6 +71,10 @@ const getNumberOfLines = (input: string) => {
     return input.split('\n').length;
 };
 
+function capitalizeFirstLetter(input: string) {
+    return input.charAt(0).toUpperCase() + input.slice(1);
+}
+
 export default {
     isValidEmail,
     queryString,
@@ -81,4 +85,5 @@ export default {
     validateUrl,
     getNumberOfLines,
     isEmpty,
+    capitalizeFirstLetter,
 };

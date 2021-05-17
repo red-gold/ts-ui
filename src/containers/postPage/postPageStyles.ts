@@ -1,5 +1,6 @@
-/* eslint-disable no-useless-computed-key */
-export const postPageStyles = (theme: any) => ({
+import { makeStyles, Theme } from '@material-ui/core/styles';
+
+export const useStyles = makeStyles((theme: Theme) => ({
     root: {
         position: 'relative',
     },
@@ -54,4 +55,4 @@ export const postPageStyles = (theme: any) => ({
             width: '100%',
         },
     },
-});
+}));

@@ -74,6 +74,10 @@ export const homeRoutes = [
         element: <AsyncPostPage />,
     },
     {
+        path: '/:userId/posts/:postId',
+        element: <AsyncPostPage />,
+    },
+    {
         path: '/search/post',
         element: <AsyncSearchPost />,
     },
