@@ -7,14 +7,18 @@ import classNames from 'classnames';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
 import { INotifyItemProps } from './INotifyItemProps';
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import useTheme from '@material-ui/core/styles/useTheme';
 import { useStyles } from './notifyItemStyles';
 import Typography from '@material-ui/core/Typography';
 import { useNavigate } from 'react-router';
+import StringAPI from 'api/StringAPI';
 
 export function NotifyItemComponent(props: INotifyItemProps) {
     const classes = useStyles();
     const navigate = useNavigate();
+    const theme = useTheme();
+
     const { description, fullName, avatar, isSeen, id, notifierUserId, url, deleteNotify } = props;
     const handleSeenNotify = (event: any) => {
         event.preventDefault();
@@ -50,10 +54,22 @@ export function NotifyItemComponent(props: INotifyItemProps) {
             </ListItemAvatar>
             <ListItemText
                 className={classes.itemText}
-                primary={fullName}
+                primary={
+                    <Typography
+                        sx={{ textTransform: 'capitalize', color: theme.palette.text.primary }}
+                        variant="subtitle1"
+                        noWrap
+                    >
+                        {fullName}
+                    </Typography>
+                }
                 secondary={
-                    <Typography variant="body2" noWrap>
-                        {description}
+                    <Typography
+                        sx={{ textTransform: 'none', color: theme.palette.text.secondary }}
+                        variant="body2"
+                        noWrap
+                    >
+                        {StringAPI.capitalizeFirstLetter(description)}
                     </Typography>
                 }
             />

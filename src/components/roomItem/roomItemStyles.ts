@@ -3,10 +3,10 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { Theme } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 import { createStyles } from '@material-ui/styles';
 
-export const roomItemStyles = (theme: Theme) =>
+export const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             width: '100%',
@@ -27,7 +27,6 @@ export const roomItemStyles = (theme: Theme) =>
         },
         listItem: {
             padding: '12px 20px !important',
-            'text-transform': 'none !important',
             '&::not(:last-child)': {
                 marginBottom: 1,
             },
@@ -55,4 +54,5 @@ export const roomItemStyles = (theme: Theme) =>
             marginLeft: 10,
             color: theme.palette.common.black,
         },
-    });
+    }),
+);
