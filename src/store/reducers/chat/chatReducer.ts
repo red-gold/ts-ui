@@ -1,4 +1,3 @@
-
 import { ChatActionType } from 'constants/chatActionType';
 import { Map } from 'immutable';
 
@@ -56,6 +55,13 @@ const addActiveChatRoom = (state: Map<string, any>, payload: any) => {
 const closeActiveChatRoom = (state: Map<string, any>, payload: any) => {
     const { roomId } = payload;
     return state.setIn(['room', 'active', roomId], false);
+};
+
+/**
+ * Close all active chat rooms
+ */
+const closeAllActiveChatRooms = (state: Map<string, any>) => {
+    return state.setIn(['room', 'active'], Map());
 };
 
 /**
@@ -132,6 +138,9 @@ export const chatReducer = (state = Map({ chatOpen: false, recentChatOpen: false
 
         case ChatActionType.CLOSE_ACTIVE_ROOM:
             return closeActiveChatRoom(state, payload);
+
+        case ChatActionType.CLOSE_ALL_ACTIVE_ROOM:
+            return closeAllActiveChatRooms(state);
 
         case ChatActionType.ADD_ROOM:
             return addChatRoom(state, payload);

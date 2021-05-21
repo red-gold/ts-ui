@@ -139,6 +139,15 @@ export const closeActiveChatRoom = (roomId: string) => {
 };
 
 /**
+ * Close all active chat rooms
+ */
+export const closeAllActiveChatRooms = () => {
+    return {
+        type: ChatActionType.CLOSE_ALL_ACTIVE_ROOM,
+    };
+};
+
+/**
  * Add active chat room
  */
 export const addChatRoom = (payload: any) => {
