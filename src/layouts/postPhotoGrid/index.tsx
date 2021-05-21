@@ -75,7 +75,13 @@ export class PostPhotoGridComponent extends Component<IPostPhotoGridProps, IPost
                 </div>
             );
         }
-        return <Img fileName={images[0].url} onClick={(event: any) => this.handleClick(event, 0)} />;
+        return (
+            <Img
+                style={{ objectFit: 'scale-down' }}
+                fileName={images[0].url}
+                onClick={(event: any) => this.handleClick(event, 0)}
+            />
+        );
     }
     render() {
         const { classes } = this.props;

@@ -1,70 +1,56 @@
-
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import SvgImage from '@material-ui/icons/Image';
-import { Map } from 'immutable';
-import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
+import classNames from 'classnames';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { IImgComponentProps } from './IImgComponentProps';
-import { IImgComponentState } from './IImgComponentState';
 
-// - Import app components
-
-// - Import API
-
-// - Import actions
-const styles = () => ({
+const useStyles = makeStyles(() => ({
     image: {
         verticalAlign: 'top',
         maxWidth: '100%',
         minWidth: '100%',
         width: '100%',
     },
-});
+    loading: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '100px',
+        position: 'relative',
+        color: '#cacecd',
+        fontWeight: 400,
+    },
+    loadingContent: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    loadingImage: {
+        fill: 'aliceblue',
+        width: '50px',
+        height: '50px',
+    },
+    noDisplay: {
+        display: 'none',
+    },
+    notLoadedRoot: {
+        backgroundColor: 'white',
+    },
+}));
 
-export class ImgComponent extends Component<IImgComponentProps & WithTranslation, IImgComponentState> {
-    styles = {
-        loding: {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            height: '100px',
-            position: 'relative',
-            color: '#cacecd',
-            fontWeight: 400,
-        },
-        loadingContent: {
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-        },
-        loadingImage: {
-            fill: 'aliceblue',
-            width: '50px',
-            height: '50px',
-        },
-    };
-
-    constructor(props: IImgComponentProps & WithTranslation) {
-        super(props);
-
-        // Defaul state
-        this.state = {
-            isImageLoaded: false,
-        };
-
-        // Binding functions to `this`
-        this.handleLoadImage = this.handleLoadImage.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-    }
+export function ImgComponent(props: IImgComponentProps) {
+    const [isImageLoaded, setIsImageLoaded] = React.useState(false);
+    const classes = useStyles();
+    const { t } = useTranslation();
 
     /**
      * Handle click on image
      */
-    handleClick = (event: any) => {
-        const { onClick } = this.props;
+    const handleClick = (event: any) => {
+        const { onClick } = props;
         if (onClick) {
             onClick(event);
         }
@@ -73,66 +59,36 @@ export class ImgComponent extends Component<IImgComponentProps & WithTranslation
     /**
      * Will be called on loading image
      */
-    handleLoadImage = () => {
-        this.setState({
-            isImageLoaded: true,
-        });
+    const handleLoadImage = () => {
+        setIsImageLoaded(true);
     };
 
-    render() {
-        const { fileName, style, t } = this.props;
-        const { isImageLoaded } = this.state;
-        const { classes } = this.props;
-        return (
-            <div>
-                <img
-                    alt={fileName || ''}
-                    className={classes.image}
-                    onClick={this.handleClick}
-                    onLoad={this.handleLoadImage}
-                    src={fileName || ''}
-                    style={isImageLoaded ? style : { display: 'none' }}
-                />
-                <div
-                    style={
-                        Object.assign(
-                            {},
-                            { backgroundColor: 'white' },
-                            isImageLoaded ? { display: 'none' } : this.styles.loding,
-                        ) as any
-                    }
-                >
-                    <div style={this.styles.loadingContent as any}>
-                        <SvgImage style={this.styles.loadingImage} />
-                        <div>{t('image.notLoaded')}</div>
-                    </div>
+    const { fileName, style } = props;
+
+    return (
+        <>
+            <img
+                alt={fileName || ''}
+                className={classes.image}
+                onClick={handleClick}
+                onLoad={handleLoadImage}
+                src={fileName || ''}
+                style={isImageLoaded ? style : { display: 'none' }}
+            />
+            <div
+                className={classNames(
+                    classes.notLoadedRoot,
+                    { [classes.noDisplay]: isImageLoaded },
+                    { [classes.loading]: !isImageLoaded },
+                )}
+            >
+                <div className={classes.loadingContent}>
+                    <SvgImage className={classes.loadingImage} />
+                    <div>{t('image.notLoaded')}</div>
                 </div>
             </div>
-        );
-    }
+        </>
+    );
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = () => {
-    return {};
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = (state: Map<string, any>) => {
-    return {
-        avatarURL: state.getIn(['imageGallery', 'imageURLList']),
-        imageRequests: state.getIn(['imageGallery', 'imageRequests']),
-    };
-};
-
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(ImgComponent);
-
-export default connect<{}, {}, any, any>(
-    mapStateToProps,
-    mapDispatchToProps,
-)(withStyles(styles as any)(translateWrapper as any) as any);
+export default ImgComponent;
