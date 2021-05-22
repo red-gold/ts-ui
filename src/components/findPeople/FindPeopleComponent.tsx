@@ -77,8 +77,6 @@ export function FindPeopleComponent() {
             {(loading || hasMorePeople) && (
                 <div ref={sentryRef} className={classes.skeletonRoot}>
                     <UserBoxSkeleton />
-                    <UserBoxSkeleton />
-                    <UserBoxSkeleton />
                 </div>
             )}
         </div>

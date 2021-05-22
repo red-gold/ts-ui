@@ -58,6 +58,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflow: 'auto',
+        overflowX: 'hidden',
         minHeight: '100%',
         paddingBottom: 80,
         marginTop: 44,
