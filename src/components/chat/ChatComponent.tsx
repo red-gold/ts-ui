@@ -143,7 +143,9 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
     /**
      * Handle toggle emoji
      */
-    handleToggleEmoji = () => {
+    handleToggleEmoji = (event: any) => {
+        event.stopPropagation();
+        event.preventDefault();
         if (this.state.emojiOpen) {
             this.handleCloseEmojiMenu();
         } else {
@@ -495,8 +497,10 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
                                 disableUnderline
                                 fullWidth
                                 value={messageText}
+                                onClick={this.handleClickInput}
                                 onKeyDown={this.handleKeyPress}
                                 onChange={this.handleChange('messageText')}
+                                autoComplete="off"
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <EmojiIcon className={classes.emojiIcon} onClick={this.handleToggleEmoji} />
