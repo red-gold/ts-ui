@@ -28,3 +28,6 @@ docker/config/.env.secrets
 ts-frontend/dist
 docker/mongodb/*
 docker/minio-persistence/*
+
+.firebase/*
+ts-frontend/dist/*
