@@ -1,16 +1,14 @@
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
-
+import { Map } from 'immutable';
 export interface IEditProfileState {
     [key: string]: any;
+
+    errors: Map<string, string>;
+
     /**
      * Full name input value
      */
     fullNameInput: string;
-
-    /**
-     * Full name input error message
-     */
-    fullNameInputError: string;
 
     /**
      * Whether image editor is open
