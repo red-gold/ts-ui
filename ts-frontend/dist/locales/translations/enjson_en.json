@@ -133,7 +133,9 @@
         "twitterExampleLabel": "you twitter user name ex. twitter",
         "facebookExampleLabel": "your facebook page name ex. facebook",
         "chooseBirthday": "Pick your birthday",
-        "nothingToShowLabel": "🤷 Nothing to show! :("
+        "nothingToShowLabel": "🤷 Nothing to show! :(",
+        "fullNameInputError": "This field is required",
+        "webURLInputError": "Please enter a valid URL, e.g. https://telar.dev"
 
     },
     "people": {
