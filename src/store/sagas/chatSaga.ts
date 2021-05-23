@@ -225,7 +225,7 @@ function* watchSetActiveRoom(action: any) {
         const { room, messages, users } = payload;
         yield put(chatActions.addChatRoom(fromJS(room)));
         yield put(userActions.addPeopleInfo(fromJS(users)));
-        yield put(chatActions.addActiveChatRoom(room.objectId));
+        yield put(chatActions.openRoom(room.objectId));
         if (messages) {
             yield put(chatActions.addPlainChatRoomMessages(messages, room.objectId));
         }
@@ -248,7 +248,7 @@ function* watchSetRoomEntities(action: any) {
 function* watchOpenRoom(action: any) {
     const { payload } = action;
     const { roomId } = payload;
-    // yield call(chatService.openRoom, roomId);
+    yield put(chatActions.closeAllActiveChatRooms());
     yield put(chatActions.addActiveChatRoom(roomId));
 }
 

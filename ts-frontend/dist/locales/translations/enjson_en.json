@@ -133,7 +133,9 @@
         "twitterExampleLabel": "you twitter user name ex. twitter",
         "facebookExampleLabel": "your facebook page name ex. facebook",
         "chooseBirthday": "Pick your birthday",
-        "nothingToShowLabel": "🤷 Nothing to show! :("
+        "nothingToShowLabel": "🤷 Nothing to show! :(",
+        "fullNameInputError": "This field is required",
+        "webURLInputError": "Please enter a valid URL, e.g. https://telar.dev"
 
     },
     "people": {
@@ -428,6 +430,13 @@
     },
     "support": {
         "content": "### Support  \nFor general questions the best place is our community in [Slack](https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform). The [Slack](https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform) community is the place for questions and advice about [Telar Social](https://telar.dev) project. If you are not sure where to aks, we will guide you to the right place.  \n\nTo request technical support, reporting a bug or want a new feature, [Github](https://github.com/red-gold/ts-ui/issues) is the right place to track. Please make sure to add as many information as possible, in order for us to reproduce your issue. \n\nCustomers who purchased Sky plan or Enterprise plan are in high priority for thechnical support. You are always welcome to ask for feature requests and give suggestions that can improve this project. \n\n\nCheers,  \nThe Telar team"
+    },
+    "notFound": {
+        "header": "04 | \"{{appName}}\"",
+        "title": "404: The page you are looking for isn’t here",
+        "description": "You either tried some shady route or you came here by mistake. Whichever it is, try using the navigation",
+        "homeButton": "Back to home"
+
     }
   
     

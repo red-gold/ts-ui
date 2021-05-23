@@ -58,6 +58,13 @@ const closeActiveChatRoom = (state: Map<string, any>, payload: any) => {
 };
 
 /**
+ * Close all active chat rooms
+ */
+const closeAllActiveChatRooms = (state: Map<string, any>) => {
+    return state.setIn(['room', 'active'], Map());
+};
+
+/**
  * Add chat room
  */
 const addChatRoom = (state: Map<string, any>, payload: Map<string, any>) => {
@@ -131,6 +138,9 @@ export const chatReducer = (state = Map({ chatOpen: false, recentChatOpen: false
 
         case ChatActionType.CLOSE_ACTIVE_ROOM:
             return closeActiveChatRoom(state, payload);
+
+        case ChatActionType.CLOSE_ALL_ACTIVE_ROOM:
+            return closeAllActiveChatRooms(state);
 
         case ChatActionType.ADD_ROOM:
             return addChatRoom(state, payload);

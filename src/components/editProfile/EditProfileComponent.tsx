@@ -19,6 +19,9 @@ import { connectEditProfile } from './connectEditProfile';
 import MobileDialog from '../mobileDialog';
 import GalleryComponent from '../gallery';
 import DatePicker from '../datePicker';
+import { Map } from 'immutable';
+import isEmpty from 'validator/lib/isEmpty';
+import isURL from 'validator/lib/isURL';
 
 export class EditProfileComponent extends Component<IEditProfileProps & WithTranslation, IEditProfileState> {
     constructor(props: IEditProfileProps & WithTranslation) {
@@ -38,10 +41,6 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
              * User full name input value
              */
             fullNameInput: currentUser.get('fullName', ''),
-            /**
-             * Error message of full name input
-             */
-            fullNameInputError: '',
             /**
              * User banner address
              */
@@ -103,6 +102,11 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
              * User facebook id
              */
             accessUserList: currentUser && currentUser.get('accessUserList') ? currentUser.get('accessUserList') : [],
+
+            /**
+             * Input errors
+             */
+            errors: Map({}),
         };
 
         // Binding functions to `this`
@@ -197,6 +201,22 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
     };
 
     /**
+     * Validate inputs
+     */
+    validateInputs = () => {
+        let errors: Map<string, string> = Map({});
+        const { fullNameInput, webUrl } = this.state;
+        const { t } = this.props;
+        if (isEmpty(fullNameInput, { ignore_whitespace: true })) {
+            errors = errors.set('fullNameInput', t('profile.fullNameInputError'));
+        }
+        if (!isEmpty(fullNameInput, { ignore_whitespace: true }) && !isURL(webUrl, { require_protocol: true })) {
+            errors = errors.set('webUrl', t('profile.webURLInputError'));
+        }
+        this.setState({ errors });
+    };
+
+    /**
      * Update profile on the server
      */
     handleUpdate = () => {
@@ -212,18 +232,11 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
             facebookId,
             accessUserList,
             permission,
+            errors,
         } = this.state;
         const { currentUser, update } = this.props;
 
-        if (fullNameInput.trim() === '') {
-            this.setState({
-                fullNameInputError: 'This field is required',
-            });
-        } else {
-            this.setState({
-                fullNameInputError: '',
-            });
-
+        if (!errors.size) {
             update({
                 fullName: fullNameInput,
                 tagLine: tagLineInput,
@@ -249,9 +262,14 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        this.setState({
-            [name]: value,
-        });
+        this.setState(
+            {
+                [name]: value,
+            },
+            () => {
+                this.validateInputs();
+            },
+        );
     };
 
     /**
@@ -358,14 +376,14 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
                         {/* Edit user information box*/}
                         <div className={classes.box}>
                             <TextField
-                                error={!!this.state.fullNameInputError}
                                 id="fullNameInput"
                                 label={t('profile.fullName')}
                                 onChange={this.handleInputChange}
                                 name="fullNameInput"
                                 value={this.state.fullNameInput}
                                 fullWidth
-                                helperText={this.state.fullNameInputError}
+                                error={!!this.state.errors.get('fullNameInput')}
+                                helperText={this.state.errors.get('fullNameInput')}
                             />
                         </div>
                         <div className={classes.box}>
@@ -378,7 +396,6 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
                                 multiline
                                 maxRows={3}
                                 fullWidth
-                                helperText={this.state.fullNameInputError}
                             />
                         </div>
                         <div className={classes.box}>
@@ -428,6 +445,8 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
                                 value={webUrl}
                                 label={t('profile.webUrl')}
                                 fullWidth
+                                error={!!this.state.errors.get('webUrl')}
+                                helperText={this.state.errors.get('webUrl')}
                             />
                         </div>
                         <div className={classes.box}>

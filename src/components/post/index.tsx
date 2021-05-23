@@ -421,7 +421,11 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
                             </div>
                         ) : (
                             <>
-                                <Img fileName={postTypeId === PostType.Photo ? image : thumbnail} />
+                                {postTypeId === PostType.Photo ? (
+                                    <Img style={{ objectFit: 'scale-down' }} fileName={image} />
+                                ) : (
+                                    <Img fileName={thumbnail} />
+                                )}
                                 <span
                                     className={classNames(classes.playVideo, {
                                         [classes.noDisplay]: postTypeId !== PostType.Video,

@@ -114,6 +114,7 @@ export function SearchBoxComponent() {
                 value={searchText}
                 onClick={handleOpenList}
                 onChange={handleChange('searchText')}
+                autoComplete="off"
                 startAdornment={
                     <InputAdornment position="end">
                         <SearchIcon className={classes.searchIcon} onMouseDown={handleMouseDown} />
