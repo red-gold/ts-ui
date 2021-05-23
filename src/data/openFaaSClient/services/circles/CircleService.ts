@@ -1,4 +1,3 @@
-
 import { Circle } from 'core/domain/circles/circle';
 import { SocialError } from 'core/domain/common/socialError';
 import { ICircleService } from 'core/services/circles/ICircleService';

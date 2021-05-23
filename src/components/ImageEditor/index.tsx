@@ -1,4 +1,3 @@
-
 import 'cropperjs/dist/cropper.css';
 
 import Button from '@material-ui/core/Button';

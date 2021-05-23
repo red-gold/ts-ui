@@ -1,10 +1,10 @@
-"use strict"
+'use strict';
 
 module.exports = async (config) => {
     const routing = new Routing(config.app);
     routing.configure();
     routing.bind(routing.handle);
-}
+};
 
 class Routing {
     constructor(app) {
@@ -12,11 +12,11 @@ class Routing {
     }
 
     configure() {
-        const bodyParser = require('body-parser')
+        const bodyParser = require('body-parser');
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.raw());
-        this.app.use(bodyParser.text({ type : "text/*" }));
-        this.app.disable('x-powered-by');        
+        this.app.use(bodyParser.text({ type: 'text/*' }));
+        this.app.disable('x-powered-by');
     }
 
     bind(route) {

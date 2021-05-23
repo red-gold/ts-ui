@@ -1,4 +1,3 @@
-
 import { SocialError } from 'core/domain/common/socialError';
 import { Post } from 'core/domain/posts/post';
 import { PostType } from 'core/domain/posts/postType';

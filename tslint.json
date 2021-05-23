@@ -3,10 +3,7 @@
     "rules": {
         "ban": false,
         "class-name": true,
-        "comment-format": [
-            true,
-            "check-space"
-        ],
+        "comment-format": [true, "check-space"],
         "curly": true,
         "eofline": false,
         "forin": true,
@@ -27,22 +24,11 @@
         "jsx-boolean-value": false,
         "jsx-alignment": false,
         "label-position": true,
-        "member-ordering": [
-        true,
-        "public-before-private",
-        "static-before-instance",
-        "variables-before-functions"
-        ],
+        "member-ordering": [true, "public-before-private", "static-before-instance", "variables-before-functions"],
         "no-any": false,
         "no-arg": true,
         "no-bitwise": true,
-        "no-console": [
-            true,
-            "debug",
-            "info",
-            "time",
-            "timeEnd"
-        ],
+        "no-console": [true, "debug", "info", "time", "timeEnd"],
         "no-consecutive-blank-lines": true,
         "no-construct": true,
         "no-debugger": true,
@@ -55,13 +41,7 @@
         "no-trailing-whitespace": false,
         "no-unused-expression": true,
         "no-use-before-declare": false,
-        "one-line": [
-            true,
-            "check-catch",
-            "check-else",
-            "check-open-brace",
-            "check-whitespace"
-        ],
+        "one-line": [true, "check-catch", "check-else", "check-open-brace", "check-whitespace"],
         "quotemark": [true, "single", "avoid-escape", "jsx-single"],
         "radix": true,
         "semicolon": [true, "never"],
@@ -69,12 +49,8 @@
 
         "trailing-comma": [false],
 
-        "triple-equals": [ true, "allow-null-check" ],
-        "typedef": [
-            true,
-            "parameter",
-            "property-declaration"
-        ],
+        "triple-equals": [true, "allow-null-check"],
+        "typedef": [true, "parameter", "property-declaration"],
         "typedef-whitespace": [
             true,
             {
@@ -96,6 +72,6 @@
             "check-typecast",
             "check-type-operator",
             "check-preblock"
-          ]
+        ]
     }
 }

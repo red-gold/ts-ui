@@ -1,20 +1,20 @@
 // Copyright (c) Alex Ellis 2017. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-"use strict"
+'use strict';
 
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 const handler = require('./function/handler');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 if (process.env.RAW_BODY === 'true') {
-    app.use(bodyParser.raw({ type: '*/*' }))
+    app.use(bodyParser.raw({ type: '*/*' }));
 } else {
-    var jsonLimit = process.env.MAX_JSON_SIZE || '100kb' //body-parser default
-    app.use(bodyParser.json({ limit: jsonLimit}));
+    var jsonLimit = process.env.MAX_JSON_SIZE || '100kb'; //body-parser default
+    app.use(bodyParser.json({ limit: jsonLimit }));
     app.use(bodyParser.raw()); // "Content-Type: application/octet-stream"
-    app.use(bodyParser.text({ type : "text/*" }));
+    app.use(bodyParser.text({ type: 'text/*' }));
 }
 
 app.disable('x-powered-by');
@@ -37,7 +37,7 @@ class FunctionContext {
     }
 
     status(value) {
-        if(!value) {
+        if (!value) {
             return this.value;
         }
 
@@ -46,12 +46,12 @@ class FunctionContext {
     }
 
     headers(value) {
-        if(!value) {
+        if (!value) {
             return this.headerValues;
         }
 
         this.headerValues = value;
-        return this;    
+        return this;
     }
 
     succeed(value) {
@@ -72,7 +72,7 @@ var middleware = (req, res) => {
             return res.status(500).send(err);
         }
 
-        if(isArray(functionResult) || isObject(functionResult)) {
+        if (isArray(functionResult) || isObject(functionResult)) {
             res.set(fnContext.headers()).status(fnContext.status()).send(JSON.stringify(functionResult));
         } else {
             res.set(fnContext.headers()).status(fnContext.status()).send(functionResult);
@@ -94,13 +94,13 @@ app.delete('/*', middleware);
 const port = process.env.http_port || 3000;
 
 app.listen(port, () => {
-    console.log(`OpenFaaS Node.js listening on port: ${port}`)
+    console.log(`OpenFaaS Node.js listening on port: ${port}`);
 });
 
 let isArray = (a) => {
-    return (!!a) && (a.constructor === Array);
+    return !!a && a.constructor === Array;
 };
 
 let isObject = (a) => {
-    return (!!a) && (a.constructor === Object);
+    return !!a && a.constructor === Object;
 };

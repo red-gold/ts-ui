@@ -2,44 +2,44 @@
 // Copyright (c) OpenFaaS Author(s) 2021. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-"use strict"
+'use strict';
 
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 const handler = require('./function/handler');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
-const defaultMaxSize = '100kb' // body-parser default
+const defaultMaxSize = '100kb'; // body-parser default
 
 app.disable('x-powered-by');
 
-const rawLimit = process.env.MAX_RAW_SIZE || defaultMaxSize
-const jsonLimit = process.env.MAX_JSON_SIZE || defaultMaxSize
+const rawLimit = process.env.MAX_RAW_SIZE || defaultMaxSize;
+const jsonLimit = process.env.MAX_JSON_SIZE || defaultMaxSize;
 
 app.use(function addDefaultContentType(req, res, next) {
-    // When no content-type is given, the body element is set to 
+    // When no content-type is given, the body element is set to
     // nil, and has been a source of contention for new users.
 
-    if(!req.headers['content-type']) {
-        req.headers['content-type'] = "text/plain"
+    if (!req.headers['content-type']) {
+        req.headers['content-type'] = 'text/plain';
     }
-    next()
-})
+    next();
+});
 
 if (process.env.RAW_BODY === 'true') {
-    app.use(bodyParser.raw({ type: '*/*' , limit: rawLimit }))
+    app.use(bodyParser.raw({ type: '*/*', limit: rawLimit }));
 } else {
-    app.use(bodyParser.text({ type : "text/*" }));
-    app.use(bodyParser.json({ limit: jsonLimit}));
+    app.use(bodyParser.text({ type: 'text/*' }));
+    app.use(bodyParser.json({ limit: jsonLimit }));
     app.use(bodyParser.urlencoded({ extended: true }));
 }
 
 const isArray = (a) => {
-    return (!!a) && (a.constructor === Array);
+    return !!a && a.constructor === Array;
 };
 
 const isObject = (a) => {
-    return (!!a) && (a.constructor === Object);
+    return !!a && a.constructor === Object;
 };
 
 class FunctionEvent {
@@ -61,7 +61,7 @@ class FunctionContext {
     }
 
     status(value) {
-        if(!value) {
+        if (!value) {
             return this.value;
         }
 
@@ -70,12 +70,12 @@ class FunctionContext {
     }
 
     headers(value) {
-        if(!value) {
+        if (!value) {
             return this.headerValues;
         }
 
         this.headerValues = value;
-        return this;    
+        return this;
     }
 
     succeed(value) {
@@ -96,17 +96,13 @@ const middleware = async (req, res) => {
         if (err) {
             console.error(err);
 
-            return res.status(500)
-                .send(err.toString ? err.toString() : err);
+            return res.status(500).send(err.toString ? err.toString() : err);
         }
 
-        if(isArray(functionResult) || isObject(functionResult)) {
-            res.set(fnContext.headers())
-                .status(fnContext.status()).send(JSON.stringify(functionResult));
+        if (isArray(functionResult) || isObject(functionResult)) {
+            res.set(fnContext.headers()).status(fnContext.status()).send(JSON.stringify(functionResult));
         } else {
-            res.set(fnContext.headers())
-                .status(fnContext.status())
-                .send(functionResult);
+            res.set(fnContext.headers()).status(fnContext.status()).send(functionResult);
         }
     };
 
@@ -114,14 +110,14 @@ const middleware = async (req, res) => {
     const fnContext = new FunctionContext(cb);
 
     Promise.resolve(handler(fnEvent, fnContext, cb))
-    .then(res => {
-        if(!fnContext.cbCalled) {
-            fnContext.succeed(res);
-        }
-    })
-    .catch(e => {
-        cb(e);
-    });
+        .then((res) => {
+            if (!fnContext.cbCalled) {
+                fnContext.succeed(res);
+            }
+        })
+        .catch((e) => {
+            cb(e);
+        });
 };
 
 app.post('/*', middleware);
@@ -134,7 +130,5 @@ app.options('/*', middleware);
 const port = process.env.http_port || 3000;
 
 app.listen(port, () => {
-    console.log(`node12 listening on port: ${port}`)
+    console.log(`node12 listening on port: ${port}`);
 });
-
-

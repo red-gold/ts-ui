@@ -1,4 +1,3 @@
-
 import TextField from '@material-ui/core/TextField/TextField';
 import React, { Component } from 'react';
 
@@ -22,7 +21,6 @@ export default class AppInputComponent extends Component<IAppInputComponentProps
     focus = () => {
         this.input.focus();
     };
-
 
     render() {
         return <TextField inputRef={(el) => (this.input = el)} fullWidth {...this.props} />;

@@ -12,7 +12,6 @@ import { PhotoModel } from 'models/gallery/photoModel';
 import uuid from 'uuid';
 import { IPostService } from 'core/services/posts/IPostService';
 
-
 /**
  * OpenFaaS image gallery service
  */

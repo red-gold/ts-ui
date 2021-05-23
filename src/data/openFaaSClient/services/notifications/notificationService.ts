@@ -1,4 +1,3 @@
-
 import { SocialError } from 'core/domain/common/socialError';
 import { INotificationService } from 'core/services/notifications/INotificationService';
 import { injectable, inject } from 'inversify';

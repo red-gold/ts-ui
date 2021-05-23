@@ -13,10 +13,11 @@ If you think you have found a bug, or have a new feature idea, please start by m
 Next, create a new issue that briefly explains the problem, and provides a bit of background as to the circumstances that triggered it, and steps to reproduce it.
 
 For code issues please include:
-* Telar Social Engine version
-* React version
-* Browser version
-* A code example or link to a repo, gist or running site.
+
+-   Telar Social Engine version
+-   React version
+-   Browser version
+-   A code example or link to a repo, gist or running site.
 
 For visual or layout problems, images or animated gifs can help explain your issue.
 It's even better with a live reproduction test case. Have a look at the [`ISSUE_TEMPLATE.md`](https://github.com/red-gold/ts-ui/blob/master/.github/ISSUE_TEMPLATE.md) file for a live playground example.
@@ -58,6 +59,7 @@ Please create a new branch from an up to date master on your fork. (Note, urgent
 5. Visit github and make your pull request.
 
 If you have an existing local repository, please update it before you start, to minimize the chance of merge conflicts.
+
 ```js
 git remote add upstream git@github.com:red-gold/ts-ui.git
 git checkout master

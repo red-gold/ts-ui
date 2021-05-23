@@ -1,4 +1,3 @@
-
 import List from '@material-ui/core/List';
 import CircleComponent from 'components/circle/CircleComponent';
 import { Map } from 'immutable';

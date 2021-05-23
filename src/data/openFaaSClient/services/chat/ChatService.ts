@@ -1,4 +1,3 @@
-
 import { Message } from 'core/domain/chat/message';
 import { SocialError } from 'core/domain/common/socialError';
 import { IChatService } from 'core/services/chat/IChatService';

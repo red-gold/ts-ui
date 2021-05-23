@@ -9,5 +9,5 @@ print('Count of rows in test collection: ' + db.test.count());
 
 alltest = db.test.find();
 while (alltest.hasNext()) {
-  printjson(alltest.next());
+    printjson(alltest.next());
 }

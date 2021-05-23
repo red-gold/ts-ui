@@ -1,4 +1,3 @@
-
 import { CommentActionType } from 'constants/commentActionType';
 import { Map } from 'immutable';
 

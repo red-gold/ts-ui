@@ -1,4 +1,3 @@
-
 import React, { Component, Fragment } from 'react';
 import SvgCamera from '@material-ui/icons/PhotoCamera';
 import classNames from 'classnames';

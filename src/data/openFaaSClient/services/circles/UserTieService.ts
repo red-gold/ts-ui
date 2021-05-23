@@ -15,8 +15,7 @@ import { throwNoValue } from 'utils/errorHandling';
 export class UserTieService implements IUserTieService {
     @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
     // eslint-disable-next-line
-  constructor(
-  ) {}
+    constructor() {}
 
     /**
      * Tie users

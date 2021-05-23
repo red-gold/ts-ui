@@ -1,4 +1,3 @@
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -31,7 +30,6 @@ import { IUserPermissionState } from './IUserPermissionState';
  * React component class
  */
 export class UserPermissionComponent extends Component<IUserPermissionProps & WithTranslation, IUserPermissionState> {
-
     constructor(props: IUserPermissionProps & WithTranslation) {
         super(props);
         const { access } = props;

@@ -1,5 +1,5 @@
 {
-    "sidebar" : {
+    "sidebar": {
         "home": "Home",
         "profile": "Profile",
         "people": "People",
@@ -16,16 +16,15 @@
         "company": "Company",
         "sponser": "Sponser",
         "support": "support"
-
     },
     "rightPanel": {
-        "contactsTitle": "Contacts" ,
-        "noOneInContacts": "There is no one in your contacts!" ,
+        "contactsTitle": "Contacts",
+        "noOneInContacts": "There is no one in your contacts!",
         "suggestionTitle": "Suggestion for you",
         "findFriendsBtn": "Find friends"
     },
     "header": {
-        "home":"Home",
+        "home": "Home",
         "notificationTooltip": "Notifications",
         "messengerTooltip": "Messenger",
         "editProfile": "Profile",
@@ -38,7 +37,6 @@
         "notification": {
             "emptyCaption": "All caught up!"
         }
-
     },
     "home": {
         "postWriteButtonText": "What's new with you?",
@@ -70,7 +68,6 @@
         "googlePlusButton": "Share in Google+",
         "videoGalleryLabel": "Video Gallery",
         "imageGalleryLabel": "Image Gallery"
-
     },
     "videGallery": {
         "saveButton": "SAVE",
@@ -137,7 +134,6 @@
         "createCircleTooltip": "Create Circle",
         "followingLabel": "Following",
         "followedLabel": "Followed"
-
     },
     "changePassword": {
         "title": "Change Password",
@@ -148,7 +144,6 @@
         "newPasswordRequiredError": "This field is required",
         "confirmPasswordRequiredError": "This field is required",
         "confirmPasswordEqualNewPasswordError": "Password and confirm password should be equal!"
-
     },
     "circle": {
         "settingLable": " Circle Setting",
@@ -158,10 +153,10 @@
     },
     "feedback": {
         "textareaPlaceholder": "What do you feel :) ?",
-        "sadTooltip":  "Sad",
-        "acceptableTooltip":  "Acceptable",
-        "happyTooltip":  "Happy",
-        "awesomeTooltip":  "Awesome",
+        "sadTooltip": "Sad",
+        "acceptableTooltip": "Acceptable",
+        "happyTooltip": "Happy",
+        "awesomeTooltip": "Awesome",
         "appreciateMessage": "We appreciate your kind support as always ;)",
         "sendingMessage": "Your feedback is sending!",
         "errorMessage": "Error in sending feedback :( "
@@ -180,15 +175,15 @@
         "resetPasswordLabel": "reset your password.",
         "titleSideLabel": "New Here?",
         "welcomeLabel": "Welcome Back",
-        "contentSideLabel":"Signup and Discover"
+        "contentSideLabel": "Signup and Discover"
     },
     "signup": {
-        "title":"Sign up",
+        "title": "Sign up",
         "fullNameLabel": "Full Name",
         "emailLabel": "Email",
         "passwordLabel": "Password",
         "confirmPasswordLabel": "Confirm Password",
-        "validNameError":"Please enter a valid name.",
+        "validNameError": "Please enter a valid name.",
         "validEmailError": "Please enter a valid email.",
         "emailRequiredError": "This field is required.",
         "passwordRequiredError": "This field is required.",
@@ -200,7 +195,6 @@
         "titleSideLabel": "One of us?",
         "contentSideLabel": "If you already have an account, just sign in. We've missed you.",
         "termCaption": "By signing up, you agree to our <a href='${href}'>Terms</a>, Data Policy and Cookies Policy."
-
     },
     "resetPassword": {
         "title": "Reset Password",
@@ -296,11 +290,10 @@
             "emailOnVote": "Send email notification on like your post",
             "emailOnComment": "Send email notification on commenting on your post",
             "emailOnFollow": "Send email notification on follow you"
-
         }
     },
     "chat": {
-        "recentlyCaption": "Recently" ,
+        "recentlyCaption": "Recently",
         "contactsCaption": "Contacts",
         "groupsCaption": "Groups",
         "searchText": "Search for enemies or group of enemies :)",
@@ -319,7 +312,6 @@
         "close": "Close",
         "disable": "Disable",
         "noData": "Nothing to show"
-
     },
     "permission": {
         "titleLabel": "Access Permission",
@@ -375,8 +367,5 @@
         "albumNameError": "Title field is required.",
         "deleteAlbum": "Delete Album",
         "noExistAlbum": "The album doesn't exist or you do not have enough access to this album !"
-
     }
-  
-    
 }

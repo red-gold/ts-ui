@@ -2,9 +2,8 @@
     "userStatus": {
         "neverSeen": "Never showed up",
         "online": "Online"
-        
     },
-    "sidebar" : {
+    "sidebar": {
         "home": "Home",
         "profile": "Profile",
         "people": "People",
@@ -21,16 +20,15 @@
         "company": "Company",
         "sponser": "Sponser",
         "support": "support"
-
     },
     "rightPanel": {
-        "contactsTitle": "Contacts" ,
-        "noOneInContacts": "There is no one in your contacts!" ,
+        "contactsTitle": "Contacts",
+        "noOneInContacts": "There is no one in your contacts!",
         "suggestionTitle": "Suggestion for you",
         "findFriendsBtn": "Find friends"
     },
     "header": {
-        "home":"Home",
+        "home": "Home",
         "support": "Support",
         "settings": "Settings",
         "notificationTooltip": "Notifications",
@@ -49,7 +47,6 @@
         "notification": {
             "emptyCaption": "All caught up!"
         }
-
     },
     "home": {
         "postWriteButtonText": "What's new with you?",
@@ -82,7 +79,6 @@
         "googlePlusButton": "Share in Google+",
         "videoGalleryLabel": "Video Gallery",
         "imageGalleryLabel": "Image Gallery"
-
     },
     "videGallery": {
         "saveButton": "SAVE",
@@ -150,7 +146,6 @@
         "createCircleTooltip": "Create Circle",
         "followingLabel": "Following",
         "followedLabel": "Followed"
-
     },
     "changePassword": {
         "title": "Change Password",
@@ -161,7 +156,6 @@
         "newPasswordRequiredError": "This field is required",
         "confirmPasswordRequiredError": "This field is required",
         "confirmPasswordEqualNewPasswordError": "Password and confirm password should be equal!"
-
     },
     "circle": {
         "settingLable": " Circle Setting",
@@ -171,10 +165,10 @@
     },
     "feedback": {
         "textareaPlaceholder": "What do you feel :) ?",
-        "sadTooltip":  "Sad",
-        "acceptableTooltip":  "Acceptable",
-        "happyTooltip":  "Happy",
-        "awesomeTooltip":  "Awesome",
+        "sadTooltip": "Sad",
+        "acceptableTooltip": "Acceptable",
+        "happyTooltip": "Happy",
+        "awesomeTooltip": "Awesome",
         "appreciateMessage": "We appreciate your kind support as always ;)",
         "sendingMessage": "Your feedback is sending!",
         "errorMessage": "Error in sending feedback :( "
@@ -193,15 +187,15 @@
         "resetPasswordLabel": "reset your password.",
         "titleSideLabel": "New Here?",
         "welcomeLabel": "Welcome Back",
-        "contentSideLabel":"Signup and Discover"
+        "contentSideLabel": "Signup and Discover"
     },
     "signup": {
-        "title":"Sign up",
+        "title": "Sign up",
         "fullNameLabel": "Full Name",
         "emailLabel": "Email",
         "passwordLabel": "Password",
         "confirmPasswordLabel": "Confirm Password",
-        "validNameError":"Please enter a valid name.",
+        "validNameError": "Please enter a valid name.",
         "validEmailError": "Please enter a valid email.",
         "emailRequiredError": "This field is required.",
         "passwordRequiredError": "This field is required.",
@@ -221,7 +215,6 @@
         "contentSideLabel": "If you already have an account, just sign in. We've missed you.",
         "termCaption": "By signing up, you agree to our, ",
         "termCaptionLink": "Terms, Data Policy and Cookies Policy."
-
     },
     "resetPassword": {
         "title": "Reset Password",
@@ -337,11 +330,10 @@
         "lang": {
             "currentLang": "Current Language",
             "currentLangCaption": "Select your current language"
-
         }
     },
     "chat": {
-        "recentlyCaption": "Recently" ,
+        "recentlyCaption": "Recently",
         "contactsCaption": "Contacts",
         "groupsCaption": "Groups",
         "searchText": "Search for enemies or group of enemies :)",
@@ -361,7 +353,6 @@
         "close": "Close",
         "disable": "Disable",
         "noData": "Nothing to show"
-
     },
     "permission": {
         "titleLabel": "Access Permission",
@@ -417,11 +408,8 @@
         "albumNameError": "Title field is required.",
         "deleteAlbum": "Delete Album",
         "noExistAlbum": "The album doesn't exist or you do not have enough access to this album !"
-
     },
     "support": {
         "content": "### Support  \nFor general questions the best place is our community in [Slack](https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform). The [Slack](https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform) community is the place for questions and advice about [Telar Social](https://telar.dev) project. If you are not sure where to aks, we will guide you to the right place.  \n\nTo request technical support, reporting a bug or want a new feature, [Github](https://github.com/red-gold/ts-ui/issues) is the right place to track. Please make sure to add as many information as possible, in order for us to reproduce your issue. \n\nCustomers who purchased Sky plan or Enterprise plan are in high priority for thechnical support. You are always welcome to ask for feature requests and give suggestions that can improve this project. \n\n\nCheers,  \nThe Telar team"
     }
-  
-    
 }

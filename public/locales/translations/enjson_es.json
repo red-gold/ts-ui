@@ -1,5 +1,5 @@
 {
-    "sidebar" : {
+    "sidebar": {
         "home": "Inicio",
         "profile": "Perfil",
         "people": "Usuarios",
@@ -16,16 +16,15 @@
         "company": "Empresas",
         "sponser": "Patrocinador",
         "support": "Ayuda"
-
     },
     "rightPanel": {
-        "contactsTitle": "Contacts" ,
-        "noOneInContacts": "There is no one in your contacts!" ,
+        "contactsTitle": "Contacts",
+        "noOneInContacts": "There is no one in your contacts!",
         "suggestionTitle": "Suggestion for you",
         "findFriendsBtn": "Find friends"
     },
     "header": {
-        "home":"Inicio",
+        "home": "Inicio",
         "notificationTooltip": "Notificaciones",
         "messengerTooltip": "Messenger",
         "editProfile": "Mi cuenta",
@@ -38,7 +37,6 @@
         "notification": {
             "emptyCaption": "Sin contenido"
         }
-
     },
     "home": {
         "postWriteButtonText": "¿Qué hay de nuevo?",
@@ -70,7 +68,6 @@
         "googlePlusButton": "Compartir en Google+",
         "videoGalleryLabel": "Galería de Vídeo",
         "imageGalleryLabel": "Galería de imagenes"
-
     },
     "videGallery": {
         "saveButton": "GUARDAR",
@@ -137,7 +134,6 @@
         "createCircleTooltip": "Crear grupo",
         "followingLabel": "Siguiendo",
         "followedLabel": "Seguido"
-
     },
     "changePassword": {
         "title": "Modificar contraseña",
@@ -148,7 +144,6 @@
         "newPasswordRequiredError": "Este campo es requerido",
         "confirmPasswordRequiredError": "Este campo es requerido",
         "confirmPasswordEqualNewPasswordError": "La contraseña y confirmar contraseña deben ser iguales"
-
     },
     "circle": {
         "settingLable": " Configuración de Grupo",
@@ -158,10 +153,10 @@
     },
     "feedback": {
         "textareaPlaceholder": "Su opinión nos importa ;)",
-        "sadTooltip":  "Triste",
-        "acceptableTooltip":  "Aceptable",
-        "happyTooltip":  "Contento",
-        "awesomeTooltip":  "Increíble",
+        "sadTooltip": "Triste",
+        "acceptableTooltip": "Aceptable",
+        "happyTooltip": "Contento",
+        "awesomeTooltip": "Increíble",
         "appreciateMessage": "Apreciamos su amable apoyo como siempre ;)",
         "sendingMessage": "Sus comentarios se están enviando!",
         "errorMessage": "Error al enviar comentarios :( "
@@ -180,15 +175,15 @@
         "resetPasswordLabel": "Restablecer su contraseña.",
         "titleSideLabel": "¿Nuevo aquí?",
         "welcomeLabel": "Piensa Diferente",
-        "contentSideLabel":"Registrarse y descubrir"
+        "contentSideLabel": "Registrarse y descubrir"
     },
     "signup": {
-        "title":"Regístrarse",
+        "title": "Regístrarse",
         "fullNameLabel": "Nombre Completo",
         "emailLabel": "Email",
         "passwordLabel": "Contraseña",
         "confirmPasswordLabel": "Confirmar contraseña",
-        "validNameError":"Por favor ingrese un nombre valido.",
+        "validNameError": "Por favor ingrese un nombre valido.",
         "validEmailError": "Se necesita un correo electrónico válido.",
         "emailRequiredError": "Este campo es requerido.",
         "passwordRequiredError": "Este campo es requerido.",
@@ -200,7 +195,6 @@
         "titleSideLabel": "¿Uno de nosotros?",
         "contentSideLabel": "Si ya dispone de una cuenta, solo inicie sesión.",
         "termCaption": "Al registrarse, aceptas nuestras <a href='${href}'> Condiciones</a>, Política de Datos y Política de Cookies."
-
     },
     "resetPassword": {
         "title": "Restablecer la contraseña",
@@ -296,11 +290,10 @@
             "emailOnVote": "Enviar notificaciones por correo electrónico cuando alguien hace me gusta en su publicación",
             "emailOnComment": "Enviar notificaciones por correo electrónico al comentar su publicación",
             "emailOnFollow": "Enviar notificación por correo electrónico cuando alguien comienza a seguirle"
-
         }
     },
     "chat": {
-        "recentlyCaption": "Recientemente" ,
+        "recentlyCaption": "Recientemente",
         "contactsCaption": "Contactos",
         "groupsCaption": "Grupos",
         "searchText": "Buscar amigos o grupos de amigos :)",
@@ -319,7 +312,6 @@
         "close": "Cerrar",
         "disable": "Desconectar",
         "noData": "Nothing to show"
-
     },
     "permission": {
         "titleLabel": "Permiso de privacidad",
@@ -375,8 +367,5 @@
         "albumNameError": "El campo de título es obligatorio.",
         "deleteAlbum": "Eliminar álbum",
         "noExistAlbum": "¡El álbum no existe o no tienes suficiente acceso a este álbum!"
-
     }
-  
-    
 }

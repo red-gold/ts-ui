@@ -1,4 +1,3 @@
-
 import { withStyles } from '@material-ui/core/styles';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';

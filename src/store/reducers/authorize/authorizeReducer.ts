@@ -4,7 +4,6 @@ import { Map } from 'immutable';
 import { AuthorizeState } from './AuthorizeState';
 import { IAuthorizeAction } from './IAuthorizeAction';
 
-
 // - Import action types
 /**
  *  Authorize reducer

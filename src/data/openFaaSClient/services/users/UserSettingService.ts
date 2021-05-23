@@ -1,4 +1,3 @@
-
 import { SocialError } from 'core/domain/common/socialError';
 import { IUserSettingService } from 'core/services/users/IUserSettingService';
 import { injectable, inject } from 'inversify';

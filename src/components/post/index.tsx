@@ -422,7 +422,7 @@ export class PostComponent extends Component<IPostProps & WithTranslation, IPost
                         ) : (
                             <>
                                 {postTypeId === PostType.Photo ? (
-                                    <Img style={{ objectFit: 'scale-down' }} fileName={image} />
+                                    <Img fileName={image} />
                                 ) : (
                                     <Img fileName={thumbnail} />
                                 )}

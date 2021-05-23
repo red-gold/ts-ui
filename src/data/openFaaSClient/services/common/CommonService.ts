@@ -1,5 +1,3 @@
-
-
 import { injectable, inject } from 'inversify';
 import { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';

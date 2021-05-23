@@ -1,4 +1,3 @@
-
 import UserBoxList from 'components/userBoxList/UserBoxListComponent';
 import { Circle } from 'core/domain/circles/circle';
 import { Map } from 'immutable';

@@ -1,5 +1,5 @@
 {
-    "sidebar" : {
+    "sidebar": {
         "home": "主页",
         "profile": "個人主页",
         "people": "发现",
@@ -16,16 +16,15 @@
         "company": "Company",
         "sponser": "Sponser",
         "support": "support"
-
     },
     "rightPanel": {
-        "contactsTitle": "Contacts" ,
-        "noOneInContacts": "There is no one in your contacts!" ,
+        "contactsTitle": "Contacts",
+        "noOneInContacts": "There is no one in your contacts!",
         "suggestionTitle": "Suggestion for you",
         "findFriendsBtn": "Find friends"
     },
     "header": {
-        "home":"主页",
+        "home": "主页",
         "notificationTooltip": "通知",
         "messengerTooltip": "Chat Box",
         "editProfile": "個人主页",
@@ -38,7 +37,6 @@
         "notification": {
             "emptyCaption": "All caught up!"
         }
-
     },
     "home": {
         "postWriteButtonText": "分享您的新鲜事",
@@ -70,7 +68,6 @@
         "googlePlusButton": "分享在Google+",
         "videoGalleryLabel": "Video Gallery",
         "imageGalleryLabel": "Image Gallery"
-
     },
     "videGallery": {
         "saveButton": "SAVE",
@@ -137,7 +134,6 @@
         "createCircleTooltip": "创建新界",
         "followingLabel": "Following",
         "followedLabel": "Followed"
-
     },
     "changePassword": {
         "title": "更改密码",
@@ -148,7 +144,6 @@
         "newPasswordRequiredError": "这是必填栏",
         "confirmPasswordRequiredError": "这是必填栏",
         "confirmPasswordEqualNewPasswordError": "密码应该一致"
-
     },
     "circle": {
         "settingLable": " Circle Setting",
@@ -158,10 +153,10 @@
     },
     "feedback": {
         "textareaPlaceholder": "您感觉怎么样 :) ?",
-        "sadTooltip":  "心碎",
-        "acceptableTooltip":  "可接受",
-        "happyTooltip":  "开心",
-        "awesomeTooltip":  "真棒",
+        "sadTooltip": "心碎",
+        "acceptableTooltip": "可接受",
+        "happyTooltip": "开心",
+        "awesomeTooltip": "真棒",
         "appreciateMessage": "我们非常感谢您的支持 ;)",
         "sendingMessage": "反馈已发送",
         "errorMessage": "发送反馈发生问题 :( "
@@ -180,15 +175,15 @@
         "resetPasswordLabel": "重设密码",
         "titleSideLabel": "New Here?",
         "welcomeLabel": "Welcome Back",
-        "contentSideLabel":"Signup and Discover"
+        "contentSideLabel": "Signup and Discover"
     },
     "signup": {
-        "title":"注册",
+        "title": "注册",
         "fullNameLabel": "全名",
         "emailLabel": "电子邮件",
         "passwordLabel": "密码",
         "confirmPasswordLabel": "再次输入新密码",
-        "validNameError":"请输入一个有效的名字",
+        "validNameError": "请输入一个有效的名字",
         "validEmailError": "请输入一个有效的电子邮件",
         "emailRequiredError": "这是必填栏",
         "passwordRequiredError": "这是必填栏",
@@ -200,7 +195,6 @@
         "titleSideLabel": "One of us?",
         "contentSideLabel": "If you already have an account, just sign in. We've missed you.",
         "termCaption": "By signing up, you agree to our <a href='${href}'>Terms</a>, Data Policy and Cookies Policy."
-
     },
     "resetPassword": {
         "title": "重设密码",
@@ -296,11 +290,10 @@
             "emailOnVote": "Send email notification on like your post",
             "emailOnComment": "Send email notification on commenting on your post",
             "emailOnFollow": "Send email notification on follow you"
-
         }
     },
     "chat": {
-        "recentlyCaption": "Recently" ,
+        "recentlyCaption": "Recently",
         "contactsCaption": "Contacts",
         "groupsCaption": "Groups",
         "searchText": "Search for enemies or group of enemies :)",
@@ -319,7 +312,6 @@
         "close": "Close",
         "disable": "Disable",
         "noData": "Nothing to show"
-
     },
     "permission": {
         "titleLabel": "Access Permission",
@@ -375,8 +367,5 @@
         "albumNameError": "Title field is required.",
         "deleteAlbum": "Delete Album",
         "noExistAlbum": "The album doesn't exist or you do not have enough access to this album !"
-
     }
-  
-    
 }

@@ -1,4 +1,3 @@
-
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Media } from 'core/domain/imageGallery/media';
 import PhotoGridComponent from 'layouts/photoGrid';
