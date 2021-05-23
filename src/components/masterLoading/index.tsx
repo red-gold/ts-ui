@@ -1,8 +1,6 @@
 import Typography from '@material-ui/core/Typography';
-import useTheme from '@material-ui/core/styles/useTheme';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import red from '@material-ui/core/colors/red';
-import Grid from '@material-ui/core/Grid/Grid';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { log } from 'utils/log';

@@ -1,8 +1,6 @@
 import { makeStyles } from '@material-ui/core';
-import SvgImage from '@material-ui/icons/Image';
 import classNames from 'classnames';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { IImgCoverProps } from './IImgCoverProps';
 
 const useStyles = makeStyles(() => ({
@@ -43,7 +41,6 @@ const useStyles = makeStyles(() => ({
     },
 }));
 export function ImgCoverComponent(props: IImgCoverProps) {
-    const { t } = useTranslation();
     const classes = useStyles();
 
     const [isImageLoaded, setIsImageLoaded] = React.useState(false);

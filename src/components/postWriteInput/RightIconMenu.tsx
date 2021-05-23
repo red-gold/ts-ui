@@ -30,7 +30,6 @@ export default function RightIconMenu({
     onToggleSharing,
 }: IRightMenuProps) {
     const { t } = useTranslation();
-    console.log('PostWriteInput this.state.disableSharing ', disableSharing);
 
     return (
         <>

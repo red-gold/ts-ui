@@ -1,4 +1,3 @@
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
@@ -164,7 +163,7 @@ export class UserActivityComponent extends Component<
      * Reneder component DOM
      */
     render() {
-        const { t, classes, profile, isCurrentUser, editProfileOpen, openEditor } = this.props;
+        const { t, classes, profile, isCurrentUser, editProfileOpen } = this.props;
         const { privilegeOpen, pictureDialogURL, picutreDialogOpen, aboutOpen } = this.state;
 
         return (
