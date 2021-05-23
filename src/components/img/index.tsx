@@ -1,4 +1,3 @@
-
 import { withStyles } from '@material-ui/core/styles';
 import SvgImage from '@material-ui/icons/Image';
 import { Map } from 'immutable';

@@ -1,4 +1,3 @@
-
 import { ChatActionType } from 'constants/chatActionType';
 import { Map } from 'immutable';
 

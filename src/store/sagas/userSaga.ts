@@ -12,6 +12,7 @@ import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import * as userActions from 'store/actions/userActions';
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 import { circleSelector } from 'store/reducers/circles/circleSelector';
+import { dispatch } from 'use-bus';
 
 /**
  * Get service providers
@@ -57,7 +58,7 @@ function* getUserProfilePage(action: { type: UserActionType; payload: any }) {
 
             yield put(userActions.addUserInfo(uid, Map({ ...userProfile, userId: uid })));
         } catch (error) {
-            window.location.href = '/404';
+            dispatch({ type: '@@ui/navigate', payload: { url: '/404' } });
             yield put(globalActions.showMessage(error.message));
         }
     }

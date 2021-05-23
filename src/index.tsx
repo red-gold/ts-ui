@@ -23,10 +23,7 @@ import reportWebVitals from './reportWebVitals';
 import App from 'App';
 
 // import 'moment/locale/es'
-// - Actions
-// - Import app components
-// import { App } from 'components/AWS'
-// App css
+
 /**
  * Execute startup functions
  */
