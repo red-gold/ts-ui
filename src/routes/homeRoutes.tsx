@@ -52,7 +52,7 @@ const AsyncSetting = Loadable({
 /**
  * Routes
  */
-export const homeRoutes = [
+const homeRoutes = [
     {
         path: '/settings',
         element: <AsyncSetting />,
@@ -110,3 +110,5 @@ export const homeRoutes = [
         element: <AsyncStream />,
     },
 ];
+
+export default homeRoutes;

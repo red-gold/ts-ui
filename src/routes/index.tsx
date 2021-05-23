@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import { PartialRouteObject } from 'react-router';
 import { MasterLoadingComponent } from 'components/masterLoading';
-import { homeRoutes } from './homeRouter';
+import homeRoutes from './homeRoutes';
 import NotFound from 'pages/notFound';
 
 const AsyncSignup = Loadable({
