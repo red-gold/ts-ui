@@ -1,4 +1,3 @@
-
 import withStyles from '@material-ui/core/styles/withStyles';
 import queryString from 'query-string';
 import React, { Component } from 'react';

@@ -20,6 +20,17 @@ import { serverSelector } from 'store/reducers/server/serverSelector';
 import { userSelector } from 'store/reducers/users/userSelector';
 import { useParams } from 'react-router-dom';
 import { useStyles } from './profileStyles';
+import classNames from 'classnames';
+import RightPanel from 'components/profileRightPanel';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
+
+const LoadingRoot = styled('div')({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 50,
+});
 
 // Create selctors
 const selectCurrentUser = authorizeSelector.selectCurrentUser();
@@ -27,10 +38,7 @@ const selectRequest = serverSelector.selectRequest();
 const selectProfilePosts = postSelector.selectProfilePosts();
 const selectHasMorePostProfile = postSelector.selectHasMorePostProfile();
 const selectUserProfileById = userSelector.selectUserProfileById();
-
-import classNames from 'classnames';
-import RightPanel from 'components/profileRightPanel';
-
+let profileUpdateTimeOut: NodeJS.Timeout | null = null;
 export function ProfileComponent() {
     const [timeout, setProfileTimeout] = useState(false);
     const location = useLocation();
@@ -61,12 +69,19 @@ export function ProfileComponent() {
             setHeaderTitle(profile.get('fullName'));
         }
         setProfileTimeout(true);
-        setTimeout(() => {
+        if (profileUpdateTimeOut) {
+            clearTimeout(profileUpdateTimeOut);
+        }
+        profileUpdateTimeOut = setTimeout(() => {
             setProfileTimeout(false);
         }, 100);
+        return () => {
+            if (profileUpdateTimeOut) {
+                clearTimeout(profileUpdateTimeOut);
+            }
+        };
     }, [location]);
-
-    return (
+    return profile.size > 0 ? (
         <>
             <div className={classes.bannerContainer}>
                 <ImgCover
@@ -98,6 +113,10 @@ export function ProfileComponent() {
                 </Grid>
             </Grid>
         </>
+    ) : (
+        <LoadingRoot>
+            <CircularProgress color="primary" />
+        </LoadingRoot>
     );
 }
 

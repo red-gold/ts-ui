@@ -15799,6 +15799,11 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
+use-bus@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.npmjs.org/use-bus/-/use-bus-2.3.1.tgz#b96aebe753d99eca7cb6bd019a986d0f6eb1ca04"
+  integrity sha512-dAmoAiWmM0/YhrytHSt0zU0dJe1CW1HqsuTfe4w1mJaBOCGWe2SxSjyEXmZISgjbCRSJORtjtApYNDLxiWqGCg==
+
 use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.npmjs.org/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
