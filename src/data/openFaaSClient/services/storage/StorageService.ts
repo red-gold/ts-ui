@@ -29,7 +29,7 @@ export class StorageService implements IStorageService {
             .then(function (res) {
                 onProgress(100, false, fileName);
                 log.info(res);
-                const downloadURL = res.payload.url;
+                const downloadURL = res.payload;
                 onSuccess(new FileResult(downloadURL), { url: downloadURL });
             })
             .catch(function (error) {

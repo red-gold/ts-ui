@@ -32,7 +32,7 @@ import React, { Component } from 'react';
 import { WithTranslation } from 'react-i18next';
 import SwipeableViews from 'react-swipeable-views';
 import config from 'config';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import uuid from 'uuid';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { Map } from 'immutable';

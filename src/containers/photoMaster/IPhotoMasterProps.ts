@@ -1,6 +1,6 @@
 import { Post } from 'core/domain/posts/post';
 import { Map } from 'immutable';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { User } from 'core/domain/users/user';
 
 export interface IPhotoMasterProps {

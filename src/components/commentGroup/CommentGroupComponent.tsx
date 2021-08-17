@@ -4,21 +4,21 @@ import Divider from '@material-ui/core/Divider';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Paper from '@material-ui/core/Paper';
 import CommentListComponent from 'components/commentList/CommentListComponent';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { ICommentGroupProps } from './ICommentGroupProps';
 import CommentInput from 'components/commentInput';
 import { teal } from '@material-ui/core/colors';
 import { useStyles } from './commentGroupStyles';
-import * as commentActions from 'store/actions/commentActions';
+import * as commentActions from 'redux/actions/commentActions';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
-import { serverSelector } from 'store/reducers/server/serverSelector';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
+import { serverSelector } from 'redux/reducers/server/serverSelector';
 import { Map } from 'immutable';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { commentSelector } from 'store/reducers/comments/commentSelector';
+import { commentSelector } from 'redux/reducers/comments/commentSelector';
 
 const LoadMoreRoot = styled('div')({
     textAlign: 'center',

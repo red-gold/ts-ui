@@ -1,4 +1,4 @@
-import FollowDialogComponent from 'components/followDialog/FollowDialogComponent';
+import FollowDialogComponent from 'components/user/FollowButton';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 
 import React from 'react';
@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import { useStyles } from './userItemStyles';
 import Typography from '@material-ui/core/Typography';
 import { useNavigate } from 'react-router';
+import { PATH_MAIN } from 'routes/paths';
 
 export function UserItem(props: IUserItemProps) {
     const navigate = useNavigate();
@@ -31,8 +32,7 @@ export function UserItem(props: IUserItemProps) {
         if (disableProfile) {
             return;
         }
-        const userId = user.get('userId');
-        navigate(`/${userId}`);
+        navigate(PATH_MAIN.user.profile.replace(':socialName', user.get('socialName')));
     };
 
     const { user, follow } = props;
@@ -41,7 +41,7 @@ export function UserItem(props: IUserItemProps) {
         <ListItem onClick={handleClick}>
             <div className={classes.root}>
                 <span onClick={goToProfile} className={classes.avatar}>
-                    <UserAvatar fullName={user.get('fullName')} fileName={user.get('avatar')} size={30} />
+                    <UserAvatar displayName={user.get('fullName')} src={user.get('avatar')} size={30} />
                 </span>
                 <Typography
                     className={classes.name}

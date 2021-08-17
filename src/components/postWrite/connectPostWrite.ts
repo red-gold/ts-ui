@@ -1,23 +1,23 @@
 import { Map } from 'immutable';
 import { connect } from 'react-redux';
 
-import * as imageGalleryActions from 'store/actions/imageGalleryActions';
-import * as postActions from 'store/actions/postActions';
-import * as globalActions from 'store/actions/globalActions';
+import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
+import * as postActions from 'redux/actions/postActions';
+import * as globalActions from 'redux/actions/globalActions';
 import { IDispatchProps, IOwnProps, IPostWriteProps, IStateProps } from './IPostWriteProps';
 import { DialogType } from 'models/common/dialogType';
 import { Post } from 'core/domain/posts/post';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
-import { globalSelector } from 'store/reducers/global/globalSelector';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
+import { globalSelector } from 'redux/reducers/global/globalSelector';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import { postWriteStyles } from './postWriteStyles';
-import { serverSelector } from 'store/reducers/server/serverSelector';
+import { serverSelector } from 'redux/reducers/server/serverSelector';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
-import { postSelector } from 'store/reducers/posts/postSelector';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
+import { postSelector } from 'redux/reducers/posts/postSelector';
 
 /**
  * Map dispatch to props

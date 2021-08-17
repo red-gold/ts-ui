@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import PostComponent from 'components/post';
-import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import PostCard from 'components/post/PostCard';
+import LoadMoreProgressComponent from 'oldComponents/loadMoreProgress';
 import { IPostStreamProps } from './IPostStreamProps';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { Typography } from '@material-ui/core';
@@ -10,15 +9,18 @@ import { useTranslation } from 'react-i18next';
 export function PostStreamComponent(props: IPostStreamProps) {
     const { t } = useTranslation();
     const [nextPage, setNextPage] = useState(0);
+    const [loading, setLoading] = useState(false);
     const { hasMorePosts, posts } = props;
 
     /**
      * Loader
      */
-    const loadMore = () => {
-        const { requestStatus, loadStream } = props;
-        if (requestStatus !== ServerRequestStatusType.Sent) {
-            loadStream(nextPage);
+    const loadMore = async () => {
+        const { loadStream } = props;
+        if (!loading) {
+            setLoading(true);
+            await loadStream(nextPage);
+            setLoading(false);
             setNextPage(nextPage + 1);
         }
     };
@@ -30,13 +32,12 @@ export function PostStreamComponent(props: IPostStreamProps) {
         const { posts } = props;
         const postListDom: any[] = [];
         (posts || []).forEach((post) => {
-            postListDom.push(<PostComponent key={`${post.get('id')}-stream-div-post`} post={post as any} />);
+            postListDom.push(<PostCard key={`${post.get('id')}-stream-div-post`} post={post as any} />);
         });
 
         return postListDom;
     };
 
-    const loading = props.requestStatus === ServerRequestStatusType.Sent;
     const [sentryRef] = useInfiniteScroll({
         loading,
         hasNextPage: hasMorePosts,

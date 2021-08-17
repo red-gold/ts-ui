@@ -1,7 +1,7 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import SvgClose from '@material-ui/icons/Clear';
@@ -15,9 +15,9 @@ import { Map } from 'immutable';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { userGetters } from 'store/reducers/users/userGetters';
-import * as globalActions from 'store/actions/globalActions';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { userGetters } from 'redux/reducers/users/userGetters';
+import * as globalActions from 'redux/actions/globalActions';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 
 import { ISendFeedbackComponentProps } from './ISendFeedbackComponentProps';
 import { ISendFeedbackComponentState } from './ISendFeedbackComponentState';

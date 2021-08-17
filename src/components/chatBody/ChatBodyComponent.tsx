@@ -1,11 +1,11 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import ChatMessageComponent from 'components/chatMessage/ChatMessageComponent';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { chatBodyStyles } from './chatBodyStyles';
 import { IChatBodyProps } from './IChatBodyProps';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 export function ChatBodyComponent(props: IChatBodyProps & WithTranslation) {

@@ -8,7 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import SvgRotateLeft from '@material-ui/icons/RotateLeft';
 import SvgRotateRight from '@material-ui/icons/RotateRight';
@@ -23,9 +23,9 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { provider } from 'socialEngine';
 import config from 'config';
-import * as globalActions from 'store/actions/globalActions';
-import * as imageGalleryActions from 'store/actions/imageGalleryActions';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import * as globalActions from 'redux/actions/globalActions';
+import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import uuid from 'uuid';
 
 import { IImageEditorComponentState } from './IImageEditorComponentState';
@@ -174,7 +174,7 @@ export class ImageEditorComponent extends Component<
         const { disabledOk, loading } = this.state;
         return (
             <Dialog open={open} onClose={onClose} maxWidth="sm">
-                <DialogTitle disableTypography className={classes.dialogTitle}>
+                <DialogTitle className={classes.dialogTitle}>
                     <Typography variant="h6" className={classes.titleText}>
                         {t('post.imageEditorTitle')}
                     </Typography>

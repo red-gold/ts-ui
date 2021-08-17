@@ -1,45 +1,47 @@
-import { makeStyles } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
 import React from 'react';
 import { IImgCoverProps } from './IImgCoverProps';
 
-const useStyles = makeStyles(() => ({
-    cover: {
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'top center',
-    },
-    loading: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        height: '100px',
-        fontWeight: 400,
-        minHeight: 384,
-        backgroundImage: 'url(https://source.unsplash.com/Q7PclNhVRI0)',
-        backgroundPosition: 'bottom',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-    },
-    loadingContent: {
-        width: '100%',
-        height: '288px',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    loadingImage: {
-        width: '50px',
-        height: '50px',
-        background: 'rgba(255, 255, 255, 0.2)',
-        backdropFilter: 'blur(8px)',
-    },
-    noDisplay: {
-        display: 'none',
-    },
-}));
+const useStyles = makeStyles(() =>
+    createStyles({
+        cover: {
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'top center',
+        },
+        loading: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: '100px',
+            fontWeight: 400,
+            minHeight: 384,
+            backgroundImage: 'url(https://source.unsplash.com/Q7PclNhVRI0)',
+            backgroundPosition: 'bottom',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+        },
+        loadingContent: {
+            width: '100%',
+            height: '288px',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        loadingImage: {
+            width: '50px',
+            height: '50px',
+            background: 'rgba(255, 255, 255, 0.2)',
+            backdropFilter: 'blur(8px)',
+        },
+        noDisplay: {
+            display: 'none',
+        },
+    }),
+);
 export function ImgCoverComponent(props: IImgCoverProps) {
     const classes = useStyles();
 

@@ -50,7 +50,7 @@ export function NotifyItemComponent(props: INotifyItemProps) {
             href={url}
         >
             <ListItemAvatar>
-                <UserAvatar fullName={fullName} size={40} fileName={avatar} />
+                <UserAvatar displayName={fullName} size={40} src={avatar} />
             </ListItemAvatar>
             <ListItemText
                 className={classes.itemText}

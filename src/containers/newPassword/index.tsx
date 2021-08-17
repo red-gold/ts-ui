@@ -1,15 +1,15 @@
 import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
-import Footer from 'layouts/footer';
+import Footer from 'oldComponents/footer';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import config from 'config';
-import * as authorizeActions from 'store/actions/authorizeActions';
+import * as authorizeActions from 'redux/actions/authorizeActions';
 
 import { INewPasswordComponentProps } from './INewPasswordComponentProps';
 import { INewPasswordComponentState } from './INewPasswordComponentState';

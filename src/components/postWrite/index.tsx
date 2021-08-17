@@ -23,12 +23,12 @@ import { WithTranslation } from 'react-i18next';
 import uuid from 'uuid';
 import moment from 'moment/moment';
 import config from 'config';
-import AppDialogTitle from 'layouts/dialogTitle/DialogTitleComponent';
+import AppDialogTitle from 'oldComponents/dialogTitle/DialogTitleComponent';
 
 import { connectPostWrite } from './connectPostWrite';
 import { IPostWriteProps } from './IPostWriteProps';
 import { IPostWriteState } from './IPostWriteState';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { Post } from 'core/domain/posts/post';
 import MobileDialog from 'components/mobileDialog';
 import PostWriteInput from 'components/postWriteInput';

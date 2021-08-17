@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { withStyles } from '@material-ui/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum';

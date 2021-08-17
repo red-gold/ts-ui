@@ -9,8 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
 import { useTranslation } from 'react-i18next';
 import { IPostWriteInputProps } from './IPostWriteInputProps';
-import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { useSelector } from 'react-redux';
 import { Map } from 'immutable';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
@@ -23,6 +22,7 @@ import { PostType } from 'core/domain/posts/postType';
 import { DialogActions, DialogContent } from '@material-ui/core';
 import { PostImageUploadComponent } from 'components/postImageUpload';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
+import MyAvatar from 'components/MyAvatar';
 
 const selectCurrentUser = authorizeSelector.selectCurrentUser();
 
@@ -71,13 +71,7 @@ export default function PostWriteInput(props: IPostWriteInputProps) {
     return (
         <>
             <CardHeader
-                avatar={
-                    <UserAvatarComponent
-                        fullName={currentUser.get('fullName', '')}
-                        fileName={currentUser.get('avatar', '')}
-                        size={36}
-                    />
-                }
+                avatar={<MyAvatar size={36} />}
                 action={
                     <RightIconMenu
                         onOpenMenu={handleOpenMenu}

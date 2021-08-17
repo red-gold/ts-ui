@@ -1,6 +1,6 @@
 import { User } from 'core/domain/users/user';
 import { Map } from 'immutable';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 
 export interface IPhotoAlbumProps {
     /**

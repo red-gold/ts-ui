@@ -1,12 +1,12 @@
 import { Map } from 'immutable';
 import { DialogType } from 'models/common/dialogType';
 import { connect } from 'react-redux';
-import * as globalActions from 'store/actions/globalActions';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
-import { globalSelector } from 'store/reducers/global/globalSelector';
+import * as globalActions from 'redux/actions/globalActions';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
+import { globalSelector } from 'redux/reducers/global/globalSelector';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { IPostWriteButtonProps } from './IPostWriteButtonProps';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import { postWriteButtonStyles } from './postWriteButtonStyles';
 
 /**

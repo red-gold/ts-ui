@@ -9,30 +9,34 @@ import ChatComponent from 'components/chat/ChatComponent';
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
 import { useIdleTimer } from 'react-idle-timer';
-import { Outlet } from 'react-router-dom';
-import HomeHeader from 'components/homeHeader/HomeHeaderComponent';
+import HomeHeader from 'components/HomeHeader';
 import Typography from '@material-ui/core/Typography';
-import { chatSelector } from 'store/reducers/chat/chatSelector';
-import * as chatActions from 'store/actions/chatActions';
+import { chatSelector } from 'redux/reducers/chat/chatSelector';
+import * as chatActions from 'redux/actions/chatActions';
 import { menuItems } from './menuItems';
 import { log } from 'utils/log';
 import { addNotifyAudio } from 'utils/audio';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Map, List } from 'immutable';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { useStyles } from './homeStyles';
 import useTheme from '@material-ui/core/styles/useTheme';
 import { Theme } from '@material-ui/core/styles/createTheme';
 import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
 import NavItem from 'components/navItem';
-import TelarSocialLogo from 'layouts/telarSocialLogo';
-
+import TelarSocialLogo from 'oldComponents/telarSocialLogo';
+// selectors
 const selectCurrentUser = authorizeSelector.selectCurrentUser();
 const selectChatOpen = chatSelector.selectChatOpen();
 const selectActiveRooms = chatSelector.selectActiveRooms();
+// ----------------------------------------------------------------------
 
-export function HomeComponent() {
+export interface HomeProps {
+    children?: React.ReactNode;
+}
+
+export function HomeComponent({ children }: HomeProps) {
     const [drawerOpen, setDrawerOpen] = React.useState(true);
 
     const { t } = useTranslation();
@@ -101,7 +105,7 @@ export function HomeComponent() {
 
     const drawer = (
         <div>
-            {menuItems(currentUser.get('userId'), t).map((item: any, index) => {
+            {menuItems(currentUser.get('socialName'), t).map((item: any, index) => {
                 if (item.path) {
                     return (
                         <NavItem key={`home-nav-item-${index}`} icon={item.icon} href={item.path} title={item.label} />
@@ -193,7 +197,7 @@ export function HomeComponent() {
                         [classes[`contentShift-${anchor}`]]: drawerOpen,
                     })}
                 >
-                    <Outlet />
+                    {children}
                 </main>
             </div>
 

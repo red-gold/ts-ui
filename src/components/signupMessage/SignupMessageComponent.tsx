@@ -1,12 +1,12 @@
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { SignupStepEnum } from 'models/authorize/signupStepEnum';
-import * as authorizeActions from 'store/actions/authorizeActions';
+import * as authorizeActions from 'redux/actions/authorizeActions';
 
 import { ISignupMessageProps } from './ISignupMessageProps';
 import { ISignupMessageState } from './ISignupMessageState';

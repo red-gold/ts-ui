@@ -8,7 +8,7 @@ import CompanyIcon from '@material-ui/icons/BusinessRounded';
 import WebIcon from '@material-ui/icons/PublicRounded';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch } from 'react-redux';
-import * as userActions from 'store/actions/userActions';
+import * as userActions from 'redux/actions/userActions';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './peopleBoxStyles';
 import { IAboutProps } from './IAboutProps';

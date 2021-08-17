@@ -4,7 +4,8 @@ import { Message } from 'core/domain/chat/message';
  * Chat interface
  */
 export interface IChatService {
-    wsConnect: (url: string, uid: string, callback: Function) => Function;
+    wsConnect: (url: string, uid: string, callback: Function) => void;
+    wsDisconnect: () => void;
 
     createChatRquest: (recUserId: string) => void;
 
@@ -18,9 +19,11 @@ export interface IChatService {
 
     joinChatRoom: (roomId: string) => void;
 
-    requestActiveRoom: (peerUserId: string) => void;
+    requestActiveRoom: (payload: { peerUserId?: string; socialName?: string; responseActionType?: string }) => void;
 
-    createChatMessage: (message: Message) => void;
+    getActivePeerRoom: (roomId: string) => Promise<Record<string, any>>;
+
+    createChatMessage: (message: Message, deactivePeerId: string) => void;
 
     openRoom: (roomId: string) => void;
 

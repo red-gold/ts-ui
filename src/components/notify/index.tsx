@@ -12,8 +12,8 @@ import { INotifyProps } from './INotifyProps';
 
 import CommonAPI from 'api/CommonAPI';
 import { useDispatch, useSelector } from 'react-redux';
-import * as notifyActions from 'store/actions/notifyActions';
-import { notificationSelector } from 'store/reducers/notifications/notificationSelector';
+import * as notifyActions from 'redux/actions/notifyActions';
+import { notificationSelector } from 'redux/reducers/notifications/notificationSelector';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './notifyStyles';
 

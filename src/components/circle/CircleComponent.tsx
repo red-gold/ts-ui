@@ -24,8 +24,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import * as circleActions from 'store/actions/circleActions';
-import { circleSelector } from 'store/reducers/circles/circleSelector';
+import * as circleActions from 'redux/actions/circleActions';
+import { circleSelector } from 'redux/reducers/circles/circleSelector';
+import { PATH_MAIN } from 'routes/paths';
 import { useStyles } from './circleStyles';
 import { ICircleProps } from './ICircleProps';
 
@@ -128,9 +129,9 @@ export function CircleComponent(props: ICircleProps) {
                         button
                         key={`${id}.${userId}`}
                         className={classes.userListItem}
-                        onClick={() => navigate(`/${userId}`)}
+                        onClick={() => navigate(PATH_MAIN.user.profile.replace(':socialName', user.get('socialName')))}
                     >
-                        <UserAvatar fullName={fullName} fileName={avatar} />
+                        <UserAvatar displayName={fullName} src={avatar} />
                         <ListItemText inset primary={fullName} />
                     </ListItem>,
                 );

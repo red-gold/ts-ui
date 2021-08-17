@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import withStyles from '@material-ui/styles/withStyles/withStyles';
-import * as commentActions from 'store/actions/commentActions';
-import * as userActions from 'store/actions/userActions';
-import { userSelector } from 'store/reducers/users/userSelector';
+import * as commentActions from 'redux/actions/commentActions';
+import * as userActions from 'redux/actions/userActions';
+import { userSelector } from 'redux/reducers/users/userSelector';
 import { Map } from 'immutable';
 import { ICommentComponentProps } from './ICommentComponentProps';
 import { commentStyles } from './commentStyles';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 
 /**
  * Map dispatch to props
@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentComponentProps) => 
             dispatch(
                 commentActions.closeCommentEditor(ownProps.comment.get('postId'), ownProps.comment.get('objectId')),
             ),
-        getUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(ownProps.comment.get('ownerUserId'))),
+        getUserInfo: () => dispatch(userActions.fetchProfileById(ownProps.comment.get('ownerUserId'))),
     };
 };
 

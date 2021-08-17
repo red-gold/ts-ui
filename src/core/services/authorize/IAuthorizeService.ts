@@ -11,7 +11,7 @@ export interface IAuthorizeService {
     /**
      * Login the user
      */
-    login: (email: string, password: string) => Promise<LoginUser | null>;
+    login: (email: string, password: string) => Promise<{ user: LoginUser; redirect: string }>;
 
     /**
      * Whether user is loged in or not
@@ -22,6 +22,11 @@ export interface IAuthorizeService {
      * Get user auth
      */
     getUserAuth: () => any;
+
+    /**
+     * Get access token
+     */
+    getAccessToken: () => string | null;
 
     /**
      * Login by token
@@ -51,7 +56,7 @@ export interface IAuthorizeService {
     /**
      * Get register user token
      */
-    getUserRegisterToken: (user: UserRegisterModel, captchaVerifier: string) => Promise<string>;
+    getUserRegisterToken: (user: UserRegisterModel) => Promise<string>;
 
     /**
      * Verify user register code
@@ -59,14 +64,14 @@ export interface IAuthorizeService {
     verifyUserRegisterCode: (code: string, registerToken: string) => Promise<string>;
 
     /**
+     * Change password
+     */
+    changePassword: (currentPassword: string, newPassword: string, confirmPassword: string) => Promise<void>;
+
+    /**
      * Register new user
      */
     registerUser: (user: UserRegisterModel) => Promise<RegisterUserResult>;
-
-    /**
-     * On user authorization changed event
-     */
-    onAuthStateChanged: (callBack: (user: UserClaim) => void) => any;
 
     /**
      * Reset user password

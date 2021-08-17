@@ -6,11 +6,11 @@
     "sidebar": {
         "home": "Home",
         "profile": "Profile",
-        "people": "People",
-        "settings": "Settings",
+        "people": "Find Friends",
+        "account": "Account",
         "sendFeedback": "Send Feedback",
         "homeCaption": "Home",
-        "peopleCaption": "People",
+        "peopleCaption": "Find Friends",
         "circlesCaption": "Circles",
         "followersCaption": "Followers",
         "twitterCaption": "Twitter",
@@ -19,7 +19,7 @@
         "fun": "Fun",
         "company": "Company",
         "sponser": "Sponser",
-        "support": "support"
+        "support": "Support"
     },
     "rightPanel": {
         "contactsTitle": "Contacts",
@@ -30,14 +30,14 @@
     "header": {
         "home": "Home",
         "support": "Support",
-        "settings": "Settings",
+        "account": "Account",
         "notificationTooltip": "Notifications",
         "notificationTitle": "Notifications",
         "messengerTitle": "Messenger",
         "messengerTooltip": "Messenger",
         "noRoom": "No one is in your contacts!",
         "editProfile": "Profile",
-        "accountSettings": "Settings",
+        "accountSettings": "Account",
         "logout": "Logout",
         "homeCaption": "Home",
         "peopleCaption": "People",
@@ -100,7 +100,8 @@
         "updateCommentPlaceholder": "Write your comment ...",
         "replyButton": "Reply",
         "editButton": "Edit",
-        "deleteButton": "Delete"
+        "deleteButton": "Delete",
+        "loadMoreComment": "View more comments..."
     },
     "profile": {
         "editProfileButton": "Edit Profile",
@@ -110,6 +111,9 @@
         "about": "About",
         "fullName": "Full Name",
         "bio": "Bio",
+        "noBio": "Apparently, this user prefers to keep an air of mystery about them.",
+        "comeToSocialAgeText": " came to Telar Social",
+        "comeToWorldAgeText": " came to this world",
         "birthday": "Birthday",
         "companyName": "Company Name",
         "twitterId": "Twitter",
@@ -124,14 +128,17 @@
         "chooseBannerDialogTitle": "Choose your profile cover",
         "twitterExampleLabel": "you twitter user name ex. twitter",
         "facebookExampleLabel": "your facebook page name ex. facebook",
-        "chooseBirthday": "Pick your birthday"
+        "chooseBirthday": "Pick your birthday",
+        "nothingToShowLabel": "🤷 Nothing to show! :(",
+        "fullNameInputError": "This field is required",
+        "webURLInputError": "Please enter a valid URL, e.g. https://telar.dev"
     },
     "people": {
         "findPeopleTab": "FIND PEOPLE",
         "followingTab": "FOLLOWING",
         "followersTab": "FOLLOWERS",
         "suggestionsForYouLabel": "Suggestions for you",
-        "nothingToShowLabel": "Nothing to show! :(",
+        "nothingToShowLabel": "🤷 Nothing to show! :(",
         "followingLabel": "Following",
         "noFollowingLabel": "No following user!",
         "followersLabel": "Followers",
@@ -145,7 +152,8 @@
         "groupNamePlaceholder": "Group Name",
         "createCircleTooltip": "Create Circle",
         "followingLabel": "Following",
-        "followedLabel": "Followed"
+        "followedLabel": "Followed",
+        "manageGroupsTitle": "Manage groups"
     },
     "changePassword": {
         "title": "Change Password",
@@ -178,6 +186,7 @@
         "emailLabel": "Email",
         "passwordLabel": "Password",
         "emailRequiredError": "This field is required.",
+        "emailNotVelid": "Email must be a valid email address.",
         "passwordRequiredError": "This field is required.",
         "createAccountButton": "Sign up",
         "createAccountText": "Don't have an account?",
@@ -191,15 +200,22 @@
     },
     "signup": {
         "title": "Sign up",
-        "fullNameLabel": "Full Name",
+        "firstName": "First name",
+        "lastName": "Last name",
         "emailLabel": "Email",
         "passwordLabel": "Password",
         "confirmPasswordLabel": "Confirm Password",
+        "firstNameRequired": "First name required",
+        "lastNameRequired": "Last name required",
+        "emailRequired": "Email is required",
         "validNameError": "Please enter a valid name.",
         "validEmailError": "Please enter a valid email.",
-        "emailRequiredError": "This field is required.",
-        "passwordRequiredError": "This field is required.",
         "confirmRequiredError": "This field is required.",
+        "emailNotValid": "Email must be a valid email address",
+        "inputTooShort": "Too Short!",
+        "inputTooLong": "Too Long!",
+        "passwordRequired": "Password is required",
+        "verifyRecaptcha": "Verify recaptcha!",
         "passwordEqualConfirmError": "This field sould be equal to confirm password.",
         "confirmEqualPasswordError": "This field sould be equal to password.",
         "codeRequiredError": "Please enter the PIN code.",
@@ -410,6 +426,12 @@
         "noExistAlbum": "The album doesn't exist or you do not have enough access to this album !"
     },
     "support": {
-        "content": "### Support  \nFor general questions the best place is our community in [Slack](https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform). The [Slack](https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform) community is the place for questions and advice about [Telar Social](https://telar.dev) project. If you are not sure where to aks, we will guide you to the right place.  \n\nTo request technical support, reporting a bug or want a new feature, [Github](https://github.com/red-gold/ts-ui/issues) is the right place to track. Please make sure to add as many information as possible, in order for us to reproduce your issue. \n\nCustomers who purchased Sky plan or Enterprise plan are in high priority for thechnical support. You are always welcome to ask for feature requests and give suggestions that can improve this project. \n\n\nCheers,  \nThe Telar team"
+        "content": "### Support  \nFor general questions the best place is our community in [Slack](https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform). The [Slack](https://docs.google.com/forms/d/e/1FAIpQLSdkwt5pxmyCZQO0AmyAghBOdA-XBG298Pfm5Dw1xjNGaGeCYQ/viewform) community is the place for questions and advice about [Telar Social](https://telar.dev) project. If you are not sure where to aks, we will guide you to the right place.  \n\nTo request technical support, reporting a bug or want a new feature, [Github](https://github.com/red-gold/ts-ui/issues) is the right place to track. Please make sure to add as many information as possible, in order for us to reproduce your issue. \n\nCustomers who purchased Sky plan or Enterprise plan are in high priority for thechnical support. You are always welcome to ask for feature requests and give suggestions that can improve this project. \n\n\nCheers,\nThe Telar team"
+    },
+    "notFound": {
+        "header": "04 | \"{{appName}}\"",
+        "title": "404: The page you are looking for isn’t here",
+        "description": "You either tried some shady route or you came here by mistake. Whichever it is, try using the navigation",
+        "homeButton": "Back to home"
     }
 }

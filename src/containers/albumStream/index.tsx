@@ -1,7 +1,7 @@
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { withStyles } from '@material-ui/styles';
 import NoAlbumIcon from '@material-ui/icons/SettingsSystemDaydream';
 import StringAPI from 'api/StringAPI';
 import { User } from 'core/domain/users/user';
@@ -10,15 +10,15 @@ import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { connect } from 'react-redux';
-import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
-import PictureDialogComponent from 'layouts/pictureDialog';
-import * as globalActions from 'store/actions/globalActions';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import LoadMoreProgressComponent from 'oldComponents/loadMoreProgress';
+import PictureDialogComponent from 'oldComponents/pictureDialog';
+import * as globalActions from 'redux/actions/globalActions';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 
 import { albumStreamStyles } from './albumStreamStyles';
 import { IAlbumStreamProps } from './IAlbumStreamProps';
 import { IAlbumStreamState } from './IAlbumStreamState';
-import { userGetters } from 'store/reducers/users/userGetters';
+import { userGetters } from 'redux/reducers/users/userGetters';
 
 export class AlbumStreamComponent extends Component<IAlbumStreamProps & WithTranslation, IAlbumStreamState> {
     /**

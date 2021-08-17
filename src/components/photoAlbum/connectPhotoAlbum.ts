@@ -1,18 +1,18 @@
 import { connect } from 'react-redux';
-import { postSelector } from 'store/reducers/posts/postSelector';
+import { postSelector } from 'redux/reducers/posts/postSelector';
 
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { Map } from 'immutable';
 import { IPhotoAlbumProps } from './IPhotoAlbumProps';
 
 // - Import actions
-import * as postActions from 'store/actions/postActions';
-import * as globalActions from 'store/actions/globalActions';
+import * as postActions from 'redux/actions/postActions';
+import * as globalActions from 'redux/actions/globalActions';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { User } from 'core/domain/users/user';
-import { serverSelector } from 'store/reducers/server/serverSelector';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { serverSelector } from 'redux/reducers/server/serverSelector';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { ComponentType } from 'react';
 import { throwNoValue } from 'utils/errorHandling';
 
@@ -21,7 +21,8 @@ import { throwNoValue } from 'utils/errorHandling';
  */
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        search: (query: string, page: number, limit: number) => dispatch(postActions.dbSearchPosts(query, page, limit)),
+        search: (query: string, page: number, limit: number) =>
+            dispatch(postActions.fetchSearchPosts(query, page, limit)),
         setHomeTitle: (homeTitle: string) => dispatch(globalActions.setHeaderTitle(homeTitle || '')),
         showTopLoading: () => dispatch(globalActions.showTopLoading()),
         hideTopLoading: () => dispatch(globalActions.hideTopLoading()),

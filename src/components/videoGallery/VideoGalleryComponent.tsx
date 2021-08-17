@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import Zoom from '@material-ui/core/Zoom';
 import AddVideoIcon from '@material-ui/icons/AddToQueue';
 import SvgDelete from '@material-ui/icons/Delete';
@@ -17,15 +17,15 @@ import React, { Component, RefObject } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import config from 'config';
-import * as globalActions from 'store/actions/globalActions';
-import * as imageGalleryActions from 'store/actions/imageGalleryActions';
+import * as globalActions from 'redux/actions/globalActions';
+import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
 import uuid from 'uuid';
 
 import { IVideoGalleryProps } from './IVideoGalleryProps';
 import { IVideoGalleryState } from './IVideoGalleryState';
 import { videoGalleryStyles } from './videoGalleryStyles';
 import { throwNoValue } from 'utils/errorHandling';
-import { userGetters } from 'store/reducers/users/userGetters';
+import { userGetters } from 'redux/reducers/users/userGetters';
 
 // - Material UI
 // - Import actions

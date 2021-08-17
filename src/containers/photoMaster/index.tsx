@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Paper from '@material-ui/core/Paper';
 import Popover from '@material-ui/core/Popover';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { withStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum';
@@ -256,8 +256,8 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
                     <CardHeader
                         avatar={
                             <UserAvatarComponent
-                                fileName={currentAlbum && currentAlbum.image ? currentAlbum.image : ''}
-                                fullName={album.title}
+                                src={currentAlbum && currentAlbum.image ? currentAlbum.image : ''}
+                                displayName={album.title}
                             />
                         }
                         action={isOwner && rightIconMenu}

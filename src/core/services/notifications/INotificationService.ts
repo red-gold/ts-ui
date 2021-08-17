@@ -1,5 +1,3 @@
-import { Map } from 'immutable';
-
 import { Notification } from 'core/domain/notifications/notification';
 
 /**
@@ -10,7 +8,8 @@ import { Notification } from 'core/domain/notifications/notification';
  */
 export interface INotificationService {
     addNotification: (notification: Notification) => Promise<void>;
-    getNotifications: (userId: string, callback: (resultNotifications: Map<string, Map<string, any>>) => void) => any;
+    getNotifications: () => any;
     deleteNotification: (notificationId: string, userId: string) => Promise<void>;
-    setSeenNotification: (notificationId: string, userId: string, notification: Notification) => Promise<void>;
+    setSeenNotification: (notificationId: string) => Promise<void>;
+    setSeenAllNotifications: () => Promise<any>;
 }

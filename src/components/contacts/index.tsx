@@ -7,15 +7,15 @@ import UserItem from '../userItem';
 import List from '@material-ui/core/List/List';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useDispatch, useSelector } from 'react-redux';
-import * as chatActions from 'store/actions/chatActions';
-import { chatSelector } from 'store/reducers/chat/chatSelector';
+import * as chatActions from 'redux/actions/chatActions';
+import { chatSelector } from 'redux/reducers/chat/chatSelector';
 import { Map } from 'immutable';
 import { useStyles } from './contactsStyles';
 
 const selectContacts = chatSelector.selectContacts();
 const selectRoomLoaded = chatSelector.selectRoomLoaded();
 
-export function Contacts() {
+export default function Contacts() {
     const classes = useStyles();
     const { t } = useTranslation();
 
@@ -73,5 +73,3 @@ export function Contacts() {
         </Card>
     );
 }
-
-export default Contacts;

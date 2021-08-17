@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import { Message } from 'core/domain/chat/message';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
+import { Breakpoint } from '@material-ui/core/styles';
 
 export type IChatProps = IOwnProps & IDispatchProps & IStateProps;
 

@@ -2,12 +2,14 @@ import { BaseDomain } from 'core/domain/common/baseDomain';
 
 export class LoginUser extends BaseDomain {
     constructor(
-        public uid: string,
+        public objectId: string,
         public emailVerified: boolean,
         public providerId: string = '',
-        public displayName: string = '',
+        public fullName: string = '',
+        public phone: string = '',
+        public tagLine: string = '',
         public email: string = '',
-        public avatarURL: string = '',
+        public avatar: string = '',
         public phoneVerified: boolean = false,
         public authed: boolean = true,
         public guest: boolean = false,

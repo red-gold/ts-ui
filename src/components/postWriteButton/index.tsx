@@ -10,6 +10,7 @@ import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
 import { IPostWriteButtonProps } from './IPostWriteButtonProps';
 import { IPostWriteButtonState } from './IPostWriteButtonState';
 import { connectPostWriteButton } from './connectPostWriteButton';
+import MyAvatar from 'components/MyAvatar';
 
 export class PostWriteButton extends Component<IPostWriteButtonProps & WithTranslation, IPostWriteButtonState> {
     constructor(props: IPostWriteButtonProps & WithTranslation) {
@@ -36,11 +37,7 @@ export class PostWriteButton extends Component<IPostWriteButtonProps & WithTrans
                     <>
                         <Paper elevation={2}>
                             <ListItem button className={classes.postWtireItem} onClick={this.handleOpenPostWrite}>
-                                <UserAvatarComponent
-                                    fullName={this.props.fullName}
-                                    fileName={this.props.avatar}
-                                    size={36}
-                                />
+                                <MyAvatar size={36} />
                                 <ListItemText
                                     inset
                                     primary={

@@ -5,7 +5,7 @@
 
 import { ServerRequestType } from 'constants/serverRequestType';
 import { ServerRequestModel } from 'models/server/serverRequestModel';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 
 export const initServerRequest = (type: ServerRequestType, id: string) => {
     return new ServerRequestModel(type, id, '', ServerRequestStatusType.Sent);

@@ -19,7 +19,7 @@ import FileAPI from 'api/FileAPI';
 import uuid from 'uuid';
 import { WithTranslation } from 'react-i18next';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
 import { experimentalStyled as styled } from '@material-ui/core/styles';

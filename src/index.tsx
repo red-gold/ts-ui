@@ -11,33 +11,33 @@ import ReactDOM from 'react-dom';
 import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import * as authorizeActions from 'store/actions/authorizeActions';
-import * as userSettingActions from 'store/actions/userSettingActions';
-import * as globalActions from 'store/actions/globalActions';
-import configureStore from 'store/configureStore';
-import rootSaga from 'store/sagas/rootSaga';
+import * as authorizeActions from 'redux/actions/authorizeActions';
+import * as userSettingActions from 'redux/actions/userSettingActions';
+import * as globalActions from 'redux/actions/globalActions';
+import { store, runSaga } from 'redux/store';
+import rootSaga from 'redux/sagas/rootSaga';
 
 import i18n from './locales/i18n';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import App from 'App';
+import { AuthProvider } from 'contexts/JWTContext';
 
 // import 'moment/locale/es'
 
 /**
  * Execute startup functions
  */
-configureStore.runSaga(rootSaga);
+runSaga(rootSaga);
 // Set user current language from cookie
-configureStore.store.dispatch(userSettingActions.SetCurrentLangFromCookie());
+store.dispatch(userSettingActions.SetCurrentLangFromCookie());
 
 // Set default data
 // tslint:disable-next-line:no-empty
-configureStore.store.subscribe(() => {});
-configureStore.store.dispatch(authorizeActions.asyncSetUserLoginStatus());
+store.subscribe(() => {});
+store.dispatch(authorizeActions.asyncSetUserLogin());
 // - Initialize languages
-configureStore.store.dispatch(authorizeActions.subcribeAuthorizeStateChange());
-configureStore.store.dispatch(globalActions.initLocale());
+store.dispatch(globalActions.initLocale());
 // Needed for onClick
 // http://stackoverflow.com/a/34015469/988941
 try {
@@ -45,10 +45,12 @@ try {
 } catch (e) {}
 
 ReactDOM.render(
-    <Provider store={configureStore.store}>
+    <Provider store={store}>
         <I18nextProvider i18n={i18n}>
             <BrowserRouter>
-                <App />
+                <AuthProvider>
+                    <App />
+                </AuthProvider>
             </BrowserRouter>
         </I18nextProvider>
     </Provider>,

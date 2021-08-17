@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Slide from '@material-ui/core/Slide';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import BackIcon from '@material-ui/icons/ArrowBack';
@@ -112,8 +112,8 @@ export class AboutDialogComponent extends Component<IAboutDialogProps & WithTran
                                 {targetUser.get('fullName')}
                             </Typography>
                             <UserAvatarComponent
-                                fullName={targetUser.get('fullName')}
-                                fileName={targetUser.get('avatar')}
+                                displayName={targetUser.get('fullName')}
+                                src={targetUser.get('avatar')}
                                 size={32}
                                 style={classes.avatar}
                             />

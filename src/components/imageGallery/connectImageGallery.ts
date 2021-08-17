@@ -1,14 +1,14 @@
 import { Map } from 'immutable';
 import { connect } from 'react-redux';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { IImageGalleryProps, IDispatchProps, IOwnProps, IStateProps } from './IImageGalleryProps';
 import { imageGalleryStyles } from './imageGalleryStyles';
-import { globalSelector } from 'store/reducers/global/globalSelector';
-import { serverSelector } from 'store/reducers/server/serverSelector';
-import { gallerySelector } from 'store/reducers/imageGallery/gallerySelector';
-import { withStyles } from '@material-ui/core/styles';
-import * as imageGalleryActions from 'store/actions/imageGalleryActions';
+import { globalSelector } from 'redux/reducers/global/globalSelector';
+import { serverSelector } from 'redux/reducers/server/serverSelector';
+import { gallerySelector } from 'redux/reducers/imageGallery/gallerySelector';
+import { withStyles } from '@material-ui/styles';
+import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
 
 /**
  * Map dispatch to props

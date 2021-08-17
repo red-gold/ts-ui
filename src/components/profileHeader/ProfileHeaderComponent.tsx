@@ -9,7 +9,7 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { Background, Parallax } from 'react-parallax';
 import { connect } from 'react-redux';
 import config from 'config';
-import * as userActions from 'store/actions/userActions';
+import * as userActions from 'redux/actions/userActions';
 
 import { IProfileHeaderComponentProps } from './IProfileHeaderComponentProps';
 import { IProfileHeaderComponentState } from './IProfileHeaderComponentState';
@@ -107,8 +107,8 @@ export class ProfileHeaderComponent extends Component<
                         {/* User avatar*/}
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <UserAvatar
-                                fullName={this.props.fullName || ' '}
-                                fileName={this.props.avatar}
+                                displayName={this.props.fullName || ' '}
+                                src={this.props.avatar}
                                 size={60}
                                 style={styles.avatar}
                             />

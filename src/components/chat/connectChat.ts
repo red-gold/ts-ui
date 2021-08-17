@@ -1,18 +1,18 @@
 import { Map, List as ImuList } from 'immutable';
 import { connect } from 'react-redux';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { IChatProps, IDispatchProps, IOwnProps, IStateProps } from './IChatProps';
 import { chatStyles } from './chatStyles';
-import { userSelector } from 'store/reducers/users/userSelector';
-import { withStyles } from '@material-ui/core/styles';
-import { chatSelector } from 'store/reducers/chat/chatSelector';
+import { userSelector } from 'redux/reducers/users/userSelector';
+import { withStyles } from '@material-ui/styles';
+import { chatSelector } from 'redux/reducers/chat/chatSelector';
 import { Message } from 'core/domain/chat/message';
-import * as chatActions from 'store/actions/chatActions';
-import { serverSelector } from 'store/reducers/server/serverSelector';
+import * as chatActions from 'redux/actions/chatActions';
+import { serverSelector } from 'redux/reducers/server/serverSelector';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 
 /**
  * Map dispatch to props

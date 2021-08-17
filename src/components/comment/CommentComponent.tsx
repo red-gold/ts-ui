@@ -23,6 +23,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import EmojiPopover from 'components/emojiPopover';
 import ListItemText from '@material-ui/core/ListItemText';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { PATH_MAIN } from 'routes/paths';
 
 const CommentPreview = styled('div')({
     display: 'flex',
@@ -275,9 +276,7 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
         const { comment, classes, t, editorStatus } = this.props;
 
         const { openMenu, anchorEl } = this.state;
-        if (!t || !comment) {
-            return <div />;
-        }
+
         const rightIconMenu = (
             <div className={classes.menuRoot}>
                 {this.props.isCommentOwner && (
@@ -328,7 +327,7 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
 
         const Author = () => (
             <div>
-                <NavLink to={`/${userId}`}>
+                <NavLink to={PATH_MAIN.user.profile.replace(':socialName', comment.get('socialName'))}>
                     {' '}
                     <Typography component="span" variant="subtitle2" sx={{ color: '#212b36' }}>
                         {comment.get('ownerDisplayName', 'Loading...')}
@@ -339,15 +338,14 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
                 </Typography>
             </div>
         );
-        const userId = comment.get('ownerUserId');
+
         const commentEdit = (
             <CommentEdit>
                 <AvatarRoot>
                     <UserAvatar
-                        fullName={comment.get('ownerDisplayName', '')}
-                        fileName={comment.get('ownerAvatar', '')}
+                        displayName={comment.get('ownerDisplayName', '')}
+                        src={comment.get('ownerAvatar', '')}
                         size={30}
-                        style={{ width: 40 }}
                     />
                 </AvatarRoot>
                 <div style={{ width: '100%' }}>
@@ -399,10 +397,10 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
             <CommentPreview>
                 <ListItem alignItems="flex-start">
                     <ListItemAvatar sx={{ minWidth: '40px' }}>
-                        <NavLink to={`/${userId}`}>
+                        <NavLink to={PATH_MAIN.user.profile.replace(':socialName', comment.get('socialName'))}>
                             <UserAvatar
-                                fullName={comment.get('ownerDisplayName', '')}
-                                fileName={comment.get('ownerAvatar', '')}
+                                displayName={comment.get('ownerDisplayName', '')}
+                                src={comment.get('ownerAvatar', '')}
                                 size={30}
                             />
                         </NavLink>

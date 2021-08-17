@@ -1,5 +1,5 @@
 import Collapse from '@material-ui/core/Collapse';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { withStyles } from '@material-ui/styles';
 import StringAPI from 'api/StringAPI';
 import classNames from 'classnames';
 import { IReadMoreProps } from 'components/readMore/IReadMoreProps';

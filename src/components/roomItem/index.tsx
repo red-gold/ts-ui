@@ -35,7 +35,7 @@ export function RoomItemComponent(props: IRoomItemProps) {
             component={'a'}
         >
             <ListItemAvatar>
-                <UserAvatar fullName={fullName} size={40} fileName={avatar} />
+                <UserAvatar displayName={fullName} size={40} src={avatar} />
             </ListItemAvatar>
             <ListItemText
                 className={classes.itemText}

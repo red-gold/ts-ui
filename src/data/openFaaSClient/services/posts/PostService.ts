@@ -198,4 +198,38 @@ export class PostService implements IPostService {
             throw new SocialError(error.code, error.message);
         }
     };
+
+    /**
+     * Get post by the post URL key
+     */
+    public getPostByURLKey = async (urlKey: string) => {
+        try {
+            const result = await this._httpService.get(`posts/urlkey/${urlKey}`);
+            return { ...result, id: result.objectId, creationDate: result['created_date'] };
+        } catch (error) {
+            throw new SocialError(error.code, error.message);
+        }
+    };
+
+    /**
+     * Disable comment
+     */
+    public disableComment = async (postId: string, status: boolean) => {
+        try {
+            await this._httpService.put(`posts/comment/disable`, { postId, status });
+        } catch (error) {
+            throw new SocialError(error.code, error.message);
+        }
+    };
+
+    /**
+     * Disable sharing
+     */
+    public disableSharing = async (postId: string, status: boolean) => {
+        try {
+            await this._httpService.put(`posts/share/disable`, { postId, status });
+        } catch (error) {
+            throw new SocialError(error.code, error.message);
+        }
+    };
 }

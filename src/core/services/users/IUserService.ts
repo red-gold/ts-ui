@@ -8,7 +8,8 @@ import { Map } from 'immutable';
  */
 export interface IUserService {
     getUserProfile: (userId: string) => Promise<User>;
-    getCurrentUserProfile: () => Promise<User>;
+    getProfileBySocialName: (socialName: string) => Promise<User>;
+    getCurrentUserProfile: () => Promise<Record<string, any>>;
     updateUserProfile: (userId: string, profile: User) => Promise<void>;
     getUsersProfile: (
         userId: string,

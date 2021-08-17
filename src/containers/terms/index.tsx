@@ -1,20 +1,18 @@
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { OAuthType } from 'core/domain/authorize/oauthType';
-import * as authorizeActions from 'store/actions/authorizeActions';
 
 import { ITermsProps } from './ITermsProps';
 import { ITermsState } from './ITermsState';
 import { termsStyles } from './termsStyles';
 import { TermsType } from './termsType';
+import { withStyles } from '@material-ui/styles';
 
 export class TermsComponent extends Component<ITermsProps & WithTranslation, ITermsState> {
     constructor(props: ITermsProps & WithTranslation) {
@@ -94,12 +92,7 @@ export class TermsComponent extends Component<ITermsProps & WithTranslation, ITe
  * Map dispatch to props
  */
 const mapDispatchToProps = (dispatch: any) => {
-    return {
-        login: (email: string, password: string) => {
-            dispatch(authorizeActions.dbLogin(email, password));
-        },
-        loginWithOAuth: (type: OAuthType) => dispatch(authorizeActions.dbLoginWithOAuth(type)),
-    };
+    return {};
 };
 
 /**

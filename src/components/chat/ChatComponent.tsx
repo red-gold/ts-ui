@@ -252,7 +252,7 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
                         button
                         className={classNames({ [classes.activeUserItem]: receiverUser.get('userId') === userId })}
                     >
-                        <UserAvatar fullName={user.get('fullName', '')} size={30} fileName={user.get('avatar', '')} />
+                        <UserAvatar displayName={user.get('fullName', '')} size={30} src={user.get('avatar', '')} />
                         <ListItemText
                             className={classes.listItemText}
                             classes={{ primary: classes.primaryText, secondary: classes.secondaryText }}
@@ -429,9 +429,9 @@ export class ChatComponent extends Component<IChatProps & WithTranslation, IChat
                 <div className={classes.avatarRoot}>
                     <ListItemAvatar>
                         <UserAvatar
-                            fullName={receiverUser.get('fullName')}
+                            displayName={receiverUser.get('fullName')}
                             size={40}
-                            fileName={receiverUser.get('avatar')}
+                            src={receiverUser.get('avatar')}
                         />
                     </ListItemAvatar>
                     <span

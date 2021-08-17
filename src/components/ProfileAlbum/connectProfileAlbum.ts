@@ -3,12 +3,12 @@ import { Map } from 'immutable';
 import { DialogType } from 'models/common/dialogType';
 import { ComponentType } from 'react';
 import { connect } from 'react-redux';
-import * as globalActions from 'store/actions/globalActions';
-import * as userActions from 'store/actions/userActions';
-import * as imageGalleryActions from 'store/actions/imageGalleryActions';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
-import { globalSelector } from 'store/reducers/global/globalSelector';
-import { userSelector } from 'store/reducers/users/userSelector';
+import * as globalActions from 'redux/actions/globalActions';
+import * as userActions from 'redux/actions/userActions';
+import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
+import { globalSelector } from 'redux/reducers/global/globalSelector';
+import { userSelector } from 'redux/reducers/users/userSelector';
 
 import { IProfileAlbumProps } from './IProfileAlbumProps';
 

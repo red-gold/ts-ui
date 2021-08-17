@@ -89,10 +89,9 @@ function CommentInput(props: ICommentInputProps) {
         <CommentEdit>
             <AvatarRoot>
                 <UserAvatar
-                    fullName={currentUser.get('fullName', '')}
-                    fileName={currentUser.get('avatar', '')}
+                    displayName={currentUser.get('fullName', '')}
+                    src={currentUser.get('avatar', '')}
                     size={30}
-                    style={{ width: 40 }}
                 />
             </AvatarRoot>
             <div style={{ width: '100%' }}>

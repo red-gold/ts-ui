@@ -1,20 +1,12 @@
-import {
-    Dialog,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    MenuList,
-    Paper,
-    TextField,
-    Typography,
-} from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react';
+import copy from 'copy-to-clipboard';
+// material
+import { Dialog, ListItemIcon, ListItemText, MenuItem, Stack, TextField, Typography } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/styles';
 import SvgLink from '@material-ui/icons/Link';
+//
 import classNames from 'classnames';
-import { List } from 'immutable';
-import React, { Component } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
+import { List, Map } from 'immutable';
 import {
     FacebookIcon,
     FacebookShareButton,
@@ -24,164 +16,142 @@ import {
     TwitterShareButton,
 } from 'react-share';
 
-import { IShareDialogComponentProps } from './IShareDialogComponentProps';
-import { IShareDialogComponentState } from './IShareDialogComponentState';
+import useLocales from 'hooks/useLocales';
 
-const styles = (theme: any) => ({
-    image: {
-        verticalAlign: 'top',
-        maxWidth: '100%',
-        minWidth: '100%',
-        width: '100%',
-    },
-    clipboard: {
-        fontSize: '18px',
-        textAlign: 'center',
-        marginTop: '10px',
-        color: '#1e882d',
-        fontWeight: 400,
-    },
-    networkShare: {},
-    shareButton: {
-        width: '100%',
-    },
-    fullPageXs: {
-        [theme.breakpoints.down('xs')]: {
+const useStyles = makeStyles((theme: any) =>
+    createStyles({
+        image: {
+            verticalAlign: 'top',
+            maxWidth: '100%',
+            minWidth: '100%',
             width: '100%',
-            height: '100%',
-            margin: 0,
-            overflowY: 'auto',
         },
-    },
-    shareLinkPaper: {
-        minHeight: 80,
-        padding: 10,
-        minWidth: 460,
-    },
-});
+        clipboard: {
+            minWidth: '300px',
+            fontSize: '13px',
+            textAlign: 'center',
+            marginTop: '10px',
+            color: '#1e882d',
+            fontWeight: 400,
+        },
+        fbIcon: { marginRight: '10px' },
+        twitterIcon: { marginRight: '-7px' },
+        inIcon: { marginRight: '6px' },
+        copyIcon: {
+            marginRight: '6px',
+            marginLeft: '6px',
+        },
+        shareButton: {
+            width: '100%',
+        },
+        fullPageXs: {
+            [theme.breakpoints.down('xs')]: {
+                width: '100%',
+                height: '100%',
+                margin: 0,
+                overflowY: 'auto',
+            },
+        },
+        shareLinkPaper: {
+            minHeight: 80,
+            padding: 10,
+            minWidth: 460,
+        },
+    }),
+);
 
-export class ShareDialogComponent extends Component<
-    IShareDialogComponentProps & WithTranslation,
-    IShareDialogComponentState
-> {
-    constructor(props: IShareDialogComponentProps & WithTranslation) {
-        super(props);
-
-        // Defaul state
-        this.state = {};
-
-        // Binding functions to `this`
-    }
-
-    render() {
-        const { classes, t, shareOpen, onClose, openCopyLink, post, onCopyLink } = this.props;
-
-        return (
-            <Dialog className={classes.fullPageXs} title="Share On" open={shareOpen} onClose={onClose}>
-                <Paper className={classes.shareLinkPaper}>
-                    {!openCopyLink ? (
-                        <MenuList>
-                            <div>
-                                <FacebookShareButton
-                                    onShareWindowClose={onClose}
-                                    url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
-                                    quote={post.get('body')}
-                                    hashtag={
-                                        post.get('tags', List<string>([])).count() > 0
-                                            ? `#${post.getIn(['tags', 0], 'hashtag')}`
-                                            : undefined
-                                    }
-                                    className={classes.shareButton}
-                                >
-                                    <MenuItem>
-                                        <ListItemIcon classes={{ root: classes.networkShare }}>
-                                            <FacebookIcon size={32} round />
-                                        </ListItemIcon>
-                                        <ListItemText primary={t('post.facebookButton')} />
-                                    </MenuItem>
-                                </FacebookShareButton>
-                            </div>
-                            <div>
-                                <TwitterShareButton
-                                    onShareWindowClose={onClose}
-                                    url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
-                                    title={post.get('body')}
-                                    hashtags={[...post.get('tags', [])]}
-                                    className={classes.shareButton}
-                                >
-                                    <MenuItem>
-                                        <ListItemIcon classes={{ root: classes.networkShare }}>
-                                            <TwitterIcon size={32} round />
-                                        </ListItemIcon>
-                                        <ListItemText primary={t('post.twitterButton')} />
-                                    </MenuItem>
-                                </TwitterShareButton>
-                            </div>
-                            <div>
-                                <LinkedinShareButton
-                                    onShareWindowClose={onClose}
-                                    url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
-                                    title={post.get('body')}
-                                    className={classes.shareButton}
-                                >
-                                    <MenuItem>
-                                        <ListItemIcon classes={{ root: classes.networkShare }}>
-                                            <LinkedinIcon size={32} round />
-                                        </ListItemIcon>
-                                        <ListItemText primary={t('post.linkedinButton')} />
-                                    </MenuItem>
-                                </LinkedinShareButton>
-                            </div>
-                            <MenuItem onClick={onCopyLink}>
-                                <ListItemIcon>
-                                    <SvgLink />
-                                </ListItemIcon>
-                                <ListItemText primary={t('post.copyLinkButton')} />
-                            </MenuItem>
-                        </MenuList>
-                    ) : (
-                        <div>
-                            <TextField
-                                autoFocus
-                                fullWidth={true}
-                                id="text-field-default"
-                                defaultValue={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get(
-                                    'id',
-                                )}`}
-                            />
-                            <Typography
-                                className={classNames('animate-top', classes.clipboard)}
-                                variant="h5"
-                                component="h2"
-                            >
-                                Link has been copied to clipboard ...
-                            </Typography>
-                        </div>
-                    )}
-                </Paper>
-            </Dialog>
-        );
-    }
+export interface ShareDialogComponentProps {
+    shareOpen: boolean;
+    onClose: () => void;
+    openCopyLink: boolean;
+    onCopyLink: () => void;
+    post: Map<string, any>;
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = () => {
-    return {};
-};
+export default function ShareDialogComponent({
+    shareOpen,
+    onClose,
+    openCopyLink,
+    post,
+    onCopyLink,
+}: ShareDialogComponentProps) {
+    const { t } = useLocales();
+    const classes = useStyles();
 
-/**
- * Map state to props
- */
-const mapStateToProps = () => {
-    return {};
-};
+    const shareLink = `${window.location.origin}/posts/${post.get('urlKey')}`;
 
-// - Connect component to redux store
-const translateWrapper = withTranslation('translations')(ShareDialogComponent);
+    const handleCopyLink = () => {
+        copy(shareLink);
+        onCopyLink();
+    };
 
-export default connect<{}, {}, any, any>(
-    mapStateToProps,
-    mapDispatchToProps,
-)(withStyles(styles as any)(translateWrapper as any) as any);
+    return (
+        <Dialog className={classes.fullPageXs} title="Share On" open={shareOpen} onClose={onClose}>
+            {!openCopyLink ? (
+                <Stack spacing={1} sx={{ p: 3 }}>
+                    <FacebookShareButton
+                        onShareWindowClose={onClose}
+                        url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
+                        quote={post.get('body')}
+                        hashtag={
+                            post.get('tags', List<string>([])).count() > 0
+                                ? `#${post.getIn(['tags', 0], 'hashtag')}`
+                                : undefined
+                        }
+                        className={classes.shareButton}
+                    >
+                        <MenuItem>
+                            <ListItemIcon classes={{ root: classes.fbIcon }}>
+                                <FacebookIcon size={32} round />
+                            </ListItemIcon>
+                            <ListItemText primary={t('post.facebookButton')} />
+                        </MenuItem>
+                    </FacebookShareButton>
+
+                    <TwitterShareButton
+                        onShareWindowClose={onClose}
+                        url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
+                        title={post.get('body')}
+                        hashtags={[...post.get('tags', [])]}
+                        className={classes.shareButton}
+                    >
+                        <MenuItem>
+                            <ListItemIcon classes={{ root: classes.twitterIcon }}>
+                                <TwitterIcon size={32} round />
+                            </ListItemIcon>
+                            <ListItemText primary={t('post.twitterButton')} />
+                        </MenuItem>
+                    </TwitterShareButton>
+
+                    <LinkedinShareButton
+                        onShareWindowClose={onClose}
+                        url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
+                        title={post.get('body')}
+                        className={classes.shareButton}
+                    >
+                        <MenuItem>
+                            <ListItemIcon classes={{ root: classes.inIcon }}>
+                                <LinkedinIcon size={32} round />
+                            </ListItemIcon>
+                            <ListItemText primary={t('post.linkedinButton')} />
+                        </MenuItem>
+                    </LinkedinShareButton>
+
+                    <MenuItem onClick={handleCopyLink}>
+                        <ListItemIcon classes={{ root: classes.copyIcon }}>
+                            <SvgLink />
+                        </ListItemIcon>
+                        <ListItemText primary={t('post.copyLinkButton')} />
+                    </MenuItem>
+                </Stack>
+            ) : (
+                <div>
+                    <TextField autoFocus fullWidth={true} id="text-field-default" defaultValue={shareLink} />
+                    <Typography className={classNames('animate-top', classes.clipboard)} variant="h5" component="h2">
+                        Link has been copied to clipboard ...
+                    </Typography>
+                </div>
+            )}
+        </Dialog>
+    );
+}

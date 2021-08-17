@@ -1,21 +1,6 @@
 export class UserRegisterModel {
-    /**
-     * User identifier
-     */
-    userId?: string;
-
-    /**
-     * User full name
-     */
-    fullName: string;
-
-    /**
-     * User email
-     */
-    email: string;
-
-    /**
-     * User password
-     */
-    password: string;
+    public fullName: string;
+    public email: string;
+    public password: string;
+    public verifier: string;
 }

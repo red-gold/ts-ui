@@ -1,8 +1,10 @@
 import { Message } from 'core/domain/chat/message';
 import { SocialError } from 'core/domain/common/socialError';
 import { IChatService } from 'core/services/chat/IChatService';
-import { injectable } from 'inversify';
-import { io } from 'socket.io-client';
+import { IHttpService } from 'core/services/webAPI/IHttpService';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { inject, injectable } from 'inversify';
+import { io, Socket } from 'socket.io-client';
 import { log } from 'utils/log';
 
 /**
@@ -10,15 +12,11 @@ import { log } from 'utils/log';
  */
 @injectable()
 export class ChatService implements IChatService {
-    socket: any = null;
-
-    /**
-     * Constructor
-     */
+    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    socket: Socket | null = null;
     constructor() {
-        this.removeHistoryRoom = this.removeHistoryRoom.bind(this);
-        this.removeMessagesByBatch = this.removeMessagesByBatch.bind(this);
-        this.romveMessages = this.romveMessages.bind(this);
+        this.wsConnect = this.wsConnect.bind(this);
+        this.wsDisconnect = this.wsDisconnect.bind(this);
     }
 
     /**
@@ -28,6 +26,7 @@ export class ChatService implements IChatService {
         this.socket = io(url, {
             query: { uid },
             withCredentials: true,
+            transports: ['websocket'],
         });
 
         this.socket.on('connect', () => {
@@ -68,8 +67,13 @@ export class ChatService implements IChatService {
                 );
             }
         });
+    };
 
-        return this.socket.close;
+    /**
+     * Close connection to websocket server
+     */
+    public wsDisconnect = () => {
+        return this.socket?.close();
     };
 
     /**
@@ -141,9 +145,9 @@ export class ChatService implements IChatService {
     /**
      * Join a chat room
      */
-    public createChatMessage = (message: Message) => {
+    public createChatMessage = (message: Message, deactivePeerId: string) => {
         if (this.socket) {
-            this.socket.emit('chatroom-message', message);
+            this.socket.emit('chatroom-message', { ...message, deactivePeerId });
         } else {
             throw new SocialError('nullSocketError', 'There is no connection bound to socket!');
         }
@@ -152,9 +156,9 @@ export class ChatService implements IChatService {
     /**
      * Join a chat room
      */
-    public requestActiveRoom = (peerUserId: string) => {
+    public requestActiveRoom = (payload: { peerUserId?: string; socialName?: string; responseActionType?: string }) => {
         if (this.socket) {
-            this.socket.emit('request-active-room', { peerUserId });
+            this.socket.emit('request-active-room', payload);
         } else {
             throw new SocialError('nullSocketError', 'There is no connection bound to socket!');
         }
@@ -198,57 +202,16 @@ export class ChatService implements IChatService {
         }
     };
 
-    // ************************ //
-    // ** Old implementation ** //TODO: Remove unused functions
-    // ************************ //
+    // API CALL //
 
     /**
-     * Create chat room
+     * Updare post
      */
-    public createChatRoom = () => {
-        return 'Not implemented' as any;
+    public getActivePeerRoom = (roomId: string) => {
+        try {
+            return this._httpService.get('vang/active-room/' + roomId);
+        } catch (error) {
+            throw new SocialError(error.code, error.message);
+        }
     };
-
-    /**
-     * Get chat room
-     */
-    public getPeerChatRoom = () => {
-        return 'Not implemented' as any;
-    };
-
-    /**
-     * Set chat language
-     */
-    public setChatLangauge = () => {
-        return 'Not implemented' as any;
-    };
-
-    /**
-     * Get chat messages
-     */
-    public subscribeChatMessages = () => {
-        return 'Not implemented' as any;
-    };
-
-    /**
-     * Get chat messages
-     */
-    public getChatMessages = () => {
-        return 'Not implemented' as any;
-    };
-
-    /**
-     * Remove chat room history
-     */
-    *removeHistoryRoom() {
-        yield 'Not implemented' as any;
-    }
-
-    *removeMessagesByBatch() {
-        yield 'Not implemented' as any;
-    }
-
-    *romveMessages() {
-        yield 'Not implemented' as any;
-    }
 }

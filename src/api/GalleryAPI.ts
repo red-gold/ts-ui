@@ -1,7 +1,7 @@
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { ServerRequestModel } from 'models/server/serverRequestModel';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 
 const createAlbumRequest = (userId: string) => {
     const requestId = StringAPI.createServerRequestId(ServerRequestType.GalleryCreateAlbum, userId);

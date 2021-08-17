@@ -8,12 +8,12 @@ import { ILangSettingProps } from './ILangSettingProps';
 import { useStyles } from './langSettingStyles';
 import FormControl from '@material-ui/core/FormControl/FormControl';
 import InputLabel from '@material-ui/core/InputLabel/InputLabel';
-import Select from '@material-ui/core/Select/Select';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import { CardContent, ListSubheader } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import * as userSettingActions from 'store/actions/userSettingActions';
+import * as userSettingActions from 'redux/actions/userSettingActions';
+import Select, { SelectChangeEvent } from '@material-ui/core/Select';
 
 export function LangSettingComponent(props: ILangSettingProps) {
     const [selectedLang, setSelectedLang] = React.useState(props.userSettings.get('lang', Map({})));
@@ -21,8 +21,8 @@ export function LangSettingComponent(props: ILangSettingProps) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setSelectedLang(selectedLang.setIn(['current', 'value'], event.target.value as string));
+    const handleChange = (event: SelectChangeEvent) => {
+        setSelectedLang(selectedLang.setIn(['current', 'value'], event?.target.value as string));
     };
 
     /**

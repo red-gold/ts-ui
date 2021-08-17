@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import OutIcon from '@material-ui/icons/CallMade';
@@ -14,7 +14,7 @@ import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { throwNoValue } from 'utils/errorHandling';
-import * as chatActions from 'store/actions/chatActions';
+import * as chatActions from 'redux/actions/chatActions';
 
 import { chatRoomSettingStyles } from './chatRoomSettingStyles';
 import { IChatRoomSettingProps } from './IChatRoomSettingProps';

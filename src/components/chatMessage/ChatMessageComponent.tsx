@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
@@ -48,12 +48,7 @@ export class ChatMessageComponent extends Component<IChatMessageProps & WithTran
             <div className={classes.root}>
                 <div className={classNames(classes.messageRoot, { [classes.messageRootRight]: me })}>
                     {!me && (
-                        <UserAvatar
-                            className={classes.messageAvatar}
-                            fullName={ownerName}
-                            size={30}
-                            fileName={avatar}
-                        />
+                        <UserAvatar className={classes.messageAvatar} displayName={ownerName} size={30} src={avatar} />
                     )}
                     <div className={classes.messageBox}>
                         <Typography className={classNames(classes.updatedDate, { me: me })} noWrap variant={'caption'}>

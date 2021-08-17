@@ -9,30 +9,28 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import classnames from 'classnames';
-import Captcha from 'components/recaptcha';
 import { LoginUser } from 'core/domain/authorize/loginUser';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { flag } from 'country-emoji';
-import Footer from 'layouts/footer';
+import Footer from 'oldComponents/footer';
 import { AsYouType, isValidNumber } from 'libphonenumber-js';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { provider } from 'socialEngine';
-import * as authorizeActions from 'store/actions/authorizeActions';
-import * as globalActions from 'store/actions/globalActions';
-
+import * as authorizeActions from 'redux/actions/authorizeActions';
+import * as globalActions from 'redux/actions/globalActions';
+//
+import GoogleRecaptcha from 'components/recaptcha/GoogleRecaptcha';
 import { ISmsVerificationComponentProps } from './ISmsVerificationComponentProps';
 import { ISmsVerificationComponentState } from './ISmsVerificationComponentState';
 import { SmsVerificationStepType } from './smsVerificationStepType';
+import { AuthorizeState } from 'models/authorize/authorizeState';
 
-// - Material UI
-// - Components
-// - Import actions
 const styles = (theme: any) => ({
     textField: {
         minWidth: 280,
@@ -336,10 +334,10 @@ export class SmsVerificationComponent extends Component<
                                     <br />
                                     <br />
                                     {/* Recaptcha */}
-                                    <Captcha
+                                    <GoogleRecaptcha
                                         onSuccess={this.handleSuccessCaptcha}
                                         onExpired={this.handleExpiredCaptcha}
-                                        onRenderError={this.handleErrorCapthaRender}
+                                        onError={this.handleErrorCapthaRender}
                                     />
                                     <div className="settings__button-box">
                                         <div>
@@ -436,7 +434,7 @@ const mapDispatchToProps = (dispatch: Function) => {
             location.href = '/';
         },
         showMessage: (message: string) => dispatch(globalActions.showMessage(message)),
-        login: (user: LoginUser) => dispatch(authorizeActions.login(user)),
+        login: (user: AuthorizeState) => dispatch(authorizeActions.login(user)),
     };
 };
 

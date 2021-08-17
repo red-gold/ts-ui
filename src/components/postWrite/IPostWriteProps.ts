@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
 import { Post } from 'core/domain/posts/post';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 
 export type IPostWriteProps = IOwnProps & IDispatchProps & IStateProps;
 

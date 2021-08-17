@@ -3,13 +3,13 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 import ListItem from '@material-ui/core/ListItem';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
-import ActivityProgress from 'layouts/activityProgress/ActivityProgressComponent';
+import ActivityProgress from 'oldComponents/activityProgress/ActivityProgressComponent';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import * as globalActions from 'store/actions/globalActions';
+import * as globalActions from 'redux/actions/globalActions';
 
 import { bountyBoxStyles } from './bountyBoxStyles';
 import { IBountyBoxComponentProps } from './IBountyBoxComponentProps';

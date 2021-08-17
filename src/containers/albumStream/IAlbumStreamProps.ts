@@ -1,5 +1,5 @@
 import { Map, List } from 'immutable';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { User } from 'core/domain/users/user';
 
 export interface IAlbumStreamProps {

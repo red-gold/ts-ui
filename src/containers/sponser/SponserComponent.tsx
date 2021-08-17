@@ -1,4 +1,4 @@
-import withStyles from '@material-ui/core/styles/withStyles';
+import { withStyles } from '@material-ui/styles';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 

@@ -2,13 +2,14 @@
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
+import { createStyles, makeStyles } from '@material-ui/styles';
 
-import { makeStyles } from '@material-ui/core/styles';
-
-export const useStyles = makeStyles(() => ({
-    skeletonRoot: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-}));
+export const useStyles = makeStyles(() =>
+    createStyles({
+        skeletonRoot: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+    }),
+);

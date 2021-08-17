@@ -3,7 +3,7 @@ import { injectable } from 'inversify';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { inject } from 'inversify';
 import config from 'config';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { IPermissionService } from 'core/services/security/IPermissionService';
 import { SocialError } from 'core/domain/common/socialError';
 import { log } from 'utils/log';
@@ -31,10 +31,20 @@ export class HttpService implements IHttpService {
     /**
      * Http POST
      */
-    public async post(url: string, payload?: any) {
+    public async post(url: string, payload?: any, opt?: { headers?: any }) {
         const validURL = config.rewrites[url] || url;
-        const result = await axios.post(`${config.gateway.gateway_uri}/${validURL}`, payload);
-        return result.data;
+        const axiosConfig: AxiosRequestConfig = {};
+        if (opt) {
+            if (opt.headers) {
+                axiosConfig.headers = opt.headers;
+            }
+        }
+        try {
+            const result = await axios.post(`${config.gateway.gateway_uri}/${validURL}`, payload, axiosConfig);
+            return result.data;
+        } catch (error) {
+            return this.handleError(error);
+        }
     }
 
     /**
@@ -62,7 +72,10 @@ export class HttpService implements IHttpService {
             log.error(error);
             const errorData = new SocialError('HttpService/WrongSetting', 'Error happened!');
 
-            if (error.response) {
+            if (error.error) {
+                errorData.code = error.error.code;
+                errorData.message = error.error.message;
+            } else if (error.response) {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
                 log.error(error.response.data);
@@ -107,11 +120,15 @@ export class HttpService implements IHttpService {
     /**
      * Http PUT
      */
-    public async put(url: string, payload?: any) {
+    public async put(url: string, payload?: any, reqConfig?: { params: any }) {
         const validURL = config.rewrites[url] || url;
         const requestURL = `${config.gateway.gateway_uri}/${validURL}`;
-        const result = await axios.put(requestURL, payload);
-        return result.data;
+        try {
+            const result = await axios.put(requestURL, payload, reqConfig);
+            return result.data;
+        } catch (error) {
+            return this.handleError(error);
+        }
     }
 
     /**
@@ -142,45 +159,51 @@ export class HttpService implements IHttpService {
             const result = await axios.post(`${config.gateway.gateway_uri}/${url}`, payload);
             return result.data;
         } catch (error) {
-            log.error(error);
-            const errorData = new SocialError('HttpService/WrongSetting', 'Error happened!');
+            return this.handleError(error);
+        }
+    }
 
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                log.error(error.response.data);
-                log.error(error.response.status);
-                log.error(error.response.headers);
-                const { data } = error.response;
-                if (data.isError) {
-                    errorData.code = data.code;
-                    errorData.message = data.message;
-                } else {
-                    errorData.code = 'HttpService/PostWithoutAuth';
-                    errorData.message = `The request was made and the server responded with a status code that falls out of the range of 2xx`;
-                }
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                log.error(error.request);
+    handleError = (error: any) => {
+        log.error(error);
+        const errorData = new SocialError('HttpService/WrongSetting', 'Error happened!');
+        if (error.error) {
+            errorData.code = error.error.code;
+            errorData.message = error.error.message;
+        } else if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            log.error(error.response.data);
+            log.error(error.response.status);
+            log.error(error.response.headers);
+            const { data } = error.response;
+            if (data.error) {
+                errorData.code = data.error.code;
+                errorData.message = data.error.message;
+            } else {
+                errorData.code = 'HttpService/PostWithoutAuth';
+                errorData.message = `The request was made and the server responded with a status code that falls out of the range of 2xx`;
+            }
+        } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            log.error(error.request);
 
-                errorData.code = 'HttpService/postWithoutAuth/NoResponse';
-                errorData.message = `
+            errorData.code = 'HttpService/postWithoutAuth/NoResponse';
+            errorData.message = `
                 The request was made but no response was received
                 error.request is an instance of XMLHttpRequest in the browser and an instance of
                 http.ClientRequest in node.js
                 `;
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                log.error('Error', error.message);
-                errorData.code = 'HttpService/postWithoutAuth/WrongSetting';
-                errorData.message = `
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            log.error('Error', error.message);
+            errorData.code = 'HttpService/postWithoutAuth/WrongSetting';
+            errorData.message = `
                 Something happened in setting up the request that triggered an Error
                 `;
-            }
-            log.error(error.config);
-            throw errorData;
         }
-    }
+        log.error(error.config);
+        throw errorData;
+    };
 }

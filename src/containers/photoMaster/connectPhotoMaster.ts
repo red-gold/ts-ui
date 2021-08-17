@@ -7,15 +7,15 @@ import { DialogType } from 'models/common/dialogType';
 import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { throwNoValue } from 'utils/errorHandling';
-import * as globalActions from 'store/actions/globalActions';
-import * as imageGalleryActions from 'store/actions/imageGalleryActions';
-import * as postActions from 'store/actions/postActions';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
-import { globalSelector } from 'store/reducers/global/globalSelector';
-import { gallerySelector } from 'store/reducers/imageGallery/gallerySelector';
-import { postSelector } from 'store/reducers/posts/postSelector';
-import { serverSelector } from 'store/reducers/server/serverSelector';
+import * as globalActions from 'redux/actions/globalActions';
+import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
+import * as postActions from 'redux/actions/postActions';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
+import { globalSelector } from 'redux/reducers/global/globalSelector';
+import { gallerySelector } from 'redux/reducers/imageGallery/gallerySelector';
+import { postSelector } from 'redux/reducers/posts/postSelector';
+import { serverSelector } from 'redux/reducers/server/serverSelector';
 
 import { IPhotoMasterProps } from './IPhotoMasterProps';
 
@@ -26,7 +26,7 @@ import { IPhotoMasterProps } from './IPhotoMasterProps';
 const mapDispatchToProps = (dispatch: any, ownProps: IPhotoMasterProps) => {
     const { userId, albumId } = ownProps.match.params;
     return {
-        updateAlbum: (post: Map<string, any>) => dispatch(postActions.dbUpdatePost(post)),
+        updateAlbum: (post: Map<string, any>) => dispatch(postActions.dbUpdatePost(post, [])),
         loadImages: () => dispatch(imageGalleryActions.dbFetchAlbumImages(userId, albumId)),
         loadAlbum: () => dispatch(postActions.dbGetPostById(userId, albumId)),
         uploadImage: (image: any, imageName: string) => dispatch(imageGalleryActions.dbUploadImage(image, imageName)),

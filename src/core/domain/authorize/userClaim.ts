@@ -1,16 +1,21 @@
 export class UserClaim {
-    constructor(
-        public displayName: string,
-        public email: string,
-        public emailVerified: boolean,
-        public isAnonymous: boolean,
-        public metadata: any,
-        public phoneNumber: string,
-        public avatar: string,
-        public providerData: any,
-        public providerId: any,
-        public refreshToken: string,
-        public uid: string,
-        public phoneVerified: boolean,
-    ) {}
+    constructor() {
+        this.isAnonymous = false;
+        this.metadata = null;
+        this.phoneNumber = null;
+        this.providerData = 'telar';
+        this.refreshToken = null;
+    }
+    public displayName: string;
+    public email: string;
+    public emailVerified: boolean;
+    public isAnonymous?: boolean;
+    public metadata?: any | null;
+    public phoneNumber?: string | null;
+    public avatar: string;
+    public providerData?: any | null;
+    public providerId: any;
+    public refreshToken?: string | null;
+    public uid: string;
+    public phoneVerified: boolean;
 }

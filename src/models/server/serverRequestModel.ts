@@ -1,6 +1,6 @@
 import { ServerRequestType } from 'constants/serverRequestType';
 import StringAPI from 'api/StringAPI';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 
 export class ServerRequestModel {
     constructor(

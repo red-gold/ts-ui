@@ -12,7 +12,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from 'locales/i18n';
 
 // - Actions
-import * as globalActions from 'store/actions/globalActions';
+import * as globalActions from 'redux/actions/globalActions';
 
 // - Import app components
 // import { App } from 'components/AWS'
@@ -23,8 +23,8 @@ import 'styles/app.css';
  * Execute startup functions
  */
 import 'socialEngine';
-import rootSaga from 'store/sagas/rootSaga';
-import * as authorizeActions from 'store/actions/authorizeActions';
+import rootSaga from 'redux/sagas/rootSaga';
+import * as authorizeActions from 'redux/actions/authorizeActions';
 import { socialTheme } from 'config/socialTheme';
 import MasterComponent from '.';
 import { MemoryRouter } from 'react-router';

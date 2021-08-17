@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 import { NavLink } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -13,8 +13,8 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 // - Components
 
 // - Import actions
-import * as authorizeActions from 'store/actions/authorizeActions';
-import * as globalActions from 'store/actions/globalActions';
+import * as authorizeActions from 'redux/actions/authorizeActions';
+import * as globalActions from 'redux/actions/globalActions';
 
 // - Import app API
 import StringAPI from 'api/StringAPI';
@@ -22,7 +22,7 @@ import StringAPI from 'api/StringAPI';
 import { ICodeVerificationProps } from './ICodeVerificationProps';
 import { ICodeVerificationState } from './ICodeVerificationState';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { codeVerificationStyles } from './codeVerificationStyles';
 

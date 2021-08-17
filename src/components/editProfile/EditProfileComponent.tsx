@@ -8,7 +8,7 @@ import ImageEditor from 'components/ImageEditor';
 import ImgCover from 'components/imgCover';
 import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
-import AppDialogTitle from 'layouts/dialogTitle/DialogTitleComponent';
+import AppDialogTitle from 'oldComponents/dialogTitle/DialogTitleComponent';
 import moment from 'moment/moment';
 import React, { Component } from 'react';
 import { WithTranslation } from 'react-i18next';
@@ -361,8 +361,8 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
                                         />
                                     </div>
                                     <UserAvatarComponent
-                                        fullName={currentUser ? currentUser.get('fullName') : ''}
-                                        fileName={this.state.avatar}
+                                        displayName={currentUser ? currentUser.get('fullName') : ''}
+                                        src={this.state.avatar}
                                         size={90}
                                         className={classes.avatar}
                                     />

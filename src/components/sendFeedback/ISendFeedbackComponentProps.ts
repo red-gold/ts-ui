@@ -1,6 +1,6 @@
 import { Feed } from 'core/domain/common/feed';
 import { User } from 'core/domain/users/user';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 
 export interface ISendFeedbackComponentProps {
     /**

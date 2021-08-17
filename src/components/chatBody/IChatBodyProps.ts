@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
 import { ServerRequestModel } from 'models/server/serverRequestModel';
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 export interface IChatBodyProps {
     /**
      * Translate to locale string

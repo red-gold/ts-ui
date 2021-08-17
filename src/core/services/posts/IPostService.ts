@@ -52,4 +52,19 @@ export interface IPostService {
      * Get post by the post identifier
      */
     getPostById: (postId: string) => Promise<Post>;
+
+    /**
+     * Get post by the post URL key
+     */
+    getPostByURLKey: (urlKey: string) => Promise<Post>;
+
+    /**
+     * Disable comment
+     */
+    disableComment: (postId: string, status: boolean) => Promise<void>;
+
+    /**
+     * Disable sharing
+     */
+    disableSharing: (postId: string, status: boolean) => Promise<void>;
 }

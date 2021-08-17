@@ -1,16 +1,16 @@
-import withStyles from '@material-ui/core/styles/withStyles';
 import { Media } from 'core/domain/imageGallery/media';
-import PhotoGridComponent from 'layouts/photoGrid';
+import PhotoGridComponent from 'oldComponents/photoGrid';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Measure from 'react-measure';
-import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
+import LoadMoreProgressComponent from 'oldComponents/loadMoreProgress';
 
 import { connectPhotoStream } from './connectPhotoStream';
 import { IPhotoStreamProps } from './IPhotoStreamProps';
 import { IPhotoStreamState } from './IPhotoStreamState';
 import { photoStreamStyles } from './photoStreamStyles';
+import { withStyles } from '@material-ui/styles';
 
 export class PhotoStreamComponent extends Component<IPhotoStreamProps & WithTranslation, IPhotoStreamState> {
     constructor(props: IPhotoStreamProps & WithTranslation) {

@@ -1,6 +1,4 @@
-import { LoginUser } from 'core/domain/authorize/loginUser';
 import { OAuthType } from 'core/domain/authorize/oauthType';
-import { UserClaim } from 'core/domain/authorize/userClaim';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
 import { inject, injectable } from 'inversify';
 import { IHttpService } from 'core/services/webAPI/IHttpService';
@@ -8,6 +6,9 @@ import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { AuthAPI } from 'api/AuthAPI';
 import jwtDecode from 'jwt-decode';
 import { log } from 'utils/log';
+import { SocialError } from 'core/domain/common/socialError';
+import config from 'config/index';
+import { UserRegisterModel } from 'models/users/userRegisterModel';
 
 /**
  * Authorize service
@@ -20,8 +21,19 @@ export class AuthorizeService implements IAuthorizeService {
     /**
      * Login the user
      */
-    public login = () => {
-        return ' Not implemented!' as any;
+    public login = async (email: string, password: string) => {
+        try {
+            const form = new FormData();
+            form.append('username', email);
+            form.append('password', password);
+            form.append('responseType', 'spa');
+
+            const headers = { 'Content-Type': 'multipart/form-data' };
+            const result = await this._httpService.post('auth/login', form, { headers });
+            return result;
+        } catch (error) {
+            throw new SocialError(error.code, error.message);
+        }
     };
 
     /**
@@ -35,13 +47,9 @@ export class AuthorizeService implements IAuthorizeService {
      * Get user auth cookie
      */
     public getUserAuthCookie = () => {
-        const header = AuthAPI.readCookie('he');
         const payload = AuthAPI.readCookie('pa');
-        const sign = AuthAPI.readCookie('si');
         return {
-            header,
             payload,
-            sign,
         };
     };
 
@@ -51,7 +59,7 @@ export class AuthorizeService implements IAuthorizeService {
     public getUserAuth = () => {
         const cookie = this.getUserAuthCookie();
         if (cookie) {
-            const token = `${cookie.header}.${cookie.payload}.${cookie.sign}`;
+            const token = `.${cookie.payload}.`;
             const decodedToken = jwtDecode(token);
 
             if (this.isJwtExpired(decodedToken)) {
@@ -62,6 +70,27 @@ export class AuthorizeService implements IAuthorizeService {
             return decodedToken;
         }
         return null;
+    };
+
+    /**
+     * Get access token
+     */
+    public getAccessToken = () => {
+        const cookie = this.getUserAuthCookie();
+        if (cookie.payload === null) {
+            throw new Error('Cookie payload is null!');
+        }
+        if (cookie) {
+            return `.${cookie.payload}.`;
+        }
+        return null;
+    };
+
+    /**
+     * Get user from token
+     */
+    public getUserFromToken = (token: string) => {
+        return jwtDecode(token);
     };
 
     /**
@@ -98,15 +127,51 @@ export class AuthorizeService implements IAuthorizeService {
     /**
      * Register a user
      */
-    public getUserRegisterToken = async () => {
-        return ' Not implemented!' as any;
+    public getUserRegisterToken = async (user: UserRegisterModel) => {
+        try {
+            const form = new FormData();
+            form.append('fullName', user.fullName);
+            form.append('email', user.email);
+            form.append('newPassword', user.password);
+            form.append('verifyType', 'emv');
+            form.append('g-recaptcha-response', user.verifier);
+            form.append('responseType', 'spa');
+
+            const headers = { 'Content-Type': 'multipart/form-data' };
+            const result = await this._httpService.post('auth/signup', form, { headers });
+            return result;
+        } catch (error) {
+            throw new SocialError(error.code, error.message);
+        }
     };
 
     /**
      * Verify user register code
      */
-    public verifyUserRegisterCode = async () => {
-        return ' Not implemented!' as any;
+    public verifyUserRegisterCode = async (code: string, registerToken: string) => {
+        try {
+            const form = new FormData();
+            form.append('code', code);
+            form.append('verificaitonSecret', registerToken);
+            form.append('responseType', 'spa');
+
+            const headers = { 'Content-Type': 'multipart/form-data' };
+            const result = await this._httpService.post('auth/signup/verify', form, { headers });
+            return result;
+        } catch (error) {
+            throw new SocialError(error.code, error.message);
+        }
+    };
+
+    /**
+     * Change password
+     */
+    public changePassword = (currentPassword: string, newPassword: string, confirmPassword: string) => {
+        try {
+            return this._httpService.put('auth/password/change', { currentPassword, newPassword, confirmPassword });
+        } catch (error) {
+            throw new SocialError(error.code, error.message);
+        }
     };
 
     /**
@@ -138,13 +203,6 @@ export class AuthorizeService implements IAuthorizeService {
     };
 
     /**
-     * On user authorization changed event
-     */
-    public onAuthStateChanged: (callBack: (user: UserClaim) => void) => any = () => {
-        return ' Not implemented!' as any;
-    };
-
-    /**
      * Reset user password
      */
     public resetPassword: (email: string) => Promise<void> = () => {
@@ -158,8 +216,10 @@ export class AuthorizeService implements IAuthorizeService {
         return ' Not implemented!' as any;
     };
 
-    public loginWithOAuth: (type: OAuthType) => Promise<LoginUser> = () => {
-        return ' Not implemented!' as any;
+    public loginWithOAuth: (type: OAuthType) => Promise<any> = () => {
+        const resource = window.location.href + '';
+        window.location.href = config.gateway.github_oauth_url + `?r=${resource}`;
+        return Promise.resolve(null);
     };
 
     /**

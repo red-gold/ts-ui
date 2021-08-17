@@ -30,6 +30,18 @@ export class UserService implements IUserService {
     };
 
     /**
+     * Get user profile by social name
+     */
+    public getProfileBySocialName = async (socialName: string) => {
+        try {
+            const result = await this._httpService.get(`profile/social/${socialName}`);
+            return { ...result, userId: result.objectId, creationDate: result['created_date'] } as User;
+        } catch (error) {
+            throw new SocialError(error.code, 'service/getUserProfile :' + error.message);
+        }
+    };
+
+    /**
      * Get current user profile
      */
     public getCurrentUserProfile = async () => {

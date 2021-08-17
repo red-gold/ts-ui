@@ -1,27 +1,27 @@
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import MailIcon from '@material-ui/icons/Mail';
 import StringAPI from 'api/StringAPI';
 import classNames from 'classnames';
 import AboutDialogComponent from 'components/aboutDialog/AboutDialogComponent';
 import EditProfile from 'components/editProfile/EditProfileComponent';
-import FollowDialogComponent from 'components/followDialog/FollowDialogComponent';
+import FollowDialogComponent from 'components/user/FollowButton';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import { Map } from 'immutable';
-import TimelineComponent from 'layouts/timeline';
+import TimelineComponent from 'oldComponents/timeline';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import PictureDialogComponent from 'layouts/pictureDialog';
-import * as globalActions from 'store/actions/globalActions';
-import * as userActions from 'store/actions/userActions';
+import PictureDialogComponent from 'oldComponents/pictureDialog';
+import * as globalActions from 'redux/actions/globalActions';
+import * as userActions from 'redux/actions/userActions';
 
 import { IUserActivityComponentProps } from './IUserActivityComponentProps';
 import { IUserActivityComponentState } from './IUserActivityComponentState';
 import { userActivityStyles } from './userActivityStyles';
-import * as chatActions from 'store/actions/chatActions';
+import * as chatActions from 'redux/actions/chatActions';
 import { log } from 'utils/log';
 
 export class UserActivityComponent extends Component<
@@ -175,8 +175,8 @@ export class UserActivityComponent extends Component<
                     <div onClick={() => this.openPictureDialog(profile.get('avatar'))}>
                         <UserAvatar
                             className={classes.userAvatar}
-                            fullName={profile.get('fullName')}
-                            fileName={profile.get('avatar')}
+                            displayName={profile.get('fullName')}
+                            src={profile.get('avatar')}
                             size={110}
                         />
                     </div>

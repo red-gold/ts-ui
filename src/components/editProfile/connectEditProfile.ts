@@ -1,13 +1,13 @@
 import { Map, List } from 'immutable';
 import { connect } from 'react-redux';
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { IEditProfileProps, IDispatchProps, IOwnProps, IStateProps } from './IEditProfileProps';
 import { editProfileStyles } from './editProfileStyles';
-import { userSelector } from 'store/reducers/users/userSelector';
-import { withStyles } from '@material-ui/core/styles';
-import * as imageGalleryActions from 'store/actions/imageGalleryActions';
-import * as userActions from 'store/actions/userActions';
+import { userSelector } from 'redux/reducers/users/userSelector';
+import { withStyles } from '@material-ui/styles';
+import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
+import * as userActions from 'redux/actions/userActions';
 import { User } from 'core/domain/users/user';
 
 /**

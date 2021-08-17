@@ -7,10 +7,10 @@ import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { IRoomListProps, IDispatchProps, IOwnProps, IStateProps } from './IRoomListProps';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import { roomListStyles } from './roomListStyles';
-import { chatSelector } from 'store/reducers/chat/chatSelector';
-import * as chatActions from 'store/actions/chatActions';
+import { chatSelector } from 'redux/reducers/chat/chatSelector';
+import * as chatActions from 'redux/actions/chatActions';
 
 /**
  * Map dispatch to props
