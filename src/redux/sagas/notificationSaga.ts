@@ -1,10 +1,10 @@
 import { INotificationService } from 'core/services/notifications/INotificationService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { provider } from '../../socialEngine';
 import * as notificatioActions from 'redux/actions/notifyActions';
 import { implementPromiseAction } from '@adobe/redux-saga-promise';
 import { fromJS } from 'immutable';
+import { provider } from '../../socialEngine';
 
 /**
  * Get service providers
@@ -13,7 +13,7 @@ const notificationService: INotificationService = provider.get<INotificationServ
     SocialProviderTypes.NotificationService,
 );
 
-/***************************** Subroutines ************************************/
+/** *************************** Subroutines *********************************** */
 
 /**
  * On auth state change

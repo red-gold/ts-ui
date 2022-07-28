@@ -1,5 +1,5 @@
-import CardMedia from '@material-ui/core/CardMedia';
-import { withStyles } from '@material-ui/styles';
+import CardMedia from '@mui/material/CardMedia';
+import { withStyles } from '@mui/styles';
 import classNames from 'classnames';
 import Img from 'components/img';
 import React, { Component } from 'react';
@@ -77,6 +77,7 @@ export class PostPhotoGridComponent extends Component<IPostPhotoGridProps, IPost
         }
         return <Img fileName={images[0].url} onClick={(event: any) => this.handleClick(event, 0)} />;
     }
+
     render() {
         const { classes } = this.props;
         return <div className={classes.mainContainer}>{this.getData()}</div>;

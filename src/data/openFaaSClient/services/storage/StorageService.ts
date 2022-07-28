@@ -1,7 +1,7 @@
-import { IStorageService } from 'core/services/files/IStorageService';
+import type { IStorageService } from 'core/services/files/IStorageService';
 import { FileResult } from 'models/files/fileResult';
 import { injectable, inject } from 'inversify';
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { log } from 'utils/log';
 
@@ -26,13 +26,13 @@ export class StorageService implements IStorageService {
 
         this._httpService
             .postFile(`storage/${folderName}`, data, fileName, onProgress)
-            .then(function (res) {
+            .then((res) => {
                 onProgress(100, false, fileName);
                 log.info(res);
                 const downloadURL = res.payload;
                 onSuccess(new FileResult(downloadURL), { url: downloadURL });
             })
-            .catch(function (error) {
+            .catch((error) => {
                 onFailure(error);
                 log.error('========== Upload Image ============');
                 log.error(error);

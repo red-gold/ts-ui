@@ -3,19 +3,19 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import Button from '@material-ui/core/Button/Button';
+import Button from '@mui/material/Button/Button';
 import React from 'react';
-import { ICommentInputProps } from './ICommentInputProps';
 import { Comment } from 'core/domain/comments/comment';
 import { Map } from 'immutable';
 import { useTranslation } from 'react-i18next';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { experimentalStyled as styled } from '@mui/material/styles';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
-import FormControl from '@material-ui/core/FormControl';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import EmojiPopover from 'components/emojiPopover';
+import { ICommentInputProps } from './ICommentInputProps';
 
 const AvatarRoot = styled('div')({
     width: 40,
@@ -82,7 +82,9 @@ function CommentInput(props: ICommentInputProps) {
      * Handle select emoji
      */
     const handleSelectEmoji = (emoji: any) => {
-        setCommentText(commentText + emoji.native);
+        console.log(commentText, emoji);
+
+        setCommentText(emoji.id);
     };
 
     return (

@@ -2,21 +2,21 @@ import React from 'react';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import { styled } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import { LoadingButton } from '@material-ui/lab';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import { styled } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import { LoadingButton } from '@mui/lab';
 
 //
 import { NavLink } from 'react-router-dom';
 import config from 'config';
 import { OAuthType } from 'core/domain/authorize/oauthType';
 import * as authorizeActions from 'redux/actions/authorizeActions';
-import CloseIcon from '@material-ui/icons/CloseRounded';
+import CloseIcon from '@mui/icons-material/CloseRounded';
 import useAuth from 'hooks/useAuth';
 import useIsMountedRef from 'hooks/useIsMountedRef';
-import { useSnackbar } from 'notistack5';
+import { useSnackbar } from 'notistack';
 import useLocales from 'hooks/useLocales';
 import { useDispatch } from 'redux/store';
 import { PATH_AUTH } from 'routes/paths';
@@ -86,7 +86,7 @@ export default function LoginForm() {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const dispatch = useDispatch();
 
-    const loginWithOAuth = (type: OAuthType) => dispatch(authorizeActions.dbLoginWithOAuth(type));
+    const loginWithOAuth = (type: OAuthType) => dispatch<any>(authorizeActions.dbLoginWithOAuth(type));
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string().email(t('login.emailNotVelid')).required(t('login.emailRequiredError')),
@@ -100,7 +100,7 @@ export default function LoginForm() {
             remember: true,
         },
         validationSchema: LoginSchema,
-        onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
+        onSubmit: async (values, { setStatus, setSubmitting, resetForm }) => {
             try {
                 await login(values.email, values.password);
                 enqueueSnackbar('Login success', {
@@ -114,15 +114,14 @@ export default function LoginForm() {
                 if (isMountedRef.current) {
                     setSubmitting(false);
                 }
-            } catch (error) {
+            } catch (error: any) {
                 // eslint-disable-next-line no-console
                 console.error(error);
                 resetForm();
                 if (isMountedRef.current) {
                     setSubmitting(false);
-                    const errors = {};
-                    errors['afterSubmit'] = error.message;
-                    setErrors(errors);
+                    const errors = { afterSubmit: error.message };
+                    setStatus(errors);
                 }
             }
         },
@@ -134,14 +133,14 @@ export default function LoginForm() {
         <OAuthRootStyle>
             <IconButton onClick={() => loginWithOAuth(OAuthType.GITHUB)}>
                 {' '}
-                <OAuthIconStyle className="icon-github icon"></OAuthIconStyle>{' '}
+                <OAuthIconStyle className="icon-github icon" />{' '}
             </IconButton>
             <IconButton disabled onClick={() => loginWithOAuth(OAuthType.FACEBOOK)}>
-                <OAuthIconStyle sx={{ opacity: 0.2 }} className="icon-fb icon"></OAuthIconStyle>
+                <OAuthIconStyle sx={{ opacity: 0.2 }} className="icon-fb icon" />
             </IconButton>
             <IconButton disabled onClick={() => loginWithOAuth(OAuthType.GOOGLE)}>
                 {' '}
-                <OAuthIconStyle sx={{ opacity: 0.2 }} className="icon-google icon"></OAuthIconStyle>{' '}
+                <OAuthIconStyle sx={{ opacity: 0.2 }} className="icon-google icon" />{' '}
             </IconButton>
         </OAuthRootStyle>
     );

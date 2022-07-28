@@ -4,7 +4,7 @@ const getUserProfileById: (state: Map<string, any>, { userId }: { userId: string
     state: Map<string, any>,
     { userId }: { userId: string },
 ) => {
-    let userProfile: Map<string, any> = state.getIn(['user', 'entities', userId], Map({}));
+    let userProfile = state.getIn(['user', 'entities', userId], Map({})) as Map<string, any>;
     const id = userProfile.get('id');
     if (id) {
         userProfile = userProfile.set('userId', id);
@@ -22,17 +22,17 @@ const getUserBySocialName = (state: Map<string, any>, props: { socialName: strin
         .first(Map({}));
 
 const getFindPeople = (state: Map<string, any>) => {
-    const users: Map<string, boolean> = state.getIn(['user', 'findPeople', 'list'], Map({}));
+    const users = state.getIn(['user', 'findPeople', 'list'], Map({})) as Map<string, boolean>;
     return users;
 };
 
 const getSearchPeople = (state: Map<string, any>) => {
-    const users: Map<string, boolean> = state.getIn(['user', 'search', 'list'], Map({}));
+    const users = state.getIn(['user', 'search', 'list'], Map({})) as  Map<string, boolean>;
     return users;
 };
 
 const getUserSuggestions = (state: Map<string, any>) => {
-    const users: Map<string, boolean> = state.getIn(['user', 'suggestions', 'list'], Map({}));
+    const users = state.getIn(['user', 'suggestions', 'list'], Map({})) as Map<string, boolean>;
     return users;
 };
 
@@ -49,7 +49,7 @@ const hasMoreSearchPeople = (state: Map<string, any>) => {
 };
 
 const getAlbumPosts = (state: Map<string, any>, props: { userId: string }) => {
-    const posts: Map<string, boolean> = state.getIn(['user', 'album', props.userId, 'list'], Map({}));
+    const posts = state.getIn(['user', 'album', props.userId, 'list'], Map({})) as Map<string, boolean>;
     return posts;
 };
 

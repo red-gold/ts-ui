@@ -1,11 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import { useDispatch } from 'react-redux';
 import * as globalActions from 'redux/actions/globalActions';
 import ReactMarkdown from 'react-markdown';
-import { styled } from '@material-ui/core';
+import { styled } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ export function SupportComponent() {
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        dispatch(globalActions.setHeaderTitle(t('header.support')));
+        dispatch<any>(globalActions.setHeaderTitle(t('header.support')));
     }, []);
 
     return (

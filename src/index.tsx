@@ -2,7 +2,7 @@
 import 'reflect-metadata';
 import './socialEngine';
 import './styles/app.css';
-import 'locales/i18n';
+import i18n from 'locales/i18n';
 import 'typeface-roboto';
 
 import { BrowserRouter } from 'react-router-dom';
@@ -17,11 +17,11 @@ import * as globalActions from 'redux/actions/globalActions';
 import { store, runSaga } from 'redux/store';
 import rootSaga from 'redux/sagas/rootSaga';
 
-import i18n from './locales/i18n';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
+
 import App from 'App';
 import { AuthProvider } from 'contexts/JWTContext';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import reportWebVitals from './reportWebVitals';
 
 // import 'moment/locale/es'
 

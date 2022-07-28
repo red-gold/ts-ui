@@ -64,12 +64,10 @@ const constraintImage = (file: File, fileName: string) => {
                         height *= maxSize / width;
                         width = maxSize;
                     }
-                } else {
-                    if (height > maxSize) {
+                } else if (height > maxSize) {
                         width *= maxSize / height;
                         height = maxSize;
                     }
-                }
                 canvas.width = width;
                 canvas.height = height;
                 const ctx = canvas.getContext('2d');

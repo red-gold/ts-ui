@@ -10,9 +10,8 @@ const addUserSearch = (state: Map<string, any>, action: any) => {
     const { payload, meta } = action;
     if (meta && meta.overwrite) {
         return state.setIn(['search', 'list'], payload.userIds);
-    } else {
-        return state.mergeIn(['search', 'list'], payload.userIds);
     }
+    return state.mergeIn(['search', 'list'], payload.userIds);
 };
 
 // Reset search user
@@ -24,9 +23,8 @@ const addUserSuggestions = (state: Map<string, any>, action: any) => {
     const { payload, meta } = action;
     if (meta && meta.overwrite) {
         return state.setIn(['suggestions', 'list'], payload.userIds);
-    } else {
-        return state.mergeIn(['suggestions', 'list'], payload.userIds);
     }
+    return state.mergeIn(['suggestions', 'list'], payload.userIds);
 };
 
 /**
@@ -41,6 +39,7 @@ const updateUserLastSeen = (state: Map<string, any>, payload: any) => {
  * User reducer
  */
 export const userReducer = (
+    // eslint-disable-next-line default-param-last
     state: Map<string, any> = Map({ ...new UserState(), [DEFAULT_KEY]: null }),
     action: IUserAction,
 ) => {
@@ -108,7 +107,7 @@ export const userReducer = (
         case UserActionType.INCREASE_PAGE_ALBUM:
             return state.setIn(
                 ['album', payload.userId, 'lastPageRequest'],
-                state.getIn(['album', payload.userId, 'lastPageRequest'], 0) + 1,
+                (state.getIn(['album', payload.userId, 'lastPageRequest'], 0) as number) + 1,
             );
 
         case UserActionType.HAS_MORE_DATA_ALBUM:
@@ -145,7 +144,7 @@ export const userReducer = (
             return state.setIn(['findPeople', 'page'], payload.page);
 
         case UserActionType.INCREASE_FIND_PEOPLE_PAGE:
-            return state.setIn(['findPeople', 'page'], state.getIn(['findPeople', 'page'], 0) + 1);
+            return state.setIn(['findPeople', 'page'], (state.getIn(['findPeople', 'page'], 0) as number) + 1);
 
         case UserActionType.LAST_USER_PEOPLE:
             return state.setIn(['findPeople', 'lastUserId'], payload.lastUserId);
@@ -183,7 +182,7 @@ export const userReducer = (
  * Get increase for user counter
  */
 const getIncreasedCounter = (state: Map<string, any>, payload: any, counterName: string) => {
-    const count = state.getIn(['entities', payload.userId, counterName], 0) + 1;
+    const count = (state.getIn(['entities', payload.userId, counterName], 0) as number) + 1;
     return state.setIn(['entities', payload.userId, counterName], count);
 };
 
@@ -191,6 +190,6 @@ const getIncreasedCounter = (state: Map<string, any>, payload: any, counterName:
  * Get decrease for user counter
  */
 const getDecreasedCounter = (state: Map<string, any>, payload: any, counterName: string) => {
-    const count = state.getIn(['entities', payload.userId, counterName], 0) - 1;
+    const count = (state.getIn(['entities', payload.userId, counterName], 0) as number) - 1;
     return state.setIn(['entities', payload.userId, counterName], count);
 };

@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
+
 const localePath = process.env.NODE_ENV === 'production' ? 'locales' : 'locales';
 i18n.use(Backend)
     .use(LanguageDetector)
@@ -20,7 +21,6 @@ i18n.use(Backend)
             escapeValue: false, // not needed for react!!
         },
         react: {
-            wait: true,
             useSuspense: false,
         },
     });

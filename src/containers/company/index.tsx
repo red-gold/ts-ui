@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@mui/styles';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
@@ -23,7 +23,7 @@ export class CompanyComponent extends Component<ICompanyProps & WithTranslation,
 
     render() {
         const { classes } = this.props;
-        return <div className={classes.root}></div>;
+        return <div className={classes.root} />;
     }
 }
 

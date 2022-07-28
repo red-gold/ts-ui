@@ -1,30 +1,33 @@
 // - Impoer react components
-import AppBar from '@material-ui/core/AppBar';
-import Dialog from '@material-ui/core/Dialog';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import Slide from '@material-ui/core/Slide';
-import { withStyles } from '@material-ui/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import BackIcon from '@material-ui/icons/ArrowBack';
+import AppBar from '@mui/material/AppBar';
+import Dialog from '@mui/material/Dialog';
+import IconButton from '@mui/material/IconButton';
+import Paper from '@mui/material/Paper';
+import Slide from '@mui/material/Slide';
+import { withStyles } from '@mui/styles';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import BackIcon from '@mui/icons-material/ArrowBack';
 import StringAPI from 'api/StringAPI';
 import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
 import moment from 'moment/moment';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { TransitionProps } from '@material-ui/core/transitions';
+import { TransitionProps } from '@mui/material/transitions';
 
 import { aboutDialogStyles } from './aboutDialogStyles';
 import { IAboutDialogProps } from './IAboutDialogProps';
 import { IAboutDialogState } from './IAboutDialogState';
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & { children?: React.ReactElement<any, any> },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
+const Transition = React.forwardRef((
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>,
+) => {
+  return <Slide direction="up" ref={ref} {...props} />;
 });
+
 
 export class AboutDialogComponent extends Component<IAboutDialogProps & WithTranslation, IAboutDialogState> {
     constructor(props: IAboutDialogProps & WithTranslation) {

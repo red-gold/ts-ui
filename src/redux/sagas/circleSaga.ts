@@ -16,7 +16,7 @@ import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 const circleService: ICircleService = provider.get<ICircleService>(SocialProviderTypes.CircleService);
 const userTieService: IUserTieService = provider.get<IUserTieService>(SocialProviderTypes.UserTieService);
 
-/***************************** Subroutines ************************************/
+/** *************************** Subroutines *********************************** */
 
 /**
  * Fetch circles
@@ -29,7 +29,7 @@ function* dbFetchCircle() {
             const circles: Map<string, Map<string, any>> = yield call(circleService.getCircles, uid);
 
             yield put(circleActions.addCircles(circles));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
         }
     }
@@ -46,7 +46,7 @@ function* dbFetchUserTies() {
             const result: Map<string, any> = yield call(userTieService.getUserTies, uid);
             yield put(userActions.addPeopleInfo(result));
             yield put(circleActions.addUserTies(result));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
         }
     }
@@ -63,7 +63,7 @@ function* dbFetchUserTieds() {
             const result: Map<string, any> = yield call(userTieService.getUserTieSender, uid);
             yield put(userActions.addPeopleInfo(result));
             yield put(circleActions.addUserTieds(result));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
         }
     }

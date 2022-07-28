@@ -1,22 +1,22 @@
-import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import Popover from '@material-ui/core/Popover';
-import TextField from '@material-ui/core/TextField';
-import SvgClose from '@material-ui/icons/Close';
-import SvgGroup from '@material-ui/icons/GroupWork';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Button from '@mui/material/Button';
+import Collapse from '@mui/material/Collapse';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import Popover from '@mui/material/Popover';
+import TextField from '@mui/material/TextField';
+import SvgClose from '@mui/icons-material/Close';
+import SvgGroup from '@mui/icons-material/GroupWork';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import { Circle } from 'core/domain/circles/circle';
 import { Map } from 'immutable';
@@ -50,10 +50,10 @@ export function CircleComponent(props: ICircleProps) {
 
     // Dispatcher
     const dispatch = useDispatch();
-    const deleteCircle = (id: string) => dispatch(circleActions.dbDeleteCircle(id));
-    const updateCircle = (circle: Circle) => dispatch(circleActions.dbUpdateCircle(circle));
-    const closeCircleSettings = () => dispatch(circleActions.closeCircleSettings(id));
-    const openCircleSettings = () => dispatch(circleActions.openCircleSettings(id));
+    const deleteCircle = (id: string) => dispatch<any>(circleActions.dbDeleteCircle(id));
+    const updateCircle = (circle: Circle) => dispatch<any>(circleActions.dbUpdateCircle(circle));
+    const closeCircleSettings = () => dispatch<any>(circleActions.closeCircleSettings(id));
+    const openCircleSettings = () => dispatch<any>(circleActions.openCircleSettings(id));
 
     // Selectors
     const circleUsers = useSelector((state: Map<string, any>) => selectCircleUsers(state, { circleId: id }));
@@ -93,7 +93,7 @@ export function CircleComponent(props: ICircleProps) {
      */
     const handleUpdateCircle = () => {
         if (circleName && circleName.trim() !== '') {
-            updateCircle({ name: circleName, id: id });
+            updateCircle({ name: circleName, id });
         }
     };
 
@@ -197,7 +197,7 @@ export function CircleComponent(props: ICircleProps) {
     );
     return (
         <div>
-            <ListItem className={classes.root} key={id + '-CircleComponent'} onClick={handleToggleCircle}>
+            <ListItem className={classes.root} key={`${id  }-CircleComponent`} onClick={handleToggleCircle}>
                 <ListItemIcon>
                     <SvgGroup />
                 </ListItemIcon>

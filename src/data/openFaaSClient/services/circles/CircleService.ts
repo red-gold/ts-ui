@@ -3,7 +3,7 @@ import { SocialError } from 'core/domain/common/socialError';
 import { ICircleService } from 'core/services/circles/ICircleService';
 import { Map } from 'immutable';
 import { injectable, inject } from 'inversify';
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 
 /**
@@ -20,7 +20,7 @@ export class CircleService implements ICircleService {
             };
             const result = await this._httpService.post('circles', payload);
             return result.objectId;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -28,7 +28,7 @@ export class CircleService implements ICircleService {
     public updateCircle = async (userId: string, circleId: string, circle: Circle) => {
         try {
             await this._httpService.put('circles', circle);
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -38,10 +38,11 @@ export class CircleService implements ICircleService {
             const deleteCircle$ = this._httpService.delete(`circles/${circleId}`);
             const deleteUserRelCircle$ = this._httpService.delete(`user-rels/circle/${circleId}`);
             await Promise.all([deleteCircle$, deleteUserRelCircle$]);
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
+
     public getCircles = async () => {
         try {
             const result = await this._httpService.get(`circles/my`);
@@ -49,15 +50,15 @@ export class CircleService implements ICircleService {
             result.forEach((circle: any) => {
                 const parsedCircle = {
                     id: circle.objectId,
-                    creationDate: circle['created_date'],
-                    ownerId: circle['ownerUserId'],
-                    name: circle['name'],
-                    isSystem: circle['isSystem'],
+                    creationDate: circle.created_date,
+                    ownerId: circle.ownerUserId,
+                    name: circle.name,
+                    isSystem: circle.isSystem,
                 };
                 parsedData = parsedData.set(circle.objectId, Map(parsedCircle));
             });
             return parsedData;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };

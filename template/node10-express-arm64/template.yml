@@ -1,2 +1,0 @@
-language: node10-express
-fprocess: node index.js

@@ -1,5 +1,5 @@
-import Collapse from '@material-ui/core/Collapse';
-import { withStyles } from '@material-ui/styles';
+import Collapse from '@mui/material/Collapse';
+import { withStyles } from '@mui/styles';
 import StringAPI from 'api/StringAPI';
 import classNames from 'classnames';
 import { IReadMoreProps } from 'components/readMore/IReadMoreProps';
@@ -36,7 +36,7 @@ class ReadMoreComponent extends Component<IReadMoreProps, IReadMoreState> {
     }
 
     render() {
-        const { children, lines, classes, body } = this.props;
+        const {  lines, classes, body } = this.props;
 
         if (lines === undefined) {
             log.error('render/undefineProps/lines');
@@ -47,7 +47,7 @@ class ReadMoreComponent extends Component<IReadMoreProps, IReadMoreState> {
         const readMoreElem = (
             <div onClick={this.toggleLines} className={classNames(classes.root, { [classes.expanded]: !expanded })}>
                 <Collapse in={expanded} collapsedSize="173px">
-                    {children}
+                    {(this.props as any).children}
                 </Collapse>
             </div>
         );
@@ -55,7 +55,7 @@ class ReadMoreComponent extends Component<IReadMoreProps, IReadMoreState> {
         if (numberOfLines > lines) {
             return readMoreElem;
         }
-        return children;
+        return (this.props as any).children;
     }
 }
 

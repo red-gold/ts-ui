@@ -1,10 +1,10 @@
 import React from 'react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
-import PostCard from './PostCard';
-import { styled } from '@material-ui/core/styles';
-import { Box, Grid, CircularProgress } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
+import { Box, Grid, CircularProgress } from '@mui/material';
 import SearchNotFound from 'components/SearchNotFound';
 import { List, Map } from 'immutable';
+import PostCard from './PostCard';
 
 // ----------------------------------------------------------------------
 

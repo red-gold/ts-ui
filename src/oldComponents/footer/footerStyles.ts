@@ -18,6 +18,8 @@ export const footerStyles = (theme: any) => ({
         margin: '0 auto',
         textTransform: 'uppercase',
         width: '100%',
+        justifyContent: 'space-between',
+        alignItems: 'baseline',
         [theme.breakpoints.down('xs')]: {
             flexDirection: 'column',
             textAlign: 'center',

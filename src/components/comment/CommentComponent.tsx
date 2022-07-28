@@ -1,29 +1,29 @@
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import Popover from '@material-ui/core/Popover';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import InputAdornment from '@mui/material/InputAdornment';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import Popover from '@mui/material/Popover';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import moment from 'moment/moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import FormControl from '@material-ui/core/FormControl';
+import FormControl from '@mui/material/FormControl';
 import { NavLink } from 'react-router-dom';
-import { ICommentComponentProps } from './ICommentComponentProps';
-import { ICommentComponentState } from './ICommentComponentState';
-import { connectComment } from './connectComment';
 import { defaultNoValue } from 'utils/errorHandling';
 import { WithTranslation } from 'react-i18next';
-import Typography from '@material-ui/core/Typography';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Typography from '@mui/material/Typography';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
 import EmojiPopover from 'components/emojiPopover';
-import ListItemText from '@material-ui/core/ListItemText';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import ListItemText from '@mui/material/ListItemText';
+import { experimentalStyled as styled } from '@mui/material/styles';
 import { PATH_MAIN } from 'routes/paths';
+import { connectComment } from './connectComment';
+import { ICommentComponentState } from './ICommentComponentState';
+import { ICommentComponentProps } from './ICommentComponentProps';
 
 const CommentPreview = styled('div')({
     display: 'flex',
@@ -98,8 +98,11 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
      * @memberof CommentComponent
      */
     textareaRef: any;
+
     divCommentRef: any;
+
     inputText: any;
+
     divComment: any;
 
     constructor(props: ICommentComponentProps & WithTranslation) {
@@ -410,11 +413,11 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
                         secondaryTypographyProps={{ component: 'span' }}
                         primary={<Author />}
                         secondary={
-                            <React.Fragment>
+                            <>
                                 <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="#637381">
                                     {this.state.text}
                                 </Typography>
-                            </React.Fragment>
+                            </>
                         }
                     />
                 </ListItem>

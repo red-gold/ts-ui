@@ -1,6 +1,7 @@
-import grey from '@material-ui/core/colors/grey';
+import grey from '@mui/material/colors/grey';
 
-import { createStyles } from '@material-ui/core';
+import { createStyles } from '@mui/material';
+
 export const postWriteButtonStyles = () =>
     createStyles({
         postWritePrimaryText: {

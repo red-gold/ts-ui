@@ -1,16 +1,16 @@
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import green from '@material-ui/core/colors/green';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel';
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import green from '@mui/material/colors/green';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import Paper from '@mui/material/Paper';
+import { withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
 import classnames from 'classnames';
 import { LoginUser } from 'core/domain/authorize/loginUser';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
@@ -26,10 +26,10 @@ import * as authorizeActions from 'redux/actions/authorizeActions';
 import * as globalActions from 'redux/actions/globalActions';
 //
 import GoogleRecaptcha from 'components/recaptcha/GoogleRecaptcha';
+import { AuthorizeState } from 'models/authorize/authorizeState';
 import { ISmsVerificationComponentProps } from './ISmsVerificationComponentProps';
 import { ISmsVerificationComponentState } from './ISmsVerificationComponentState';
 import { SmsVerificationStepType } from './smsVerificationStepType';
-import { AuthorizeState } from 'models/authorize/authorizeState';
 
 const styles = (theme: any) => ({
     textField: {
@@ -427,7 +427,7 @@ export class SmsVerificationComponent extends Component<
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: Function) => {
+const mapDispatchToProps = (dispatch: any) => {
     return {
         logout: () => dispatch(authorizeActions.dbLogout()),
         home: () => {

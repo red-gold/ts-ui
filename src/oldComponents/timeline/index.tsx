@@ -1,48 +1,35 @@
-import AppBar from '@material-ui/core/AppBar';
-import Dialog from '@material-ui/core/Dialog';
-import IconButton from '@material-ui/core/IconButton';
-import Slide from '@material-ui/core/Slide';
-import { withStyles } from '@material-ui/styles';
-import Table from '@material-ui/core/Table/Table';
-import TableBody from '@material-ui/core/TableBody/TableBody';
-import TableCell from '@material-ui/core/TableCell/TableCell';
-import TableRow from '@material-ui/core/TableRow/TableRow';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import DoneIcon from '@material-ui/icons/Done';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import AppBar from '@mui/material/AppBar';
+import Dialog from '@mui/material/Dialog';
+import IconButton from '@mui/material/IconButton';
+import Slide from '@mui/material/Slide';
+import { withStyles } from '@mui/styles';
+import Table from '@mui/material/Table/Table';
+import TableBody from '@mui/material/TableBody/TableBody';
+import TableCell from '@mui/material/TableCell/TableCell';
+import TableRow from '@mui/material/TableRow/TableRow';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import DoneIcon from '@mui/icons-material/Done';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import classNames from 'classnames';
 import React, { Component } from 'react';
-import { TransitionProps } from '@material-ui/core/transitions';
+import { TransitionProps } from '@mui/material/transitions';
 
 import { ITimelineComponentProps } from './ITimelineComponentProps';
 import { ITimelineComponentState } from './ITimelineComponentState';
 import { timelineStyles } from './timelineStyles';
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & { children?: React.ReactElement<any, any> },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+const Transition = React.forwardRef(
+    (
+        props: TransitionProps & {
+            children: React.ReactElement<any, any>;
+        },
+        ref: React.Ref<unknown>,
+    ) => <Slide direction="up" ref={ref} {...props} />,
+);
 
 export class TimelineComponent extends Component<ITimelineComponentProps, ITimelineComponentState> {
-    /**
-     * Component constructor
-     */
-    constructor(props: ITimelineComponentProps) {
-        super(props);
-
-        // Defaul state
-
-        this.state = {
-            open: false,
-        };
-
-        // Binding functions to `this`
-    }
-
     /**
      * Reneder component DOM
      */
@@ -86,42 +73,40 @@ export class TimelineComponent extends Component<ITimelineComponentProps, ITimel
                     }}
                 >
                     <TableBody>
-                        {data.map((item) => {
-                            return (
-                                <TableRow className={classes.row} key={item.id}>
-                                    <TableCell className={classes.cell} align="right">
-                                        {item.isActive ? <DoneIcon className={classes.doneIcon} /> : null}
-                                    </TableCell>
-                                    <TableCell
-                                        className={classNames(
-                                            classes.cell,
-                                            { [classes.notactiveColor]: !item.isActive },
-                                            { [classes.activeColor]: item.isActive },
-                                        )}
-                                    >
-                                        {item.rep}
-                                    </TableCell>
-                                    <TableCell
-                                        className={classNames(
-                                            classes.cell,
-                                            { [classes.notactiveColor]: !item.isActive },
-                                            { [classes.activeColor]: item.isActive },
-                                        )}
-                                    >
-                                        {item.status}
-                                    </TableCell>
-                                    <TableCell
-                                        className={classNames(
-                                            classes.cell,
-                                            { [classes.notactiveColor]: !item.isActive },
-                                            { [classes.activeColor]: item.isActive },
-                                        )}
-                                    >
-                                        {item.info}
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
+                        {data.map((item) => (
+                            <TableRow className={classes.row} key={item.id}>
+                                <TableCell className={classes.cell} align="right">
+                                    {item.isActive ? <DoneIcon className={classes.doneIcon} /> : null}
+                                </TableCell>
+                                <TableCell
+                                    className={classNames(
+                                        classes.cell,
+                                        { [classes.notactiveColor]: !item.isActive },
+                                        { [classes.activeColor]: item.isActive },
+                                    )}
+                                >
+                                    {item.rep}
+                                </TableCell>
+                                <TableCell
+                                    className={classNames(
+                                        classes.cell,
+                                        { [classes.notactiveColor]: !item.isActive },
+                                        { [classes.activeColor]: item.isActive },
+                                    )}
+                                >
+                                    {item.status}
+                                </TableCell>
+                                <TableCell
+                                    className={classNames(
+                                        classes.cell,
+                                        { [classes.notactiveColor]: !item.isActive },
+                                        { [classes.activeColor]: item.isActive },
+                                    )}
+                                >
+                                    {item.info}
+                                </TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
             </Dialog>

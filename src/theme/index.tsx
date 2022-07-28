@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 // material
-import { CssBaseline } from '@material-ui/core';
-import { createTheme, ThemeProvider, StyledEngineProvider } from '@material-ui/core/styles';
+import { CssBaseline } from '@mui/material';
+import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 // hooks
+import { Shadows } from '@mui/material/styles/shadows';
 import useSettings from '../hooks/useSettings';
 //
 import shape from './shape';
@@ -10,7 +11,6 @@ import palette from './palette';
 import typography from './typography';
 import GlobalStyles from './globalStyles';
 import shadows from './shadows';
-import { Shadows } from '@material-ui/core/styles/shadows';
 
 // ----------------------------------------------------------------------
 

@@ -1,5 +1,6 @@
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
 import { Map } from 'immutable';
+
 export interface IEditProfileState {
     [key: string]: any;
 

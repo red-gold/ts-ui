@@ -4,9 +4,9 @@
 // https://opensource.org/licenses/MIT
 
 import React from 'react';
-import Dialog, { DialogProps } from '@material-ui/core/Dialog';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
+import Dialog, { DialogProps } from '@mui/material/Dialog';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 export default function MobileDialog(props: DialogProps) {
     const theme = useTheme();

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SvgClose from '@material-ui/icons/Close';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
+import SvgClose from '@mui/icons-material/Close';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import { IDialogTitleComponentProps } from './IDialogTitleComponentProps';
 import { IDialogTitleComponentState } from './IDialogTitleComponentState';
 
@@ -66,7 +66,7 @@ export default class DialogTitleComponent extends Component<IDialogTitleComponen
                         <div style={{ marginTop: '-9px' }}>
                             <Button
                                 color="primary"
-                                disabled={disabledButton ? disabledButton : false}
+                                disabled={disabledButton || false}
                                 onClick={onClickButton || ((x) => x)}
                             >
                                 {buttonLabel || ''}

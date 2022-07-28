@@ -36,7 +36,7 @@ export class FollowingComponent extends Component<
                     <div>
                         <div className="profile__title">{t('people.followingLabel')}</div>
                         <UserBoxList users={followingUsers} />
-                        <div style={{ height: '24px' }}></div>
+                        <div style={{ height: '24px' }} />
                     </div>
                 ) : (
                     <div className="g__title-center">{t('people.noFollowingLabel')}</div>
@@ -58,7 +58,7 @@ const mapDispatchToProps = () => {
  */
 const mapStateToProps = (state: Map<string, any>) => {
     const uid = state.getIn(['authorize', 'uid'], 0);
-    const circles: { [circleId: string]: Circle } = state.getIn(['circle', 'circleList'], {});
+    const circles = state.getIn(['circle', 'circleList'], {}) as { [circleId: string]: Circle };
     const followingUsers = state.getIn(['circle', 'userTies'], {});
 
     return {

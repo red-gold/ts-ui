@@ -1,9 +1,9 @@
 // hooks
 import React from 'react';
+import { Avatar } from '@mui/material';
 import useAuth from '../hooks/useAuth';
 //
 import createAvatar from '../utils/createAvatar';
-import { Avatar } from '@material-ui/core';
 
 // ----------------------------------------------------------------------
 

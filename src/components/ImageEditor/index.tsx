@@ -1,17 +1,17 @@
 import 'cropperjs/dist/cropper.css';
 
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { grey } from '@material-ui/core/colors';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
-import { withStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
-import SvgRotateLeft from '@material-ui/icons/RotateLeft';
-import SvgRotateRight from '@material-ui/icons/RotateRight';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import { grey } from '@mui/material/colors';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import { withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
+import SvgRotateLeft from '@mui/icons-material/RotateLeft';
+import SvgRotateRight from '@mui/icons-material/RotateRight';
 import { SocialError } from 'core/domain/common/socialError';
 import { IImageGalleryService } from 'core/services/imageGallery/IImageGalleryService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
@@ -26,8 +26,9 @@ import config from 'config';
 import * as globalActions from 'redux/actions/globalActions';
 import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
-import uuid from 'uuid';
+import {v4 as uuid} from 'uuid';
 
+import { useDispatch } from 'redux/store';
 import { IImageEditorComponentState } from './IImageEditorComponentState';
 import { IImageEditorComponentProps } from './IImageEditorComponentProps';
 
@@ -65,7 +66,9 @@ export class ImageEditorComponent extends Component<
      * Fields
      */
     cropperRef: any;
+
     imageRef: any;
+
     _imageGalleryService: IImageGalleryService;
 
     constructor(props: IImageEditorComponentProps & WithTranslation) {
@@ -211,8 +214,8 @@ export class ImageEditorComponent extends Component<
                 <DialogActions>
                     <Button
                         color="primary"
-                        disableFocusRipple={true}
-                        disableRipple={true}
+                        disableFocusRipple
+                        disableRipple
                         onClick={onClose}
                         style={{ color: grey[800] }}
                     >
@@ -220,8 +223,8 @@ export class ImageEditorComponent extends Component<
                     </Button>
                     <Button
                         color="primary"
-                        disableFocusRipple={true}
-                        disableRipple={true}
+                        disableFocusRipple
+                        disableRipple
                         onClick={this.handleCropDone}
                         disabled={disabledOk}
                     >
@@ -236,7 +239,7 @@ export class ImageEditorComponent extends Component<
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Function) => {
     return {
         progress: (percentage: number, status: boolean) => dispatch(globalActions.progressChange(percentage, status)),
         showTopLoading: () => dispatch(globalActions.showTopLoading()),

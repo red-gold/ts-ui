@@ -1,12 +1,12 @@
-import { withStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
-import NoAlbumIcon from '@material-ui/icons/SettingsSystemDaydream';
+import { withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
+import NoAlbumIcon from '@mui/icons-material/SettingsSystemDaydream';
 import classNames from 'classnames';
 import PostPhotoGridComponent from 'oldComponents/postPhotoGrid';
 import * as R from 'ramda';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import Lightbox from 'lib/react-lit/index.js';
+import Lightbox from 'lib/react-lit';
 
 import { IPostAlbumProps } from './IPostAlbumProps';
 import { IPostAlbumState } from './IPostAlbumState';
@@ -24,17 +24,7 @@ export class PostAlbumComponent extends Component<IPostAlbumProps, IPostAlbumSta
         // Defaul state
 
         this.state = {};
-
-        // Binding functions to `this`
-        this.handleImageClick = this.handleImageClick.bind(this);
     }
-
-    /**
-     * Handle image click
-     */
-    handleImageClick = (imageIndex: number, toggleLightbox: any) => {
-        toggleLightbox(imageIndex);
-    };
 
     shouldComponentUpdate(nextProps: IPostAlbumProps) {
         if (R.equals(nextProps.images, this.props.images)) {
@@ -43,6 +33,13 @@ export class PostAlbumComponent extends Component<IPostAlbumProps, IPostAlbumSta
 
         return true;
     }
+
+    /**
+     * Handle image click
+     */
+    static handleImageClick = (imageIndex: number, toggleLightbox: any) => {
+        toggleLightbox(imageIndex);
+    };
 
     /**
      * Reneder component DOM
@@ -58,47 +55,44 @@ export class PostAlbumComponent extends Component<IPostAlbumProps, IPostAlbumSta
             return (
                 <Lightbox
                     images={mappedImages}
-                    renderImageFunc={(toggleLightbox: any) => {
-                        return (
-                            <div className={classes.root}>
-                                {
-                                    <PostPhotoGridComponent
-                                        images={gridImages}
-                                        onClick={(event: any, imageIndex: number) =>
-                                            this.handleImageClick(imageIndex, toggleLightbox)
-                                        }
-                                    />
-                                }
+                    renderImageFunc={(toggleLightbox: any) => (
+                        <div className={classes.root}>
+                            {
+                                <PostPhotoGridComponent
+                                    images={gridImages}
+                                    onClick={(event: any, imageIndex: number) =>
+                                        PostAlbumComponent.handleImageClick(imageIndex, toggleLightbox)
+                                    }
+                                />
+                            }
 
-                                <div
-                                    className={classNames(classes.titleContainer, {
-                                        [classes.noDisplay]: !(currentAlbum && currentAlbum.get('album').get('title')),
-                                    })}
+                            <div
+                                className={classNames(classes.titleContainer, {
+                                    [classes.noDisplay]: !(currentAlbum && currentAlbum.get('album').get('title')),
+                                })}
+                            >
+                                <div className={classes.aboveContainer} />
+                                <div className={classes.bottomContainer} />
+                                <NavLink
+                                    to={`/u/${currentAlbum && currentAlbum.get('ownerUserId')}/album/${
+                                        currentAlbum && currentAlbum.get('id')
+                                    }`}
                                 >
-                                    <div className={classes.aboveContainer} />
-                                    <div className={classes.bottomContainer} />
-                                    <NavLink
-                                        to={`/u/${currentAlbum && currentAlbum.get('ownerUserId')}/album/${
-                                            currentAlbum && currentAlbum.get('id')
-                                        }`}
-                                    >
-                                        <Typography className={classes.title}>
-                                            {currentAlbum && currentAlbum.get('album').get('title')}
-                                        </Typography>
-                                    </NavLink>
-                                </div>
+                                    <Typography className={classes.title}>
+                                        {currentAlbum && currentAlbum.get('album').get('title')}
+                                    </Typography>
+                                </NavLink>
                             </div>
-                        );
-                    }}
+                        </div>
+                    )}
                 />
             );
-        } else {
-            return (
-                <div className={classes.noAlbum}>
-                    <NoAlbumIcon className={classes.noAlbumIcon} />
-                </div>
-            );
         }
+        return (
+            <div className={classes.noAlbum}>
+                <NoAlbumIcon className={classes.noAlbumIcon} />
+            </div>
+        );
     }
 }
 

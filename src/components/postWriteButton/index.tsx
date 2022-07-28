@@ -1,16 +1,16 @@
 import React, { Component, Fragment } from 'react';
-import SvgCamera from '@material-ui/icons/PhotoCamera';
+import SvgCamera from '@mui/icons-material/PhotoCamera';
 import classNames from 'classnames';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Paper from '@mui/material/Paper';
 import { WithTranslation } from 'react-i18next';
 import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
+import MyAvatar from 'components/MyAvatar';
 import { IPostWriteButtonProps } from './IPostWriteButtonProps';
 import { IPostWriteButtonState } from './IPostWriteButtonState';
 import { connectPostWriteButton } from './connectPostWriteButton';
-import MyAvatar from 'components/MyAvatar';
 
 export class PostWriteButton extends Component<IPostWriteButtonProps & WithTranslation, IPostWriteButtonState> {
     constructor(props: IPostWriteButtonProps & WithTranslation) {
@@ -52,7 +52,7 @@ export class PostWriteButton extends Component<IPostWriteButtonProps & WithTrans
                                 </ListItemIcon>
                             </ListItem>
                         </Paper>
-                        <div style={{ height: '16px' }}></div>
+                        <div style={{ height: '16px' }} />
                     </>
                 ) : (
                     ''

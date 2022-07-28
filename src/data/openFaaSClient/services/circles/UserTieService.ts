@@ -4,7 +4,7 @@ import { IUserTieService } from 'core/services/circles/IUserTieService';
 import { List, Map } from 'immutable';
 import { inject, injectable } from 'inversify';
 
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { throwNoValue } from 'utils/errorHandling';
 
@@ -38,13 +38,13 @@ export class UserTieService implements IUserTieService {
                 left: leftUser,
                 right: rightUser,
                 rel: [userTieReceiveInfo.userId, userTieSenderInfo.userId],
-                circleIds: circleIds,
+                circleIds,
             };
 
             const result = await this._httpService.post('user-rels/follow', payload);
             return result.objectId;
-        } catch (error) {
-            throw new SocialError(error.code, 'service/tieUseres :' + error.message);
+        } catch (error: any) {
+            throw new SocialError(error.code, `service/tieUseres :${  error.message}`);
         }
     };
 
@@ -54,12 +54,12 @@ export class UserTieService implements IUserTieService {
     public updateUsersTie = async (userTieSenderInfo: UserTie, userTieReceiveInfo: UserTie, circleIds: string[]) => {
         try {
             const payload = {
-                circleIds: circleIds,
+                circleIds,
                 rightId: userTieReceiveInfo.userId,
             };
             await this._httpService.put('user-rels/circles', payload);
-        } catch (error) {
-            throw new SocialError(error.code, 'service/updateUsersTie :' + error.message);
+        } catch (error: any) {
+            throw new SocialError(error.code, `service/updateUsersTie :${  error.message}`);
         }
     };
 
@@ -69,8 +69,8 @@ export class UserTieService implements IUserTieService {
     public removeUsersTie = async (firstUserId: string, secondUserId: string) => {
         try {
             await this._httpService.delete(`user-rels/unfollow/${secondUserId}`);
-        } catch (error) {
-            throw new SocialError(error.code, 'service/removeUsersTie :' + error.message);
+        } catch (error: any) {
+            throw new SocialError(error.code, `service/removeUsersTie :${  error.message}`);
         }
     };
 
@@ -85,7 +85,7 @@ export class UserTieService implements IUserTieService {
                 return parsedData;
             }
             result.forEach((rel: any) => {
-                const creationDate = rel['created_date'];
+                const creationDate = rel.created_date;
                 const circleIdList = rel.circleIds;
                 const { userId, fullName, avatar } = rel.right;
                 const rightUserInfo: UserTie = new UserTie(userId, creationDate, fullName, avatar, true, circleIdList);
@@ -99,8 +99,8 @@ export class UserTieService implements IUserTieService {
                 );
             });
             return parsedData;
-        } catch (error) {
-            throw new SocialError(error.code, 'service/getUserTies :' + error.message);
+        } catch (error: any) {
+            throw new SocialError(error.code, `service/getUserTies :${  error.message}`);
         }
     };
 
@@ -115,7 +115,7 @@ export class UserTieService implements IUserTieService {
                 return parsedData;
             }
             result.forEach((rel: any) => {
-                const creationDate = rel['created_date'];
+                const creationDate = rel.created_date;
                 const circleIdList = rel.circleIds;
                 const { userId, fullName, avatar } = rel.left;
                 const leftUserInfo: UserTie = new UserTie(userId, creationDate, fullName, avatar, true, circleIdList);
@@ -130,8 +130,8 @@ export class UserTieService implements IUserTieService {
                 );
             });
             return parsedData;
-        } catch (error) {
-            throw new SocialError(error.code, 'service/getUserTieSender :' + error.message);
+        } catch (error: any) {
+            throw new SocialError(error.code, `service/getUserTieSender :${  error.message}`);
         }
     };
 }

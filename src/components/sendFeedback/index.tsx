@@ -1,10 +1,10 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/styles';
-import TextField from '@material-ui/core/TextField';
-import Tooltip from '@material-ui/core/Tooltip';
-import SvgClose from '@material-ui/icons/Clear';
+import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+import Paper from '@mui/material/Paper';
+import { withStyles } from '@mui/styles';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import SvgClose from '@mui/icons-material/Clear';
 import StringAPI from 'api/StringAPI';
 import classNames from 'classnames';
 import { ServerRequestType } from 'constants/serverRequestType';
@@ -97,26 +97,26 @@ export class SendFeedbackComponent extends Component<
                         <IconButton
                             className="flaticon-sad-2 icon__svg"
                             onClick={() => this.handleSendFeed(FeedType.Sad)}
-                        ></IconButton>
+                         />
                     </Tooltip>
 
                     <Tooltip title={t('feedback.acceptableTooltip')} placement="bottom-start">
                         <IconButton
                             className="flaticon-neutral icon__svg"
                             onClick={() => this.handleSendFeed(FeedType.Acceptable)}
-                        ></IconButton>
+                         />
                     </Tooltip>
                     <Tooltip title={t('feedback.happyTooltip')} placement="bottom-start">
                         <IconButton
                             className="flaticon-happy-2 icon__svg"
                             onClick={() => this.handleSendFeed(FeedType.Happy)}
-                        ></IconButton>
+                         />
                     </Tooltip>
                     <Tooltip title={t('feedback.awesomeTooltip')} placement="bottom-start">
                         <IconButton
                             className="flaticon-happy icon__svg"
                             onClick={() => this.handleSendFeed(FeedType.Awesome)}
-                        ></IconButton>
+                         />
                     </Tooltip>
                 </div>
             </div>
@@ -209,14 +209,14 @@ const mapDispatchToProps = (dispatch: Function) => {
  * Map state to props
  */
 const mapStateToProps = (state: Map<string, any>) => {
-    const uid = state.getIn(['authorize', 'uid']);
+    const uid = state.getIn(['authorize', 'uid']) as string;
     const requestId = StringAPI.createServerRequestId(ServerRequestType.CommonSendFeedback, uid);
     const currentUser: User = {
         ...userGetters.getUserProfileById(state, { userId: uid }).toJS(),
         userId: uid,
     } as User;
     const sendFeedbackStatus = state.getIn(['global', 'sendFeedbackStatus']);
-    const sendFeedbackRequestType = state.getIn(['server', 'request', requestId]);
+    const sendFeedbackRequestType = state.getIn(['server', 'request', requestId]) as any;
 
     return {
         sendFeedbackStatus,

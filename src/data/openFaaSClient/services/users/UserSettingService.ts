@@ -1,7 +1,7 @@
 import { SocialError } from 'core/domain/common/socialError';
 import { IUserSettingService } from 'core/services/users/IUserSettingService';
 import { injectable, inject } from 'inversify';
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { UserSetting } from 'core/domain/users/userSetting';
 import { Map } from 'immutable';
@@ -16,7 +16,7 @@ export class UserSettingService implements IUserSettingService {
     public updateUserSetting = async (userSetting: UserSetting) => {
         try {
             await this._httpService.put('setting', userSetting);
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -34,7 +34,7 @@ export class UserSettingService implements IUserSettingService {
                 parsedData = parsedData.set(key, mappedSetting);
             });
             return parsedData;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };

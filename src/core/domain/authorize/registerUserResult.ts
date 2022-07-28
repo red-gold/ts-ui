@@ -2,6 +2,7 @@ import { BaseDomain } from 'core/domain/common/baseDomain';
 
 export class RegisterUserResult extends BaseDomain {
     private _uid: string;
+
     constructor(uid: string) {
         super();
 

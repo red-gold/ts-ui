@@ -17,13 +17,13 @@ const token = localStorage.getItem('red-gold.scure.token');
 let uid = '';
 let authed = false;
 if (token) {
-    uid = (jwtDecode(token) as any)['user_id'];
+    uid = (jwtDecode(token) as any).user_id;
     authed = true;
 }
 // - initial state
 const initialState = {
     authorize: {
-        authed: authed,
+        authed,
         guest: !authed,
         uid,
     },

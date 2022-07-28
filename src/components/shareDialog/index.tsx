@@ -1,9 +1,9 @@
 import React from 'react';
 import copy from 'copy-to-clipboard';
 // material
-import { Dialog, ListItemIcon, ListItemText, MenuItem, Stack, TextField, Typography } from '@material-ui/core';
-import { createStyles, makeStyles } from '@material-ui/styles';
-import SvgLink from '@material-ui/icons/Link';
+import { Dialog, ListItemIcon, ListItemText, MenuItem, Stack, TextField, Typography } from '@mui/material';
+import { createStyles, makeStyles } from '@mui/styles';
+import SvgLink from '@mui/icons-material/Link';
 //
 import classNames from 'classnames';
 import { List, Map } from 'immutable';
@@ -146,7 +146,7 @@ export default function ShareDialogComponent({
                 </Stack>
             ) : (
                 <div>
-                    <TextField autoFocus fullWidth={true} id="text-field-default" defaultValue={shareLink} />
+                    <TextField autoFocus fullWidth id="text-field-default" defaultValue={shareLink} />
                     <Typography className={classNames('animate-top', classes.clipboard)} variant="h5" component="h2">
                         Link has been copied to clipboard ...
                     </Typography>

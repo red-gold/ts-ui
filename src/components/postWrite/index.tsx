@@ -1,11 +1,11 @@
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import VideoGalleryIcon from '@material-ui/icons/VideoLibrary';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import VideoGalleryIcon from '@mui/icons-material/VideoLibrary';
 import FileAPI from 'api/FileAPI';
 import * as PostAPI from 'api/PostAPI';
 import StringAPI from 'api/StringAPI';
@@ -20,19 +20,19 @@ import { PostType } from 'core/domain/posts/postType';
 import { fromJS, List as ImuList, Map } from 'immutable';
 import React, { Component } from 'react';
 import { WithTranslation } from 'react-i18next';
-import uuid from 'uuid';
+import {v4 as uuid} from 'uuid';
 import moment from 'moment/moment';
 import config from 'config';
 import AppDialogTitle from 'oldComponents/dialogTitle/DialogTitleComponent';
 
-import { connectPostWrite } from './connectPostWrite';
-import { IPostWriteProps } from './IPostWriteProps';
-import { IPostWriteState } from './IPostWriteState';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { Post } from 'core/domain/posts/post';
 import MobileDialog from 'components/mobileDialog';
 import PostWriteInput from 'components/postWriteInput';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
+import { IPostWriteState } from './IPostWriteState';
+import { IPostWriteProps } from './IPostWriteProps';
+import { connectPostWrite } from './connectPostWrite';
 
 export class PostWriteComponent extends Component<IPostWriteProps & WithTranslation, IPostWriteState> {
     constructor(props: IPostWriteProps & WithTranslation) {
@@ -40,7 +40,7 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
 
         const { postModel } = props;
 
-        const albumPhotos: ImuList<any> = postModel && postModel.getIn(['album', 'photos'], ImuList([]));
+        const albumPhotos = postModel && postModel.getIn(['album', 'photos'], ImuList([])) as ImuList<any>;
         const selectedPhotos: any[] =
             props.edit && postModel && postModel.get('postTypeId', 0) === PostType.PhotoGallery
                 ? albumPhotos
@@ -117,7 +117,7 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
             /**
              * Selected photos
              */
-            selectedPhotos: selectedPhotos,
+            selectedPhotos,
             /**
              * Album
              */
@@ -503,6 +503,7 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
         const { setPostWriteModel } = this.props;
         setPostWriteModel(null);
     }
+
     /**
      * Reneder component DOM
      */
@@ -515,7 +516,7 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
 
         return (
             <div style={this.props.style}>
-                {this.props.children}
+                {(this.props as any).children}
                 <MobileDialog
                     BackdropProps={{ className: classes.backdrop } as any}
                     key={this.props.id || 0}
@@ -563,7 +564,7 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
                     ''
                 )}
 
-                {/* Video gallery Modal*/}
+                {/* Video gallery Modal */}
                 <Dialog
                     PaperProps={{ className: classNames(classes.fullPageXs, classes.videoGallery) }}
                     open={this.state.videoGalleryOpen}

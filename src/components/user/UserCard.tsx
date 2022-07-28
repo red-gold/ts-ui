@@ -5,7 +5,7 @@ import { PATH_MAIN } from 'routes/paths';
 import { Map } from 'immutable';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Card, Stack, Link, Typography, CardProps, styled } from '@material-ui/core';
+import { Card, Stack, Link, Typography, CardProps, styled } from '@mui/material';
 
 // ----------------------------------------------------------------------
 

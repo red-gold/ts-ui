@@ -1,6 +1,7 @@
 import { UserTie } from 'core/domain/circles/userTie';
 import { ServerRequestModel } from 'models/server/serverRequestModel';
 import { Map, List } from 'immutable';
+
 export interface IFollowDialogProps {
     /**
      * User

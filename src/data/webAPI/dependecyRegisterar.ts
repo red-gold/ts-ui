@@ -1,6 +1,6 @@
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
-import { Container } from 'inversify/dts/container/container';
+import { Container } from 'inversify';
 import { HttpService } from 'data/webAPI/services/httpService';
 
 /**

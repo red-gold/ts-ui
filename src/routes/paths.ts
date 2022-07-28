@@ -34,16 +34,11 @@ export const PATH_PAGE = {
 export const PATH_MAIN = {
     root: ROOTS_MAIN,
     user: {
-        home: path(ROOTS_MAIN, '/stream'),
-        friends: path(ROOTS_MAIN, '/friends'),
-        friendsTab: path(ROOTS_MAIN, '/friends/:tab'),
-        profile: path(ROOTS_MAIN, '/@/:socialName'),
-        account: path(ROOTS_MAIN, '/account'),
-    },
-    chat: {
-        root: path(ROOTS_MAIN, '/chat'),
-        new: path(ROOTS_MAIN, '/chat/new'),
-        conversation: path(ROOTS_MAIN, '/chat/:conversationKey'),
+        home: path(ROOTS_MAIN, 'stream'),
+        friends: path(ROOTS_MAIN, 'friends'),
+        friendsTab: path(ROOTS_MAIN, 'friends/:tab'),
+        profile: path(ROOTS_MAIN, '@/:socialName'),
+        account: path(ROOTS_MAIN, 'account'),
     },
     search: {
         root: path(ROOTS_MAIN, '/search/:category'),

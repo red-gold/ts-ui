@@ -3,22 +3,22 @@ import { IVoteService } from 'core/services/votes/IVoteService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { Map } from 'immutable';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
-import { provider } from '../../socialEngine';
 import * as voteActions from 'redux/actions/voteActions';
 import * as postActions from 'redux/actions/postActions';
 import * as globalActions from 'redux/actions/globalActions';
-import { authorizeSelector } from '../reducers/authorize/authorizeSelector';
 import moment from 'moment/moment';
 import { Vote } from 'core/domain/votes/vote';
-import { postSelector } from '../reducers/posts/postSelector';
 import { log } from 'utils/log';
+import { postSelector } from '../reducers/posts/postSelector';
+import { authorizeSelector } from '../reducers/authorize/authorizeSelector';
+import { provider } from '../../socialEngine';
 
 /**
  * Get service providers
  */
 const voteService: IVoteService = provider.get<IVoteService>(SocialProviderTypes.VoteService);
 
-/***************************** Subroutines ************************************/
+/** *************************** Subroutines *********************************** */
 
 /**
  * Send vote to server
@@ -30,7 +30,7 @@ function* asyncSaveVote(action: any) {
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid: string = authedUser.get('uid');
     const newVote: Vote = {
-        postId: postId,
+        postId,
         creationDate: moment.utc().valueOf(),
         ownerDisplayName: authedUser.get('fullName'),
         ownerAvatar: authedUser.get('avatar'),
@@ -52,7 +52,7 @@ function* asyncSaveVote(action: any) {
         yield put(voteActions.addVote(Map({ ...newVote })));
 
         yield put(globalActions.hideTopLoading());
-    } catch (error) {
+    } catch (error: any) {
         log.error('error', error);
 
         const score = post.get('score', 0) - 1;
@@ -88,7 +88,7 @@ function* asyncDeleteVote(action: any) {
         yield put(voteActions.deleteVote(ownerPostUserId, postId));
 
         yield put(globalActions.hideTopLoading());
-    } catch (error) {
+    } catch (error: any) {
         const score = post.get('score', 0) + 1;
         const votedPost = post.set('score', score).setIn(['votes', uid], authedUser.get('avatar'));
 
@@ -98,9 +98,9 @@ function* asyncDeleteVote(action: any) {
     }
 }
 
-/******************************************************************************/
-/******************************* WATCHERS *************************************/
-/******************************************************************************/
+/** *************************************************************************** */
+/** ***************************** WATCHERS ************************************ */
+/** *************************************************************************** */
 export default function* voteSaga() {
     yield all([
         takeLatest(VoteActionType.ASYNC_ADD_NEW_VOTE, asyncSaveVote),

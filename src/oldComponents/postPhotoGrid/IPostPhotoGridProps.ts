@@ -1,4 +1,5 @@
 import { Media } from 'core/domain/imageGallery/media';
+import React from 'react';
 
 export interface IPostPhotoGridProps {
     classes?: any;

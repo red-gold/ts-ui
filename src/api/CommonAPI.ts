@@ -8,14 +8,14 @@ import * as R from 'ramda';
 const logger = (title: string, ...data: any[]) => {
     const randomColor = getRandomColor();
 
-    window['console']['log'](
+    window.console.log(
         `\n\n%c =======  ${title} ======= %c${moment().format('HH:mm:ss SSS')} \n`,
         `color:${randomColor};font-size:15`,
         `color:${getRandomColor()};font-size:15`,
     );
-    window['console']['log'](``);
-    window['console']['log'](`    `, data);
-    window['console']['log'](`\n =========================================`);
+    window.console.log(``);
+    window.console.log(`    `, data);
+    window.console.log(`\n =========================================`);
 };
 
 /**
@@ -62,7 +62,7 @@ const removeNil = <T extends object>(obj: T) => {
     return R.reject(R.isNil, obj) as T;
 };
 
-const getStateSlice = (state: any) => state.toJS()['locale'];
+const getStateSlice = (state: any) => state.toJS().locale;
 
 export default {
     logger,

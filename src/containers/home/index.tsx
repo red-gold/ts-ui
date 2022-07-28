@@ -1,35 +1,30 @@
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
 import classNames from 'classnames';
-import ChatComponent from 'components/chat/ChatComponent';
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
 import { useIdleTimer } from 'react-idle-timer';
 import HomeHeader from 'components/HomeHeader';
-import Typography from '@material-ui/core/Typography';
-import { chatSelector } from 'redux/reducers/chat/chatSelector';
-import * as chatActions from 'redux/actions/chatActions';
-import { menuItems } from './menuItems';
+import Typography from '@mui/material/Typography';
 import { log } from 'utils/log';
 import { addNotifyAudio } from 'utils/audio';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Map, List } from 'immutable';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
-import { useStyles } from './homeStyles';
-import useTheme from '@material-ui/core/styles/useTheme';
-import { Theme } from '@material-ui/core/styles/createTheme';
-import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
+import useTheme from '@mui/material/styles/useTheme';
+import { Theme } from '@mui/material/styles/createTheme';
+import useMediaQuery from '@mui/material/useMediaQuery/useMediaQuery';
 import NavItem from 'components/navItem';
 import TelarSocialLogo from 'oldComponents/telarSocialLogo';
+import { useStyles } from './homeStyles';
+import { menuItems } from './menuItems';
 // selectors
 const selectCurrentUser = authorizeSelector.selectCurrentUser();
-const selectChatOpen = chatSelector.selectChatOpen();
-const selectActiveRooms = chatSelector.selectActiveRooms();
 // ----------------------------------------------------------------------
 
 export interface HomeProps {
@@ -47,13 +42,9 @@ export function HomeComponent({ children }: HomeProps) {
 
     // Dispatcher
     const dispatch = useDispatch();
-    const openChat = () => dispatch(chatActions.openRoom(''));
-    const closeChat = () => dispatch(chatActions.closeChat());
 
     // Selectors
     const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
-    const isChatOpen: boolean = useSelector((state: Map<string, any>) => selectChatOpen(state));
-    const activeRooms = useSelector((state: Map<string, any>) => selectActiveRooms(state)) as List<Map<string, any>>;
 
     /**
      * Handle drawer toggle
@@ -72,16 +63,6 @@ export function HomeComponent({ children }: HomeProps) {
         );
     }, []);
 
-    /**
-     * Toggle chat window to open/close
-     */
-    const toggleChat = () => {
-        if (isChatOpen) {
-            closeChat();
-        } else {
-            openChat();
-        }
-    };
 
     const handleOnIdle = () => {
         log.info('last active', getLastActiveTime());
@@ -110,7 +91,7 @@ export function HomeComponent({ children }: HomeProps) {
                     return (
                         <NavItem key={`home-nav-item-${index}`} icon={item.icon} href={item.path} title={item.label} />
                     );
-                } else if (item.onClick) {
+                } if (item.onClick) {
                     return (
                         <MenuItem
                             key={`home-menu-${index}`}
@@ -121,9 +102,9 @@ export function HomeComponent({ children }: HomeProps) {
                             <ListItemText primary={item.label} />
                         </MenuItem>
                     );
-                } else {
+                } 
                     return <Divider key={`home-menu-divider${index}`} />;
-                }
+                
             })}
             <div className={classes.info}>
                 <Typography color="textSecondary">
@@ -153,7 +134,6 @@ export function HomeComponent({ children }: HomeProps) {
             <div className={classes.appFrame}>
                 <HomeHeader
                     onToggleDrawer={handleDrawerToggle}
-                    onToggleMessenger={toggleChat}
                     drawerStatus={drawerOpen}
                 />
                 {!mdUpHidden && (
@@ -201,7 +181,6 @@ export function HomeComponent({ children }: HomeProps) {
                 </main>
             </div>
 
-            {activeRooms.map((room) => <ChatComponent key={room.get('objectId')} open={true} room={room} />).valueSeq()}
             <CookieConsent
                 location="bottom"
                 buttonText={t('home.cookieConsentButton')}

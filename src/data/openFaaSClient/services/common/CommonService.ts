@@ -1,5 +1,5 @@
 import { injectable, inject } from 'inversify';
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { ICommonService } from 'core/services/common/ICommonService';
 /**
@@ -15,6 +15,7 @@ export class CommonService implements ICommonService {
     getTwitterMedia = async () => {
         return 'Not implementd!' as any;
     };
+
     /**
      * Post feedback
      */

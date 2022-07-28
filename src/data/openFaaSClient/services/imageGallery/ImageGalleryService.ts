@@ -1,16 +1,16 @@
 import { SocialError } from 'core/domain/common/socialError';
-import { Media as Media } from 'core/domain/imageGallery/media';
+import { Media } from 'core/domain/imageGallery/media';
 import { Post } from 'core/domain/posts/post';
-import { IStorageService } from 'core/services/files/IStorageService';
+import type { IStorageService } from 'core/services/files/IStorageService';
 import { IImageGalleryService } from 'core/services/imageGallery/IImageGalleryService';
 import { fromJS, Map } from 'immutable';
 import { injectable, inject } from 'inversify';
 import { FileResult } from 'models/files/fileResult';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { PhotoModel } from 'models/gallery/photoModel';
-import uuid from 'uuid';
-import { IPostService } from 'core/services/posts/IPostService';
+import {v4 as uuid} from 'uuid';
+import type { IPostService } from 'core/services/posts/IPostService';
 
 /**
  * OpenFaaS image gallery service
@@ -18,7 +18,9 @@ import { IPostService } from 'core/services/posts/IPostService';
 @injectable()
 export class ImageGalleryService implements IImageGalleryService {
     @inject(SocialProviderTypes.StorageService) private _storageService: IStorageService;
+
     @inject(SocialProviderTypes.PostService) private _postService: IPostService;
+
     @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
 
     constructor() {
@@ -40,14 +42,14 @@ export class ImageGalleryService implements IImageGalleryService {
                     const parsedMedia = {
                         ...media,
                         id: media.objectId,
-                        creationDate: media['created_date'],
+                        creationDate: media.created_date,
                     };
                     parsedData = parsedData.set(media.objectId, Map(parsedMedia));
                     imageIds = imageIds.set(media.objectId, true);
                 });
             }
             return { mappedImages: parsedData, ids: imageIds, newLastImageId };
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -58,7 +60,7 @@ export class ImageGalleryService implements IImageGalleryService {
     public saveImages = async (userId: string, folderName: string, photos: Media[]) => {
         const savedPhotos: PhotoModel[] = [];
         photos.forEach((photo) => {
-            photo.objectId = uuid.v4();
+            photo.objectId = uuid();
             savedPhotos.push(
                 new PhotoModel(
                     photo.objectId,
@@ -85,7 +87,7 @@ export class ImageGalleryService implements IImageGalleryService {
         try {
             await this._httpService.post('media/list', { list: savedPhotos });
             return photos;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -94,7 +96,7 @@ export class ImageGalleryService implements IImageGalleryService {
      * Create an album
      */
     public setPhotoAlbum = async (userId: string, folderName: string, albumPost: Post, images: Media[]) => {
-        const albumId = uuid.v4();
+        const albumId = uuid();
         albumPost.id = albumId;
         const postAlbum$ = this._postService.addPost(albumPost);
 
@@ -112,7 +114,7 @@ export class ImageGalleryService implements IImageGalleryService {
 
             imageIds = imageIds.set(image.objectId, true);
         });
-        let mappedPost: Map<string, any> = fromJS({ ...albumPost });
+        let mappedPost = fromJS({ ...albumPost }) as Map<string, any>;
         mappedPost = mappedPost.set('album', fromJS({ ...albumPost.album }));
         return { newAlbum: mappedPost, imageIds, images: mappedImages };
     };
@@ -146,7 +148,7 @@ export class ImageGalleryService implements IImageGalleryService {
             file.albumId = file.albumId === '' ? '00000000-0000-0000-0000-000000000000' : file.albumId;
             const result = await this._httpService.post('media', file);
             return result.objectId;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -164,7 +166,7 @@ export class ImageGalleryService implements IImageGalleryService {
     public deleteFile = async (userId: string, imageId: string) => {
         try {
             await this._httpService.delete(`media/id/${imageId}`);
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };

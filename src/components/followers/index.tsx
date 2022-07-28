@@ -31,7 +31,7 @@ export class FollowersComponent extends Component<
                     <div>
                         <div className="profile__title">{t('people.followersLabel')}</div>
                         <UserBoxList users={followers} />
-                        <div style={{ height: '24px' }}></div>
+                        <div style={{ height: '24px' }} />
                     </div>
                 ) : (
                     <div className="g__title-center">{t('people.noFollowersLabel')}</div>

@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { IPermissionService } from 'core/services/security/IPermissionService';
+import type { IPermissionService } from 'core/services/security/IPermissionService';
 /**
  * Permission service
  */

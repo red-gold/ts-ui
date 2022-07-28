@@ -1,6 +1,6 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { withStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
+import { withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
 import React, { Component } from 'react';
 
 import { circleActivityStyles } from './circleActivityStyles';

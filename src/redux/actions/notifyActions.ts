@@ -6,10 +6,10 @@ import { SocialError } from 'core/domain/common/socialError';
 import { Notification } from 'core/domain/notifications/notification';
 import { INotificationService } from 'core/services/notifications/INotificationService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
-import { provider } from '../../socialEngine';
 import * as globalActions from 'redux/actions/globalActions';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { createPromiseAction } from '@adobe/redux-saga-promise';
+import { provider } from '../../socialEngine';
 
 /**
  * Get service providers
@@ -61,7 +61,7 @@ export const dbDeleteNotification = (id: string) => {
     return (dispatch: any, getState: Function) => {
         // Get current user id
         const state: Map<string, any> = getState();
-        const uid: string = state.getIn(['authorize', 'uid']);
+        const uid = state.getIn(['authorize', 'uid']) as string;
 
         return notificationService
             .deleteNotification(id, uid)

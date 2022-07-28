@@ -4,10 +4,10 @@ import { SocialError } from 'core/domain/common/socialError';
 import { User } from 'core/domain/users/user';
 import { IUserService } from 'core/services/users/IUserService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
-import { provider } from '../../socialEngine';
 import * as globalActions from 'redux/actions/globalActions';
-import { userGetters } from '../reducers/users/userGetters';
 import { createPromiseAction } from '@adobe/redux-saga-promise';
+import { provider } from '../../socialEngine';
+import { userGetters } from '../reducers/users/userGetters';
 
 // ----------------------------------------------------------------------
 
@@ -70,7 +70,7 @@ export const getUserProfilePage = (uid: string) => {
 export const dbUpdateUserInfo = (newProfile: User) => {
     return (dispatch: any, getState: Function) => {
         const state: Map<string, any> = getState();
-        const uid: string = state.getIn(['authorize', 'uid']);
+        const uid = state.getIn(['authorize', 'uid']) as string;
 
         let profile: Map<string, any> = userGetters.getUserProfileById(state, { userId: uid });
 

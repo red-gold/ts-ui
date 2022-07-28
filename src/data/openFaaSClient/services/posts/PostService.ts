@@ -1,8 +1,8 @@
 import { SocialError } from 'core/domain/common/socialError';
 import { Post } from 'core/domain/posts/post';
 import { PostType } from 'core/domain/posts/postType';
-import { IPostService } from 'core/services/posts/IPostService';
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IPostService } from 'core/services/posts/IPostService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { inject, injectable } from 'inversify';
 import { Map, fromJS } from 'immutable';
@@ -13,6 +13,7 @@ import { Map, fromJS } from 'immutable';
 @injectable()
 export class PostService implements IPostService {
     @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+
     constructor() {
         this.getSearchKey = this.getSearchKey.bind(this);
         this.searchPosts = this.searchPosts.bind(this);
@@ -27,7 +28,7 @@ export class PostService implements IPostService {
         try {
             const result = await this._httpService.post('posts', { ...post, objectId: post.id });
             return result.objectId;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -44,7 +45,7 @@ export class PostService implements IPostService {
                 delete post.comments;
             }
             await this._httpService.put('posts', post);
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -55,7 +56,7 @@ export class PostService implements IPostService {
     public deletePost = async (postId: string) => {
         try {
             await this._httpService.delete(`posts/${postId}`);
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -81,7 +82,7 @@ export class PostService implements IPostService {
                     }
                     parsedData = parsedData.set(
                         post.objectId,
-                        fromJS({ ...post, id: post.objectId, creationDate: post['created_date'], score }),
+                        fromJS({ ...post, id: post.objectId, creationDate: post.created_date, score }),
                     );
                     postIds = postIds.set(post.objectId, true);
                 });
@@ -93,7 +94,7 @@ export class PostService implements IPostService {
                 newLastPostId: postCount > 0 ? result[0].objectId : '',
                 hasMore: !(postCount < (limit || 10)),
             };
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     }
@@ -122,7 +123,7 @@ export class PostService implements IPostService {
                     }
                     parsedData = parsedData.set(
                         post.objectId,
-                        fromJS({ ...post, id: post.objectId, creationDate: post['created_date'], score }),
+                        fromJS({ ...post, id: post.objectId, creationDate: post.created_date, score }),
                     );
                     postIds = postIds.set(post.objectId, true);
                 });
@@ -134,7 +135,7 @@ export class PostService implements IPostService {
                 newLastPostId: postCount > 0 ? resultSearch[0].objectId : '',
                 hasMore: !(postCount < (limit || 10)),
             };
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     }
@@ -163,7 +164,7 @@ export class PostService implements IPostService {
                     }
                     parsedData = parsedData.set(
                         post.objectId,
-                        fromJS({ ...post, id: post.objectId, creationDate: post['created_date'], score }),
+                        fromJS({ ...post, id: post.objectId, creationDate: post.created_date, score }),
                     );
                     postIds = postIds.set(post.objectId, true);
                 });
@@ -175,7 +176,7 @@ export class PostService implements IPostService {
                 newLastPostId: postCount > 0 ? resultSearch[0].objectId : '',
                 hasMore: !(postCount < (limit || 10)),
             };
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     }
@@ -193,8 +194,8 @@ export class PostService implements IPostService {
     public getPostById = async (postId: string) => {
         try {
             const result = await this._httpService.get(`posts/${postId}`);
-            return { ...result, id: result.objectId, creationDate: result['created_date'] };
-        } catch (error) {
+            return { ...result, id: result.objectId, creationDate: result.created_date };
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -205,8 +206,8 @@ export class PostService implements IPostService {
     public getPostByURLKey = async (urlKey: string) => {
         try {
             const result = await this._httpService.get(`posts/urlkey/${urlKey}`);
-            return { ...result, id: result.objectId, creationDate: result['created_date'] };
-        } catch (error) {
+            return { ...result, id: result.objectId, creationDate: result.created_date };
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -217,7 +218,7 @@ export class PostService implements IPostService {
     public disableComment = async (postId: string, status: boolean) => {
         try {
             await this._httpService.put(`posts/comment/disable`, { postId, status });
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -228,7 +229,7 @@ export class PostService implements IPostService {
     public disableSharing = async (postId: string, status: boolean) => {
         try {
             await this._httpService.put(`posts/share/disable`, { postId, status });
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };

@@ -1,7 +1,7 @@
 import { SocialError } from 'core/domain/common/socialError';
 import { User } from 'core/domain/users/user';
 import { IUserService } from 'core/services/users/IUserService';
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { fromJS, Map } from 'immutable';
 import { inject, injectable } from 'inversify';
@@ -12,6 +12,7 @@ import { inject, injectable } from 'inversify';
 @injectable()
 export class UserService implements IUserService {
     @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+
     constructor() {
         this.getSearchKey = this.getSearchKey.bind(this);
         this.searchUser = this.searchUser.bind(this);
@@ -23,9 +24,9 @@ export class UserService implements IUserService {
     public getUserProfile = async (userId: string) => {
         try {
             const result = await this._httpService.get(`profile/id/${userId}`);
-            return { ...result, userId: result.objectId, creationDate: result['created_date'] } as User;
-        } catch (error) {
-            throw new SocialError(error.code, 'service/getUserProfile :' + error.message);
+            return { ...result, userId: result.objectId, creationDate: result.created_date } as User;
+        } catch (error: any) {
+            throw new SocialError(error.code, `service/getUserProfile :${  error.message}`);
         }
     };
 
@@ -35,9 +36,9 @@ export class UserService implements IUserService {
     public getProfileBySocialName = async (socialName: string) => {
         try {
             const result = await this._httpService.get(`profile/social/${socialName}`);
-            return { ...result, userId: result.objectId, creationDate: result['created_date'] } as User;
-        } catch (error) {
-            throw new SocialError(error.code, 'service/getUserProfile :' + error.message);
+            return { ...result, userId: result.objectId, creationDate: result.created_date } as User;
+        } catch (error: any) {
+            throw new SocialError(error.code, `service/getUserProfile :${  error.message}`);
         }
     };
 
@@ -48,9 +49,9 @@ export class UserService implements IUserService {
         try {
             const result = await this._httpService.get('profile/my');
 
-            return { ...result, userId: result.objectId, creationDate: result['created_date'] } as User;
-        } catch (error) {
-            throw new SocialError(error.code, 'service/getUserProfile :' + error.message);
+            return { ...result, userId: result.objectId, creationDate: result.created_date } as User;
+        } catch (error: any) {
+            throw new SocialError(error.code, `service/getUserProfile :${  error.message}`);
         }
     };
 
@@ -116,7 +117,7 @@ export class UserService implements IUserService {
                     if (user.objectId !== filters) {
                         parsedData = parsedData.set(
                             user.objectId,
-                            fromJS({ ...user, userId: user.objectId, creationDate: user['created_date'] }),
+                            fromJS({ ...user, userId: user.objectId, creationDate: user.created_date }),
                         );
                         userIds = userIds.set(user.objectId, true);
                     }
@@ -129,7 +130,7 @@ export class UserService implements IUserService {
                 newLastPostId: userCount > 0 ? resultSearch[0].objectId : '',
                 hasMore: !(userCount < (limit || 10)),
             };
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     }

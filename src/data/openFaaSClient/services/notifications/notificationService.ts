@@ -2,7 +2,7 @@ import { SocialError } from 'core/domain/common/socialError';
 import { INotificationService } from 'core/services/notifications/INotificationService';
 import { injectable, inject } from 'inversify';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 /**
  * Firbase notification service
  *
@@ -11,6 +11,7 @@ import { IHttpService } from 'core/services/webAPI/IHttpService';
 @injectable()
 export class NotificationService implements INotificationService {
     @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+
     public addNotification = () => {
         return ' Not implemented!' as any;
     };
@@ -26,7 +27,7 @@ export class NotificationService implements INotificationService {
                 });
             }
             return parsedData;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -34,7 +35,7 @@ export class NotificationService implements INotificationService {
     public deleteNotification = async (notificationId: string) => {
         try {
             await this._httpService.delete(`notifications/id/${notificationId}`);
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -42,7 +43,7 @@ export class NotificationService implements INotificationService {
     public setSeenNotification = async (notificationId: string) => {
         try {
             await this._httpService.put(`notifications/seen/${notificationId}`);
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -50,7 +51,7 @@ export class NotificationService implements INotificationService {
     public setSeenAllNotifications = async () => {
         try {
             await this._httpService.put(`notifications/seenall`);
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };

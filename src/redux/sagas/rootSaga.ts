@@ -1,7 +1,6 @@
 import { all } from 'redux-saga/effects';
 
 import authorizeSaga from './authorizeSaga';
-import chatSaga from './chatSaga';
 import circleSaga from './circleSaga';
 import commentSaga from './commentSaga';
 import voteSaga from './voteSaga';
@@ -26,6 +25,5 @@ export default function* root() {
         gallerySaga(),
         notificationSaga(),
         circleSaga(),
-        chatSaga(),
     ]);
 }

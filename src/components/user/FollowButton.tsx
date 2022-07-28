@@ -1,16 +1,16 @@
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import AppDialogTitle from 'oldComponents/dialogTitle/DialogTitleComponent';
-import { withStyles } from '@material-ui/styles';
-import TextField from '@material-ui/core/TextField';
-import Tooltip from '@material-ui/core/Tooltip';
-import SvgAdd from '@material-ui/icons/Add';
+import { withStyles } from '@mui/styles';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import SvgAdd from '@mui/icons-material/Add';
 import StringAPI from 'api/StringAPI';
 import { followDialogStyles } from 'components/followDialog/followDialogStyles';
 import { ServerRequestType } from 'constants/serverRequestType';
@@ -23,11 +23,11 @@ import { userGetters } from 'redux/reducers/users/userGetters';
 import * as circleActions from 'redux/actions/circleActions';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 
-import { IFollowDialogProps } from '../followDialog/IFollowDialogProps';
-import { IFollowDialogState } from '../followDialog/IFollowDialogState';
 import MobileDialog from 'components/mobileDialog';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Typography from '@material-ui/core/Typography';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Typography from '@mui/material/Typography';
+import { IFollowDialogState } from '../followDialog/IFollowDialogState';
+import { IFollowDialogProps } from '../followDialog/IFollowDialogProps';
 
 export class FollowButton extends Component<IFollowDialogProps & WithTranslation, IFollowDialogState> {
     constructor(props: IFollowDialogProps & WithTranslation) {
@@ -87,7 +87,7 @@ export class FollowButton extends Component<IFollowDialogProps & WithTranslation
             return;
         }
         if (followRequest && followRequest.status === ServerRequestStatusType.Sent) {
-            return;
+            
         } else if (isFollowed) {
             this.onRequestOpenAddCircle();
         } else if (followingCircle) {
@@ -285,7 +285,7 @@ export class FollowButton extends Component<IFollowDialogProps & WithTranslation
                     <DialogContent className={classes.dialogContent}>
                         <List>
                             {this.circleList()}
-                            <div className={classes.space}></div>
+                            <div className={classes.space} />
                             <Divider />
                             <ListItem key={`'circleName'-${userId}`}>
                                 <TextField
@@ -307,8 +307,8 @@ export class FollowButton extends Component<IFollowDialogProps & WithTranslation
                     <DialogActions>
                         <Button
                             color="primary"
-                            disableFocusRipple={true}
-                            disableRipple={true}
+                            disableFocusRipple
+                            disableRipple
                             disabled={
                                 disabledDoneCircles ||
                                 (addToCircleRequest
@@ -351,8 +351,8 @@ const mapDispatchToProps = (dispatch: Function) => {
 const mapStateToProps = (state: Map<string, any>, ownProps: IFollowDialogProps) => {
     const userId = ownProps.user.get('userId');
 
-    const circles: Map<string, Map<string, any>> = state.getIn(['circle', 'circleList'], Map({}));
-    const userBelongCircles: ImuList<any> = state.getIn(['circle', 'userTies', userId, 'circleIdList'], ImuList());
+    const circles = state.getIn(['circle', 'circleList'], Map({})) as Map<string, Map<string, any>>;
+    const userBelongCircles = state.getIn(['circle', 'userTies', userId, 'circleIdList'], ImuList()) as ImuList<any>;
     const isFollowed = userBelongCircles.count() > 0;
 
     const followingCircle = circles
@@ -363,7 +363,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IFollowDialogProps) 
     const selectedCircles = state.getIn(['circle', 'selectedCircles', userId], []);
 
     const isSelecteCirclesOpen = state.getIn(['circle', 'ui', 'openSelecteCircles', userId], []);
-    const userBox = userGetters.getUserProfileById(state, { userId: userId });
+    const userBox = userGetters.getUserProfileById(state, { userId });
     return {
         isSelecteCirclesOpen,
         isFollowed,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Alert, AlertTitle } from '@material-ui/core';
+import { Container, Alert, AlertTitle } from '@mui/material';
 
 // ----------------------------------------------------------------------
 

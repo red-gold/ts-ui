@@ -25,17 +25,17 @@ export function FindPeopleComponent() {
     const classes = useStyles();
     // Dispatcher
     const dispatch = useDispatch();
-    const loadPeople = (page: number, limit: number) => dispatch(userActions.dbFetchFindPeople(page, limit));
-    const increasePage = () => dispatch(userActions.increaseFindPagePeoplePage());
+    const loadPeople = (page: number, limit: number) => dispatch<any>(userActions.dbFetchFindPeople(page, limit));
+    const increasePage = () => dispatch<any>(userActions.increaseFindPagePeoplePage());
 
     // Selectors
     const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
     const currentUserId = currentUser.get('userId');
-    const hasMorePeople = useSelector((state: Map<string, any>) => selectHasMorePeople(state));
+    const hasMorePeople = useSelector((state: Map<string, any>) => selectHasMorePeople(state)) as boolean;
     const peopleInfo = useSelector((state: Map<string, any>) => selectFindPeople(state));
     const page = useSelector((state: Map<string, any>) => selectPage(state));
     const requestId = StringAPI.createServerRequestId(ServerRequestType.UserFetchRequest, currentUserId);
-    const findRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId }));
+    const findRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId })) as Map<string,any>;
     const findRequestStatus: ServerRequestStatusType = findRequest.get('status', ServerRequestStatusType.NoAction);
 
     /**
@@ -68,7 +68,7 @@ export function FindPeopleComponent() {
             {peopleInfo && peopleInfo.count() > 0 ? (
                 <div>
                     <UserBoxList users={peopleInfo} />
-                    <div style={{ height: '24px' }}></div>
+                    <div style={{ height: '24px' }} />
                 </div>
             ) : (
                 <div className="g__title-center">{t('people.nothingToShowLabel')}</div>

@@ -3,9 +3,9 @@ import { createSelector } from 'reselect';
 import { PostAPI } from 'api/PostAPI';
 import { userGetters } from './userGetters';
 
-/****************************
+/** **************************
  * Selectors
- ***************************/
+ ************************** */
 const selectFindPeoplePage = () => {
     return createSelector([userGetters.getFindPeoplePage], (page) => page);
 };
@@ -105,13 +105,9 @@ const selectUserProfileById = () => {
     return createSelector([userGetters.getUserProfileById], (userProfile) => userProfile);
 };
 
-const selectUserLoaded = () => {
-    return createSelector([userGetters.getUserLoaded], (loaded: boolean) => loaded);
-};
+const selectUserLoaded = () => createSelector<any,any>([userGetters.getUserLoaded], (loaded: boolean) => loaded);
 
-const selectOpenEditProfile = () => {
-    return createSelector([userGetters.getOpenEditProfile], (open: boolean) => open);
-};
+const selectOpenEditProfile = () => createSelector<any,any>([userGetters.getOpenEditProfile], (open: boolean) => open);
 
 export const userSelector = {
     selectAlbumPosts,

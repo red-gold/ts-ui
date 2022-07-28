@@ -1,12 +1,12 @@
-import IconButton from '@material-ui/core/IconButton';
-import SvgDelete from '@material-ui/icons/Delete';
+import IconButton from '@mui/material/IconButton';
+import SvgDelete from '@mui/icons-material/Delete';
 import React from 'react';
 
-import { IPostImageUploadProps } from './IPostImageUploadProps';
 import { PhotoGalleryFile } from 'models/gallery/photoGalleryFile';
+import Stack from '@mui/material/Stack';
+import { experimentalStyled as styled } from '@mui/material/styles';
 import { useStyles } from './postImageUploadStyles';
-import Stack from '@material-ui/core/Stack';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { IPostImageUploadProps } from './IPostImageUploadProps';
 
 const TrashButton = styled(IconButton)({
     color: '#fffffff5',
@@ -26,9 +26,9 @@ export function PostImageUploadComponent(props: IPostImageUploadProps) {
     // Dispatchers
     // const dispatch = useDispatch();
     // const deleteImage = (fileId: string, fileName: string) =>
-    //     dispatch(imageGalleryActions.dbDeleteImage(fileId, config.data.imageFolderPath, fileName));
+    //     dispatch<any>(imageGalleryActions.dbDeleteImage(fileId, config.data.imageFolderPath, fileName));
     // const progressChange = (percent: number, status: boolean) =>
-    //     dispatch(globalActions.progressChange(percent, status));
+    //     dispatch<any>(globalActions.progressChange(percent, status));
 
     // Selectors
     // const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));

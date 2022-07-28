@@ -2,8 +2,8 @@ import React from 'react';
 import * as Yup from 'yup';
 import { Form, FormikProvider, useFormik } from 'formik';
 // material
-import { TextField, FormHelperText, Stack } from '@material-ui/core';
-import { LoadingButton } from '@material-ui/lab';
+import { TextField, FormHelperText, Stack } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { SocialError } from 'core/domain/common/socialError';
 import useLocales from 'hooks/useLocales';
 
@@ -37,7 +37,7 @@ export default function VerifyCodeForm({ verify, onSuccess, onError }: VerifyCod
             try {
                 await verify(`${values.code}`);
                 onSuccess();
-            } catch (error) {
+            } catch (error: any) {
                 onError(error);
             }
         },

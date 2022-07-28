@@ -2,7 +2,7 @@ import { SocialError } from 'core/domain/common/socialError';
 import { Vote } from 'core/domain/votes/vote';
 import { IVoteService } from 'core/services/votes/IVoteService';
 import { injectable, inject } from 'inversify';
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { Map } from 'immutable';
 
@@ -20,7 +20,7 @@ export class VoteService implements IVoteService {
         try {
             const result = await this._httpService.post('votes', vote);
             return result.objectId;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -35,12 +35,12 @@ export class VoteService implements IVoteService {
             result.forEach((vote: any) => {
                 const parsedVote = {
                     id: vote.objectId,
-                    creationDate: vote['created_date'],
+                    creationDate: vote.created_date,
                 };
                 parsedData = parsedData.set(vote.objectId, Map(parsedVote));
             });
             return parsedData;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -51,7 +51,7 @@ export class VoteService implements IVoteService {
     public deleteVote = async (userId: string, postId: string) => {
         try {
             await this._httpService.delete(`votes/post/${postId}`);
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };

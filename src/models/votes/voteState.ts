@@ -1,3 +1,1 @@
-export class VoteState {
-    constructor() {}
-}
+export class VoteState {}

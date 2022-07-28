@@ -8,10 +8,10 @@ import config from 'config';
 import { SocialError } from 'core/domain/common/socialError';
 import { IImageGalleryService } from 'core/services/imageGallery/IImageGalleryService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
-import { provider } from '../../socialEngine';
 import * as globalActions from 'redux/actions/globalActions';
-import uuid from 'uuid';
+import {v4 as uuid} from 'uuid';
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
+import { provider } from '../../socialEngine';
 
 const imageGalleryService: IImageGalleryService = provider.get<IImageGalleryService>(
     SocialProviderTypes.ImageGalleryService,
@@ -62,9 +62,9 @@ export const dbDeletedVideo = (videoId: string) => {
 export const dbSaveImage = (imageURL: string) => {
     return (dispatch: any, getState: Function) => {
         const state: Map<string, any> = getState();
-        const uid: string = state.getIn(['authorize', 'uid']);
+        const uid = state.getIn(['authorize', 'uid']) as string;
         const newImage = new Media(
-            uuid.v4(),
+            uuid(),
             0,
             moment.utc().valueOf(),
             imageURL,

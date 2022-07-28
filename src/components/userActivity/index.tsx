@@ -1,8 +1,6 @@
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
-import MailIcon from '@material-ui/icons/Mail';
+import Paper from '@mui/material/Paper';
+import { withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
 import StringAPI from 'api/StringAPI';
 import classNames from 'classnames';
 import AboutDialogComponent from 'components/aboutDialog/AboutDialogComponent';
@@ -18,11 +16,9 @@ import PictureDialogComponent from 'oldComponents/pictureDialog';
 import * as globalActions from 'redux/actions/globalActions';
 import * as userActions from 'redux/actions/userActions';
 
-import { IUserActivityComponentProps } from './IUserActivityComponentProps';
-import { IUserActivityComponentState } from './IUserActivityComponentState';
+import { IUserActivityComponentProps } from './IUserActivityProps';
+import { IUserActivityComponentState } from './IUserActivityState';
 import { userActivityStyles } from './userActivityStyles';
-import * as chatActions from 'redux/actions/chatActions';
-import { log } from 'utils/log';
 
 export class UserActivityComponent extends Component<
     IUserActivityComponentProps & WithTranslation,
@@ -36,20 +32,13 @@ export class UserActivityComponent extends Component<
 
         // Defaul state
         this.state = {
-            boxesStyle: [],
             privilegeOpen: false,
-            storeOpen: false,
-            storeRepOpen: false,
             picutreDialogOpen: false,
             pictureDialogURL: '',
             aboutOpen: false,
         };
 
         // Binding functions to `this`
-        this.handleOpenStore = this.handleOpenStore.bind(this);
-        this.handleCloseStore = this.handleCloseStore.bind(this);
-        this.handleOpenStoreRep = this.handleOpenStoreRep.bind(this);
-        this.handleCloseStoreRep = this.handleCloseStoreRep.bind(this);
         this.closePictureDialog = this.closePictureDialog.bind(this);
         this.openPictureDialog = this.openPictureDialog.bind(this);
         this.handleCloseAbout = this.handleCloseAbout.bind(this);
@@ -57,36 +46,11 @@ export class UserActivityComponent extends Component<
     }
 
     /**
-     * Handle open privilege
-     */
-    handleOpenPrivileges = () => {
-        this.setState({ privilegeOpen: true });
-    };
-
-    /**
      * Handle close privilege
      */
     handleClosePrivileges = () => {
         this.setState({ privilegeOpen: false });
     };
-
-    /**
-     * Handle open store dialog
-     */
-    handleOpenStore() {
-        this.setState({
-            storeOpen: true,
-        });
-    }
-
-    /**
-     * Handle close store dialog
-     */
-    handleCloseStore() {
-        this.setState({
-            storeOpen: false,
-        });
-    }
 
     /**
      * Handle open about dialog
@@ -103,24 +67,6 @@ export class UserActivityComponent extends Component<
     handleCloseAbout() {
         this.setState({
             aboutOpen: false,
-        });
-    }
-
-    /**
-     * Handle open store dialog
-     */
-    handleOpenStoreRep() {
-        this.setState({
-            storeRepOpen: true,
-        });
-    }
-
-    /**
-     * Handle close store dialog
-     */
-    handleCloseStoreRep() {
-        this.setState({
-            storeRepOpen: false,
         });
     }
 
@@ -144,19 +90,6 @@ export class UserActivityComponent extends Component<
             pictureDialogURL: '',
             picutreDialogOpen: false,
         });
-    };
-
-    /**
-     * Handle send message
-     */
-    handleSendMessage = () => {
-        const { chatRequest, profile } = this.props;
-        const userId = profile.get('userId');
-        if (userId && chatRequest) {
-            chatRequest(userId);
-        } else {
-            log.error('User id is null for chat request');
-        }
     };
 
     /**
@@ -188,9 +121,6 @@ export class UserActivityComponent extends Component<
                         {!isCurrentUser && (
                             <div>
                                 <FollowDialogComponent color="secondary" variant="contained" user={profile} />
-                                <IconButton onClick={this.handleSendMessage}>
-                                    <MailIcon />
-                                </IconButton>
                             </div>
                         )}
                     </div>
@@ -225,22 +155,17 @@ export class UserActivityComponent extends Component<
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        setHeaderTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title)),
-        openEditor: () => dispatch(userActions.openEditProfile()),
-        chatRequest: (userId: string) => dispatch(chatActions.activePeerChatRoom(userId)),
-    };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+    setHeaderTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title)),
+    openEditor: () => dispatch(userActions.openEditProfile()),
+});
 
 /**
  * Map state to props
  */
-const mapStateToProps = (state: Map<string, any>) => {
-    return {
-        editProfileOpen: state.getIn(['user', 'openEditProfile']),
-    };
-};
+const mapStateToProps = (state: Map<string, any>) => ({
+    editProfileOpen: state.getIn(['user', 'openEditProfile']),
+});
 
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(UserActivityComponent);

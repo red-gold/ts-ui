@@ -1,6 +1,6 @@
 import React from 'react';
 import Footer from 'oldComponents/footer';
-import { styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import Logo from 'components/Logo';
 
 // ----------------------------------------------------------------------

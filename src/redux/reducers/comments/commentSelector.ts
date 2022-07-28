@@ -1,9 +1,9 @@
 import { Map } from 'immutable';
 import { createSelector } from 'reselect';
 
-/****************************
+/** **************************
  * Get from store
- ***************************/
+ ************************** */
 
 const getPostComments = (state: Map<string, any>, props: { postId: string }) => {
     return state.getIn(['comment', 'postComments', props.postId], Map({})) as Map<string, Map<string, any>>;
@@ -15,12 +15,12 @@ const getEditorStatus = (state: Map<string, any>, props: { postId: string }) => 
 };
 
 const getHasMoreData = (state: Map<string, any>, props: { postId: string }): boolean => {
-    return state.getIn(['comment', 'ui', 'posts', props.postId, 'hasMoreData'], true);
+    return state.getIn(['comment', 'ui', 'posts', props.postId, 'hasMoreData'], true) as boolean;
 };
 
-/****************************
+/** **************************
  * Selectors
- ***************************/
+ ************************** */
 
 const selectPostComments = () => {
     return createSelector([getPostComments], (comments) => {

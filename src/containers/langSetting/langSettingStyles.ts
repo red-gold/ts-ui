@@ -1,4 +1,4 @@
-import { makeStyles, createStyles } from '@material-ui/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 
 export const useStyles = makeStyles((theme: any) =>
     createStyles({
@@ -7,7 +7,7 @@ export const useStyles = makeStyles((theme: any) =>
             backgroundColor: theme.palette.background.paper,
         },
         formControl: {
-            margin: theme.spacing(1) + ' !important',
+            margin: `${theme.spacing(1)  } !important`,
             minWidth: '320px !important',
         },
         selectEmpty: {

@@ -1,4 +1,5 @@
 import { Map } from 'immutable';
+
 export interface IYourCirclesComponentProps {
     /**
      * Circles

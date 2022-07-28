@@ -1,8 +1,6 @@
-import LanguageIcon from '@material-ui/icons/Language';
-import NotificationIcon from '@material-ui/icons/Notifications';
+import LanguageIcon from '@mui/icons-material/Language';
+import NotificationIcon from '@mui/icons-material/Notifications';
 import React, { useEffect } from 'react';
-import NotificationSettingComponent from '../containers/notificationSetting';
-import { ConfigComponentType } from '../constants/configComponentType';
 import { AntTab, AntTabs } from 'components/tab';
 import { LangSettingComponent } from 'containers/langSetting';
 import useLocales from 'hooks/useLocales';
@@ -10,7 +8,9 @@ import { setHeaderTitle } from 'redux/actions/globalActions';
 import { useDispatch, useSelector } from 'redux/store';
 import { dbFetchUserSetting, dbUpdateUserSetting } from 'redux/actions/userSettingActions';
 import { userSettingSelector } from 'redux/reducers/userSetting/userSettingSelector';
-import { styled } from '@material-ui/styles';
+import { styled } from '@mui/styles';
+import { ConfigComponentType } from '../constants/configComponentType';
+import NotificationSettingComponent from '../containers/notificationSetting';
 
 // ----------------------------------------------------------------------
 
@@ -32,15 +32,15 @@ export default function AccountPage() {
 
     const userSetting = useSelector(selectUserSetting);
 
-    const updateUserSetting = (type: string, setting: object) => dispatch(dbUpdateUserSetting(type, setting));
+    const updateUserSetting = (type: string, setting: object) => dispatch<any>(dbUpdateUserSetting(type, setting));
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setSelectedItem(newValue);
     };
 
     useEffect(() => {
-        dispatch(setHeaderTitle(t('header.account')));
-        dispatch(dbFetchUserSetting());
+        dispatch<any>(setHeaderTitle(t('header.account')));
+        dispatch<any>(dbFetchUserSetting());
     }, []);
 
     return (
@@ -49,7 +49,7 @@ export default function AccountPage() {
                 <AntTab icon={<NotificationIcon />} label={t('config.notificationTab')} />
                 <AntTab icon={<LanguageIcon />} label={t('config.languageTab')} />
             </AntTabs>
-            <div style={{ height: 30 }}></div>
+            <div style={{ height: 30 }} />
             {selectedItem === ConfigComponentType.Notification ? (
                 <NotificationSettingComponent updateUserSetting={updateUserSetting} userSettings={userSetting} />
             ) : (

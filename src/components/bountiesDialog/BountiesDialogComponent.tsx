@@ -1,29 +1,32 @@
-import AppBar from '@material-ui/core/AppBar/AppBar';
-import Button from '@material-ui/core/Button/Button';
-import Dialog from '@material-ui/core/Dialog/Dialog';
-import Grid from '@material-ui/core/Grid/Grid';
-import IconButton from '@material-ui/core/IconButton/IconButton';
-import Slide from '@material-ui/core/Slide';
-import { withStyles } from '@material-ui/styles';
-import Toolbar from '@material-ui/core/Toolbar/Toolbar';
-import Typography from '@material-ui/core/Typography/Typography';
-import CloseIcon from '@material-ui/icons/Close';
+import AppBar from '@mui/material/AppBar/AppBar';
+import Button from '@mui/material/Button/Button';
+import Dialog from '@mui/material/Dialog/Dialog';
+import Grid from '@mui/material/Grid/Grid';
+import IconButton from '@mui/material/IconButton/IconButton';
+import Slide from '@mui/material/Slide';
+import { withStyles } from '@mui/styles';
+import Toolbar from '@mui/material/Toolbar/Toolbar';
+import Typography from '@mui/material/Typography/Typography';
+import CloseIcon from '@mui/icons-material/Close';
 import classNames from 'classnames';
 import BountyBox from 'components/bountyBox/BountyBoxComponent';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { TransitionProps } from '@material-ui/core/transitions';
+import { TransitionProps } from '@mui/material/transitions';
 
 import { bountiesDialogStyles } from './bountiesDialogStyles';
 import { IBountiesDialogComponentProps } from './IBountiesDialogComponentProps';
 import { IBountiesDialogComponentState } from './IBountiesDialogComponentState';
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & { children?: React.ReactElement<any, any> },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
+const Transition = React.forwardRef((
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>,
+) => {
+  return <Slide direction="up" ref={ref} {...props} />;
 });
+
 // - Import actions
 const image1 = 'https://i.stack.imgur.com/rp3Cv.png';
 const image2 = 'https://i.stack.imgur.com/EN0AX.png';

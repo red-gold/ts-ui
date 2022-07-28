@@ -2,13 +2,13 @@ import { Map, List } from 'immutable';
 import { connect } from 'react-redux';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { IEditProfileProps, IDispatchProps, IOwnProps, IStateProps } from './IEditProfileProps';
-import { editProfileStyles } from './editProfileStyles';
 import { userSelector } from 'redux/reducers/users/userSelector';
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@mui/styles';
 import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
 import * as userActions from 'redux/actions/userActions';
 import { User } from 'core/domain/users/user';
+import { editProfileStyles } from './editProfileStyles';
+import { IEditProfileProps, IDispatchProps, IOwnProps, IStateProps } from './IEditProfileProps';
 
 /**
  * Map dispatch to props
@@ -31,8 +31,8 @@ const makeMapStateToProps = () => {
 
     const mapStateToProps = (state: Map<string, any>) => {
         const currentUser = selectCurrentUser(state);
-        const avatarImages = List();
-        const coverImages = List();
+        const avatarImages = List() as List<Map<string, any>>;
+        const coverImages = List() as List<Map<string, any>>;
         const open = selectOpenEditProfile(state);
         return {
             open,
@@ -49,5 +49,5 @@ export const connectEditProfile = (component: React.ComponentType<IEditProfilePr
     return connect<IStateProps, IDispatchProps, IOwnProps, any>(
         makeMapStateToProps,
         mapDispatchToProps,
-    )(withStyles(editProfileStyles)(translateWrapper));
+    )(withStyles(editProfileStyles)(translateWrapper) as React.ComponentType<IEditProfileProps>);
 };

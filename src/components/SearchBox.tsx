@@ -3,18 +3,18 @@ import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { PATH_MAIN } from 'routes/paths';
 // material
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import GroupIcon from '@material-ui/icons/Group';
-import SearchIcon from '@material-ui/icons/Search';
+import FormControl from '@mui/material/FormControl';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import GroupIcon from '@mui/icons-material/Group';
+import SearchIcon from '@mui/icons-material/Search';
 import StringAPI from 'api/StringAPI';
-import Card from '@material-ui/core/Card';
-import { Theme } from '@material-ui/core/styles';
-import { makeStyles, createStyles } from '@material-ui/styles';
+import Card from '@mui/material/Card';
+import { Theme } from '@mui/material/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 
 export default function SearchBoxComponent() {
     const [searchText, setSearchText] = React.useState('');
@@ -153,7 +153,7 @@ export const useStyles = makeStyles((theme: Theme) =>
         },
         searchInput: {
             backgroundColor: 'rgba(255, 255, 255, 0.15)',
-            color: theme.palette.common.white + ' !important',
+            color: `${theme.palette.common.white  } !important`,
             padding: 5,
             borderRadius: 4,
         },

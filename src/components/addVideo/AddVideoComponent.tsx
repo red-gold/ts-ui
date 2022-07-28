@@ -1,17 +1,17 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import { grey } from '@material-ui/core/colors';
-import TextField from '@material-ui/core/TextField';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@mui/material/Button';
+import { grey } from '@mui/material/colors';
+import TextField from '@mui/material/TextField';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import StringAPI from 'api/StringAPI';
 
-import { IAddVideoProps } from './IAddVideoProps';
 import MobileDialog from 'components/mobileDialog';
 import config from 'config';
 import { useTranslation } from 'react-i18next';
+import { IAddVideoProps } from './IAddVideoProps';
 
 export function AddVideoComponent(props: IAddVideoProps) {
     const [link, setLink] = React.useState('');
@@ -81,8 +81,8 @@ export function AddVideoComponent(props: IAddVideoProps) {
             <DialogActions>
                 <Button
                     color="primary"
-                    disableFocusRipple={true}
-                    disableRipple={true}
+                    disableFocusRipple
+                    disableRipple
                     onClick={onClose}
                     style={{ color: grey[800] }}
                 >
@@ -90,8 +90,8 @@ export function AddVideoComponent(props: IAddVideoProps) {
                 </Button>
                 <Button
                     color="primary"
-                    disableFocusRipple={true}
-                    disableRipple={true}
+                    disableFocusRipple
+                    disableRipple
                     onClick={handleAddLink}
                     disabled={disabledOk}
                 >

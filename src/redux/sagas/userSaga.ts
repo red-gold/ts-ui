@@ -20,7 +20,7 @@ import { implementPromiseAction } from '@adobe/redux-saga-promise';
  */
 const userService: IUserService = provider.get<IUserService>(SocialProviderTypes.UserService);
 
-/***************************** Subroutines ************************************/
+/** *************************** Subroutines *********************************** */
 
 /**
  * Fetch user profile
@@ -32,7 +32,7 @@ function* dbFetchUserProfile() {
         try {
             const userProfile: User = yield call(userService.getCurrentUserProfile);
             yield put(userActions.addUserInfo(uid, Map({ ...userProfile, userId: uid })));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
         }
     }
@@ -46,7 +46,7 @@ function* fetchProfileById(action: { type: UserActionType; payload: any }) {
             const userProfile: User = yield call(userService.getUserProfile, uid);
 
             yield put(userActions.addUserInfo(uid, Map({ ...userProfile, userId: uid })));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
         }
     });
@@ -65,7 +65,7 @@ function* fetchProfileBySocialName(action: { type: UserActionType; payload: any 
                         Map({ ...userProfile, userId: userProfile.objectId }),
                     ),
                 );
-            } catch (error) {
+            } catch (error: any) {
                 yield put(globalActions.showMessage(error.message));
                 throw error;
             }
@@ -80,7 +80,7 @@ function* getUserProfilePage(action: { type: UserActionType; payload: any }) {
             const userProfile: User = yield call(userService.getUserProfile, uid);
 
             yield put(userActions.addUserInfo(uid, Map({ ...userProfile, userId: uid })));
-        } catch (error) {
+        } catch (error: any) {
             dispatch({ type: '@@ui/navigate', payload: { url: '/404' } });
             yield put(globalActions.showMessage(error.message));
         }
@@ -118,7 +118,7 @@ function* dbSearchUser(userId: string, query: string, page: number, limit: numbe
 
         yield put(userActions.addPeopleInfo(apiResult.users));
         yield put(userActions.addUserSearch(apiResult.ids, page === 0));
-    } catch (error) {
+    } catch (error: any) {
         yield put(globalActions.showMessage(error.message));
         yield put(userActions.notMoreSearchPeople());
     } finally {
@@ -179,16 +179,16 @@ function* fetchUserSuggestions() {
 
         searchUserRequest.status = ServerRequestStatusType.OK;
         yield put(serverActions.sendRequest(searchUserRequest));
-    } catch (error) {
+    } catch (error: any) {
         searchUserRequest.status = ServerRequestStatusType.Error;
         yield put(serverActions.sendRequest(searchUserRequest));
         yield put(globalActions.showMessage(error.message));
     }
 }
 
-/******************************************************************************/
-/******************************* WATCHERS *************************************/
-/******************************************************************************/
+/** *************************************************************************** */
+/** ***************************** WATCHERS ************************************ */
+/** *************************************************************************** */
 
 /**
  * Watch find people
@@ -202,7 +202,7 @@ function* watchFindPeople(action: { type: UserActionType; payload: any }) {
     const uid = authedUser.get('uid');
     try {
         yield call(dbFindPeopls, uid, '', page, limit);
-    } catch (error) {
+    } catch (error: any) {
         streamServerRequest.status = ServerRequestStatusType.Error;
         yield put(serverActions.sendRequest(streamServerRequest));
         yield put(globalActions.showMessage(error.message));
@@ -225,7 +225,7 @@ function* watchSearchUser(action: { type: UserActionType; payload: any }) {
             if (uid) {
                 yield call(dbSearchUser, uid, query, page, limit);
             }
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
             yield put(userActions.notMoreSearchPeople());
             throw error;
@@ -236,8 +236,8 @@ function* watchSearchUser(action: { type: UserActionType; payload: any }) {
 /**
  * Watch set user entities
  */
-function* watchSetUserEntities(action: { type: UserActionType; payload: any }) {
-    const users: Map<string, Map<string, any>> = fromJS(action.payload.users);
+function* watchSetUserEntities(action: { type: UserActionType; payload: any }): any {
+    const users: Map<string, Map<string, any>> = fromJS(action.payload.users) as  Map<string, Map<string, any>>;
     yield put(userActions.addPeopleInfo(users));
 }
 

@@ -18,19 +18,19 @@ const userSettingService: IUserSettingService = provider.get<IUserSettingService
     SocialProviderTypes.UserSettingService,
 );
 
-/***************************** Subroutines ************************************/
+/** *************************** Subroutines *********************************** */
 
 /**
  * Fetch user setting
  */
-function* dbFetchUserSetting() {
+function* dbFetchUserSetting(): any {
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
     if (uid) {
         try {
             const result = yield call(userSettingService.getUserSettings);
             yield put(userSettingActions.setUserSetting(result));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
         }
     }
@@ -51,7 +51,7 @@ function* dbUpdateUserSetting(action: { type: UserSettingActionType; payload: an
             });
             yield call(userSettingService.updateUserSetting, reqPayload);
             yield put(userSettingActions.updateUserSetting(payload.type, payload.setting));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
         }
     }
@@ -64,6 +64,7 @@ function* changeCurrentLang(action: any) {
     const { lang } = action.payload;
     AuthAPI.createCookie('social-lang', lang, 100000);
     i18n.changeLanguage(lang || 'en');
+    yield;
 }
 
 /**
@@ -72,6 +73,7 @@ function* changeCurrentLang(action: any) {
 function* SetCurrentLangFromCookie() {
     const lang = AuthAPI.readCookie('social-lang');
     i18n.changeLanguage(lang || 'en');
+    yield;
 }
 
 export default function* userSettingSaga() {

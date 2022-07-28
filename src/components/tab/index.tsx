@@ -3,11 +3,11 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 import React from 'react';
-import { createStyles, makeStyles, withStyles } from '@material-ui/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import { Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, withStyles } from '@mui/styles';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
 
 export const AntTabs = withStyles({
     root: {

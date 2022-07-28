@@ -5,8 +5,8 @@ import * as globalActions from 'redux/actions/globalActions';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { globalSelector } from 'redux/reducers/global/globalSelector';
 import { WithTranslation, withTranslation } from 'react-i18next';
+import { withStyles } from '@mui/styles';
 import { IPostWriteButtonProps } from './IPostWriteButtonProps';
-import { withStyles } from '@material-ui/styles';
 import { postWriteButtonStyles } from './postWriteButtonStyles';
 
 /**

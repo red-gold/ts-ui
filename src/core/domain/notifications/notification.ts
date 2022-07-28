@@ -22,6 +22,7 @@ export class Notification extends BaseDomain {
      * Creation date
      */
     public creationDate: number;
+
     /**
      * The identifier of the user who makes the notification
      */
@@ -31,6 +32,7 @@ export class Notification extends BaseDomain {
      * Notifier profile
      */
     public notifierProfile?: User;
+
     /**
      * The identifier of the user who receive the notification
      */

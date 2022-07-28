@@ -1,5 +1,6 @@
 import { User } from 'core/domain/users/user';
 import { Map } from 'immutable';
+
 export interface ICommentComponentProps {
     /**
      * Comment

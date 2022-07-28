@@ -1,6 +1,6 @@
 import React from 'react';
 // material
-import { ThemeProvider, createTheme, useTheme } from '@material-ui/core/styles';
+import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
 // hooks
 import useLocales from '../hooks/useLocales';
 

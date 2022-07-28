@@ -4,18 +4,25 @@
 // https://opensource.org/licenses/MIT
 
 import * as React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import EmojiIcon from '@material-ui/icons/EmojiEmotionsOutlined';
-import { Picker } from 'emoji-mart';
+import IconButton from '@mui/material/IconButton';
+import EmojiIcon from '@mui/icons-material/EmojiEmotionsOutlined';
+import { experimentalStyled as styled } from '@mui/material/styles';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Popper from '@mui/material/Popper';
+import { EmojiData } from 'emoji-mart';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 import { IEmojiProps } from './IEmojiPopover';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Popper from '@material-ui/core/Popper';
 
 const EmojiPickerRoot = styled('div')({
     overflow: 'hidden',
     boxShadow: 'rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 20px 40px -4px',
 });
+
+const CustomPopper = styled(Popper)({
+    zIndex: 1,
+});
+
 export default function EmojiPopover(props: IEmojiProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -27,6 +34,10 @@ export default function EmojiPopover(props: IEmojiProps) {
         setAnchorEl(null);
     };
 
+    const handleEmojiSelect = (emoji: EmojiData) => {
+        props.onSelect(emoji);
+    };
+
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
 
@@ -36,7 +47,7 @@ export default function EmojiPopover(props: IEmojiProps) {
                 <IconButton oaria-describedby={id} type="button" onClick={handleOpen}>
                     <EmojiIcon />
                 </IconButton>
-                <Popper
+                <CustomPopper
                     id={id}
                     open={open}
                     anchorEl={anchorEl}
@@ -69,15 +80,16 @@ export default function EmojiPopover(props: IEmojiProps) {
                         {open && (
                             <Picker
                                 native
+                                data={data}
                                 emojiSize={22}
                                 style={{ maxWidth: 332 }}
-                                onSelect={props.onSelect}
+                                onEmojiSelect={handleEmojiSelect}
                                 showPreview={false}
                                 custom={[]}
                             />
                         )}
                     </EmojiPickerRoot>
-                </Popper>
+                </CustomPopper>
             </div>
         </ClickAwayListener>
     );

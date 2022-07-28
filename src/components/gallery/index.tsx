@@ -4,25 +4,25 @@
 // https://opensource.org/licenses/MIT
 
 import React, { useEffect } from 'react';
-import ImageList from '@material-ui/core/ImageList';
-import Button from '@material-ui/core/Button';
-import { useStyles } from './galleryStyles';
-import { IGalleryProps } from './IGalleryProps';
-import { connectGallery } from './connectGallery';
+import ImageList from '@mui/material/ImageList';
+import Button from '@mui/material/Button';
 import config from 'config';
-import ImageListItem from '@material-ui/core/ImageListItem';
-import ImageListItemBar from '@material-ui/core/ImageListItemBar';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/DeleteSweep';
-import SelectIcon from '@material-ui/icons/CheckCircle';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/DeleteSweep';
+import SelectIcon from '@mui/icons-material/CheckCircle';
 import FileAPI from 'api/FileAPI';
-import uuid from 'uuid';
+import {v4 as uuid} from 'uuid';
 import { WithTranslation } from 'react-i18next';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import classNames from 'classnames';
-import Typography from '@material-ui/core/Typography';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import Typography from '@mui/material/Typography';
+import { experimentalStyled as styled } from '@mui/material/styles';
+import { connectGallery } from './connectGallery';
+import { IGalleryProps } from './IGalleryProps';
+import { useStyles } from './galleryStyles';
 
 const CustomIconButton = styled(IconButton)({
     color: '#fffffff5',
@@ -160,7 +160,7 @@ export function GalleryComponent(props: IGalleryProps & WithTranslation) {
     }, []);
 
     return (
-        <div className={classNames(classes.root, { inprogress: inprogress })}>
+        <div className={classNames(classes.root, { inprogress })}>
             {inprogress && (
                 <div className={classes.inprogress}>
                     <CircularProgress color="secondary" />

@@ -1,7 +1,7 @@
 import { OAuthType } from 'core/domain/authorize/oauthType';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
 import { inject, injectable } from 'inversify';
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { AuthAPI } from 'api/AuthAPI';
 import jwtDecode from 'jwt-decode';
@@ -18,6 +18,7 @@ export class AuthorizeService implements IAuthorizeService {
     @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
     // eslint-disable-next-line
     constructor() {}
+
     /**
      * Login the user
      */
@@ -31,7 +32,7 @@ export class AuthorizeService implements IAuthorizeService {
             const headers = { 'Content-Type': 'multipart/form-data' };
             const result = await this._httpService.post('auth/login', form, { headers });
             return result;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -140,7 +141,7 @@ export class AuthorizeService implements IAuthorizeService {
             const headers = { 'Content-Type': 'multipart/form-data' };
             const result = await this._httpService.post('auth/signup', form, { headers });
             return result;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -158,7 +159,7 @@ export class AuthorizeService implements IAuthorizeService {
             const headers = { 'Content-Type': 'multipart/form-data' };
             const result = await this._httpService.post('auth/signup/verify', form, { headers });
             return result;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -169,7 +170,7 @@ export class AuthorizeService implements IAuthorizeService {
     public changePassword = (currentPassword: string, newPassword: string, confirmPassword: string) => {
         try {
             return this._httpService.put('auth/password/change', { currentPassword, newPassword, confirmPassword });
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -217,8 +218,8 @@ export class AuthorizeService implements IAuthorizeService {
     };
 
     public loginWithOAuth: (type: OAuthType) => Promise<any> = () => {
-        const resource = window.location.href + '';
-        window.location.href = config.gateway.github_oauth_url + `?r=${resource}`;
+        const resource = `${window.location.href  }`;
+        window.location.href = `${config.gateway.github_oauth_url  }?r=${resource}`;
         return Promise.resolve(null);
     };
 

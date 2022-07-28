@@ -3,7 +3,7 @@ import { SocialError } from 'core/domain/common/socialError';
 import { ICommentService } from 'core/services/comments/ICommentService';
 import { Map, fromJS } from 'immutable';
 import { injectable, inject } from 'inversify';
-import { IHttpService } from 'core/services/webAPI/IHttpService';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { throwNoValue } from 'utils/errorHandling';
 
@@ -21,7 +21,7 @@ export class CommentService implements ICommentService {
         try {
             const result = await this._httpService.post('comments', comment);
             return result.objectId;
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -42,7 +42,7 @@ export class CommentService implements ICommentService {
                     const commentID = throwNoValue(comment.objectId, 'comment.objectId');
                     parsedData = parsedData.set(
                         commentID,
-                        fromJS({ ...comment, id: comment.objectId, creationDate: comment['created_date'] }),
+                        fromJS({ ...comment, id: comment.objectId, creationDate: comment.created_date }),
                     );
                     commentIds = commentIds.set(commentID, true);
                 });
@@ -54,7 +54,7 @@ export class CommentService implements ICommentService {
                 newLastCommentId: commentCount > 0 ? resultSearch[0].objectId : '',
                 hasMore: !(commentCount < (limit || 10)),
             };
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -65,7 +65,7 @@ export class CommentService implements ICommentService {
     public updateComment = async (comment: Comment) => {
         try {
             await this._httpService.put('comments', { ...comment, objectId: comment.id });
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };
@@ -78,7 +78,7 @@ export class CommentService implements ICommentService {
     public deleteComment = async (commentId: string, postId: string) => {
         try {
             await this._httpService.delete(`comments/id/${commentId}/post/${postId}`);
-        } catch (error) {
+        } catch (error: any) {
             throw new SocialError(error.code, error.message);
         }
     };

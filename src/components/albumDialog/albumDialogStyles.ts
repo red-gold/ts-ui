@@ -1,5 +1,5 @@
-import green from '@material-ui/core/colors/green';
-import { createStyles } from '@material-ui/styles';
+import green from '@mui/material/colors/green';
+import { createStyles } from '@mui/styles';
 
 export const albumDialogStyles = (theme: any) =>
     createStyles({

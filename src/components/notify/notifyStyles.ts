@@ -3,8 +3,8 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { makeStyles, createStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles/createTheme';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Theme } from '@mui/material/styles/createTheme';
 
 export const useStyles = makeStyles((theme: Theme) =>
     createStyles({

@@ -3,11 +3,10 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { NavLink as RouterLink, matchPath, useLocation } from 'react-router-dom';
+import { Link as RouterLink, matchPath, useLocation } from 'react-router-dom';
+import ListItem from '@mui/material/ListItem';
+import Button from '@mui/material/Button/Button';
 import { INavItemProps } from './INavItemProps';
-import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import Button from '@material-ui/core/Button/Button';
 
 function NavItem(props: INavItemProps) {
     const { href, icon: Icon, title } = props;

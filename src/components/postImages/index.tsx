@@ -5,12 +5,12 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import * as React from 'react';
 import Img from 'components/img';
-import { IPostImagesProps } from './IPostImagesProps';
-import SvgRemoveImage from '@material-ui/icons/RemoveCircle';
-import SvgPlay from '@material-ui/icons/PlayCircleFilled';
+import SvgRemoveImage from '@mui/icons-material/RemoveCircle';
+import SvgPlay from '@mui/icons-material/PlayCircleFilled';
 import classNames from 'classnames';
-import { useStyles } from './postImagesStyles';
 import { PostType } from 'core/domain/posts/postType';
+import { useStyles } from './postImagesStyles';
+import { IPostImagesProps } from './IPostImagesProps';
 
 export default function PostImages({ onRemoveImage, postType, image, thumbnail }: IPostImagesProps) {
     const classes = useStyles();

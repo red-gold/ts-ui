@@ -5,6 +5,7 @@ import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { IServerAction } from './IServerAction';
 import { ServerState } from './ServerState';
 
+// eslint-disable-next-line default-param-last
 export const serverReducer = (state = Map(new ServerState() as any), action: IServerAction) => {
     const { payload } = action;
     switch (action.type) {
