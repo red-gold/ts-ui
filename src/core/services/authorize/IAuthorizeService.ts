@@ -11,7 +11,7 @@ export interface IAuthorizeService {
     /**
      * Login the user
      */
-    login: (email: string, password: string) => Promise<{ user: LoginUser; redirect: string }>;
+    login: (email: string, password: string) => Promise<{ user: LoginUser; redirect: string; accessToken: string }>;
 
     /**
      * Whether user is loged in or not

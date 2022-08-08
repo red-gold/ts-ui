@@ -38,14 +38,14 @@ const createCookie = (name: string, value: string, days: number) => {
     if (days) {
         const date = new Date();
         date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        expires = `; expires=${  date.toUTCString()}`;
+        expires = `; expires=${date.toUTCString()}`;
     } else expires = '';
-    const domain = `${location.hostname.split('.').reverse()[1]  }.${  location.hostname.split('.').reverse()[0]}`;
+    const domain = `${location.hostname.split('.').reverse()[1]}.${location.hostname.split('.').reverse()[0]}`;
     document.cookie = `${name}=${value}${expires};domain=${domain};path=/`;
 };
 
 const readCookie = (name: string) => {
-    const nameEQ = `${name  }=`;
+    const nameEQ = `${name}=`;
     const ca = document.cookie.split(';');
     for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
@@ -56,9 +56,17 @@ const readCookie = (name: string) => {
 };
 
 const eraseCookie = (name: string) => {
-    document.cookie =
-        `${name 
-        }=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;Domain=.${document.domain.split('.').splice(1).join('.')}`;
+    console.log(
+        `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;Domain=.${document.domain
+            .split('.')
+            .splice(1)
+            .join('.')}`,
+        readCookie(name),
+    );
+    document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;Domain=.${document.domain
+        .split('.')
+        .splice(1)
+        .join('.')}`;
 };
 
 export const AuthAPI = {

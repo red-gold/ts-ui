@@ -84,7 +84,7 @@ function CommentInput(props: ICommentInputProps) {
     const handleSelectEmoji = (emoji: any) => {
         console.log(commentText, emoji);
 
-        setCommentText(emoji.id);
+        setCommentText(commentText + emoji.native);
     };
 
     return (

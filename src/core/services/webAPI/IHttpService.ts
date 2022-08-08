@@ -13,5 +13,5 @@ export interface IHttpService {
     put: (url: string, payload?: any, reqConfig?: { params: any }) => Promise<any>;
     delete: (url: string) => Promise<any>;
     getWithoutAuth: (url: string, params?: any) => Promise<any>;
-    postWithoutAuth: (url: string, payload?: any) => Promise<any>;
+    postWithoutAuth: (url: string, payload?: any, opt?: { headers?: any }) => Promise<any>;
 }

@@ -30,7 +30,7 @@ export class AuthorizeService implements IAuthorizeService {
             form.append('responseType', 'spa');
 
             const headers = { 'Content-Type': 'multipart/form-data' };
-            const result = await this._httpService.post('auth/login', form, { headers });
+            const result = await this._httpService.postWithoutAuth('auth/login', form, { headers });
             return result;
         } catch (error: any) {
             throw new SocialError(error.code, error.message);
@@ -218,8 +218,8 @@ export class AuthorizeService implements IAuthorizeService {
     };
 
     public loginWithOAuth: (type: OAuthType) => Promise<any> = () => {
-        const resource = `${window.location.href  }`;
-        window.location.href = `${config.gateway.github_oauth_url  }?r=${resource}`;
+        const resource = `${window.location.href}`;
+        window.location.href = `${config.gateway.github_oauth_url}?r=${resource}`;
         return Promise.resolve(null);
     };
 

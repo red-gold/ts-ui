@@ -12,6 +12,7 @@ const ROOTS_MAIN = '/';
 export const PATH_AUTH = {
     root: ROOTS_AUTH,
     login: path(ROOTS_AUTH, '/login'),
+    loginSession: path(ROOTS_AUTH, '/session'),
     loginUnprotected: path(ROOTS_AUTH, '/login-unprotected'),
     register: path(ROOTS_AUTH, '/register'),
     registerUnprotected: path(ROOTS_AUTH, '/register-unprotected'),

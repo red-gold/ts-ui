@@ -1,13 +1,12 @@
 import type { IHttpService } from 'core/services/webAPI/IHttpService';
-import { injectable , inject } from 'inversify';
+import { injectable, inject } from 'inversify';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import config from 'config';
 import axios, { AxiosRequestConfig } from 'axios';
 import type { IPermissionService } from 'core/services/security/IPermissionService';
 import { SocialError } from 'core/domain/common/socialError';
 import { log } from 'utils/log';
-
-axios.defaults.withCredentials = true;
+import axiosInstance from 'utils/axios';
 
 @injectable()
 export class HttpService implements IHttpService {
@@ -25,7 +24,7 @@ export class HttpService implements IHttpService {
         url = this.parseURL(url);
         const validURL = config.rewrites[url] || url;
         const requestURL = `${config.gateway.gateway_uri}/${validURL}`;
-        const result = await axios.get(requestURL);
+        const result = await axiosInstance.get(requestURL);
         return result.data;
     }
 
@@ -42,7 +41,7 @@ export class HttpService implements IHttpService {
             }
         }
         try {
-            const result = await axios.post(`${config.gateway.gateway_uri}/${validURL}`, payload, axiosConfig);
+            const result = await axiosInstance.post(`${config.gateway.gateway_uri}/${validURL}`, payload, axiosConfig);
             return result.data;
         } catch (error: any) {
             return this.handleError(error);
@@ -69,7 +68,7 @@ export class HttpService implements IHttpService {
         };
 
         try {
-            const result = await axios.post(`${config.gateway.gateway_uri}/${validURL}`, payload, reqConfig);
+            const result = await axiosInstance.post(`${config.gateway.gateway_uri}/${validURL}`, payload, reqConfig);
             return result.data;
         } catch (error: any) {
             log.error(error);
@@ -88,7 +87,7 @@ export class HttpService implements IHttpService {
                 if (data.isError) {
                     errorData.code = data.code;
                     errorData.message = data.message;
-                } else if (error.response.status == 413) {
+                } else if (error.response.status === 413) {
                     errorData.code = 'HttpService/LargeFile';
                     errorData.message = `The file is too large.`;
                 } else {
@@ -128,7 +127,7 @@ export class HttpService implements IHttpService {
         const validURL = config.rewrites[url] || url;
         const requestURL = `${config.gateway.gateway_uri}/${validURL}`;
         try {
-            const result = await axios.put(requestURL, payload, reqConfig);
+            const result = await axiosInstance.put(requestURL, payload, reqConfig);
             return result.data;
         } catch (error: any) {
             return this.handleError(error);
@@ -142,7 +141,7 @@ export class HttpService implements IHttpService {
         url = this.parseURL(url);
         const validURL = config.rewrites[url] || url;
         const requestURL = `${config.gateway.gateway_uri}/${validURL}`;
-        const result = await axios.delete(requestURL);
+        const result = await axiosInstance.delete(requestURL);
         return result.data;
     }
 
@@ -158,12 +157,19 @@ export class HttpService implements IHttpService {
     }
 
     /**
-     * Http Post by token id
+     * Http Post without token
      */
-    public async postWithoutAuth(url: string, payload?: any) {
+    public async postWithoutAuth(url: string, payload?: any, opt?: { headers?: any }) {
         url = this.parseURL(url);
+        const validURL = config.rewrites[url] || url;
+        const axiosConfig: AxiosRequestConfig = {};
+        if (opt) {
+            if (opt.headers) {
+                axiosConfig.headers = opt.headers;
+            }
+        }
         try {
-            const result = await axios.post(`${config.gateway.gateway_uri}/${url}`, payload);
+            const result = await axios.post(`${config.gateway.gateway_uri}/${validURL}`, payload, axiosConfig);
             return result.data;
         } catch (error: any) {
             return this.handleError(error);
@@ -220,8 +226,9 @@ export class HttpService implements IHttpService {
             if (newURL.includes('?')) {
                 return newURL.split('?').join('/?');
             }
-            return `${newURL  }/`;
+            return `${newURL}/`;
         }
         return newURL;
-    }
+    };
+    
 }
