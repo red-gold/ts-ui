@@ -6,8 +6,7 @@ import i18n from 'locales/i18n';
 import 'typeface-roboto';
 
 import { BrowserRouter } from 'react-router-dom';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -16,7 +15,6 @@ import * as userSettingActions from 'redux/actions/userSettingActions';
 import * as globalActions from 'redux/actions/globalActions';
 import { store, runSaga } from 'redux/store';
 import rootSaga from 'redux/sagas/rootSaga';
-
 
 import App from 'App';
 import { AuthProvider } from 'contexts/JWTContext';
@@ -43,8 +41,10 @@ store.dispatch(globalActions.initLocale());
 try {
     injectTapEventPlugin();
 } catch (e) {}
+const container = document.getElementById('app') as HTMLElement;
+const root = createRoot(container!);
 
-ReactDOM.render(
+root.render(
     <Provider store={store}>
         <I18nextProvider i18n={i18n}>
             <BrowserRouter>
@@ -54,7 +54,6 @@ ReactDOM.render(
             </BrowserRouter>
         </I18nextProvider>
     </Provider>,
-    document.getElementById('app') as HTMLElement,
 );
 
 // If you want your app to work offline and load faster, you can change

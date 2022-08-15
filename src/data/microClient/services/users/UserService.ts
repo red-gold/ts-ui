@@ -11,7 +11,7 @@ import { inject, injectable } from 'inversify';
  */
 @injectable()
 export class UserService implements IUserService {
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
 
     constructor() {
         this.getSearchKey = this.getSearchKey.bind(this);
@@ -26,7 +26,7 @@ export class UserService implements IUserService {
             const result = await this._httpService.get(`profile/id/${userId}`);
             return { ...result, userId: result.objectId, creationDate: result.created_date } as User;
         } catch (error: any) {
-            throw new SocialError(error.code, `service/getUserProfile :${  error.message}`);
+            throw new SocialError(error.code, `service/getUserProfile :${error.message}`);
         }
     };
 
@@ -38,7 +38,7 @@ export class UserService implements IUserService {
             const result = await this._httpService.get(`profile/social/${socialName}`);
             return { ...result, userId: result.objectId, creationDate: result.created_date } as User;
         } catch (error: any) {
-            throw new SocialError(error.code, `service/getUserProfile :${  error.message}`);
+            throw new SocialError(error.code, `service/getUserProfile :${error.message}`);
         }
     };
 
@@ -51,7 +51,7 @@ export class UserService implements IUserService {
 
             return { ...result, userId: result.objectId, creationDate: result.created_date } as User;
         } catch (error: any) {
-            throw new SocialError(error.code, `service/getUserProfile :${  error.message}`);
+            throw new SocialError(error.code, `service/getUserProfile :${error.message}`);
         }
     };
 

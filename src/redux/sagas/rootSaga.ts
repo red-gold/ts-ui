@@ -11,6 +11,7 @@ import notificationSaga from './notificationSaga';
 import postSaga from './postSaga';
 import userSaga from './userSaga';
 import userSettingSaga from './userSettingSaga';
+import vangSaga from './vangSaga';
 
 export default function* root() {
     yield all([
@@ -25,5 +26,6 @@ export default function* root() {
         gallerySaga(),
         notificationSaga(),
         circleSaga(),
+        vangSaga(),
     ]);
 }

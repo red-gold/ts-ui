@@ -7,7 +7,7 @@ import { ICommonService } from 'core/services/common/ICommonService';
  */
 @injectable()
 export class CommonService implements ICommonService {
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
 
     /**
      * Get twitter media

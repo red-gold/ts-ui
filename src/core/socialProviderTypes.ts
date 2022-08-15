@@ -16,5 +16,6 @@ export const SocialProviderTypes = {
     UserService: Symbol('UserService'),
     UserSettingService: Symbol('UserSettingService'),
     VoteService: Symbol('VoteService'),
-    Httpervice: Symbol('Httpervice'),
+    HttpService: Symbol('HttpService'),
+    VangService: Symbol('VangService'),
 };

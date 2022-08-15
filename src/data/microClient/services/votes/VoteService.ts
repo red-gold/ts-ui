@@ -11,7 +11,7 @@ import { Map } from 'immutable';
  */
 @injectable()
 export class VoteService implements IVoteService {
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
 
     /**
      * Add vote

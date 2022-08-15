@@ -8,11 +8,12 @@ import { ICommentService } from 'core/services/comments/ICommentService';
 import { ICommonService } from 'core/services/common/ICommonService';
 import { IImageGalleryService } from 'core/services/imageGallery/IImageGalleryService';
 import { INotificationService } from 'core/services/notifications/INotificationService';
-import type { IPostService } from 'core/services/posts/IPostService';
+import { IPostService } from 'core/services/posts/IPostService';
 import { IVoteService } from 'core/services/votes/IVoteService';
 import { IUserTieService } from 'core/services/circles/IUserTieService';
-import type { IPermissionService } from 'core/services/security/IPermissionService';
-import type { IStorageService } from 'core/services/files/IStorageService';
+import { IPermissionService } from 'core/services/security/IPermissionService';
+import { IStorageService } from 'core/services/files/IStorageService';
+import { IVangService } from 'core/services/vang/IVangService';
 import { GraphService } from './services/graphs/GraphService';
 import { IGraphService } from './services/graphs/IGraphService';
 import { VoteService } from './services/votes/VoteService';
@@ -29,11 +30,12 @@ import { OpenFaaSClient } from './openFaaSClientTypes';
 import { UserTieService } from './services/circles/UserTieService';
 import { UserSettingService } from './services/users/UserSettingService';
 import { PermissionService } from './services/security/PermissionService';
+import { VangService } from './services/vang/VangService';
 
 /**
- * Register telar client dependecies
+ * Register telar microservice dependecies
  */
-export const useOpenFaaS = (container: Container) => {
+export const useMicros = (container: Container) => {
     container.bind<IPermissionService>(SocialProviderTypes.PermissionService).to(PermissionService);
     container.bind<IAuthorizeService>(SocialProviderTypes.AuthorizeService).to(AuthorizeService);
     container.bind<ICircleService>(SocialProviderTypes.CircleService).to(CircleService);
@@ -48,4 +50,5 @@ export const useOpenFaaS = (container: Container) => {
     container.bind<IGraphService>(OpenFaaSClient.GraphService).to(GraphService);
     container.bind<IUserTieService>(SocialProviderTypes.UserTieService).to(UserTieService);
     container.bind<IUserSettingService>(SocialProviderTypes.UserSettingService).to(UserSettingService);
-}
+    container.bind<IVangService>(SocialProviderTypes.VangService).to(VangService);
+};

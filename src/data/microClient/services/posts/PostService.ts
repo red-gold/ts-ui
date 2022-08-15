@@ -12,7 +12,7 @@ import { Map, fromJS } from 'immutable';
  */
 @injectable()
 export class PostService implements IPostService {
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
 
     constructor() {
         this.getSearchKey = this.getSearchKey.bind(this);

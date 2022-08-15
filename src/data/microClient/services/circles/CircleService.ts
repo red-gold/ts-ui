@@ -11,7 +11,7 @@ import { SocialProviderTypes } from 'core/socialProviderTypes';
  */
 @injectable()
 export class CircleService implements ICircleService {
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
 
     public addCircle = async (userId: string, circle: Circle) => {
         try {

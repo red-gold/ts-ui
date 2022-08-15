@@ -12,7 +12,7 @@ import { throwNoValue } from 'utils/errorHandling';
  */
 @injectable()
 export class CommentService implements ICommentService {
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
 
     /**
      * Add comment

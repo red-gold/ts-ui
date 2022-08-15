@@ -15,7 +15,7 @@ import { UserRegisterModel } from 'models/users/userRegisterModel';
  */
 @injectable()
 export class AuthorizeService implements IAuthorizeService {
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
     // eslint-disable-next-line
     constructor() {}
 
@@ -58,9 +58,8 @@ export class AuthorizeService implements IAuthorizeService {
      * Get user auth
      */
     public getUserAuth = () => {
-        const cookie = this.getUserAuthCookie();
-        if (cookie) {
-            const token = `.${cookie.payload}.`;
+        const token = this.getAccessToken();
+        if (token) {
             const decodedToken = jwtDecode(token);
 
             if (this.isJwtExpired(decodedToken)) {
@@ -77,14 +76,11 @@ export class AuthorizeService implements IAuthorizeService {
      * Get access token
      */
     public getAccessToken = () => {
-        const cookie = this.getUserAuthCookie();
-        if (cookie.payload === null) {
-            throw new Error('Cookie payload is null!');
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) {
+            throw new Error('Access token is undefined!');
         }
-        if (cookie) {
-            return `.${cookie.payload}.`;
-        }
-        return null;
+        return accessToken;
     };
 
     /**

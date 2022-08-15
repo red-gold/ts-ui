@@ -7,5 +7,5 @@ import { HttpService } from 'data/webAPI/services/httpService';
  * Register http service dependecies
  */
 export const useHttpService = (container: Container) => {
-    container.bind<IHttpService>(SocialProviderTypes.Httpervice).to(HttpService);
+    container.bind<IHttpService>(SocialProviderTypes.HttpService).to(HttpService);
 };

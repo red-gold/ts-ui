@@ -56,13 +56,7 @@ const readCookie = (name: string) => {
 };
 
 const eraseCookie = (name: string) => {
-    console.log(
-        `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;Domain=.${document.domain
-            .split('.')
-            .splice(1)
-            .join('.')}`,
-        readCookie(name),
-    );
+ 
     document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;Domain=.${document.domain
         .split('.')
         .splice(1)

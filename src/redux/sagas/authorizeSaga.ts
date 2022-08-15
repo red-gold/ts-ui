@@ -8,6 +8,7 @@ import { SignupStepEnum } from 'models/authorize/signupStepEnum';
 import * as authorizeActions from 'redux/actions/authorizeActions';
 import * as globalActions from 'redux/actions/globalActions';
 import * as serverActions from 'redux/actions/serverActions';
+import * as vangActions from 'redux/actions/vangActions';
 
 import { UserClaim } from 'core/domain/authorize/userClaim';
 import { AuthorizeState } from 'models/authorize/authorizeState';
@@ -26,6 +27,7 @@ const authorizeService: IAuthorizeService = provider.get<IAuthorizeService>(Soci
  * On logout user
  */
 function* onLogoutUser() {
+    yield put(vangActions.wsDisconnect());
     yield call(authorizeService.logout);
     yield put(authorizeActions.logout());
     yield put(globalActions.clearLoadedData());

@@ -7,7 +7,7 @@ import { log } from 'utils/log';
 
 @injectable()
 export class StorageService implements IStorageService {
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
 
     /**
      * Upload file on the server

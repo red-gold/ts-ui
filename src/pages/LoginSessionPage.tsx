@@ -1,15 +1,19 @@
 import AuthWrapper from 'containers/authWrapper';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { setSession } from 'utils/jwt';
 
 export default function LoginSessionPage() {
     const [searchParams] = useSearchParams();
 
-    useEffect(() => {});
+    useEffect(() => {
+        const accessToken = searchParams.get('access_token');
+        const redirectURL = searchParams.get('r') || document.domain;
+        if (accessToken) {
+            setSession(accessToken);
+        }
+        window.location.replace(redirectURL);
+    }, [searchParams]);
 
-    return (
-        <AuthWrapper>
-            <h1>Processing ...{searchParams}</h1>
-        </AuthWrapper>
-    );
+    return <AuthWrapper children={undefined} />;
 }

@@ -32,7 +32,6 @@ export function UserItem(props: IUserItemProps) {
         if (disableProfile) {
             return;
         }
-        console.log(PATH_MAIN.user.profile.replace(':socialName', user.get('socialName')));
         navigate(PATH_MAIN.user.profile.replace(':socialName', user.get('socialName')));
     };
 

@@ -9,6 +9,7 @@ import * as postActions from 'redux/actions/postActions';
 import * as userActions from 'redux/actions/userActions';
 import * as userSettingActions from 'redux/actions/userSettingActions';
 import * as voteActions from 'redux/actions/voteActions';
+import * as vangActions from 'redux/actions/vangActions';
 import { implementPromiseAction } from '@adobe/redux-saga-promise';
 
 /** *************************** Subroutines *********************************** */
@@ -32,6 +33,7 @@ function* clearLoadedData() {
  */
 function* loadInitialData(action: any) {
     yield call(implementPromiseAction, action, function* () {
+        yield put(vangActions.wsConnect());
         yield put(userSettingActions.dbFetchUserSetting());
         yield put(notifyActions.dbGetNotifications());
         yield put(circleActions.dbGetCircles());

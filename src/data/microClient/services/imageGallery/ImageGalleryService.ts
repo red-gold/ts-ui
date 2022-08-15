@@ -9,7 +9,7 @@ import { FileResult } from 'models/files/fileResult';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { PhotoModel } from 'models/gallery/photoModel';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 import type { IPostService } from 'core/services/posts/IPostService';
 
 /**
@@ -21,7 +21,7 @@ export class ImageGalleryService implements IImageGalleryService {
 
     @inject(SocialProviderTypes.PostService) private _postService: IPostService;
 
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
 
     constructor() {
         this.uploadFile = this.uploadFile.bind(this);

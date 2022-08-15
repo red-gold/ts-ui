@@ -13,7 +13,7 @@ import { throwNoValue } from 'utils/errorHandling';
  */
 @injectable()
 export class UserTieService implements IUserTieService {
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
     // eslint-disable-next-line
     constructor() {}
 
@@ -44,7 +44,7 @@ export class UserTieService implements IUserTieService {
             const result = await this._httpService.post('user-rels/follow', payload);
             return result.objectId;
         } catch (error: any) {
-            throw new SocialError(error.code, `service/tieUseres :${  error.message}`);
+            throw new SocialError(error.code, `service/tieUseres :${error.message}`);
         }
     };
 
@@ -59,7 +59,7 @@ export class UserTieService implements IUserTieService {
             };
             await this._httpService.put('user-rels/circles', payload);
         } catch (error: any) {
-            throw new SocialError(error.code, `service/updateUsersTie :${  error.message}`);
+            throw new SocialError(error.code, `service/updateUsersTie :${error.message}`);
         }
     };
 
@@ -70,7 +70,7 @@ export class UserTieService implements IUserTieService {
         try {
             await this._httpService.delete(`user-rels/unfollow/${secondUserId}`);
         } catch (error: any) {
-            throw new SocialError(error.code, `service/removeUsersTie :${  error.message}`);
+            throw new SocialError(error.code, `service/removeUsersTie :${error.message}`);
         }
     };
 
@@ -100,7 +100,7 @@ export class UserTieService implements IUserTieService {
             });
             return parsedData;
         } catch (error: any) {
-            throw new SocialError(error.code, `service/getUserTies :${  error.message}`);
+            throw new SocialError(error.code, `service/getUserTies :${error.message}`);
         }
     };
 
@@ -131,7 +131,7 @@ export class UserTieService implements IUserTieService {
             });
             return parsedData;
         } catch (error: any) {
-            throw new SocialError(error.code, `service/getUserTieSender :${  error.message}`);
+            throw new SocialError(error.code, `service/getUserTieSender :${error.message}`);
         }
     };
 }

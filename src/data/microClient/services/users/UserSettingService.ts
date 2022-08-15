@@ -11,7 +11,7 @@ import { Map } from 'immutable';
  */
 @injectable()
 export class UserSettingService implements IUserSettingService {
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService;
+    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
 
     public updateUserSetting = async (userSetting: UserSetting) => {
         try {
