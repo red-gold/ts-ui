@@ -10,7 +10,6 @@
         "start-js": "craco start",
         "start": "npm-run-all -p watch-css start-js",
         "build-js": "craco build",
-        "postbuild": "rm -rf ts-frontend/dist && cp -R build ts-frontend/dist",
         "build": "GENERATE_SOURCEMAP=false npm-run-all build-css build-js",
         "test": "NODE_ENV=test craco test --env=jsdom --modulePaths=src --moduleNameMapper='{\"^src/(.*)$\": \"<rootDir>/src/$1\", \"^models/(.*)$\": \"<rootDir>/src/models/$1\", \"^locales/(.*)$\": \"<rootDir>/src/locales/$1\", \"^config$\": \"<rootDir>/src/config/index\"}'",
         "lint": "eslint '*/**/*.{js,ts,tsx}'",
