@@ -12,7 +12,8 @@ import useLocales from 'hooks/useLocales';
 // eslint-disable-next-line consistent-return
 function maxLength(object: any) {
     if (object.target.value.length > object.target.maxLength) {
-        return (object.target.value = object.target.value.slice(0, object.target.maxLength));
+        object.target.value = object.target.value.slice(0, object.target.maxLength);
+        return object.target.value;
     }
 }
 

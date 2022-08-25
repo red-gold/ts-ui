@@ -1,3 +1,4 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import withStyles from '@mui/styles/withStyles/withStyles';

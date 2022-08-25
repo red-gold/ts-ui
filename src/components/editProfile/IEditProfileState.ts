@@ -17,11 +17,6 @@ export interface IEditProfileState {
     isImageEditorOpen: boolean;
 
     /**
-     * Image URL of image editor
-     */
-    imageEditorUrl: string;
-
-    /**
      * User's original banner URL
      */
     originalBanner: string;
@@ -30,11 +25,6 @@ export interface IEditProfileState {
      * Tag line input value
      */
     tagLineInput: string;
-
-    /**
-     * Edit profile page is small size {true} or big {false}
-     */
-    isSmall: boolean;
 
     /**
      * User's banner URL

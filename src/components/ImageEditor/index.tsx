@@ -26,7 +26,7 @@ import config from 'config';
 import * as globalActions from 'redux/actions/globalActions';
 import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 import { useDispatch } from 'redux/store';
 import { IImageEditorComponentState } from './IImageEditorComponentState';
@@ -67,8 +67,6 @@ export class ImageEditorComponent extends Component<
      */
     cropperRef: any;
 
-    imageRef: any;
-
     _imageGalleryService: IImageGalleryService;
 
     constructor(props: IImageEditorComponentProps & WithTranslation) {
@@ -76,7 +74,6 @@ export class ImageEditorComponent extends Component<
         this._imageGalleryService = provider.get<IImageGalleryService>(SocialProviderTypes.ImageGalleryService);
         // Defaul state
         this.state = {
-            link: '',
             disabledOk: true,
             loading: true,
         };
@@ -88,16 +85,8 @@ export class ImageEditorComponent extends Component<
      * Handle add link
      */
     handleCropDone = () => {
-        const {
-            onClose,
-            progress,
-            onSetUrl,
-            showTopLoading,
-            hideTopLoading,
-            saveImage,
-            showError,
-            currentUser,
-        } = this.props;
+        const { onClose, progress, onSetUrl, showTopLoading, hideTopLoading, saveImage, showError, currentUser } =
+            this.props;
         if (showTopLoading) {
             showTopLoading();
         }

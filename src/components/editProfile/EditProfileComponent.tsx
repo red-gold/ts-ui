@@ -10,7 +10,7 @@ import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
 import AppDialogTitle from 'oldComponents/dialogTitle/DialogTitleComponent';
 import moment from 'moment/moment';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { WithTranslation } from 'react-i18next';
 import config from 'config';
 import { Map } from 'immutable';
@@ -29,10 +29,6 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
         const { currentUser } = props;
         // Defaul state
         this.state = {
-            /**
-             * If it's true the winow is in small size
-             */
-            isSmall: false,
             /**
              * User tag line input value
              */
@@ -61,10 +57,6 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
              * Whether image editor is open
              */
             isImageEditorOpen: false,
-            /**
-             * Image URL of image editor
-             */
-            imageEditorUrl: '',
             /**
              * User's original banner URL
              */
@@ -174,15 +166,6 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
     };
 
     /**
-     * Open image image editor
-     */
-    handleOpenImageEditor = () => {
-        this.setState({
-            isImageEditorOpen: true,
-        });
-    };
-
-    /**
      * Close image image editor
      */
     handleCloseImageEditor = () => {
@@ -259,9 +242,9 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
      * Handle data on input change
      */
     handleInputChange = (event: any) => {
-        const target = event.target;
+        const { target } = event;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+        const { name } = target;
         this.setState(
             {
                 [name]: value,
@@ -299,19 +282,10 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
         this.setState({ selectedBirthday: date });
     };
 
-    componentDidMount() {}
-
     render() {
         const { classes, t, coverImages, avatarImages, currentUser } = this.props;
-        const {
-            webUrl,
-            twitterId,
-            companyName,
-            selectedBirthday,
-            isImageEditorOpen,
-            originalBanner,
-            facebookId,
-        } = this.state;
+        const { webUrl, twitterId, companyName, selectedBirthday, isImageEditorOpen, originalBanner, facebookId } =
+            this.state;
 
         return (
             <div>

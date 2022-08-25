@@ -44,20 +44,6 @@ const CommentEdit = styled('div')({
 });
 
 export class CommentComponent extends Component<ICommentComponentProps & WithTranslation, ICommentComponentState> {
-    static propTypes = {
-        /**
-         * Comment object
-         */
-        comment: PropTypes.object,
-        /**
-         * If it's true the post owner is the logged in user which this post be long to the comment
-         */
-        isPostOwner: PropTypes.bool,
-        /**
-         * If it's true the comment is disable to write
-         */
-        disableComments: PropTypes.bool,
-    };
 
     /**
      * DOM styles
@@ -91,29 +77,10 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
         },
     };
 
-    /**
-     * Fields
-     *
-     * @type {*}
-     * @memberof CommentComponent
-     */
-    textareaRef: any;
-
-    divCommentRef: any;
-
-    inputText: any;
-
-    divComment: any;
-
     constructor(props: ICommentComponentProps & WithTranslation) {
         super(props);
 
-        this.textareaRef = (i: any) => {
-            this.inputText = i;
-        };
-        this.divCommentRef = (i: any) => {
-            this.divComment = i;
-        };
+   
 
         // Defaul state
         this.state = {
@@ -130,10 +97,6 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
              */
             editDisabled: true,
             /**
-             * If it's true the post owner is the logged in user which this post be long to the comment
-             */
-            isPostOwner: false,
-            /**
              * The anchor of comment menu element
              */
             openMenu: false,
@@ -141,7 +104,6 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
              * Anchor element
              */
             anchorEl: null,
-            emojiOpen: false,
         };
 
         // Binding functions to `this`
@@ -181,30 +143,6 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
         }
     };
 
-    /**
-     * Handle toggle emoji
-     */
-    handleToggleEmoji = () => {
-        if (this.state.emojiOpen) {
-            this.handleCloseEmojiMenu();
-        } else {
-            this.handleOpenEmojiMenu();
-        }
-    };
-
-    /**
-     * Handle open emoji menu
-     */
-    handleOpenEmojiMenu = () => {
-        this.setState({ emojiOpen: true });
-    };
-
-    /**
-     * Handle close emoji menu
-     */
-    handleCloseEmojiMenu = () => {
-        this.setState({ emojiOpen: false });
-    };
 
     /**
      * Handle edit comment
@@ -216,9 +154,11 @@ export class CommentComponent extends Component<ICommentComponentProps & WithTra
         if (update) {
             update(updateComment);
         }
-        this.setState({
-            initialText: this.state.text,
-        });
+        this.setState(
+            (prevState)=>{
+                return {initialText:prevState.text};
+             }
+         );
     };
 
     /**

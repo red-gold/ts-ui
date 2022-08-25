@@ -17,7 +17,9 @@ export default function DatePicker(props: IDatePickerProps) {
                 label={props.placeholder}
                 value={props.selectedDate}
                 onChange={props.dateChange}
-                renderInput={(params: JSX.IntrinsicAttributes & TextFieldProps) => <TextField fullWidth={props.fullWidth} {...params} margin="normal" />}
+                renderInput={(params: JSX.IntrinsicAttributes & TextFieldProps) => (
+                    <TextField fullWidth={props.fullWidth} {...params} margin="normal" />
+                )}
             />
         </LocalizationProvider>
     );

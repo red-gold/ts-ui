@@ -24,14 +24,6 @@ export interface ICommentComponentState {
     editDisabled: boolean;
 
     /**
-     * Current user is the post owner {true} or not falses
-     *
-     * @type {boolean}
-     * @memberof ICommentComponentState
-     */
-    isPostOwner: boolean;
-
-    /**
      * Display comment {true} or not {false}
      *
      * @type {boolean}
@@ -48,5 +40,4 @@ export interface ICommentComponentState {
      * Anchor element
      */
     anchorEl: any;
-    emojiOpen: boolean;
 }
