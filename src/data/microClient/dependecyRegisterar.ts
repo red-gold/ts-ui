@@ -26,7 +26,7 @@ import { AuthorizeService } from './services/authorize/AuthorizeService';
 import { CircleService } from './services/circles/CircleService';
 import { ImageGalleryService } from './services/imageGallery/ImageGalleryService';
 import { NotificationService } from './services/notifications/notificationService';
-import { OpenFaaSClient } from './openFaaSClientTypes';
+import { MicroClient } from './microClientTypes';
 import { UserTieService } from './services/circles/UserTieService';
 import { UserSettingService } from './services/users/UserSettingService';
 import { PermissionService } from './services/security/PermissionService';
@@ -47,7 +47,7 @@ export const useMicros = (container: Container) => {
     container.bind<IPostService>(SocialProviderTypes.PostService).to(PostService);
     container.bind<IUserService>(SocialProviderTypes.UserService).to(UserService);
     container.bind<IVoteService>(SocialProviderTypes.VoteService).to(VoteService);
-    container.bind<IGraphService>(OpenFaaSClient.GraphService).to(GraphService);
+    container.bind<IGraphService>(MicroClient.GraphService).to(GraphService);
     container.bind<IUserTieService>(SocialProviderTypes.UserTieService).to(UserTieService);
     container.bind<IUserSettingService>(SocialProviderTypes.UserSettingService).to(UserSettingService);
     container.bind<IVangService>(SocialProviderTypes.VangService).to(VangService);

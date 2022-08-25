@@ -7,6 +7,7 @@ import type { IPermissionService } from 'core/services/security/IPermissionServi
 import { SocialError } from 'core/domain/common/socialError';
 import { log } from 'utils/log';
 import axiosInstance from 'utils/axios';
+
 axios.defaults.withCredentials = true;
 
 @injectable()
@@ -230,6 +231,5 @@ export class HttpService implements IHttpService {
             return `${newURL}/`;
         }
         return newURL;
-    };
-    
+    }
 }
