@@ -1,24 +1,17 @@
 import List from '@mui/material/List';
 import CircleComponent from 'components/circle/CircleComponent';
 import { Map } from 'immutable';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import { IYourCirclesComponentProps } from './IYourCirclesComponentProps';
 import { IYourCirclesComponentState } from './IYourCirclesComponentState';
 
-// - Import app components
-// - Import API
-
-// - Import actions
-
 export class YourCirclesComponent extends Component<
     IYourCirclesComponentProps & WithTranslation,
     IYourCirclesComponentState
 > {
-    static propTypes = {};
-
     constructor(props: IYourCirclesComponentProps & WithTranslation) {
         super(props);
 

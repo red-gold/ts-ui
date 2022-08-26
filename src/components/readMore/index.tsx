@@ -1,62 +1,40 @@
 import Collapse from '@mui/material/Collapse';
-import { withStyles } from '@mui/styles';
 import StringAPI from 'api/StringAPI';
 import classNames from 'classnames';
 import { IReadMoreProps } from 'components/readMore/IReadMoreProps';
-import { IReadMoreState } from 'components/readMore/IReadMoreState';
-import React, { Component } from 'react';
+import { useState } from 'react';
 import { log } from 'utils/log';
 
-import { readMoreStyles } from './readMoreStyles';
+import { useStyles } from './readMoreStyles';
 
-class ReadMoreComponent extends Component<IReadMoreProps, IReadMoreState> {
-    public static defaultProps: Partial<IReadMoreProps> = {
-        lines: 3,
-        more: 'Read more',
-        less: 'Show less',
-    };
+export default function ReadMoreComponent(props: IReadMoreProps) {
+    const classes = useStyles();
 
-    constructor(props: IReadMoreProps) {
-        super(props);
+    const [expanded, setExpanded] = useState(false);
 
-        this.state = {
-            expanded: false,
-            truncated: false,
-        };
-
-        this.toggleLines = this.toggleLines.bind(this);
-    }
-
-    toggleLines(event: any) {
+    const toggleLines = (event: any) => {
         event.preventDefault();
 
-        this.setState({
-            expanded: !this.state.expanded,
-        });
+        setExpanded(!expanded);
+    };
+
+    const { lines = 3, body, ...restProps } = props;
+
+    if (lines === undefined) {
+        log.error('render/undefineProps/lines');
+        return <div />;
     }
 
-    render() {
-        const {  lines, classes, body } = this.props;
-
-        if (lines === undefined) {
-            log.error('render/undefineProps/lines');
-            return <div />;
-        }
-        const { expanded } = this.state;
-
-        const readMoreElem = (
-            <div onClick={this.toggleLines} className={classNames(classes.root, { [classes.expanded]: !expanded })}>
-                <Collapse in={expanded} collapsedSize="173px">
-                    {(this.props as any).children}
-                </Collapse>
-            </div>
-        );
-        const numberOfLines = !StringAPI.isEmpty(body) ? StringAPI.getNumberOfLines(body) : 0;
-        if (numberOfLines > lines) {
-            return readMoreElem;
-        }
-        return (this.props as any).children;
+    const readMoreElem = (
+        <div onClick={toggleLines} className={classNames(classes.root, { [classes.expanded]: !expanded })}>
+            <Collapse in={expanded} collapsedSize="173px">
+                {(props as any).children}
+            </Collapse>
+        </div>
+    );
+    const numberOfLines = !StringAPI.isEmpty(body) ? StringAPI.getNumberOfLines(body) : 0;
+    if (numberOfLines > lines) {
+        return readMoreElem;
     }
+    return (props as any).children;
 }
-
-export default withStyles(readMoreStyles as any)(ReadMoreComponent as any);

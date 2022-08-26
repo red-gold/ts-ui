@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import config from 'config';
 import * as globalActions from 'redux/actions/globalActions';
 import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 import { throwNoValue } from 'utils/errorHandling';
 import { userGetters } from 'redux/reducers/users/userGetters';
@@ -74,8 +74,6 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
 
     videoRef: RefObject<HTMLVideoElement>;
 
-    blobFile: any;
-
     file: any;
 
     /**
@@ -99,6 +97,13 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
         this.handleDeleteVideo = this.handleDeleteVideo.bind(this);
         this.videoList = this.videoList.bind(this);
         this.handleUploadVideo = this.handleUploadVideo.bind(this);
+    }
+
+    componentDidMount() {
+        const { getVideoGallery } = this.props;
+        if (getVideoGallery) {
+            getVideoGallery();
+        }
     }
 
     /**
@@ -147,7 +152,7 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
             isSaveDisabled: saveDisabled,
         });
         this.file = event.currentTarget.files[0];
-        const type = this.file.type;
+        const { type } = this.file;
         const videoNode = throwNoValue(this.videoRef.current, 'this.videoRef.current');
         let canPlay: any = videoNode.canPlayType(type);
         if (canPlay === '') {
@@ -246,13 +251,6 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
         );
     };
 
-    componentDidMount() {
-        const { getVideoGallery } = this.props;
-        if (getVideoGallery) {
-            getVideoGallery();
-        }
-    }
-
     render() {
         const { t, videos, classes } = this.props;
         const { isPreview, isSaveDisabled } = this.state;
@@ -297,7 +295,9 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
          */
         const preview = (
             <div className={classNames(classes.videoRoot, { [classes.noDisplay]: !isPreview })}>
-                <video className={classNames(classes.video)} controls autoPlay={false} ref={this.videoRef} />
+                <video className={classNames(classes.video)} controls autoPlay={false} ref={this.videoRef}>
+                    <track kind="captions" />
+                </video>
             </div>
         );
 

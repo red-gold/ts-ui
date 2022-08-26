@@ -36,7 +36,6 @@ export class UserPermissionComponent extends Component<IUserPermissionProps & Wi
         // Defaul state
         this.state = {
             selectedValue: access,
-            disabledOk: true,
         };
 
         // Binding functions to `this`
@@ -59,9 +58,9 @@ export class UserPermissionComponent extends Component<IUserPermissionProps & Wi
      * Handle data on input change
      */
     handleInputChange = (event: any) => {
-        const target = event.target;
+        const { target } = event;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+        const { name } = target;
         this.setState({
             [name]: value,
         });

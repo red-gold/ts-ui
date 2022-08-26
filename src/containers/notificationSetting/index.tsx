@@ -25,7 +25,7 @@ export function NotificationSettingComponent(props: INotificationSettingProps & 
     const handleToggle = (value: any) => () => {
         const isChecked = checked.getIn([value, 'value'], 'false');
 
-        if (isChecked == 'true') {
+        if (isChecked === 'true') {
             setChecked(checked.setIn([value, 'value'], 'false'));
         } else {
             setChecked(checked.setIn([value, 'value'], 'true'));

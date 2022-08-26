@@ -5,11 +5,6 @@ export interface IFollowDialogState {
     disabledCreateCircle: boolean;
 
     /**
-     * The button of add user in a circle is disabled {true} or not {false}
-     */
-    disabledAddToCircle: boolean;
-
-    /**
      * Circle name
      */
     circleName: string;

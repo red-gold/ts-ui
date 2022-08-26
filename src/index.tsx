@@ -40,7 +40,9 @@ store.dispatch(globalActions.initLocale());
 // http://stackoverflow.com/a/34015469/988941
 try {
     injectTapEventPlugin();
-} catch (e) {}
+} catch (e) {
+    console.error(e);
+}
 const container = document.getElementById('app') as HTMLElement;
 const root = createRoot(container!);
 

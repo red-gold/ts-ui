@@ -7,9 +7,4 @@ export interface IUserPermissionState {
      * Selected Permission
      */
     selectedValue: UserPermissionType;
-
-    /**
-     * Whether OK button is disabled
-     */
-    disabledOk: boolean;
 }

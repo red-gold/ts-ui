@@ -3,7 +3,8 @@
     "env": {
         "browser": true,
         "node": true,
-        "jest/globals": true
+        "jest/globals": true,
+        "serviceworker": true
     },
     "globals": {
         "_": "readonly",

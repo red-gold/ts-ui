@@ -1,23 +1,17 @@
 import UserBoxList from 'components/userBoxList/UserBoxListComponent';
 import { Circle } from 'core/domain/circles/circle';
 import { Map } from 'immutable';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import { IFollowingComponentProps } from './IFollowingComponentProps';
 import { IFollowingComponentState } from './IFollowingComponentState';
 
-// - Import app components
-// - Import API
-// - Import actions
-
 export class FollowingComponent extends Component<
     IFollowingComponentProps & WithTranslation,
     IFollowingComponentState
 > {
-    static propTypes = {};
-
     constructor(props: IFollowingComponentProps & WithTranslation) {
         super(props);
 
@@ -29,7 +23,7 @@ export class FollowingComponent extends Component<
 
     render() {
         const { t } = this.props;
-        const followingUsers = this.props.followingUsers;
+        const { followingUsers } = this.props;
         return (
             <div>
                 {followingUsers && followingUsers.keySeq().count() !== 0 ? (
