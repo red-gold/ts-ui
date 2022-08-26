@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import DialogActions from '@mui/material/DialogActions';
@@ -43,10 +44,6 @@ export class FollowButton extends Component<IFollowDialogProps & WithTranslation
              */
             disabledCreateCircle: true,
             /**
-             * The button of add user in a circle is disabled {true} or not {false}
-             */
-            disabledAddToCircle: true,
-            /**
              * Whether current user changed the selected circles for referer user
              */
             disabledDoneCircles: true,
@@ -87,7 +84,7 @@ export class FollowButton extends Component<IFollowDialogProps & WithTranslation
             return;
         }
         if (followRequest && followRequest.status === ServerRequestStatusType.Sent) {
-            
+            // TODO: Show loading
         } else if (isFollowed) {
             this.onRequestOpenAddCircle();
         } else if (followingCircle) {
@@ -112,7 +109,6 @@ export class FollowButton extends Component<IFollowDialogProps & WithTranslation
         this.setState({
             circleName: ``,
             disabledCreateCircle: true,
-            disabledAddToCircle: true,
             disabledDoneCircles: true,
         });
     };

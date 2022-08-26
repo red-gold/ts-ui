@@ -1,6 +1,6 @@
 import UserBoxList from 'components/userBoxList/UserBoxListComponent';
 import { Map } from 'immutable';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
@@ -11,8 +11,6 @@ export class FollowersComponent extends Component<
     IFollowersComponentProps & WithTranslation,
     IFollowersComponentState
 > {
-    static propTypes = {};
-
     constructor(props: IFollowersComponentProps & WithTranslation) {
         super(props);
 
@@ -24,7 +22,7 @@ export class FollowersComponent extends Component<
 
     render() {
         const { t } = this.props;
-        const followers = this.props.followers;
+        const { followers } = this.props;
         return (
             <div>
                 {followers && followers.keySeq().count() !== 0 ? (

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { createStyles, makeStyles } from '@mui/styles';
 import SvgImage from '@mui/icons-material/Image';
 import classNames from 'classnames';

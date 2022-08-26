@@ -20,7 +20,7 @@ import { PostType } from 'core/domain/posts/postType';
 import { fromJS, List as ImuList, Map } from 'immutable';
 import React, { Component } from 'react';
 import { WithTranslation } from 'react-i18next';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 import moment from 'moment/moment';
 import config from 'config';
 import AppDialogTitle from 'oldComponents/dialogTitle/DialogTitleComponent';
@@ -40,7 +40,7 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
 
         const { postModel } = props;
 
-        const albumPhotos = postModel && postModel.getIn(['album', 'photos'], ImuList([])) as ImuList<any>;
+        const albumPhotos = postModel && (postModel.getIn(['album', 'photos'], ImuList([])) as ImuList<any>);
         const selectedPhotos: any[] =
             props.edit && postModel && postModel.get('postTypeId', 0) === PostType.PhotoGallery
                 ? albumPhotos
@@ -141,6 +141,11 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
         this.handleDeletePhoto = this.handleDeletePhoto.bind(this);
     }
 
+    componentWillUnmount() {
+        const { setPostWriteModel } = this.props;
+        setPostWriteModel(null);
+    }
+
     /**
      * Toggle comments of the post to disable/enable
      */
@@ -193,18 +198,6 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
             closeAlbum();
         }
     };
-
-    /**
-     * Open album dialog
-     */
-    openAlbumDialog = () => {
-        const { openAlbum } = this.props;
-        if (openAlbum) {
-            openAlbum();
-        }
-    };
-
-    handleClosePostAlbum = () => {};
 
     /**
      * Handle send post to the server
@@ -369,40 +362,11 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
     };
 
     /**
-     * Open add video gallery dialog
-     */
-    handleOpenVideoGallery = () => {
-        this.setState({
-            videoGalleryOpen: true,
-        });
-    };
-
-    /**
      * Clode add video gallery dialog
      */
     handleCloseVideoGallery = () => {
         this.setState({
             videoGalleryOpen: false,
-        });
-    };
-
-    /**
-     * Handle open more menu
-     */
-    handleOpenMenu = (event: any) => {
-        this.setState({
-            menuOpen: true,
-            menuAnchorEl: event.currentTarget,
-        });
-    };
-
-    /**
-     * Handle close more menu
-     */
-    handleCloseMenu = () => {
-        this.setState({
-            menuOpen: false,
-            menuAnchorEl: null,
         });
     };
 
@@ -450,7 +414,7 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
     onUploadChange = (event: any) => {
         const { selectedPhotos } = this.state;
 
-        const files: File[] = event.currentTarget.files;
+        const { files } = event.currentTarget;
         const parsedFiles: { src: string; fileName: string; file: File }[] = [];
         for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
             const file = files[fileIndex];
@@ -498,11 +462,6 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
         }
         return permissionLabel;
     };
-
-    componentWillUnmount() {
-        const { setPostWriteModel } = this.props;
-        setPostWriteModel(null);
-    }
 
     /**
      * Reneder component DOM

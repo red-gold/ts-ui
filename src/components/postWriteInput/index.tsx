@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import * as React from 'react';
 import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';

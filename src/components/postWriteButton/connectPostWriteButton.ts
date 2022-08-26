@@ -1,3 +1,4 @@
+import React from 'react';
 import { Map } from 'immutable';
 import { DialogType } from 'models/common/dialogType';
 import { connect } from 'react-redux';
