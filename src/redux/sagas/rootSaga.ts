@@ -1,7 +1,6 @@
 import { all } from 'redux-saga/effects';
 
 import authorizeSaga from './authorizeSaga';
-import chatSaga from './chatSaga';
 import circleSaga from './circleSaga';
 import commentSaga from './commentSaga';
 import voteSaga from './voteSaga';
@@ -12,6 +11,7 @@ import notificationSaga from './notificationSaga';
 import postSaga from './postSaga';
 import userSaga from './userSaga';
 import userSettingSaga from './userSettingSaga';
+import vangSaga from './vangSaga';
 
 export default function* root() {
     yield all([
@@ -26,6 +26,6 @@ export default function* root() {
         gallerySaga(),
         notificationSaga(),
         circleSaga(),
-        chatSaga(),
+        vangSaga(),
     ]);
 }

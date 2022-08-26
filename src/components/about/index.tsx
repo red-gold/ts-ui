@@ -1,21 +1,21 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import BirthdayIcon from '@material-ui/icons/EventRounded';
-import CompanyIcon from '@material-ui/icons/BusinessRounded';
-import WebIcon from '@material-ui/icons/PublicRounded';
-import Typography from '@material-ui/core/Typography';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import BirthdayIcon from '@mui/icons-material/EventRounded';
+import CompanyIcon from '@mui/icons-material/BusinessRounded';
+import WebIcon from '@mui/icons-material/PublicRounded';
+import Typography from '@mui/material/Typography';
 import { useDispatch } from 'react-redux';
 import * as userActions from 'redux/actions/userActions';
 import { useTranslation } from 'react-i18next';
-import { useStyles } from './peopleBoxStyles';
-import { IAboutProps } from './IAboutProps';
 import moment from 'moment/moment';
-import { Link } from '@material-ui/core';
+import { Link } from '@mui/material';
 import { SocialIcon } from 'react-social-icons';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { experimentalStyled as styled } from '@mui/material/styles';
+import { IAboutProps } from './IAboutProps';
+import { useStyles } from './peopleBoxStyles';
 
 const ProfileItem = styled('div')({
     display: 'flex',
@@ -27,8 +27,8 @@ export function About({ profile, isCurrentUser }: IAboutProps) {
 
     // Dispatcher
     const dispatch = useDispatch();
-    const fetchUserSuggestions = () => dispatch(userActions.fetchUserSuggestions());
-    const openEditor = () => dispatch(userActions.openEditProfile());
+    const fetchUserSuggestions = () => dispatch<any>(userActions.fetchUserSuggestions());
+    const openEditor = () => dispatch<any>(userActions.openEditProfile());
 
     React.useEffect(() => {
         fetchUserSuggestions();
@@ -81,10 +81,10 @@ export function About({ profile, isCurrentUser }: IAboutProps) {
             </CardContent>
             <CardActions sx={{ justifyContent: 'center' }}>
                 {facebookId !== '' && (
-                    <SocialIcon className={classes.socialIcon} url={'https://www.facebook.com/' + facebookId} />
+                    <SocialIcon className={classes.socialIcon} url={`https://www.facebook.com/${  facebookId}`} />
                 )}
                 {twitterId !== '' && (
-                    <SocialIcon className={classes.socialIcon} url={'https://twitter.com/' + twitterId} />
+                    <SocialIcon className={classes.socialIcon} url={`https://twitter.com/${  twitterId}`} />
                 )}
             </CardActions>
             {isCurrentUser && (

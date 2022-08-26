@@ -1,26 +1,24 @@
 // - Import action types
 import { GlobalActionType } from 'constants/globalActionType';
 
+import { Map, fromJS } from 'immutable';
 import { GlobalState } from './GlobalState';
 import { IGlobalAction } from './IGlobalAction';
-import { Map, fromJS } from 'immutable';
 
 /**
  * Progress change
  */
-const progressChange = (state: Map<string, any>, payload: any) => {
-    return state.setIn(['progress', 'percent'], payload.percent).setIn(['progress', 'visible'], payload.visible);
-};
+const progressChange = (state: Map<string, any>, payload: any) =>
+    state.setIn(['progress', 'percent'], payload.percent).setIn(['progress', 'visible'], payload.visible);
 
 /**
  * Progress change by keu
  */
-const progressChangeWithKey = (state: Map<string, any>, payload: any) => {
-    return state
+const progressChangeWithKey = (state: Map<string, any>, payload: any) =>
+    state
         .setIn(['progress', payload.progressKey, 'percent'], payload.percent)
         .setIn(['progress', payload.progressKey, 'visible'], payload.visible)
         .setIn(['progress', payload.progressKey, 'meta'], payload.meta);
-};
 
 /**
  * Show global message
@@ -46,9 +44,7 @@ const showMessageByReference = (state: Map<string, any>, action: any) => {
 /**
  * Hide global message
  */
-const hideGlobalMessage = (state: Map<string, any>) => {
-    return state.set('message', '').set('messageOpen', false);
-};
+const hideGlobalMessage = (state: Map<string, any>) => state.set('message', '').set('messageOpen', false);
 
 /**
  * Hide message by reference
@@ -65,6 +61,7 @@ const hideMessageByReference = (state: Map<string, any>, action: any) => {
 /**
  * Global reducer
  */
+// eslint-disable-next-line default-param-last
 export const globalReducer = (state: Map<string, any> = Map(new GlobalState()), action: IGlobalAction) => {
     const { payload } = action;
     switch (action.type) {
@@ -110,9 +107,7 @@ export const globalReducer = (state: Map<string, any> = Map(new GlobalState()), 
         case GlobalActionType.HIDE_TOP_LOADING:
             const queueTopLoading =
                 Number(state.get('topLoadingQueue')) > 0 ? Number(state.get('topLoadingQueue')) - 1 : 0;
-            return state
-                .set('topLoadingQueue', queueTopLoading)
-                .set('showTopLoading', queueTopLoading > 0 ? true : false);
+            return state.set('topLoadingQueue', queueTopLoading).set('showTopLoading', queueTopLoading > 0);
 
         case GlobalActionType.SHOW_TOP_LOADING:
             return state.set('topLoadingQueue', Number(state.get('topLoadingQueue')) + 1).set('showTopLoading', true);
@@ -120,9 +115,7 @@ export const globalReducer = (state: Map<string, any> = Map(new GlobalState()), 
         case GlobalActionType.HIDE_MASTER_LOADING:
             const queueMasterLoading =
                 Number(state.get('masterLoadingQueue')) > 0 ? Number(state.get('masterLoadingQueue')) - 1 : 0;
-            return state
-                .set('masterLoadingQueue', queueMasterLoading)
-                .set('showMasterLoading', queueMasterLoading > 0 ? true : false);
+            return state.set('masterLoadingQueue', queueMasterLoading).set('showMasterLoading', queueMasterLoading > 0);
 
         case GlobalActionType.SHOW_MASTER_LOADING:
             return state

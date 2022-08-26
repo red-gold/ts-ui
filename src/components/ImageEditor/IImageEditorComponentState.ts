@@ -1,8 +1,5 @@
 export interface IImageEditorComponentState {
-    /**
-     * Image link
-     */
-    link: string;
+
 
     /**
      * Whether OK button is disabled

@@ -1,5 +1,5 @@
-import Backdrop, { BackdropProps } from '@material-ui/core/Backdrop';
-import { withStyles } from '@material-ui/styles';
+import Backdrop, { BackdropProps } from '@mui/material/Backdrop';
+import { withStyles } from '@mui/styles';
 import React, { Component } from 'react';
 import Lightbox from 'react-image-lightbox';
 
@@ -11,10 +11,10 @@ import { pictureDialogStyles } from './pictureDialogStyles';
 
 export class BackDropIOSWorkaround extends React.PureComponent<BackdropProps> {
     protected onTouchMove(event: React.TouchEvent<HTMLDivElement>): void {
-        alert('hello');
         event.preventDefault();
     }
 
+    // eslint-disable-next-line no-undef
     public render(): JSX.Element {
         return <Backdrop {...this.props} onTouchMove={this.onTouchMove} />;
     }
@@ -35,12 +35,6 @@ export class PictureDialogComponent extends Component<IPictureDialogProps, IPict
             photoIndex: 0,
         };
         // Binding functions to `this`
-    }
-
-    componentDidUpdate() {
-        if (this.props.open) {
-        } else {
-        }
     }
 
     /**

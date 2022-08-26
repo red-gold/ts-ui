@@ -10,13 +10,12 @@ import { IAuthorizeAction } from './IAuthorizeAction';
  * @param {object} state
  * @param {object} action
  */
+// eslint-disable-next-line default-param-last
 export const authorizeReducer = (state = Map(new AuthorizeState() as any), action: IAuthorizeAction) => {
     const { payload } = action;
     switch (action.type) {
         case AuthorizeActionType.LOGIN:
-            return state.update(() => {
-                return payload;
-            });
+            return state.update(() => payload);
 
         case AuthorizeActionType.LOGOUT:
             return state.set('uid', 0).set('authed', false).set('guest', true).set('isVerifide', false);

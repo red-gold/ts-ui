@@ -1,13 +1,13 @@
 import React from 'react';
-import { SnackbarProvider } from 'notistack5';
-import infoFill from '@material-ui/icons/InfoRounded';
-import alertCircleFill from '@material-ui/icons/ErrorRounded';
-import alertTriangleFill from '@material-ui/icons/ReportProblemRounded';
-import checkmarkCircle2Fill from '@material-ui/icons/CheckCircleOutlineRounded';
+import { SnackbarProvider } from 'notistack';
+import infoFill from '@mui/icons-material/InfoRounded';
+import alertCircleFill from '@mui/icons-material/ErrorRounded';
+import alertTriangleFill from '@mui/icons-material/ReportProblemRounded';
+import checkmarkCircle2Fill from '@mui/icons-material/CheckCircleOutlineRounded';
 // material
-import { makeStyles, createStyles } from '@material-ui/styles';
-import { alpha, Theme } from '@material-ui/core/styles';
-import { Box, SvgIcon } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { alpha, Theme } from '@mui/material/styles';
+import { Box, SvgIcon } from '@mui/material';
 
 // ----------------------------------------------------------------------
 

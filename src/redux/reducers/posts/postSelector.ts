@@ -2,16 +2,16 @@ import { PostAPI } from 'api/PostAPI';
 import { List, Map } from 'immutable';
 import { createSelector } from 'reselect';
 
-/****************************
+/** **************************
  * Get from store
- ***************************/
+ ************************** */
 const getPost = (state: Map<string, any>, props: { postId: string }) => {
     return state.getIn(['post', 'entities', props.postId], Map({}));
 };
 
 const getPostByURLKey = (state: Map<string, any>, props: { urlKey: string }) =>
-    state
-        .getIn(['post', 'entities'], Map({}))
+    (state
+        .getIn(['post', 'entities'], Map({})) as Map<string, any>)
         .filter((post: Map<string, any>) => post.get('urlKey') === props.urlKey)
         .first();
 
@@ -24,22 +24,22 @@ const hasMorePostSearch = (state: Map<string, any>) => {
 };
 
 const hasMorePostProfile = (state: Map<string, any>, props: { userId: string }) => {
-    const posts: boolean = state.getIn(['user', 'post', props.userId, 'hasMoreData'], true);
-    return posts;
+    const hasPosts: boolean = state.getIn(['user', 'post', props.userId, 'hasMoreData'], true) as boolean;
+    return hasPosts;
 };
 
 const getPostStream = (state: Map<string, any>) => {
-    const posts: Map<string, boolean> = state.getIn(['post', 'stream', 'list'], Map({}));
+    const posts = state.getIn(['post', 'stream', 'list'], Map({})) as Map<string, boolean>;
     return posts;
 };
 
 const searchPosts = (state: Map<string, any>) => {
-    const posts: Map<string, boolean> = state.getIn(['post', 'search', 'list'], Map({}));
+    const posts = state.getIn(['post', 'search', 'list'], Map({})) as Map<string, boolean>;
     return posts;
 };
 
 const getProfilePosts = (state: Map<string, any>, props: { userId: string }) => {
-    const posts: Map<string, boolean> = state.getIn(['user', 'post', props.userId, 'list'], Map({}));
+    const posts = state.getIn(['user', 'post', props.userId, 'list'], Map({})) as Map<string, boolean>;
     return posts;
 };
 
@@ -79,9 +79,9 @@ const getPostWriteModel = (state: Map<string, any>) => {
     return (state.getIn(['post', 'ui', 'postWrite', 'model']) as Map<string, any>) || undefined;
 };
 
-/****************************
+/** **************************
  * Selectors
- ***************************/
+ ************************** */
 
 const selectPostWriteModel = () => {
     return createSelector([getPostWriteModel], (model) => model);
@@ -92,7 +92,7 @@ const selectPostByURLKeyWithProfile = () => {
         if (!post) {
             return Map({});
         }
-        const photos: List<string> = post.getIn(['album', 'photos']) || List([]);
+        const photos: List<string> = post.getIn(['album', 'photos']) as List<string> || List([]);
         if (photos.size === 1) {
             post = post.set('media', photos.first());
         }
@@ -134,7 +134,7 @@ const selectStreamPosts = () => {
         postStream.forEach((exist, postId) => {
             let existPost: Map<string, any> = posts.get(postId);
             if (exist && existPost) {
-                const photos: List<string> = existPost.getIn(['album', 'photos']) || List([]);
+                const photos: List<string> = existPost.getIn(['album', 'photos']) as List<string> || List([]);
                 if (photos.size === 1) {
                     existPost = existPost.set('media', photos.first());
                 }
@@ -169,7 +169,7 @@ const selectSearchPosts = () => {
         searchPosts.forEach((exist, postId) => {
             let existPost: Map<string, any> = posts.get(postId);
             if (exist && existPost) {
-                const photos: List<string> = existPost.getIn(['album', 'photos']) || List([]);
+                const photos: List<string> = existPost.getIn(['album', 'photos']) as List<string> || List([]);
                 if (photos.size === 1) {
                     existPost = existPost.set('media', photos.first());
                 }
@@ -204,7 +204,7 @@ const selectProfilePosts = () => {
         profilePosts.forEach((exist, postId) => {
             let existPost: Map<string, any> = posts.get(postId);
             if (exist && existPost) {
-                const photos: List<string> = existPost.getIn(['album', 'photos']) || List([]);
+                const photos: List<string> = existPost.getIn(['album', 'photos']) as List<string> || List([]);
                 if (photos.size === 1) {
                     existPost = existPost.set('media', photos.first());
                 }

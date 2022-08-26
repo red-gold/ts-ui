@@ -3,12 +3,12 @@ import { PostActionType } from 'constants/postActionType';
 import { fromJS, Map } from 'immutable';
 import { SocialError } from 'core/domain/common/socialError';
 import { Post } from 'core/domain/posts/post';
-import { IPostService } from 'core/services/posts/IPostService';
+import type { IPostService } from 'core/services/posts/IPostService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
-import { provider } from '../../socialEngine';
 import * as globalActions from 'redux/actions/globalActions';
 import { createPromiseAction } from '@adobe/redux-saga-promise';
 import { PhotoGalleryFile } from 'models/gallery/photoGalleryFile';
+import { provider } from '../../socialEngine';
 
 const postService: IPostService = provider.get<IPostService>(SocialProviderTypes.PostService);
 
@@ -103,7 +103,7 @@ export const dbGetPostById = (uid: string, postId: string) => {
             return postService
                 .getPostById(postId)
                 .then((post: Post) => {
-                    dispatch(addPost(fromJS(post)));
+                    dispatch(addPost(fromJS(post) as Map<string, any>));
                 })
                 .catch((error: SocialError) => {
                     dispatch(globalActions.showMessage(error.message));

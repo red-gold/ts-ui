@@ -2,7 +2,7 @@ import React from 'react';
 import AuthWrapper from 'containers/authWrapper';
 import VerifyCodeForm from 'components/authentication/VerifyCodeForm';
 import { useNavigate } from 'react-router';
-import { useSnackbar } from 'notistack5';
+import { useSnackbar } from 'notistack';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'redux/store';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
@@ -10,7 +10,7 @@ import { PATH_AUTH } from 'routes/paths';
 import { Link as RouterLink } from 'react-router-dom';
 
 // material
-import { Box, Button, Container, Typography } from '@material-ui/core';
+import { Box, Button, Container, Typography } from '@mui/material';
 import useLocales from 'hooks/useLocales';
 
 // ----------------------------------------------------------------------

@@ -1,18 +1,18 @@
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import Paper from '@material-ui/core/Paper';
-import Popover from '@material-ui/core/Popover';
-import { withStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import Paper from '@mui/material/Paper';
+import Popover from '@mui/material/Popover';
+import { withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import PhotoAlbumIcon from '@mui/icons-material/PhotoAlbum';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import FileAPI from 'api/FileAPI';
 import AlbumDialogComponent from 'components/albumDialog/AlbumDialogComponent';
 import PhotoStreamComponent from 'components/photoStream';
@@ -21,14 +21,15 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
-import uuid from 'uuid';
+import {v4 as uuid} from 'uuid';
 
+import { log } from 'utils/log';
+import { defaultNoValue } from 'utils/errorHandling';
+import { Post } from 'core/domain/posts/post';
 import { connectPhotoMaster } from './connectPhotoMaster';
 import { IPhotoMasterProps } from './IPhotoMasterProps';
 import { IPhotoMasterState } from './IPhotoMasterState';
 import { photoMasterStyles } from './photoMasterStyles';
-import { log } from 'utils/log';
-import { defaultNoValue } from 'utils/errorHandling';
 
 export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTranslation, IPhotoMasterState> {
     static propTypes = {
@@ -154,7 +155,7 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
                 currentAlbum.album.cover = '';
                 currentAlbum.album.coverId = '';
             }
-            updateAlbum(fromJS({ ...currentAlbum }), () => {
+            updateAlbum(fromJS({ ...currentAlbum }) as unknown as Post, () => {
                 log.info('Album Deleted!');
             });
         }
@@ -292,7 +293,7 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
 
         if (currentAlbum && Object.keys(currentAlbum).length > 0) {
             return renderAlbum;
-        } else {
+        } 
             return (
                 <Paper className={classes.noAlbumRoot}>
                     <VisibilityOffIcon className={classes.noAlbumIcon} />
@@ -301,7 +302,7 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
                     </Typography>
                 </Paper>
             );
-        }
+        
     }
 }
 

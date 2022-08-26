@@ -1,12 +1,13 @@
-import { IHttpService } from 'core/services/webAPI/IHttpService';
-import { injectable } from 'inversify';
+import type { IHttpService } from 'core/services/webAPI/IHttpService';
+import { injectable, inject } from 'inversify';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
-import { inject } from 'inversify';
 import config from 'config';
 import axios, { AxiosRequestConfig } from 'axios';
-import { IPermissionService } from 'core/services/security/IPermissionService';
+import type { IPermissionService } from 'core/services/security/IPermissionService';
 import { SocialError } from 'core/domain/common/socialError';
 import { log } from 'utils/log';
+import axiosInstance from 'utils/axios';
+
 axios.defaults.withCredentials = true;
 
 @injectable()
@@ -22,9 +23,10 @@ export class HttpService implements IHttpService {
      * Http GET
      */
     public async get(url: string) {
+        url = this.parseURL(url);
         const validURL = config.rewrites[url] || url;
         const requestURL = `${config.gateway.gateway_uri}/${validURL}`;
-        const result = await axios.get(requestURL);
+        const result = await axiosInstance.get(requestURL);
         return result.data;
     }
 
@@ -32,6 +34,7 @@ export class HttpService implements IHttpService {
      * Http POST
      */
     public async post(url: string, payload?: any, opt?: { headers?: any }) {
+        url = this.parseURL(url);
         const validURL = config.rewrites[url] || url;
         const axiosConfig: AxiosRequestConfig = {};
         if (opt) {
@@ -40,9 +43,9 @@ export class HttpService implements IHttpService {
             }
         }
         try {
-            const result = await axios.post(`${config.gateway.gateway_uri}/${validURL}`, payload, axiosConfig);
+            const result = await axiosInstance.post(`${config.gateway.gateway_uri}/${validURL}`, payload, axiosConfig);
             return result.data;
-        } catch (error) {
+        } catch (error: any) {
             return this.handleError(error);
         }
     }
@@ -58,6 +61,7 @@ export class HttpService implements IHttpService {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onProgress: (percentage: number, status: boolean, fileName: string, meta?: any) => void,
     ) {
+        url = this.parseURL(url);
         const validURL = config.rewrites[url] || url;
         const reqConfig = {
             headers: {
@@ -66,9 +70,9 @@ export class HttpService implements IHttpService {
         };
 
         try {
-            const result = await axios.post(`${config.gateway.gateway_uri}/${validURL}`, payload, reqConfig);
+            const result = await axiosInstance.post(`${config.gateway.gateway_uri}/${validURL}`, payload, reqConfig);
             return result.data;
-        } catch (error) {
+        } catch (error: any) {
             log.error(error);
             const errorData = new SocialError('HttpService/WrongSetting', 'Error happened!');
 
@@ -85,7 +89,7 @@ export class HttpService implements IHttpService {
                 if (data.isError) {
                     errorData.code = data.code;
                     errorData.message = data.message;
-                } else if (error.response.status == 413) {
+                } else if (error.response.status === 413) {
                     errorData.code = 'HttpService/LargeFile';
                     errorData.message = `The file is too large.`;
                 } else {
@@ -121,12 +125,13 @@ export class HttpService implements IHttpService {
      * Http PUT
      */
     public async put(url: string, payload?: any, reqConfig?: { params: any }) {
+        url = this.parseURL(url);
         const validURL = config.rewrites[url] || url;
         const requestURL = `${config.gateway.gateway_uri}/${validURL}`;
         try {
-            const result = await axios.put(requestURL, payload, reqConfig);
+            const result = await axiosInstance.put(requestURL, payload, reqConfig);
             return result.data;
-        } catch (error) {
+        } catch (error: any) {
             return this.handleError(error);
         }
     }
@@ -135,9 +140,10 @@ export class HttpService implements IHttpService {
      * Http DELETE
      */
     public async delete(url: string) {
+        url = this.parseURL(url);
         const validURL = config.rewrites[url] || url;
         const requestURL = `${config.gateway.gateway_uri}/${validURL}`;
-        const result = await axios.delete(requestURL);
+        const result = await axiosInstance.delete(requestURL);
         return result.data;
     }
 
@@ -145,6 +151,7 @@ export class HttpService implements IHttpService {
      * Http get by token id
      */
     public async getWithoutAuth(url: string) {
+        url = this.parseURL(url);
         await this._permissionService.getIdToken();
         const validURL = config.rewrites[url] || url;
         const result = await axios.get(`${config.gateway.gateway_uri}/${validURL}`);
@@ -152,13 +159,21 @@ export class HttpService implements IHttpService {
     }
 
     /**
-     * Http Post by token id
+     * Http Post without token
      */
-    public async postWithoutAuth(url: string, payload?: any) {
+    public async postWithoutAuth(url: string, payload?: any, opt?: { headers?: any }) {
+        url = this.parseURL(url);
+        const validURL = config.rewrites[url] || url;
+        const axiosConfig: AxiosRequestConfig = {};
+        if (opt) {
+            if (opt.headers) {
+                axiosConfig.headers = opt.headers;
+            }
+        }
         try {
-            const result = await axios.post(`${config.gateway.gateway_uri}/${url}`, payload);
+            const result = await axios.post(`${config.gateway.gateway_uri}/${validURL}`, payload, axiosConfig);
             return result.data;
-        } catch (error) {
+        } catch (error: any) {
             return this.handleError(error);
         }
     }
@@ -206,4 +221,15 @@ export class HttpService implements IHttpService {
         log.error(error.config);
         throw errorData;
     };
+
+    parseURL(url: string) {
+        const newURL = url;
+        if (!newURL.includes('/')) {
+            if (newURL.includes('?')) {
+                return newURL.split('?').join('/?');
+            }
+            return `${newURL}/`;
+        }
+        return newURL;
+    }
 }

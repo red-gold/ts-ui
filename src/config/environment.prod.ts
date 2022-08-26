@@ -1,5 +1,6 @@
 import { LanguageType } from 'redux/reducers/locale/langugeType';
 import { VerificationType } from 'core/domain/authorize/verificationType';
+
 export const environment = {
     data: {
         imageFolderPath: 'images',

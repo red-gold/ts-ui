@@ -1,4 +1,4 @@
-import createStyles from '@material-ui/core/styles/createStyles';
+import createStyles from '@mui/material/styles/createStyles';
 
 export const photoStreamStyles = (theme: any) =>
     createStyles({

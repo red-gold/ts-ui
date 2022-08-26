@@ -1,6 +1,6 @@
 import queryString from 'query-string';
 import { AntTab, AntTabs } from 'components/tab';
-import { useSnackbar } from 'notistack5';
+import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -17,7 +17,7 @@ import { setHeaderTitle } from 'redux/actions/globalActions';
 import { List, Map } from 'immutable';
 import PostSearch from 'components/post/PostSearch';
 import ProfileSearch from 'components/user/profile/ProfileSearch';
-import { Container } from '@material-ui/core';
+import { Container } from '@mui/material';
 
 // selectors
 const selectSearchPeople = userSelector.selectSearchPeople();
@@ -38,18 +38,18 @@ export default function SearchPage() {
     const [loading, setLoading] = useState(false);
     const location = useLocation();
     const profileSearchResult: List<Map<string, any>> = useSelector(selectSearchPeople);
-    const hasNextProfilePage: boolean = useSelector(hasMoreProfiles);
+    const hasNextProfilePage = useSelector(hasMoreProfiles) as boolean;
     const postSearchResult: List<Map<string, any>> = useSelector(selectSearchPosts);
-    const hasNextPostPage: boolean = useSelector(selectHasMorePosts);
+    const hasNextPostPage = useSelector(selectHasMorePosts) as boolean;
     const { q }: { q: string } = queryString.parse(location.search) as any;
 
     // Load more posts
     const loadMorePosts = async () => {
         try {
             setLoading(true);
-            await dispatch(fetchSearchPosts(q, nextPage, 10));
+            await dispatch<any>(fetchSearchPosts(q, nextPage, 10));
             setNextPage(nextPage + 1);
-        } catch (error) {
+        } catch (error: any) {
             enqueueSnackbar(error.message, { variant: 'error' });
         } finally {
             setLoading(false);
@@ -64,9 +64,9 @@ export default function SearchPage() {
         if (!loading) {
             try {
                 setLoading(true);
-                await dispatch(fetchUserSearch(q, nextPage, 10));
+                await dispatch<any>(fetchUserSearch(q, nextPage, 10));
                 setNextPage(nextPage + 1);
-            } catch (error) {
+            } catch (error: any) {
                 enqueueSnackbar(error.message, { variant: 'error' });
             } finally {
                 setLoading(false);
@@ -76,10 +76,10 @@ export default function SearchPage() {
 
     useEffect(() => {
         setNextPage(0);
-        dispatch(resetSearchUser());
-        dispatch(resetSearchPost());
+        dispatch<any>(resetSearchUser());
+        dispatch<any>(resetSearchPost());
         setLoading(false);
-        dispatch(setHeaderTitle(t('search.' + params.category)));
+        dispatch<any>(setHeaderTitle(t(`search.${  params.category}`)));
     }, [location, dispatch]);
 
     /**

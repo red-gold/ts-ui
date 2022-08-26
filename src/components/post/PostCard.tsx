@@ -1,24 +1,24 @@
 import React from 'react';
 import { List, Map } from 'immutable';
 // material
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import CommentIcon from '@material-ui/icons/CommentRounded';
-import LikeIcon from '@material-ui/icons/FavoriteRounded';
-import SvgFavoriteBorder from '@material-ui/icons/FavoriteBorderRounded';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import SvgPlay from '@material-ui/icons/PlayCircleFilled';
-import ShareIcon from '@material-ui/icons/ShareRounded';
-import { styled } from '@material-ui/core/styles';
-import { Box, FormControlLabel, Stack } from '@material-ui/core';
-import { createStyles, makeStyles } from '@material-ui/styles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import LinearProgress from '@mui/material/LinearProgress';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import CommentIcon from '@mui/icons-material/CommentRounded';
+import LikeIcon from '@mui/icons-material/FavoriteRounded';
+import SvgFavoriteBorder from '@mui/icons-material/FavoriteBorderRounded';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import SvgPlay from '@mui/icons-material/PlayCircleFilled';
+import ShareIcon from '@mui/icons-material/ShareRounded';
+import { styled } from '@mui/material/styles';
+import { Box, FormControlLabel, Stack } from '@mui/material';
+import { createStyles, makeStyles } from '@mui/styles';
 // utils
 import { fShortenNumber } from 'utils/formatNumber';
 //
@@ -92,7 +92,7 @@ export default function PostCard({ post }: PostComponentProps) {
     const handleOpenComments = () => {
         if (!openComments) {
             const id = post.get('id');
-            dispatch(dbFetchComments(id, 0, 10));
+            dispatch<any>(dbFetchComments(id, 0, 10));
         }
         setOpenComments(!openComments);
     };
@@ -102,15 +102,15 @@ export default function PostCard({ post }: PostComponentProps) {
      */
     const handleDelete = () => {
         closePostMenu();
-        dispatch(dbDeletePost(post.get('id')));
+        dispatch<any>(dbDeletePost(post.get('id')));
     };
 
     /**
      * Handle edit a post
      */
     const handleEditPost = () => {
-        dispatch(setPostWriteModel(post));
-        dispatch(openDialog(DialogType.PostWrite));
+        dispatch<any>(setPostWriteModel(post));
+        dispatch<any>(openDialog(DialogType.PostWrite));
     };
 
     /**
@@ -154,10 +154,10 @@ export default function PostCard({ post }: PostComponentProps) {
      */
     const handleVote = () => {
         if (isLiked) {
-            dispatch(dbDeleteVote(post.get('id'), post.get('ownerUserId')));
+            dispatch<any>(dbDeleteVote(post.get('id'), post.get('ownerUserId')));
             setLiked(false);
         } else {
-            dispatch(dbAddVote(post.get('id'), post.get('ownerUserId')));
+            dispatch<any>(dbAddVote(post.get('id'), post.get('ownerUserId')));
             setLiked(true);
         }
     };
@@ -214,7 +214,7 @@ export default function PostCard({ post }: PostComponentProps) {
                     <MenuItem onClick={handleDelete}> {t('post.delete')} </MenuItem>
                     <MenuItem
                         onClick={() => {
-                            dispatch(disableComment(id, !isCommentDisabled));
+                            dispatch<any>(disableComment(id, !isCommentDisabled));
                             setIsCommentDisabled(!isCommentDisabled);
                         }}
                     >
@@ -222,7 +222,7 @@ export default function PostCard({ post }: PostComponentProps) {
                     </MenuItem>
                     <MenuItem
                         onClick={() => {
-                            dispatch(disableSharing(id, !isSharingDisabled));
+                            dispatch<any>(disableSharing(id, !isSharingDisabled));
                             setIsSharingDisabled(!isSharingDisabled);
                         }}
                     >
@@ -234,7 +234,7 @@ export default function PostCard({ post }: PostComponentProps) {
     };
 
     const getAlbum = () => {
-        const photos: List<string> = post.getIn(['album', 'photos'], List([]));
+        const photos: List<string> = post.getIn(['album', 'photos'], List([])) as List<string>;
         return <PostAlbumComponent key={`post-album-grid-${id}`} currentAlbum={post} images={photos} />;
     };
 
@@ -251,7 +251,7 @@ export default function PostCard({ post }: PostComponentProps) {
 
     // Define variables
     return (
-        <Card key={id + 'post-card'} className={classNames(classes.postBox, 'animate-top')}>
+        <Card key={`${id  }post-card`} className={classNames(classes.postBox, 'animate-top')}>
             <CardHeader
                 title={
                     <DisplayName to={PATH_MAIN.user.profile.replace(':socialName', post.get('socialName'))}>
@@ -260,9 +260,9 @@ export default function PostCard({ post }: PostComponentProps) {
                 }
                 subheader={
                     creationDate ? (
-                        (version === config.dataFormat.postVersion
+                        `${version === config.dataFormat.postVersion
                             ? moment(creationDate).local().fromNow()
-                            : moment(creationDate).local().fromNow()) + ` | ${getPermissionLabel()}`
+                            : moment(creationDate).local().fromNow()  } | ${getPermissionLabel()}`
                     ) : (
                         <LinearProgress color="primary" />
                     )
@@ -273,7 +273,7 @@ export default function PostCard({ post }: PostComponentProps) {
                     </DisplayName>
                 }
                 action={isPostOwner ? rightIconMenu() : ''}
-            ></CardHeader>
+             />
             <CardContent className={classes.postBody}>
                 <ReadMoreComponent body={body}>
                     <Linkify
@@ -292,7 +292,7 @@ export default function PostCard({ post }: PostComponentProps) {
                                     evt.preventDefault();
                                     evt.stopPropagation();
                                     navigate(`/tag/${match}`);
-                                    dispatch(setHeaderTitle(`#${match}`));
+                                    dispatch<any>(setHeaderTitle(`#${match}`));
                                 }}
                             >
                                 #{match}
@@ -306,7 +306,7 @@ export default function PostCard({ post }: PostComponentProps) {
                     {showVideo ? (
                         <div className="player-wrapper">
                             <ReactPlayer
-                                controls={true}
+                                controls
                                 className="react-player"
                                 width="100%"
                                 height="100%"
@@ -331,7 +331,7 @@ export default function PostCard({ post }: PostComponentProps) {
                     )}
                 </CardMedia>
             )}
-            {post.getIn(['album', 'photos'], List([])).size > 1 && getAlbum()}
+            {(post.getIn(['album', 'photos'], List([])) as List<any>).size > 1 && getAlbum()}
 
             <Stack direction="row" alignItems="center" sx={{ padding: '10px 20px' }}>
                 <FormControlLabel

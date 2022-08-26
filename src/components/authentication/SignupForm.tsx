@@ -1,19 +1,19 @@
 import React from 'react';
 import * as Yup from 'yup';
-import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import Divider from '@mui/material/Divider';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { NavLink, useNavigate } from 'react-router-dom';
 import useAuth from 'hooks/useAuth';
 import useIsMountedRef from 'hooks/useIsMountedRef';
-import { useSnackbar } from 'notistack5';
+import { useSnackbar } from 'notistack';
 import useLocales from 'hooks/useLocales';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { PATH_AUTH } from 'routes/paths';
 // material
-import { Alert, IconButton, Stack, styled } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/CloseRounded';
-import { LoadingButton } from '@material-ui/lab';
+import { Alert, IconButton, Stack, styled } from '@mui/material';
+import CloseIcon from '@mui/icons-material/CloseRounded';
+import { LoadingButton } from '@mui/lab';
 //
 import GoogleRecaptcha from 'components/recaptcha/GoogleRecaptcha';
 import PasswordStrengthBar from 'react-password-strength-bar';
@@ -76,7 +76,7 @@ export default function SignupComponent() {
             recaptchVerifier: '',
         },
         validationSchema: RegisterSchema,
-        onSubmit: async (values, { setErrors, setSubmitting }) => {
+        onSubmit: async (values, { setStatus, setSubmitting }) => {
             try {
                 await fetchRegisterToken(
                     values.email,
@@ -97,21 +97,20 @@ export default function SignupComponent() {
                 if (isMountedRef.current) {
                     setSubmitting(false);
                 }
-            } catch (error) {
+            } catch (error: any) {
                 // eslint-disable-next-line no-console
                 console.error(error);
                 if (isMountedRef.current) {
-                    const errors = {};
-                    errors['afterSubmit'] = error.message;
-                    setErrors(errors);
+                    const errors = { afterSubmit: error.message };
+                    setStatus(errors);
                     setSubmitting(false);
                 }
             }
         },
     });
 
-    const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
-
+    const { touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
+    const errors = formik.errors as any;
     /**
      * Handle success result of solving captcha
      */
@@ -148,7 +147,7 @@ export default function SignupComponent() {
             <FormikProvider value={formik}>
                 <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                     <Stack spacing={3}>
-                        {errors['afterSubmit'] && <Alert severity="error">{errors['afterSubmit']}</Alert>}
+                        {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
 
                         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                             <TextField
@@ -201,7 +200,11 @@ export default function SignupComponent() {
             </FormikProvider>
 
             <TermStyle variant="caption">
-                {t('signup.termCaption')} <NavLink to="/terms"> {t('signup.termCaptionLink')} </NavLink>
+                {t('signup.termCaption')}{' '}
+                <NavLink to="/terms">
+                    {' '}
+                    <>{t('signup.termCaptionLink')}</>{' '}
+                </NavLink>
             </TermStyle>
             <Divider />
             <div>

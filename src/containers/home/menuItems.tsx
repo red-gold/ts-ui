@@ -1,8 +1,8 @@
-import ProfileIcon from '@material-ui/icons/AssignmentIndRounded';
-import HomeIcon from '@material-ui/icons/HomeRounded';
-import PeopleIcon from '@material-ui/icons/PeopleRounded';
-import SettingsIcon from '@material-ui/icons/SettingsRounded';
-import HelpIcon from '@material-ui/icons/HelpRounded';
+import ProfileIcon from '@mui/icons-material/AssignmentIndRounded';
+import HomeIcon from '@mui/icons-material/HomeRounded';
+import PeopleIcon from '@mui/icons-material/PeopleRounded';
+import SettingsIcon from '@mui/icons-material/SettingsRounded';
+import HelpIcon from '@mui/icons-material/HelpRounded';
 import { PATH_MAIN } from 'routes/paths';
 
 export const menuItems = (socialName: string, translate: (key: string) => string) => [

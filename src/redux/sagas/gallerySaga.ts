@@ -21,12 +21,12 @@ import * as postActions from 'redux/actions/postActions';
 import * as serverActions from 'redux/actions/serverActions';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
-import uuid from 'uuid';
+import {v4 as uuid} from 'uuid';
 import { log } from 'utils/log';
-import galleryGetters from '../reducers/imageGallery/galleryGetters';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { initServerRequest } from 'utils/serverUtil';
+import galleryGetters from '../reducers/imageGallery/galleryGetters';
 
 /**
  * Get service providers
@@ -35,7 +35,7 @@ const galleryService: IImageGalleryService = provider.get<IImageGalleryService>(
     SocialProviderTypes.ImageGalleryService,
 );
 
-/***************************** Subroutines ************************************/
+/** *************************** Subroutines *********************************** */
 
 /**
  * Creating channel event and subscribing upload storage service
@@ -82,7 +82,7 @@ function* dbFetchImageGallery(action: any) {
                 newLastImageId: string;
             } = yield call(galleryService.getGallery, uid, dir);
             yield put(imageGalleryActions.addImageList(images.mappedImages));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
         }
     }
@@ -98,7 +98,7 @@ function* dbDeleteVideo(videoId: string) {
         try {
             yield call(galleryService.deleteFile, uid, videoId, config.data.videoFolderPath);
             yield put(imageGalleryActions.deleteVideo(videoId));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
         }
     }
@@ -114,7 +114,7 @@ function* dbDeleteImage(fileId: string, folderName: string) {
         try {
             yield call(galleryService.deleteFile, uid, fileId, folderName);
             yield put(imageGalleryActions.deleteImage(fileId));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
         }
     }
@@ -128,7 +128,7 @@ function* dbSaveVideo(videoURL: string, thumbnail: string) {
     const uid = authedUser.get('uid');
     if (uid) {
         const newVideo = new Media(
-            uuid.v4(),
+            uuid(),
             0,
             moment.utc().valueOf(),
             thumbnail,
@@ -156,7 +156,7 @@ function* dbSaveVideo(videoURL: string, thumbnail: string) {
 /**
  * Fetch video gallery
  */
-function* dbUploadVideo(file: any, fileName: string, thumbnail: string) {
+function* dbUploadVideo(file: any, fileName: string, thumbnail: string): any {
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
     if (uid) {
@@ -187,7 +187,7 @@ function* dbUploadVideo(file: any, fileName: string, thumbnail: string) {
 /**
  * Fetch video gallery
  */
-function* dbUploadVideoThumbnail(file: any, fileName: string) {
+function* dbUploadVideoThumbnail(file: any, fileName: string): any {
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
     if (uid) {
@@ -219,14 +219,14 @@ function* dbUploadVideoThumbnail(file: any, fileName: string) {
 /**
  * Fetch video gallery
  */
-function* dbFetchVideoGallery() {
+function* dbFetchVideoGallery(): any {
     const authedUser: Map<string, any> = yield select(authorizeSelector.getAuthedUser);
     const uid = authedUser.get('uid');
     if (uid) {
         try {
             const videos = yield call(galleryService.getGallery, uid, config.data.videoFolderPath);
             yield put(imageGalleryActions.addVideoList(videos));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
         }
     }
@@ -268,7 +268,7 @@ export function* uploadImage(file: any, rootName: string, fileName: string) {
 /**
  * Fetch album images
  */
-function* fetchAlbumImages(userId: string, albumId: string, lastImageId?: string, limit = 10) {
+function* fetchAlbumImages(userId: string, albumId: string, lastImageId?: string, limit = 10): any {
     const lastImage = yield select(galleryGetters.getAlbumLastImageId, { albumId });
     const result: { mappedImages: Map<string, any>; ids: Map<string, boolean>; newLastImageId: string } = yield call(
         galleryService.fetchAlbumImages,
@@ -351,14 +351,14 @@ function* saveAlbum(uid: string, albumPost: Post, images: Media[]) {
     yield put(serverActions.sendRequest(createAlbumRequest));
 }
 
-/******************************************************************************/
-/******************************* WATCHERS *************************************/
-/******************************************************************************/
+/** *************************************************************************** */
+/** ***************************** WATCHERS ************************************ */
+/** *************************************************************************** */
 
 /**
  * Watch upload video
  */
-function* watchUploadVideo(action: { type: ImageGalleryActionType; payload: any }) {
+function* watchUploadVideo(action: { type: ImageGalleryActionType; payload: any }): any {
     const { file, fileName, thumbnail } = action.payload;
     const prefix = 'thumbnail_';
     const thumbnailFileName = prefix + fileName;
@@ -370,7 +370,7 @@ function* watchUploadVideo(action: { type: ImageGalleryActionType; payload: any 
 /**
  * Watch fetch album images
  */
-function* watchFetchAlbumImages(action: { type: ImageGalleryActionType; payload: any }) {
+function* watchFetchAlbumImages(action: { type: ImageGalleryActionType; payload: any }) : any{
     const { userId, albumId } = action.payload;
     const lastImageId: string = yield select(galleryGetters.getAlbumLastImageId, { albumId });
     yield call(fetchAlbumImages, userId, albumId, lastImageId, 10);
@@ -445,7 +445,7 @@ function* watchUploadOneImage(action: { type: ImageGalleryActionType; payload: a
         yield put(imageGalleryActions.addImageList(mapImage));
         serverRequest.status = ServerRequestStatusType.OK;
         yield put(serverActions.sendRequest(serverRequest));
-    } catch (error) {
+    } catch (error: any) {
         serverRequest.status = ServerRequestStatusType.Error;
         yield put(serverActions.sendRequest(serverRequest));
         yield put(globalActions.showMessage(error.message));
@@ -464,7 +464,7 @@ function* watchCreateAlbum(action: { type: ImageGalleryActionType; payload: any 
         yield put(serverActions.sendRequest(createAlbumRequest));
         try {
             yield call(saveAlbum, uid, albumPost, images);
-        } catch (error) {
+        } catch (error: any) {
             createAlbumRequest.status = ServerRequestStatusType.Error;
             yield put(serverActions.sendRequest(createAlbumRequest));
             yield put(globalActions.showMessage(`gallerySaga/watchCreateAlbum  ${error}`));

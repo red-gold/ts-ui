@@ -3,9 +3,9 @@ import { List, Map } from 'immutable';
 import { createSelector } from 'reselect';
 import galleryGetters from './galleryGetters';
 
-/****************************
+/** **************************
  * Selectors
- ***************************/
+ ************************** */
 
 const selectImages = () => {
     return createSelector([galleryGetters.getImages], (images) => images);

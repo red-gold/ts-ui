@@ -1,24 +1,24 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Paper from '@material-ui/core/Paper';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import LinearProgress from '@mui/material/LinearProgress';
+import Paper from '@mui/material/Paper';
 import CommentListComponent from 'components/commentList/CommentListComponent';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
-import { ICommentGroupProps } from './ICommentGroupProps';
 import CommentInput from 'components/commentInput';
-import { teal } from '@material-ui/core/colors';
-import { useStyles } from './commentGroupStyles';
+import { teal } from '@mui/material/colors';
 import * as commentActions from 'redux/actions/commentActions';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { serverSelector } from 'redux/reducers/server/serverSelector';
 import { Map } from 'immutable';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { experimentalStyled as styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { commentSelector } from 'redux/reducers/comments/commentSelector';
+import { useStyles } from './commentGroupStyles';
+import { ICommentGroupProps } from './ICommentGroupProps';
 
 const LoadMoreRoot = styled('div')({
     textAlign: 'center',
@@ -39,17 +39,17 @@ export function CommentGroupComponent(props: ICommentGroupProps) {
     // Dispatcher
     const dispatch = useDispatch();
     const send = (newComment: Map<string, any>) => {
-        dispatch(commentActions.dbAddComment(newComment));
+        dispatch<any>(commentActions.dbAddComment(newComment));
     };
     const loadComments = () => {
-        dispatch(commentActions.dbFetchComments(postId, commentPage, 10));
+        dispatch<any>(commentActions.dbFetchComments(postId, commentPage, 10));
         setCommentPage(commentPage + 1);
     };
 
     // Selectors
     const requestId = StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId);
     const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
-    const commentsRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId: requestId }));
+    const commentsRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId })) as Map<string,any>;
     const commentsRequestStatus: ServerRequestStatusType = commentsRequest.get(
         'status',
         ServerRequestStatusType.NoAction,
@@ -92,7 +92,7 @@ export function CommentGroupComponent(props: ICommentGroupProps) {
 
     const commentProgress = (
         <LinearProgress
-            sx={{ height: '1.5px', backgroundColor: 'rgb(245, 243, 243)', color: teal['A400'] }}
+            sx={{ height: '1.5px', backgroundColor: 'rgb(245, 243, 243)', color: teal.A400 }}
             variant="indeterminate"
         />
     );
@@ -101,12 +101,12 @@ export function CommentGroupComponent(props: ICommentGroupProps) {
      * Return Elements
      */
     return (
-        <div key={postId + '-comments-group'}>
+        <div key={`${postId  }-comments-group`}>
             {comments && comments.size > 0 && <Divider />}
             <div style={open ? { display: 'block' } : { display: 'none' }}>
                 <Paper elevation={0} className="animate-top" style={!open ? { display: 'block' } : { display: 'none' }}>
                     <div style={{ position: 'relative', height: '60px' }}>
-                        <Button className={classes.toggleShowList} fullWidth={true} onClick={props.onToggleRequest}>
+                        <Button className={classes.toggleShowList} fullWidth onClick={props.onToggleRequest}>
                             {' '}
                         </Button>
                     </div>

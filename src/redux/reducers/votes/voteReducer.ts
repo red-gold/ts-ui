@@ -9,6 +9,7 @@ import { VoteState } from './VoteState';
 /**
  * Vote actions
  */
+// eslint-disable-next-line default-param-last
 export const voteReducer = (state = Map(new VoteState() as any), action: IVoteAction) => {
     const { payload } = action;
     switch (action.type) {

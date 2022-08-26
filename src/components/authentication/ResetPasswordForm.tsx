@@ -2,18 +2,18 @@ import React from 'react';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import { styled } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import { LoadingButton } from '@material-ui/lab';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import { styled } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import { LoadingButton } from '@mui/lab';
 
 //
 import { NavLink } from 'react-router-dom';
-import CloseIcon from '@material-ui/icons/CloseRounded';
+import CloseIcon from '@mui/icons-material/CloseRounded';
 import useAuth from 'hooks/useAuth';
 import useIsMountedRef from 'hooks/useIsMountedRef';
-import { useSnackbar } from 'notistack5';
+import { useSnackbar } from 'notistack';
 import useLocales from 'hooks/useLocales';
 import { PATH_AUTH } from 'routes/paths';
 
@@ -84,7 +84,7 @@ export default function ResetPasswordForm() {
             remember: true,
         },
         validationSchema: LoginSchema,
-        onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
+        onSubmit: async (values, { setStatus, setSubmitting, resetForm }) => {
             try {
                 await login(values.email, values.password);
                 enqueueSnackbar('Login success', {
@@ -98,15 +98,14 @@ export default function ResetPasswordForm() {
                 if (isMountedRef.current) {
                     setSubmitting(false);
                 }
-            } catch (error) {
+            } catch (error: any) {
                 // eslint-disable-next-line no-console
                 console.error(error);
                 resetForm();
                 if (isMountedRef.current) {
                     setSubmitting(false);
-                    const errors = {};
-                    errors['afterSubmit'] = error.message;
-                    setErrors(errors);
+                    const errors = { afterSubmit: error.message };
+                    setStatus(errors);
                 }
             }
         },

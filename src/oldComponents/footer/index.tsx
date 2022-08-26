@@ -1,5 +1,5 @@
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/styles';
+import Grid from '@mui/material/Grid';
+import { withStyles } from '@mui/styles';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

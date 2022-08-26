@@ -5,18 +5,18 @@ import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { AuthAPI } from 'api/AuthAPI';
 import { SignupStepEnum } from 'models/authorize/signupStepEnum';
-import { provider } from '../../socialEngine';
 import * as authorizeActions from 'redux/actions/authorizeActions';
-import * as chatActions from 'redux/actions/chatActions';
 import * as globalActions from 'redux/actions/globalActions';
 import * as serverActions from 'redux/actions/serverActions';
+import * as vangActions from 'redux/actions/vangActions';
 
-import { ServerRequestStatusType } from '../actions/serverRequestStatusType';
-import { authorizeSelector } from '../reducers/authorize/authorizeSelector';
-import * as userActions from '../actions/userActions';
 import { UserClaim } from 'core/domain/authorize/userClaim';
 import { AuthorizeState } from 'models/authorize/authorizeState';
 import { implementPromiseAction } from '@adobe/redux-saga-promise';
+import { ServerRequestStatusType } from '../actions/serverRequestStatusType';
+import { authorizeSelector } from '../reducers/authorize/authorizeSelector';
+import * as userActions from '../actions/userActions';
+import { provider } from '../../socialEngine';
 
 /**
  * Get service providers
@@ -27,7 +27,7 @@ const authorizeService: IAuthorizeService = provider.get<IAuthorizeService>(Soci
  * On logout user
  */
 function* onLogoutUser() {
-    yield put(chatActions.wsDisconnect());
+    yield put(vangActions.wsDisconnect());
     yield call(authorizeService.logout);
     yield put(authorizeActions.logout());
     yield put(globalActions.clearLoadedData());
@@ -58,7 +58,7 @@ function* fetchUserRegisterToken(action: any) {
 
             yield put(authorizeActions.setUserRegisterToken(result.token));
             yield put(authorizeActions.setSignupStep(SignupStepEnum.VerifyCode));
-        } catch (error) {
+        } catch (error: any) {
             signupRequest.status = ServerRequestStatusType.Error;
             yield put(serverActions.sendRequest(signupRequest));
             throw error;
@@ -107,7 +107,7 @@ function* verifyUserRegisterCode(action: any) {
             signupRequest.status = ServerRequestStatusType.OK;
             yield put(serverActions.sendRequest(signupRequest));
             yield call(authorizeService.loginByToken, response.token);
-        } catch (error) {
+        } catch (error: any) {
             signupRequest.status = ServerRequestStatusType.Error;
             yield put(serverActions.sendRequest(signupRequest));
             throw error;

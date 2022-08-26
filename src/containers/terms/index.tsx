@@ -1,18 +1,18 @@
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
+import AppBar from '@mui/material/AppBar';
+import IconButton from '@mui/material/IconButton';
+import Paper from '@mui/material/Paper';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import MenuIcon from '@mui/icons-material/Menu';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
+import { withStyles } from '@mui/styles';
 import { ITermsProps } from './ITermsProps';
 import { ITermsState } from './ITermsState';
 import { termsStyles } from './termsStyles';
 import { TermsType } from './termsType';
-import { withStyles } from '@material-ui/styles';
 
 export class TermsComponent extends Component<ITermsProps & WithTranslation, ITermsState> {
     constructor(props: ITermsProps & WithTranslation) {
@@ -68,17 +68,17 @@ export class TermsComponent extends Component<ITermsProps & WithTranslation, ITe
                             {selectedItem === TermsType.Terms ? (
                                 <Typography component="div"> </Typography>
                             ) : (
-                                <div></div>
+                                <div />
                             )}
                             {selectedItem === TermsType.Privacy ? (
                                 <Typography component="div"> </Typography>
                             ) : (
-                                <div></div>
+                                <div />
                             )}
                             {selectedItem === TermsType.Cookie ? (
                                 <Typography component="div"> </Typography>
                             ) : (
-                                <div></div>
+                                <div />
                             )}
                         </div>
                     </Paper>

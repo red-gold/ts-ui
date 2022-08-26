@@ -2,10 +2,10 @@ import { Map } from 'immutable';
 import React, { useEffect, useState } from 'react';
 import * as postActions from 'redux/actions/postActions';
 import { useParams } from 'react-router';
-import { useSnackbar } from 'notistack5';
+import { useSnackbar } from 'notistack';
 
 // material
-import { CircularProgress, Stack, styled } from '@material-ui/core';
+import { CircularProgress, Stack, styled } from '@mui/material';
 // redux
 import { userSelector } from 'redux/reducers/users/userSelector';
 import { postSelector } from 'redux/reducers/posts/postSelector';
@@ -35,16 +35,16 @@ const ContainerStyle = styled('div')(() => ({
     display: 'flex',
     margin: '0 auto',
     width: '100%',
-    ['@media (min-width: 440px)']: {
+    '@media (min-width: 440px)': {
         width: '90%',
     },
-    ['@media only screen and (min-width: 860px)']: {
+    '@media only screen and (min-width: 860px)': {
         width: '90%',
     },
-    ['@media (min-width: 1600px)']: {
+    '@media (min-width: 1600px)': {
         width: '94%',
     },
-    ['@media (max-width: 440px)']: {
+    '@media (max-width: 440px)': {
         width: 'calc(100% - 16px)',
         margin: '0 8px',
     },
@@ -61,7 +61,7 @@ export default function PostPage() {
     const dispatch = useDispatch();
 
     // Selector
-    const post = useSelector((state: Map<string, any>) => selectPost(state, { urlKey }));
+    const post = useSelector((state: Map<string, any>) => selectPost(state, { urlKey: urlKey as string }));
     const userInfo = useSelector((state: Map<string, any>) =>
         selectProfileById(state, { userId: post.get('ownerUserId') }),
     );
@@ -69,8 +69,8 @@ export default function PostPage() {
     const loadPost = async () => {
         setLoading(true);
         try {
-            await dispatch(postActions.fetchPostByURLKey(urlKey));
-        } catch (error) {
+            await dispatch<any>(postActions.fetchPostByURLKey(urlKey as string));
+        } catch (error: any) {
             enqueueSnackbar(error.message, { variant: 'error' });
         } finally {
             setLoading(false);
@@ -85,7 +85,7 @@ export default function PostPage() {
 
     useEffect(() => {
         if (post && post.get('ownerUserId')) {
-            dispatch(fetchProfileById(post.get('ownerUserId')));
+            dispatch<any>(fetchProfileById(post.get('ownerUserId')));
         }
     }, [post.get('ownerUserId'), dispatch]);
 

@@ -10,10 +10,10 @@ import { SocialError } from 'core/domain/common/socialError';
 import { ICommonService } from 'core/services/common/ICommonService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { ServerRequestModel } from 'models/server';
-import { provider } from '../../socialEngine';
 import * as serverActions from 'redux/actions/serverActions';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { createPromiseAction } from '@adobe/redux-saga-promise';
+import { provider } from '../../socialEngine';
 
 const commonService: ICommonService = provider.get<ICommonService>(SocialProviderTypes.CommonService);
 
@@ -23,7 +23,7 @@ const commonService: ICommonService = provider.get<ICommonService>(SocialProvide
 export const dbSendFeed = (newFeed: Feed) => {
     return (dispatch: (action: any) => any, getState: () => any): any => {
         const state: Map<string, any> = getState();
-        const uid: string = state.getIn(['authorize', 'uid']);
+        const uid = state.getIn(['authorize', 'uid']) as string;
 
         // Set server request status to {Sent}
         const feedbackRequest = createFeedbackRequest(uid);

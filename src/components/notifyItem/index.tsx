@@ -1,18 +1,18 @@
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import SvgClose from '@material-ui/icons/Close';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import ListItemText from '@mui/material/ListItemText';
+import SvgClose from '@mui/icons-material/Close';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import React from 'react';
 import classNames from 'classnames';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
 
-import { INotifyItemProps } from './INotifyItemProps';
-import Button from '@material-ui/core/Button';
-import useTheme from '@material-ui/core/styles/useTheme';
-import { useStyles } from './notifyItemStyles';
-import Typography from '@material-ui/core/Typography';
+import Button from '@mui/material/Button';
+import useTheme from '@mui/material/styles/useTheme';
+import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router';
 import StringAPI from 'api/StringAPI';
+import { useStyles } from './notifyItemStyles';
+import { INotifyItemProps } from './INotifyItemProps';
 
 export function NotifyItemComponent(props: INotifyItemProps) {
     const classes = useStyles();

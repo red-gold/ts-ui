@@ -46,9 +46,9 @@ const getHeaderTitle = (state: Map<string, any>) => {
     return state.getIn(['global', 'headerTitle'], '');
 };
 
-/****************************
+/** **************************
  * Selectors
- ***************************/
+ ************************** */
 const selectDialogState = () => {
     return createSelector([getDialogState], (state) => state);
 };

@@ -6,11 +6,11 @@ const getFollowingUsers = (state: Map<string, any>) => {
 };
 
 const getCirclesLoaded = (state: Map<string, any>) => {
-    return state.getIn(['circle', 'loaded']);
+    return state.getIn(['circle', 'loaded']) as boolean;
 };
 
 const getSettingOpen = (state: Map<string, any>, { circleId }: { circleId: string }): boolean => {
-    return state.getIn(['circle', 'openSetting', circleId], false);
+    return state.getIn(['circle', 'openSetting', circleId], false) as boolean;
 };
 
 // Selectors //
@@ -34,7 +34,7 @@ const selectCircleUsers = () => {
             let usersOfCircle: Map<string, any> = Map({});
             followingUsers.forEach((userTie, userTieId) => {
                 const theUserTie: Map<string, any> = userTie;
-                const circleList: List<string> = theUserTie.getIn(['circleIdList']);
+                const circleList = theUserTie.getIn(['circleIdList']) as List<string>;
                 if (circleList.indexOf(circleId) > -1) {
                     usersOfCircle = usersOfCircle.set(userTieId, theUserTie);
                 }

@@ -2,7 +2,7 @@ import { GlobalActionType } from 'constants/globalActionType';
 import { all, takeLatest } from 'redux-saga/effects';
 import { LanguageType } from 'redux/reducers/locale/langugeType';
 
-/***************************** Subroutines ************************************/
+/** *************************** Subroutines *********************************** */
 
 /**
  * Initialize localization

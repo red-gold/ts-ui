@@ -41,6 +41,7 @@ export class PostIndex extends BaseDomain {
         }
         return post;
     }
+
     constructor(
         /**
          * Post identifier

@@ -9,6 +9,7 @@ import { ImageGalleryState } from './ImageGalleryState';
 /**
  *  Image gallery reducer
  */
+// eslint-disable-next-line default-param-last
 export const imageGalleryReducer = (state = Map(new ImageGalleryState() as any), action: IImageGalleryAction) => {
     const { payload } = action;
 
@@ -54,9 +55,7 @@ export const imageGalleryReducer = (state = Map(new ImageGalleryState() as any),
             return state.set('videos', List(payload)).set('loaded', true);
 
         case ImageGalleryActionType.DELETE_VIDEO:
-            return state.update('videos', (videos: any) => {
-                return videos.filter((video: any) => video.id !== payload);
-            });
+            return state.update('videos', (videos: any) => videos.filter((video: any) => video.id !== payload));
 
         case ImageGalleryActionType.SEND_IMAGE_REQUEST:
             return state.mergeIn(['imageRequests'], payload);

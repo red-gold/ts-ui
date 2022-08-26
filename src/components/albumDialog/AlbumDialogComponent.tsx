@@ -1,24 +1,24 @@
 // - Impoer react components
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Dialog from '@material-ui/core/Dialog';
-import ImageList from '@material-ui/core/ImageList';
-import Fab from '@material-ui/core/Fab';
-import ImageListItem from '@material-ui/core/ImageListItem';
-import ImageListItemBar from '@material-ui/core/ImageListItemBar';
-import IconButton from '@material-ui/core/IconButton';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Paper from '@material-ui/core/Paper';
-import Slide from '@material-ui/core/Slide';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import AddPhotoIcon from '@material-ui/icons/AddPhotoAlternate';
-import CloseIcon from '@material-ui/icons/Close';
-import SvgDelete from '@material-ui/icons/Delete';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LockIcon from '@material-ui/icons/VpnLock';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Dialog from '@mui/material/Dialog';
+import ImageList from '@mui/material/ImageList';
+import Fab from '@mui/material/Fab';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import IconButton from '@mui/material/IconButton';
+import LinearProgress from '@mui/material/LinearProgress';
+import MobileStepper from '@mui/material/MobileStepper';
+import Paper from '@mui/material/Paper';
+import Slide from '@mui/material/Slide';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
+import CloseIcon from '@mui/icons-material/Close';
+import SvgDelete from '@mui/icons-material/Delete';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LockIcon from '@mui/icons-material/VpnLock';
 import FileAPI from 'api/FileAPI';
 import StringAPI from 'api/StringAPI';
 import UserPermissionComponent from 'components/userPermission/UserPermissionComponent';
@@ -33,8 +33,8 @@ import { WithTranslation } from 'react-i18next';
 import SwipeableViews from 'react-swipeable-views';
 import config from 'config';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
-import uuid from 'uuid';
-import { TransitionProps } from '@material-ui/core/transitions';
+import { v4 as uuid } from 'uuid';
+import { TransitionProps } from '@mui/material/transitions';
 import { Map } from 'immutable';
 import { IAlbumDialogProps } from './IAlbumDialogProps';
 import { IAlbumDialogState } from './IAlbumDialogState';
@@ -49,12 +49,14 @@ const tutorialSteps = [
     },
 ];
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & { children?: React.ReactElement<any, any> },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+const Transition = React.forwardRef(
+    (
+        props: TransitionProps & {
+            children: React.ReactElement<any, any>;
+        },
+        ref: React.Ref<unknown>,
+    ) => <Slide direction="up" ref={ref} {...props} />,
+);
 
 export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTranslation, IAlbumDialogState> {
     static getDerivedStateFromProps(props: IAlbumDialogProps & WithTranslation, state: IAlbumDialogState) {
@@ -78,8 +80,6 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
         super(props);
 
         this.state = {
-            acceptedFiles: [],
-            rejectedFiles: [],
             activeStep: 0,
             selectedPhotos: [...props.photos],
             nextDisabled: true,
@@ -124,26 +124,6 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
     };
 
     /**
-     * Get permission label
-     */
-    getPermissionLabel = () => {
-        const { t } = this.props;
-        const { permission } = this.state;
-        if (!t) {
-            return '';
-        }
-        let permissionLabel = '';
-        if (permission === UserPermissionType.Public) {
-            permissionLabel = t('permission.public');
-        } else if (permission === UserPermissionType.Circles) {
-            permissionLabel = t('permission.circles');
-        } else if (permission === UserPermissionType.OnlyMe) {
-            permissionLabel = t('permission.onlyMe');
-        }
-        return permissionLabel;
-    };
-
-    /**
      * Handle change input
      */
     handleChange = (name: string) => (event: any) => {
@@ -153,13 +133,11 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
         if (StringAPI.isEmpty(targetValue)) {
             error = t(`album.${name}Error`);
         }
-        this.setState(() => {
-            return {
-                [name]: targetValue,
-                [`${name}Error`]: error,
-                saveDisabled: !StringAPI.isEmpty(error),
-            };
-        });
+        this.setState(() => ({
+            [name]: targetValue,
+            [`${name}Error`]: error,
+            saveDisabled: !StringAPI.isEmpty(error),
+        }));
     };
 
     /**
@@ -223,14 +201,14 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
         const selectedPhotos = [...this.state.selectedPhotos];
         const images: Media[] = [];
         const mappedPhotos = selectedPhotos.map((photo) => {
-            const meta = progress.getIn([photo.fileName, 'meta'], { url: '' });
+            const meta = progress.getIn([photo.fileName, 'meta'], { url: '' }) as { url: string };
             const fileId = photo.fileName.split('.')[0];
             const image = new Media(
                 fileId,
                 0,
                 0,
-                URL.createObjectURL(photo.src),
-                URL.createObjectURL(photo.src),
+                URL.createObjectURL(photo.src as unknown as Blob),
+                URL.createObjectURL(photo.src as unknown as Blob),
                 photo.fileName,
                 '',
                 '',
@@ -369,7 +347,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
     onFileChange = (event: any) => {
         const selectedPhotos = [...this.state.selectedPhotos];
 
-        const files: File[] = event.currentTarget.files;
+        const { files } = event.currentTarget;
         const parsedFiles: { src: string; file: any; fileName: string }[] = [];
         for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
             const file = files[fileIndex];
@@ -389,16 +367,34 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
      * Delete selected photo
      */
     deleteSelectedPhoto = (fileName: string) => {
-        let selectedPhotos = [...this.state.selectedPhotos];
-        selectedPhotos = selectedPhotos.filter((photo) => photo.fileName !== fileName);
-        this.setState({
-            selectedPhotos,
+        this.setState((prevState) => {
+            let selectedPhotos = [...prevState.selectedPhotos];
+            selectedPhotos = selectedPhotos.filter((photo) => photo.fileName !== fileName);
+            return {
+                selectedPhotos,
+            };
         });
     };
 
-    onDrop(acceptedFiles: any[], rejectedFiles: any[]) {
-        this.setState({ acceptedFiles, rejectedFiles });
-    }
+    /**
+     * Get permission label
+     */
+    getPermissionLabel = () => {
+        const { t } = this.props;
+        const { permission } = this.state;
+        if (!t) {
+            return '';
+        }
+        let permissionLabel = '';
+        if (permission === UserPermissionType.Public) {
+            permissionLabel = t('permission.public');
+        } else if (permission === UserPermissionType.Circles) {
+            permissionLabel = t('permission.circles');
+        } else if (permission === UserPermissionType.OnlyMe) {
+            permissionLabel = t('permission.onlyMe');
+        }
+        return permissionLabel;
+    };
 
     /**
      * Hide image gallery
@@ -416,8 +412,8 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
         const { classes, progress } = this.props;
         const { selectedPhotos } = this.state;
         return selectedPhotos.map((photo) => {
-            const progressPercent = progress.getIn([photo.fileName, 'percent'], 0);
-            const progressVisible = progress.getIn([photo.fileName, 'visible'], true);
+            const progressPercent = progress.getIn([photo.fileName, 'percent'], 0) as number;
+            const progressVisible = progress.getIn([photo.fileName, 'visible'], true) as boolean;
 
             return (
                 <ImageListItem key={`album-dialog-tile-${photo.fileName}`}>
@@ -456,7 +452,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
         return (
             <div className={classes.gridTileRoot}>
                 <ImageList rowHeight={180} className={classes.ImageList}>
-                    <ImageListItem key="Subheader" cols={2} style={{ height: 'auto' }}></ImageListItem>
+                    <ImageListItem key="Subheader" cols={2} style={{ height: 'auto' }} />
                     {this.imageList()}
                 </ImageList>
             </div>
@@ -524,7 +520,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
                                 <LockIcon />
                                 {this.getPermissionLabel()}
                             </Fab>
-                            <div style={{ height: 40 }}></div>
+                            <div style={{ height: 40 }} />
 
                             <TextField
                                 autoFocus={activeStep === 1}
@@ -534,7 +530,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps & WithTran
                                 error={!StringAPI.isEmpty(albumNameError)}
                                 helperText={albumNameError}
                             />
-                            <div style={{ height: 40 }}></div>
+                            <div style={{ height: 40 }} />
                             <TextField
                                 value={description}
                                 onChange={this.handleChange('description')}

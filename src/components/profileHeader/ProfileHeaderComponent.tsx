@@ -1,4 +1,4 @@
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import EditProfile from 'components/editProfile/EditProfileComponent';
 import ImgCover from 'components/imgCover';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
@@ -33,6 +33,7 @@ export class ProfileHeaderComponent extends Component<
 
         // Binding functions to `this`
     }
+
     /**
      * Handle resize event for window to change sidebar status
      * @param  {event} evt is the event is passed by winodw resize event
@@ -104,7 +105,7 @@ export class ProfileHeaderComponent extends Component<
                 <div className={this.state.isSmall ? 'profile__head-info-s' : 'profile__head-info'}>
                     <EventListener target="window" onResize={this.handleResize} />
                     <div className="left">
-                        {/* User avatar*/}
+                        {/* User avatar */}
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <UserAvatar
                                 displayName={this.props.fullName || ' '}
@@ -116,9 +117,9 @@ export class ProfileHeaderComponent extends Component<
                         <div className="info">
                             <div className="fullName">{this.props.fullName}</div>
                             <div className="tagLine">{this.props.tagLine}</div>
-                            {/*<div className='followers'>
+                            {/* <div className='followers'>
                                 {this.props.followerCount} Followers
-                </div>*/}
+                </div> */}
                         </div>
                     </div>
                     <div className="right">

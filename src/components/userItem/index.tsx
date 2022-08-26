@@ -3,12 +3,12 @@ import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 
 import React from 'react';
 
-import { IUserItemProps } from './IUserItemProps';
-import ListItem from '@material-ui/core/ListItem';
-import { useStyles } from './userItemStyles';
-import Typography from '@material-ui/core/Typography';
+import ListItem from '@mui/material/ListItem';
+import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router';
 import { PATH_MAIN } from 'routes/paths';
+import { useStyles } from './userItemStyles';
+import { IUserItemProps } from './IUserItemProps';
 
 export function UserItem(props: IUserItemProps) {
     const navigate = useNavigate();

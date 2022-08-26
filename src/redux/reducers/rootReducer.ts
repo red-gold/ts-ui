@@ -12,7 +12,7 @@ import { userReducer } from './users/userReducer';
 import { voteReducer } from './votes/voteReducer';
 import { serverReducer } from './server/serverReducer';
 import { userSettingReducer } from './userSetting/userSettingReducer';
-import { chatReducer } from './chat/chatReducer';
+import { vangReducer } from './vang/vangReducer';
 // - Reducers
 export const rootReducer = () =>
     combineReducers({
@@ -27,5 +27,5 @@ export const rootReducer = () =>
         notify: notificationReducer,
         global: globalReducer,
         userSetting: userSettingReducer,
-        chat: chatReducer,
+        vang: vangReducer,
     } as any);

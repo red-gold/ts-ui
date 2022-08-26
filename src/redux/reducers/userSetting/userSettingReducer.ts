@@ -9,6 +9,7 @@ import { IUserSettingAction } from './IUserSettingAction';
 /**
  * UserSetting actions
  */
+// eslint-disable-next-line default-param-last
 export const userSettingReducer = (state = Map({}), action: IUserSettingAction) => {
     const { payload } = action;
     switch (action.type) {

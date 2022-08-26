@@ -17,6 +17,7 @@ const addPlainNotifyList = (state: Map<string, any>, payload: any) => {
  * Notify actions
  */
 export const notificationReducer = (
+    // eslint-disable-next-line default-param-last
     state = Map(new NotificationState() as any) as Map<string, any>,
     action: INotificationAction,
 ) => {

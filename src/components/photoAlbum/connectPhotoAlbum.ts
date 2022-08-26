@@ -3,7 +3,6 @@ import { postSelector } from 'redux/reducers/posts/postSelector';
 
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { Map } from 'immutable';
-import { IPhotoAlbumProps } from './IPhotoAlbumProps';
 
 // - Import actions
 import * as postActions from 'redux/actions/postActions';
@@ -15,6 +14,7 @@ import { serverSelector } from 'redux/reducers/server/serverSelector';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { ComponentType } from 'react';
 import { throwNoValue } from 'utils/errorHandling';
+import { IPhotoAlbumProps } from './IPhotoAlbumProps';
 
 /**
  * Map dispatch to props
@@ -39,7 +39,7 @@ const makeMapStateToProps = () => {
         const currentUser = selectCurrentUser(state).toJS() as User;
         const currentUserId = throwNoValue(currentUser.userId, 'currentUser.userId');
         const requestId = StringAPI.createServerRequestId(ServerRequestType.SearchPosts, currentUserId);
-        const searchRequestStatus = selectRequest(state, { requestId });
+        const searchRequestStatus = selectRequest(state, { requestId }) as Map<string, ServerRequestStatusType>;
         const hasMorePosts = selectHasMorePost(state);
         const posts = selectStreamPosts(state);
         return {

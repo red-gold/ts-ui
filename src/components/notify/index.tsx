@@ -1,20 +1,20 @@
 import React from 'react';
 import classNames from 'classnames';
 import SimpleBar from 'simplebar-react';
-import List from '@material-ui/core/List';
-import Popover from '@material-ui/core/Popover';
+import List from '@mui/material/List';
+import Popover from '@mui/material/Popover';
 import NotifyItem from 'components/notifyItem';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 import 'simplebar/dist/simplebar.min.css';
 import { Map } from 'immutable';
-import { INotifyProps } from './INotifyProps';
 
 import CommonAPI from 'api/CommonAPI';
 import { useDispatch, useSelector } from 'react-redux';
 import * as notifyActions from 'redux/actions/notifyActions';
 import { notificationSelector } from 'redux/reducers/notifications/notificationSelector';
 import { useTranslation } from 'react-i18next';
+import { INotifyProps } from './INotifyProps';
 import { useStyles } from './notifyStyles';
 
 const selectNotifications = notificationSelector.selectNotifications();
@@ -25,8 +25,8 @@ export function NotifyComponent(props: INotifyProps) {
 
     // Dispatchers
     const dispatch = useDispatch();
-    const seenNotify = (id: string) => dispatch(notifyActions.dbSeenNotification(id));
-    const deleteNotify = (id: string) => dispatch(notifyActions.dbDeleteNotification(id));
+    const seenNotify = (id: string) => dispatch<any>(notifyActions.dbSeenNotification(id));
+    const deleteNotify = (id: string) => dispatch<any>(notifyActions.dbDeleteNotification(id));
 
     // Selectors
     const notifications = useSelector((state: Map<string, any>) => selectNotifications(state));

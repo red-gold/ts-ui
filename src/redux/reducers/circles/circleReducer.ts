@@ -10,7 +10,7 @@ import { ICircleAction } from './ICircleAction';
  * Add circle
  */
 const addCircle = (state: any, payload: any) => {
-    const circle: Map<string, any> = payload.circle;
+    const { circle } = payload;
     return state.setIn(['circleList', circle.get('id')], payload.circle);
 };
 
@@ -18,7 +18,7 @@ const addCircle = (state: any, payload: any) => {
  * Update circle
  */
 const updateCircle = (state: any, payload: any) => {
-    const circle: Map<string, any> = payload.circle;
+    const { circle } = payload;
     return state
         .setIn(['openSetting', circle.get('id')], false)
         .setIn(['circleList', circle.get('id')], payload.circle);
@@ -29,6 +29,7 @@ const updateCircle = (state: any, payload: any) => {
  * @param state
  * @param action
  */
+// eslint-disable-next-line default-param-last
 export const circleReducer = (state = Map(new CircleState() as any), action: ICircleAction) => {
     const { payload } = action;
     switch (action.type) {
@@ -47,10 +48,9 @@ export const circleReducer = (state = Map(new CircleState() as any), action: ICi
             return state.set('loaded', true).mergeIn(['circleList'], payload.circleList);
 
         case CircleActionType.ADD_FOLLOWING_USER:
-            const userTie: Map<string, any> = payload.userTie;
             return state
-                .setIn(['userTies', userTie.get('userId')], payload.userTie)
-                .setIn(['selectedCircles', userTie.get('userId')], userTie.get('circleIdList'));
+                .setIn(['userTies', payload.userTie.get('userId')], payload.userTie)
+                .setIn(['selectedCircles', payload.userTie.get('userId')], payload.userTie.get('circleIdList'));
 
         case CircleActionType.UPDATE_USER_TIE:
             return state.setIn(['userTies', payload.userTie.user.userId], payload.userTie);

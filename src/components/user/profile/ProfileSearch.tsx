@@ -1,8 +1,8 @@
 import React from 'react';
 // material
-import { styled } from '@material-ui/core/styles';
-import { Box, Grid, CircularProgress } from '@material-ui/core';
-import { SxProps } from '@material-ui/system';
+import { styled } from '@mui/material/styles';
+import { Box, Grid, CircularProgress } from '@mui/material';
+import { SxProps } from '@mui/system';
 //
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import SearchNotFound from 'components/SearchNotFound';
@@ -29,7 +29,7 @@ export interface ProfileSearchProps {
 
 export default function ProfileSearch({ friends, hasNextPage, loading, loadMore, sx, query }: ProfileSearchProps) {
     const [sentryRef] = useInfiniteScroll({
-        loading: loading,
+        loading,
         hasNextPage,
         onLoadMore: loadMore,
         // When there is an error, we stop infinite loading.

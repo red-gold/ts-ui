@@ -1,18 +1,18 @@
-import Button from '@material-ui/core/Button';
-import CardActions from '@material-ui/core/CardActions';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
+import Button from '@mui/material/Button';
+import CardActions from '@mui/material/CardActions';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListSubheader from '@mui/material/ListSubheader';
+import Paper from '@mui/material/Paper';
+import Switch from '@mui/material/Switch';
 import { Map } from 'immutable';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
-import { INotificationSettingProps } from './INotificationSettingProps';
 import { UserSettingEnum } from 'constants/userSettingEnum';
+import { INotificationSettingProps } from './INotificationSettingProps';
 import { useStyles } from './notificationSettingStyles';
 
 export function NotificationSettingComponent(props: INotificationSettingProps & WithTranslation) {

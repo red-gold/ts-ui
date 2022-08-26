@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import red from '@material-ui/core/colors/red';
-import IconButton from '@material-ui/core/IconButton';
-import { createStyles, makeStyles } from '@material-ui/styles';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import red from '@mui/material/colors/red';
+import IconButton from '@mui/material/IconButton';
+import { createStyles, makeStyles } from '@mui/styles';
 
-import Snackbar from '@material-ui/core/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import classNames from 'classnames';
-import CallEndIcon from '@material-ui/icons/CallEnd';
+import CallEndIcon from '@mui/icons-material/CallEnd';
 import { ICallSnackProps } from './ICallSnackProps';
 
 const useStyles = makeStyles(() =>
@@ -42,14 +42,14 @@ function CallSnackComponent(props: ICallSnackProps) {
         // code to run on component mount
         if (!init) {
             try {
-                const elementId = 'audio' + new Date().valueOf().toString();
+                const elementId = `audio${  new Date().valueOf().toString()}`;
                 audio = document.createElement('audio');
                 audio.setAttribute('id', elementId);
                 audio.setAttribute('src', soundURL);
                 document.body.appendChild(audio);
                 audio.loop = true;
                 audio.play();
-            } catch (error) {}
+            } catch (error: any) {}
             setInit(true);
         }
         return () => {
@@ -75,7 +75,7 @@ function CallSnackComponent(props: ICallSnackProps) {
                     />
                 </ListItemAvatar>
                 <ListItemText primary={title} secondary={<span style={{ color: 'white' }}>{subtitle}</span>} />
-                <ListItemSecondaryAction></ListItemSecondaryAction>
+                <ListItemSecondaryAction />
             </ListItem>
         </List>
     );
@@ -83,7 +83,7 @@ function CallSnackComponent(props: ICallSnackProps) {
     return (
         <Snackbar
             anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-            open={true}
+            open
             className={classes.root}
             ContentProps={{ classes: { message: classes.content } }}
             message={callBoxElement()}

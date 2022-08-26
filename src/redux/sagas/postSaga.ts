@@ -1,7 +1,7 @@
 import { PostAPI } from 'api/PostAPI';
 import { PostActionType } from 'constants/postActionType';
 import { UserActionType } from 'constants/userActionType';
-import { IPostService } from 'core/services/posts/IPostService';
+import type { IPostService } from 'core/services/posts/IPostService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { Map, fromJS } from 'immutable';
 import { all, call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
@@ -15,20 +15,20 @@ import * as userActions from 'redux/actions/userActions';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { circleSelector } from 'redux/reducers/circles/circleSelector';
 import { postSelector } from 'redux/reducers/posts/postSelector';
-import { userGetters } from '../reducers/users/userGetters';
-import { uploadImage } from './gallerySaga';
 import config from 'config';
 import { Post } from 'core/domain/posts/post';
 import { Album } from 'core/domain/imageGallery/album';
 import { DialogType } from 'models/common/dialogType';
 import { implementPromiseAction } from '@adobe/redux-saga-promise';
+import { uploadImage } from './gallerySaga';
+import { userGetters } from '../reducers/users/userGetters';
 
 /**
  * Get service providers
  */
 const postService: IPostService = provider.get<IPostService>(SocialProviderTypes.PostService);
 
-/***************************** Subroutines ************************************/
+/** *************************** Subroutines *********************************** */
 
 /**
  * Fetch posts for stream
@@ -154,14 +154,14 @@ function* getPostSearchKey() {
     try {
         const searchKey: string = yield call(postService.getSearchKey);
         yield put(postActions.setPostSearchKey(searchKey));
-    } catch (error) {
+    } catch (error: any) {
         yield put(globalActions.showMessage(error.message));
     }
 }
 
-/******************************************************************************/
-/******************************* WATCHERS *************************************/
-/******************************************************************************/
+/** *************************************************************************** */
+/** ***************************** WATCHERS ************************************ */
+/** *************************************************************************** */
 
 /**
  * Fetch posts from server
@@ -175,7 +175,7 @@ function* watchFetchPostStream(action: { type: PostActionType; payload: any }) {
         try {
             const lastPostId: string = yield select(postSelector.getStreamLastPostId);
             yield call(dbFetchPostStream, uid, lastPostId, page, limit, '');
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
             yield put(postActions.notMoreDataStream());
             throw error;
@@ -190,7 +190,7 @@ function* getPostByURLKey(action: Record<string, any>) {
     yield call(implementPromiseAction, action, function* () {
         const { urlKey } = action.payload;
         const post: Post = yield call(postService.getPostByURLKey, urlKey);
-        yield put(postActions.addPost(fromJS(post)));
+        yield put(postActions.addPost(fromJS(post) as Map<string, any>));
     });
 }
 
@@ -211,7 +211,7 @@ function* watchSearchPost(action: { type: PostActionType; payload: any }) {
 
                 yield call(dbSearchPost, query, uid, lastPostId, page, limit, '');
             }
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
             yield put(postActions.notMorePostSearch());
             throw error;
@@ -235,7 +235,7 @@ function* watchDeletePost(action: { type: PostActionType; payload: any }) {
             yield call(postService.deletePost, id);
             yield put(postActions.deletePost(uid, id));
             yield put(userActions.decreasePostCountUser(uid));
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
             yield put(postActions.notMorePostSearch());
             throw error;
@@ -281,12 +281,12 @@ function* watchUpdatePost(action: {
                 );
             }
 
-            yield call(postService.updatePost, updatedPost.toJS() as Post);
+            yield call(postService.updatePost, updatedPost.toJS() as unknown as Post);
             yield put(globalActions.closeDialog(DialogType.PostWrite));
             yield put(postActions.updatePost(updatedPost));
             postUpdateRequest.status = ServerRequestStatusType.OK;
             yield put(serverActions.sendRequest(postUpdateRequest));
-        } catch (error) {
+        } catch (error: any) {
             postUpdateRequest.status = ServerRequestStatusType.Error;
             yield put(serverActions.sendRequest(postUpdateRequest));
             yield put(globalActions.showMessage(error.message));
@@ -342,7 +342,7 @@ function* watchCreatePost(action: {
                     fromJS({
                         ...post,
                         id: postKey,
-                    }),
+                    }) as Map<string, any>,
                 ),
             );
             yield put(postActions.addStreamPosts(Map({ [postKey]: true })));
@@ -350,7 +350,7 @@ function* watchCreatePost(action: {
 
             postUpdateRequest.status = ServerRequestStatusType.OK;
             yield put(serverActions.sendRequest(postUpdateRequest));
-        } catch (error) {
+        } catch (error: any) {
             postUpdateRequest.status = ServerRequestStatusType.Error;
             yield put(serverActions.sendRequest(postUpdateRequest));
             yield put(globalActions.showMessage(error.message));
@@ -361,7 +361,7 @@ function* watchCreatePost(action: {
 /**
  * Fetch posts by user identifier from server
  */
-function* watchFetchPostByUserId(action: { type: PostActionType; payload: any }) {
+function* watchFetchPostByUserId(action: { type: PostActionType; payload: any }) : any{
     yield call(implementPromiseAction, action, function* () {
         const { payload } = action;
         const { page, limit, userId } = payload;
@@ -373,7 +373,7 @@ function* watchFetchPostByUserId(action: { type: PostActionType; payload: any })
             const lastPostId: string = yield select(postSelector.getProfileLatPostId, { userId });
 
             yield call(dbFetchPostByUserId, userId, lastPostId, page, limit, '');
-        } catch (error) {
+        } catch (error: any) {
             yield put(globalActions.showMessage(error.message));
             throw error;
         }
@@ -398,7 +398,7 @@ function* watchFetchAlbumPosts(action: { type: PostActionType; payload: any }) {
         if (uid) {
             yield call(dbFetchAlbumPosts, userId, lastPostId, page, limit, '');
         }
-    } catch (error) {
+    } catch (error: any) {
         yield put(globalActions.showMessage(error.message));
     }
 }
@@ -411,7 +411,7 @@ function* watchDisableComment({ payload }: Record<string, any>) {
 
     try {
         yield call(postService.disableComment, postId, status);
-    } catch (error) {
+    } catch (error: any) {
         yield put(globalActions.showMessage(error.message));
     }
 }
@@ -424,7 +424,7 @@ function* watchDisableSharing({ payload }: Record<string, any>) {
 
     try {
         yield call(postService.disableSharing, postId, status);
-    } catch (error) {
+    } catch (error: any) {
         yield put(globalActions.showMessage(error.message));
     }
 }

@@ -2,17 +2,17 @@ import React from 'react';
 import CreatableSelect from 'react-select';
 
 // - Material-UI
-import { withStyles } from '@material-ui/styles';
-import Input from '@material-ui/core/Input/Input';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import CancelIcon from '@material-ui/icons/Cancel';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ClearIcon from '@material-ui/icons/Clear';
-import Chip from '@material-ui/core/Chip';
-import MenuItem from '@material-ui/core/MenuItem';
-import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@mui/styles';
+import Input from '@mui/material/Input/Input';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import CancelIcon from '@mui/icons-material/Cancel';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ClearIcon from '@mui/icons-material/Clear';
+import Chip from '@mui/material/Chip';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 
 import { ISelectProps } from './ISelectProps';
 import { selectStyles } from './selectStyles';

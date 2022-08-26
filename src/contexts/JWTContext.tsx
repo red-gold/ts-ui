@@ -1,7 +1,6 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import { Map } from 'immutable';
 // utils
-import { isValidToken } from '../utils/jwt';
 
 import { provider } from 'socialEngine';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
@@ -15,6 +14,7 @@ import { useDispatch } from 'redux/store';
 import JwtDecode from 'jwt-decode';
 import { OAuthType } from 'core/domain/authorize/oauthType';
 import { UserClaim } from 'core/domain/authorize/userClaim';
+import { isValidToken, setSession } from '../utils/jwt';
 // ----------------------------------------------------------------------
 
 const authorizeService: IAuthorizeService = provider.get<IAuthorizeService>(SocialProviderTypes.AuthorizeService);
@@ -123,6 +123,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         try {
             const accessToken = authorizeService.getAccessToken();
             if (accessToken && isValidToken(accessToken)) {
+                setSession(accessToken);
                 const userAuth: any = JwtDecode(accessToken);
                 const { displayName, email } = userAuth.claim;
                 const user = await userService.getCurrentUserProfile();
@@ -159,11 +160,11 @@ function AuthProvider({ children }: AuthProviderProps) {
     }, []);
 
     const loginWithGithub = () => {
-        return dispatchStore(authorizeActions.dbLoginWithOAuth(OAuthType.GITHUB));
+        return dispatchStore<any>(authorizeActions.dbLoginWithOAuth(OAuthType.GITHUB));
     };
 
     const login = async (email: string, password: string) => {
-        const { user, redirect } = await authorizeService.login(email, password);
+        const { user, redirect, accessToken } = await authorizeService.login(email, password);
         const mappedUser = {
             ...user,
             displayName: user.fullName,
@@ -172,6 +173,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             about: user.tagLine,
             phoneNumber: user.phone,
         };
+        setSession(accessToken);
         await initializeUser(
             {
                 uid: user.objectId,
@@ -216,6 +218,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     const logout = async () => {
         dispatchStore(authorizeActions.asyncLogout());
+        setSession(null);
         dispatch({ type: 'LOGOUT' });
     };
 

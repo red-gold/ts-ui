@@ -11,6 +11,7 @@ import { ICommentAction } from './ICommentAction';
  * @param state
  * @param action
  */
+// eslint-disable-next-line default-param-last
 export const commentReducer = (state = Map(new CommentState() as any), action: ICommentAction) => {
     const { payload } = action;
     switch (action.type) {
@@ -22,9 +23,9 @@ export const commentReducer = (state = Map(new CommentState() as any), action: I
             return state.mergeIn(['postComments', payload.postId], payload.entities).set('loaded', true);
 
         case CommentActionType.UPDATE_COMMENT:
-            const { comment } = payload;
-            return state.updateIn(['postComments', comment.get('postId'), comment.get('objectId'), 'text'], () =>
-                comment.get('text'),
+            return state.updateIn(
+                ['postComments', payload.comment.get('postId'), payload.comment.get('objectId'), 'text'],
+                () => payload.comment.get('text'),
             );
 
         case CommentActionType.DELETE_COMMENT:

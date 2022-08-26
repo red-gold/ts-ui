@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { NavLink } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/styles';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { withStyles } from '@mui/styles';
 
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
 // - Components
@@ -19,11 +19,11 @@ import * as globalActions from 'redux/actions/globalActions';
 // - Import app API
 import StringAPI from 'api/StringAPI';
 
-import { ICodeVerificationProps } from './ICodeVerificationProps';
-import { ICodeVerificationState } from './ICodeVerificationState';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { ServerRequestType } from 'constants/serverRequestType';
+import { ICodeVerificationState } from './ICodeVerificationState';
+import { ICodeVerificationProps } from './ICodeVerificationProps';
 import { codeVerificationStyles } from './codeVerificationStyles';
 
 // - Create Signup component class

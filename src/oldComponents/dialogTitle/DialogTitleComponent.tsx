@@ -1,13 +1,13 @@
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import React from 'react';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 
+import { makeStyles, createStyles } from '@mui/styles';
+import { Theme } from '@mui/material/styles';
+import { Divider } from '@mui/material';
 import { IDialogTitleComponentProps } from './IDialogTitleComponentProps';
-import { makeStyles, createStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import { Divider } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

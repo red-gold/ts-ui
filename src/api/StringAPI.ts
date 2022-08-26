@@ -5,6 +5,7 @@
 
 import { RegexPattern } from 'constants/RegexPattern';
 import { ServerRequestType } from 'constants/serverRequestType';
+
 const isValidEmail = (email: string) => {
     const re = RegexPattern.ValidEmail;
     return re.test(email);
@@ -17,7 +18,7 @@ const createServerRequestId = (requestType: ServerRequestType, uniqueId: string)
 function queryString(name: string, url: string = window.location.href) {
     name = name.replace(/[[]]/g, '\\$&');
 
-    const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)', 'i');
+    const regex = new RegExp(`[?&]${  name  }(=([^&#]*)|&|#|$)`, 'i');
     const results = regex.exec(url);
 
     if (!results) {

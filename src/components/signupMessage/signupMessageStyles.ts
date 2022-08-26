@@ -1,4 +1,4 @@
-import { green } from '@material-ui/core/colors';
+import { green } from '@mui/material/colors';
 
 export const signupMessageStyles = (theme: any) => ({
     root: {

@@ -4,21 +4,21 @@ import { ICommentService } from 'core/services/comments/ICommentService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { Map } from 'immutable';
 import { all, call, put, select, takeEvery } from 'redux-saga/effects';
-import { provider } from '../../socialEngine';
 import * as commentActions from 'redux/actions/commentActions';
 import * as serverActions from 'redux/actions/serverActions';
 import * as globalActions from 'redux/actions/globalActions';
 import * as postActions from 'redux/actions/postActions';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
-import { postSelector } from '../reducers/posts/postSelector';
 import moment from 'moment/moment';
+import { postSelector } from '../reducers/posts/postSelector';
+import { provider } from '../../socialEngine';
 
 /**
  * Get service providers
  */
 const commentService: ICommentService = provider.get<ICommentService>(SocialProviderTypes.CommentService);
 
-/***************************** Subroutines ************************************/
+/** *************************** Subroutines *********************************** */
 
 /**
  * Fetch comments from the server
@@ -43,7 +43,7 @@ function* dbFetchComments(action: any) {
         yield put(commentActions.addCommentList(postId, commentResult.comments));
         getCommentsRequest.status = ServerRequestStatusType.OK;
         yield put(serverActions.sendRequest(getCommentsRequest));
-    } catch (error) {
+    } catch (error: any) {
         getCommentsRequest.status = ServerRequestStatusType.Error;
         yield put(serverActions.sendRequest(getCommentsRequest));
     }
@@ -73,7 +73,7 @@ function* asyncSaveComment(action: any) {
         yield put(postActions.updatePostComments(commentPost));
 
         yield put(globalActions.hideTopLoading());
-    } catch (error) {
+    } catch (error: any) {
         // Update post comment counter in local store
         const counter = Number(post.get('commentCounter', 0)) - 1;
 
@@ -98,7 +98,7 @@ function* asyncUpdateComment(action: any) {
         yield put(commentActions.updateComment(comment));
         yield put(commentActions.closeCommentEditor(comment.get('postId'), comment.get('objectId')));
         yield put(globalActions.hideTopLoading());
-    } catch (error) {
+    } catch (error: any) {
         yield put(globalActions.showMessage(error.message));
         yield put(globalActions.hideTopLoading());
     }
@@ -126,7 +126,7 @@ function* asyncDeleteComment(action: any) {
         const commentPost = post.set('commentCounter', counter);
         yield put(postActions.updatePostComments(commentPost));
         yield put(globalActions.hideTopLoading());
-    } catch (error) {
+    } catch (error: any) {
         // Update post comment counter in local store
         const counter = Number(post.get('commentCounter', 0)) + 1;
 
@@ -137,9 +137,9 @@ function* asyncDeleteComment(action: any) {
     }
 }
 
-/******************************************************************************/
-/******************************* WATCHERS *************************************/
-/******************************************************************************/
+/** *************************************************************************** */
+/** ***************************** WATCHERS ************************************ */
+/** *************************************************************************** */
 export default function* commentSaga() {
     yield all([
         takeEvery(CommentActionType.DB_FETCH_COMMENTS, dbFetchComments),

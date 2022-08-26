@@ -57,10 +57,10 @@ const makeMapStateToProps = () => {
             ServerRequestType.StreamGetPosts,
             throwNoValue(currentUser.userId, 'currentUser.userId'),
         );
-        const streamRequestStatus = selectRequest(state, { requestId });
+        const streamRequestStatus = selectRequest(state, { requestId }) as Map<string, ServerRequestStatusType>;
         const hasMoreImages = selectHasMoreImage(state, albumId);
         const images = selectAlbumImages(state, { albumId }).toJS();
-        const currentAlbum: Post = selectAlbum(state, { postId: albumId }).toJS();
+        const currentAlbum = (selectAlbum(state, { postId: albumId }) as Map<string, any>).toJS() as unknown as Post;
         const isOwner = currentAlbum.ownerUserId === currentUser.userId;
         return {
             hasMoreImages,

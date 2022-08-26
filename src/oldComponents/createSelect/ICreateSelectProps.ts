@@ -1,4 +1,4 @@
-import { InputProps } from '@material-ui/core/Input';
+import { InputProps } from '@mui/material/Input';
 
 export interface ICreateSelectProps extends InputProps {
     /**

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
 // hooks
+import LoginPage from 'pages/LoginPage';
 import useAuth from '../hooks/useAuth';
 // pages
-import LoginPage from 'pages/LoginPage';
 
 // ----------------------------------------------------------------------
 

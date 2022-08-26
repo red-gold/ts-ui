@@ -1,26 +1,26 @@
 // - Impoer react components
-import Button from '@material-ui/core/Button';
-import ImageList from '@material-ui/core/ImageList';
-import ImageListItem from '@material-ui/core/ImageListItem';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import ImageListItemBar from '@material-ui/core/ImageListItemBar';
-import SvgAddImage from '@material-ui/icons/AddAPhoto';
-import SvgDelete from '@material-ui/icons/Delete';
+import Button from '@mui/material/Button';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import LinearProgress from '@mui/material/LinearProgress';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import SvgAddImage from '@mui/icons-material/AddAPhoto';
+import SvgDelete from '@mui/icons-material/Delete';
 import FileAPI from 'api/FileAPI';
 import Img from 'components/img';
-import { Map } from 'immutable';
+import { Map , fromJS } from 'immutable';
 import React, { Component } from 'react';
 import { WithTranslation } from 'react-i18next';
 import moment from 'moment/moment';
-import uuid from 'uuid';
-import { fromJS } from 'immutable';
+import {v4 as uuid} from 'uuid';
+
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
 import { Media } from 'core/domain/imageGallery/media';
 import config from 'config';
 
+import { throwNoValue } from 'utils/errorHandling';
 import { IImageGalleryProps } from './IImageGalleryProps';
 import { IImageGalleryState } from './IImageGalleryState';
-import { throwNoValue } from 'utils/errorHandling';
 import { connectImageGallery } from './connectImageGallery';
 
 let isPhotoSelected: boolean;
@@ -140,11 +140,11 @@ export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTr
         const { progress, images, classes } = this.props;
 
         return images.map((image, index) => {
-            let progressPercent = 100;
-            let progressVisible = false;
+            let progressPercent: number = 100;
+            let progressVisible: boolean = false;
             if (isPhotoSelected && index === 0) {
-                progressPercent = progress ? progress.getIn([image.get('fileName'), 'percent'], 0) : 100;
-                progressVisible = progress ? progress.getIn([image.get('fileName'), 'visible'], true) : false;
+                progressPercent = progress ? progress.getIn([image.get('fileName'), 'percent'], 0) as number : 100;
+                progressVisible = progress ? progress.getIn([image.get('fileName'), 'visible'], true) as boolean : false;
             }
             return (
                 <ImageListItem key={image.get('objectId')}>

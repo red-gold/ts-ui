@@ -1,27 +1,27 @@
-import Button from '@material-ui/core/Button';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField';
-import SvgCamera from '@material-ui/icons/PhotoCamera';
+import Button from '@mui/material/Button';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+import SvgCamera from '@mui/icons-material/PhotoCamera';
 import ImageEditor from 'components/ImageEditor';
 import ImgCover from 'components/imgCover';
 import UserAvatarComponent from 'components/userAvatar/UserAvatarComponent';
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
 import AppDialogTitle from 'oldComponents/dialogTitle/DialogTitleComponent';
 import moment from 'moment/moment';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { WithTranslation } from 'react-i18next';
 import config from 'config';
+import { Map } from 'immutable';
+import isEmpty from 'validator/lib/isEmpty';
+import isURL from 'validator/lib/isURL';
 import { IEditProfileProps } from './IEditProfileProps';
 import { IEditProfileState } from './IEditProfileState';
 import { connectEditProfile } from './connectEditProfile';
 import MobileDialog from '../mobileDialog';
 import GalleryComponent from '../gallery';
 import DatePicker from '../datePicker';
-import { Map } from 'immutable';
-import isEmpty from 'validator/lib/isEmpty';
-import isURL from 'validator/lib/isURL';
 
 export class EditProfileComponent extends Component<IEditProfileProps & WithTranslation, IEditProfileState> {
     constructor(props: IEditProfileProps & WithTranslation) {
@@ -29,10 +29,6 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
         const { currentUser } = props;
         // Defaul state
         this.state = {
-            /**
-             * If it's true the winow is in small size
-             */
-            isSmall: false,
             /**
              * User tag line input value
              */
@@ -61,10 +57,6 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
              * Whether image editor is open
              */
             isImageEditorOpen: false,
-            /**
-             * Image URL of image editor
-             */
-            imageEditorUrl: '',
             /**
              * User's original banner URL
              */
@@ -174,15 +166,6 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
     };
 
     /**
-     * Open image image editor
-     */
-    handleOpenImageEditor = () => {
-        this.setState({
-            isImageEditorOpen: true,
-        });
-    };
-
-    /**
      * Close image image editor
      */
     handleCloseImageEditor = () => {
@@ -240,14 +223,14 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
             update({
                 fullName: fullNameInput,
                 tagLine: tagLineInput,
-                avatar: avatar,
-                banner: banner,
-                companyName: companyName,
-                webUrl: webUrl,
-                twitterId: twitterId,
-                facebookId: facebookId,
+                avatar,
+                banner,
+                companyName,
+                webUrl,
+                twitterId,
+                facebookId,
                 creationDate: currentUser.get('creationDate'),
-                birthday: !!selectedBirthday ? moment(selectedBirthday).unix() : 0,
+                birthday: selectedBirthday ? moment(selectedBirthday).unix() : 0,
                 permission,
                 accessUserList,
                 userId: currentUser.get('userId'),
@@ -259,9 +242,9 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
      * Handle data on input change
      */
     handleInputChange = (event: any) => {
-        const target = event.target;
+        const { target } = event;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+        const { name } = target;
         this.setState(
             {
                 [name]: value,
@@ -299,19 +282,10 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
         this.setState({ selectedBirthday: date });
     };
 
-    componentDidMount() {}
-
     render() {
         const { classes, t, coverImages, avatarImages, currentUser } = this.props;
-        const {
-            webUrl,
-            twitterId,
-            companyName,
-            selectedBirthday,
-            isImageEditorOpen,
-            originalBanner,
-            facebookId,
-        } = this.state;
+        const { webUrl, twitterId, companyName, selectedBirthday, isImageEditorOpen, originalBanner, facebookId } =
+            this.state;
 
         return (
             <div>
@@ -373,7 +347,7 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
                             </div>
                         </div>
 
-                        {/* Edit user information box*/}
+                        {/* Edit user information box */}
                         <div className={classes.box}>
                             <TextField
                                 id="fullNameInput"
@@ -458,7 +432,7 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
                             />
                         </div>
                         <br />
-                        <div className={classes.bottomPaperSpace}></div>
+                        <div className={classes.bottomPaperSpace} />
                     </DialogContent>
                     <DialogActions className={classes.fixedDownStickyXS}>
                         <Button onClick={this.props.onRequestClose}> {t('profile.cancelButton')} </Button>
@@ -474,7 +448,7 @@ export class EditProfileComponent extends Component<IEditProfileProps & WithTran
                     </DialogActions>
                 </MobileDialog>
 
-                {/* Image gallery for banner*/}
+                {/* Image gallery for banner */}
                 {this.state.openBanner && (
                     <MobileDialog fullWidth open={this.state.openBanner} onClose={this.handleCloseBannerGallery}>
                         <AppDialogTitle

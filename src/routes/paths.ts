@@ -12,6 +12,7 @@ const ROOTS_MAIN = '/';
 export const PATH_AUTH = {
     root: ROOTS_AUTH,
     login: path(ROOTS_AUTH, '/login'),
+    loginSession: path(ROOTS_AUTH, '/session'),
     loginUnprotected: path(ROOTS_AUTH, '/login-unprotected'),
     register: path(ROOTS_AUTH, '/register'),
     registerUnprotected: path(ROOTS_AUTH, '/register-unprotected'),
@@ -34,16 +35,11 @@ export const PATH_PAGE = {
 export const PATH_MAIN = {
     root: ROOTS_MAIN,
     user: {
-        home: path(ROOTS_MAIN, '/stream'),
-        friends: path(ROOTS_MAIN, '/friends'),
-        friendsTab: path(ROOTS_MAIN, '/friends/:tab'),
-        profile: path(ROOTS_MAIN, '/@/:socialName'),
-        account: path(ROOTS_MAIN, '/account'),
-    },
-    chat: {
-        root: path(ROOTS_MAIN, '/chat'),
-        new: path(ROOTS_MAIN, '/chat/new'),
-        conversation: path(ROOTS_MAIN, '/chat/:conversationKey'),
+        home: path(ROOTS_MAIN, 'stream'),
+        friends: path(ROOTS_MAIN, 'friends'),
+        friendsTab: path(ROOTS_MAIN, 'friends/:tab'),
+        profile: path(ROOTS_MAIN, '@/:socialName'),
+        account: path(ROOTS_MAIN, 'account'),
     },
     search: {
         root: path(ROOTS_MAIN, '/search/:category'),

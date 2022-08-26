@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PostStreamComponent from 'containers/postStream';
-import Grid from '@material-ui/core/Grid';
+import PostStream from 'containers/postStream';
+import Grid from '@mui/material/Grid';
 
 import PostWriteButton from 'components/postWriteButton';
 import RightPanel from 'components/rightPanel';
@@ -16,9 +16,9 @@ import { serverSelector } from 'redux/reducers/server/serverSelector';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { Map } from 'immutable';
-import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
-import { Theme } from '@material-ui/core/styles/createTheme';
-import { createStyles, makeStyles } from '@material-ui/styles';
+import useMediaQuery from '@mui/material/useMediaQuery/useMediaQuery';
+import { Theme } from '@mui/material/styles/createTheme';
+import { createStyles, makeStyles } from '@mui/styles';
 
 // ----------------------------------------------------------------------
 const selectCurrentUser = authorizeSelector.selectCurrentUser();
@@ -34,14 +34,17 @@ export default function StreamPage() {
 
     // Dispatcher
     const dispatch = useDispatch();
-    const setHomeTitle = (homeTitle: string) => dispatch(globalActions.setHeaderTitle(homeTitle || ''));
+    const setHomeTitle = (homeTitle: string) => dispatch<any>(globalActions.setHeaderTitle(homeTitle || ''));
     // Selectors
     const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
     const currentUserId = currentUser.get('userId');
     const requestId = StringAPI.createServerRequestId(ServerRequestType.StreamGetPosts, currentUserId);
-    const streamRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId }));
+    const streamRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId })) as Map<
+        string,
+        any
+    >;
     const streamRequestStatus: ServerRequestStatusType = streamRequest.get('status', ServerRequestStatusType.NoAction);
-    const hasMorePosts: boolean = useSelector((state: Map<string, any>) => selectHasMorePost(state));
+    const hasMorePosts: boolean = useSelector((state: Map<string, any>) => selectHasMorePost(state)) as boolean;
     const posts = useSelector((state: Map<string, any>) => selectStreamPosts(state));
 
     React.useEffect(() => {
@@ -52,10 +55,10 @@ export default function StreamPage() {
         <Grid container justifyContent="space-around" spacing={3}>
             <Grid className={classNames(classes.gridItem, classes.postGrid)} xs={12} md={8} item>
                 <PostWriteButton displayWriting />
-                <PostStreamComponent
+                <PostStream
                     requestId={requestId}
                     posts={posts}
-                    loadStream={(page: number) => dispatch(postActions.fetchStreamPosts(page, 10)) as any}
+                    loadStream={(page: number) => dispatch<any>(postActions.fetchStreamPosts(page, 10)) as any}
                     hasMorePosts={hasMorePosts}
                     requestStatus={streamRequestStatus}
                 />

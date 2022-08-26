@@ -6,11 +6,11 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Measure from 'react-measure';
 import LoadMoreProgressComponent from 'oldComponents/loadMoreProgress';
 
+import { withStyles } from '@mui/styles';
 import { connectPhotoStream } from './connectPhotoStream';
 import { IPhotoStreamProps } from './IPhotoStreamProps';
 import { IPhotoStreamState } from './IPhotoStreamState';
 import { photoStreamStyles } from './photoStreamStyles';
-import { withStyles } from '@material-ui/styles';
 
 export class PhotoStreamComponent extends Component<IPhotoStreamProps & WithTranslation, IPhotoStreamState> {
     constructor(props: IPhotoStreamProps & WithTranslation) {
@@ -60,7 +60,7 @@ export class PhotoStreamComponent extends Component<IPhotoStreamProps & WithTran
             >
                 {({ measureRef }) => {
                     if (width < 1) {
-                        return <div ref={measureRef}></div>;
+                        return <div ref={measureRef} />;
                     }
                     let columns = 1;
                     if (width >= 480) {

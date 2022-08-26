@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PostCard from 'components/post/PostCard';
 import LoadMoreProgressComponent from 'oldComponents/loadMoreProgress';
-import { IPostStreamProps } from './IPostStreamProps';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { IPostStreamProps } from './IPostStreamProps';
 
 export function PostStreamComponent(props: IPostStreamProps) {
     const { t } = useTranslation();

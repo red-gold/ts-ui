@@ -1,19 +1,19 @@
-import Button from '@material-ui/core/Button';
-import CardActions from '@material-ui/core/CardActions';
-import Paper from '@material-ui/core/Paper';
+import Button from '@mui/material/Button';
+import CardActions from '@mui/material/CardActions';
+import Paper from '@mui/material/Paper';
 import { Map } from 'immutable';
 import React from 'react';
 
-import { ILangSettingProps } from './ILangSettingProps';
-import { useStyles } from './langSettingStyles';
-import FormControl from '@material-ui/core/FormControl/FormControl';
-import InputLabel from '@material-ui/core/InputLabel/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem/MenuItem';
-import { CardContent, ListSubheader } from '@material-ui/core';
+import FormControl from '@mui/material/FormControl/FormControl';
+import InputLabel from '@mui/material/InputLabel/InputLabel';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
+import { CardContent, ListSubheader } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import * as userSettingActions from 'redux/actions/userSettingActions';
-import Select, { SelectChangeEvent } from '@material-ui/core/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useStyles } from './langSettingStyles';
+import { ILangSettingProps } from './ILangSettingProps';
 
 export function LangSettingComponent(props: ILangSettingProps) {
     const [selectedLang, setSelectedLang] = React.useState(props.userSettings.get('lang', Map({})));
@@ -30,7 +30,7 @@ export function LangSettingComponent(props: ILangSettingProps) {
      */
     const handleSaveChanges = () => {
         const { updateUserSetting } = props;
-        dispatch(userSettingActions.changeCurrentLang(selectedLang.getIn(['current', 'value'], 'en')));
+        dispatch<any>(userSettingActions.changeCurrentLang(selectedLang.getIn(['current', 'value'], 'en')));
         updateUserSetting('lang', selectedLang);
     };
 

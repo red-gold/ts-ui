@@ -4,25 +4,25 @@
 // https://opensource.org/licenses/MIT
 
 import * as React from 'react';
-import CardHeader from '@material-ui/core/CardHeader';
-import IconButton from '@material-ui/core/IconButton';
-import { red } from '@material-ui/core/colors';
+import CardHeader from '@mui/material/CardHeader';
+import IconButton from '@mui/material/IconButton';
+import { red } from '@mui/material/colors';
 import { useTranslation } from 'react-i18next';
-import { IPostWriteInputProps } from './IPostWriteInputProps';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { useSelector } from 'react-redux';
 import { Map } from 'immutable';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import SvgAddVideo from '@material-ui/icons/VideoCall';
-import Button from '@material-ui/core/Button';
-import InputBase from '@material-ui/core/InputBase';
-import RightIconMenu from './RightIconMenu';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import SvgAddVideo from '@mui/icons-material/VideoCall';
+import Button from '@mui/material/Button';
+import InputBase from '@mui/material/InputBase';
 import PostImages from 'components/postImages';
 import { PostType } from 'core/domain/posts/postType';
-import { DialogActions, DialogContent } from '@material-ui/core';
+import { DialogActions, DialogContent } from '@mui/material';
 import { PostImageUploadComponent } from 'components/postImageUpload';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { experimentalStyled as styled } from '@mui/material/styles';
 import MyAvatar from 'components/MyAvatar';
+import RightIconMenu from './RightIconMenu';
+import { IPostWriteInputProps } from './IPostWriteInputProps';
 
 const selectCurrentUser = authorizeSelector.selectCurrentUser();
 

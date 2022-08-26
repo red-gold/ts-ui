@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@mui/styles';
 import queryString from 'query-string';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -13,6 +13,7 @@ export class PhotoAlbumComponent extends Component<IPhotoAlbumProps & WithTransl
      * Fields
      */
     unlisten: any;
+
     currentPage = 0;
 
     constructor(props: IPhotoAlbumProps & WithTranslation) {
@@ -60,7 +61,7 @@ export class PhotoAlbumComponent extends Component<IPhotoAlbumProps & WithTransl
     }
 
     render() {
-        return <div></div>;
+        return <div />;
     }
 }
 

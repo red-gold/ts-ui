@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 
 import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
 import * as globalActions from 'redux/actions/globalActions';
-import { IDispatchProps, IOwnProps, IAlbumDialogProps, IStateProps } from './IAlbumDialogProps';
 import { Post } from 'core/domain/posts/post';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { withStyles } from '@material-ui/styles';
-import { albumDialogStyles } from './albumDialogStyles';
+import { withStyles } from '@mui/styles';
 import { serverSelector } from 'redux/reducers/server/serverSelector';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { Media } from 'core/domain/imageGallery/media';
 import config from 'config';
+import { albumDialogStyles } from './albumDialogStyles';
+import { IDispatchProps, IOwnProps, IAlbumDialogProps, IStateProps } from './IAlbumDialogProps';
 
 /**
  * Map dispatch to props
@@ -43,7 +43,7 @@ const makeMapStateToProps = () => {
             ServerRequestType.GalleryCreateAlbum,
             currentUser.get('userId'),
         );
-        const createAlbumRequest = selectRequest(state, { requestId });
+        const createAlbumRequest = selectRequest(state, { requestId }) as Map<string, ServerRequestStatusType>;
         const createAlbumRequestStatus: ServerRequestStatusType = createAlbumRequest.get(
             'status',
             ServerRequestStatusType.NoAction,
@@ -61,5 +61,5 @@ export const connectAlbumDialog = (component: React.ComponentType<IAlbumDialogPr
     return connect<IStateProps, IDispatchProps, IOwnProps, any>(
         makeMapStateToProps,
         mapDispatchToProps,
-    )(withStyles(albumDialogStyles)(translateWrapper));
+    )(withStyles(albumDialogStyles)(translateWrapper) as React.ComponentType<IAlbumDialogProps>);
 };

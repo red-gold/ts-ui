@@ -1,5 +1,6 @@
 import { Post } from 'core/domain/posts/post';
 import { User } from 'core/domain/users/user';
+
 export interface IPhotoStreamProps {
     /**
      * Router match

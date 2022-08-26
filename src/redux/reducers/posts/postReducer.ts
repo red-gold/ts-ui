@@ -6,13 +6,13 @@ import { PostState } from './PostState';
 
 // - Import action types
 const updatePost = (state: any, payload: any) => {
-    const post: Map<string, any> = payload.post;
+    const { post } = payload;
     const updatePostId = post.get('id');
     return state.setIn(['entities', updatePostId], post);
 };
 
 const updatePostComments = (state: any, payload: any) => {
-    const post: Map<string, any> = payload.post;
+    const { post } = payload;
     const updatePostId = post.get('objectId');
     return state
         .setIn(['entities', updatePostId, 'comments'], post.get('comments'))
@@ -20,7 +20,7 @@ const updatePostComments = (state: any, payload: any) => {
 };
 
 const updatePostVotes = (state: any, payload: any) => {
-    const post: Map<string, any> = payload.post;
+    const { post } = payload;
     const updatePostId = post.get('id');
     return state
         .setIn(['entities', updatePostId, 'votes'], post.get('votes'))
@@ -31,14 +31,14 @@ const addSearchPosts = (state: any, action: any) => {
     const { meta, payload } = action;
     if (meta && meta.overwrite) {
         return state.setIn(['search', 'list'], payload.postIds).set('loaded', true);
-    } else {
-        return state.mergeDeepIn(['search', 'list'], payload.postIds).set('loaded', true);
     }
+    return state.mergeDeepIn(['search', 'list'], payload.postIds).set('loaded', true);
 };
 
 /**
  * Post reducer
  */
+// eslint-disable-next-line default-param-last
 export const postReducer = (state = Map(new PostState() as any), action: IPostAction) => {
     const { payload } = action;
     switch (action.type) {
@@ -95,7 +95,10 @@ export const postReducer = (state = Map(new PostState() as any), action: IPostAc
             return state.setIn(['stream', 'lastPageRequest'], payload.page);
 
         case PostActionType.INCREASE_PAGE_STREAM:
-            return state.setIn(['stream', 'lastPageRequest'], state.getIn(['stream', 'lastPageRequest'], 0) + 1);
+            return state.setIn(
+                ['stream', 'lastPageRequest'],
+                (state.getIn(['stream', 'lastPageRequest'], 0) as number) + 1,
+            );
 
         case PostActionType.LAST_POST_STREAM:
             return state.setIn(['stream', 'lastPostId'], payload.lastPostId);

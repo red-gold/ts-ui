@@ -1,12 +1,12 @@
 // - Impoer react components
-import Button from '@material-ui/core/Button';
-import ImageList from '@material-ui/core/ImageList';
-import ImageListItem from '@material-ui/core/ImageListItem';
-import ImageListItemBar from '@material-ui/core/ImageListItemBar';
-import { withStyles } from '@material-ui/styles';
-import Zoom from '@material-ui/core/Zoom';
-import AddVideoIcon from '@material-ui/icons/AddToQueue';
-import SvgDelete from '@material-ui/icons/Delete';
+import Button from '@mui/material/Button';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import { withStyles } from '@mui/styles';
+import Zoom from '@mui/material/Zoom';
+import AddVideoIcon from '@mui/icons-material/AddToQueue';
+import SvgDelete from '@mui/icons-material/Delete';
 import FileAPI from 'api/FileAPI';
 import classNames from 'classnames';
 import Img from 'components/img';
@@ -19,13 +19,13 @@ import { connect } from 'react-redux';
 import config from 'config';
 import * as globalActions from 'redux/actions/globalActions';
 import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
-import uuid from 'uuid';
+import {v4 as uuid} from 'uuid';
 
+import { throwNoValue } from 'utils/errorHandling';
+import { userGetters } from 'redux/reducers/users/userGetters';
 import { IVideoGalleryProps } from './IVideoGalleryProps';
 import { IVideoGalleryState } from './IVideoGalleryState';
 import { videoGalleryStyles } from './videoGalleryStyles';
-import { throwNoValue } from 'utils/errorHandling';
-import { userGetters } from 'redux/reducers/users/userGetters';
 
 // - Material UI
 // - Import actions
@@ -71,8 +71,11 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
      * Fields
      */
     fileInputRef: RefObject<HTMLInputElement>;
+
     videoRef: RefObject<HTMLVideoElement>;
+
     blobFile: any;
+
     file: any;
 
     /**
@@ -294,7 +297,7 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps & WithTranslati
          */
         const preview = (
             <div className={classNames(classes.videoRoot, { [classes.noDisplay]: !isPreview })}>
-                <video className={classNames(classes.video)} controls autoPlay={false} ref={this.videoRef}></video>
+                <video className={classNames(classes.video)} controls autoPlay={false} ref={this.videoRef} />
             </div>
         );
 
@@ -331,7 +334,7 @@ const mapDispatchToProps = (dispatch: any) => {
  * Map state to props
  */
 const mapStateToProps = (state: Map<string, any>) => {
-    const uid = state.getIn(['authorize', 'uid']);
+    const uid = state.getIn(['authorize', 'uid']) as string;
     const currentUser = userGetters.getUserProfileById(state, { userId: uid }).toJS() as User;
     return {
         videos: state.getIn(['imageGallery', 'videos'], Map({})),

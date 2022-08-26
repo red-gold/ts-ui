@@ -1,5 +1,5 @@
-import { useTheme } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { useTheme } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import React from 'react';
 
 export function LoadMoreProgressComponent() {

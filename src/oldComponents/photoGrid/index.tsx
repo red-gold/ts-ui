@@ -1,11 +1,11 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
-import { withStyles } from '@material-ui/styles';
-import ClearIcon from '@material-ui/icons/Clear';
+import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+import { withStyles } from '@mui/styles';
+import ClearIcon from '@mui/icons-material/Clear';
 import ImgCoverComponent from 'components/imgCover';
 import React, { Component } from 'react';
 import StackGrid, { easings, transitions } from 'react-stack-grid';
-import Lightbox from 'lib/react-lit/index.js';
+import Lightbox from 'lib/react-lit/index';
 
 import { IPhotoGridProps } from './IPhotoGridProps';
 import { IPhotoGridState } from './IPhotoGridState';
@@ -20,35 +20,9 @@ export class PhotoGridComponent extends Component<IPhotoGridProps, IPhotoGridSta
     constructor(props: IPhotoGridProps) {
         super(props);
 
-        // Defaul state
-
-        this.state = {
-            pictureDialogOpen: false,
-        };
-
         // Binding functions to `this`
-        this.handleClosePictureDialog = this.handleClosePictureDialog.bind(this);
-        this.handleOpenPictureDialog = this.handleOpenPictureDialog.bind(this);
         this.renderGrid = this.renderGrid.bind(this);
     }
-
-    /**
-     * Handle close picture dialog
-     */
-    handleClosePictureDialog = () => {
-        this.setState({
-            pictureDialogOpen: false,
-        });
-    };
-
-    /**
-     * Handle open picture dialog
-     */
-    handleOpenPictureDialog = () => {
-        this.setState({
-            pictureDialogOpen: true,
-        });
-    };
 
     /**
      * Render grid stack

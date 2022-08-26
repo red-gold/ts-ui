@@ -1,35 +1,122 @@
 {
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ],
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
+    "root": true,
+    "env": {
+        "browser": true,
+        "node": true,
+        "jest/globals": true
+    },
+    "globals": {
+        "_": "readonly",
+        "JSX": true
+    },
+    "extends": [
+        "airbnb",
+        "plugin:jsx-a11y/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:import/typescript",
+        "plugin:react/jsx-runtime",
+        "prettier"
+    ],
+    "settings": {
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
+        "import/resolver": {
+            "typescript": {
+                "alwaysTryTypes": true,
+                // use a glob pattern
+                "project": "./tsconfig.json"
+            }
+        },
+        "react": {
+            "version": "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
+        }
+    },
+    "plugins": ["react", "react-hooks", "prettier", "@typescript-eslint", "jest"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "requireConfigFile": false,
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "impliedStrict": true,
+            "jsx": true
+        },
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+
+    "rules": {
+        "no-shadow": 0,
+        "no-console": 0,
+        "react/jsx-key": 1,
+        "import/no-cycle": 0,
+        "arrow-body-style": 0,
+        "react/prop-types": 1,
+        "consistent-return": 1,
+        "no-param-reassign": 0,
+        "no-use-before-define": 0,
+        "no-underscore-dangle": 0,
+        "react/button-has-type": 1,
+        "react/no-children-prop": 0,
+        "react/forbid-prop-types": 0,
+        "jsx-a11y/anchor-is-valid": 0,
+        "react/react-in-jsx-scope": 0,
+        "react/no-array-index-key": 0,
+        "react/no-unused-prop-types": 1,
+        "react-hooks/rules-of-hooks": 2,
+        "no-promise-executor-return": 0,
+        "no-unsafe-optional-chaining": 0,
+        "react/require-default-props": 0,
+        "react/no-unescaped-entities": 0,
+        "import/prefer-default-export": 0,
+        "react/jsx-props-no-spreading": 0,
+        "react/jsx-filename-extension": 0,
+        "react/jsx-no-useless-fragment": 0,
+        "react/jsx-curly-brace-presence": 0,
+        "react/destructuring-assignment": 0,
+        "import/no-extraneous-dependencies": 0,
+        "react/no-unstable-nested-components": 0,
+        "react/function-component-definition": 0,
+        "react/jsx-no-constructed-context-values": 0,
+        "import/no-unresolved": 0,
+        "no-case-declarations": 0,
+        "react/jsx-uses-react": 0,
+        "import/no-named-as-default": 0,
+        "no-unused-expressions": 0,
+        "jsx-a11y/no-static-element-interactions": 0,
+        "jsx-a11y/click-events-have-key-events": 0,
+        "jsx-a11y/tabindex-no-positive": 0,
+        "max-classes-per-file": 0,
+        "class-methods-use-this": 0,
+        "no-plusplus": 0,
+        "no-restricted-globals": 0,
+        "no-useless-constructor": 0,
+        "camelcase": 0,
+        "no-empty-function": 0,
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "": "never",
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "no-unused-vars": [
+            1,
+            {
+                "ignoreRestSiblings": false
+            }
+        ],
+        "prefer-destructuring": [
+            1,
+            {
+                "object": true,
+                "array": false
+            }
+        ]
     }
-  },
-  "settings": {
-    "react": {
-      "version": "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
-    }
-  },
-  "extends": [
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
-  ],
-  "rules": {
-    "no-console": 1,
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-empty-function": "off",
-    "@typescript-eslint/ban-types": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-empty-interface": "off",
-    "prettier/prettier": ["error", {"endOfLine": "auto"}],
-    "react/display-name": 0
-  }
 }

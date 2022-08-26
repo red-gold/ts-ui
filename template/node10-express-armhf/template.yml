@@ -1,2 +1,0 @@
-language: node10-express-armhf
-fprocess: node index.js

@@ -1,10 +1,10 @@
-import Avatar from '@material-ui/core/Avatar';
-import CardHeader from '@material-ui/core/CardHeader';
-import Grid from '@material-ui/core/Grid';
-import ListItem from '@material-ui/core/ListItem';
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
+import Avatar from '@mui/material/Avatar';
+import CardHeader from '@mui/material/CardHeader';
+import Grid from '@mui/material/Grid';
+import ListItem from '@mui/material/ListItem';
+import Paper from '@mui/material/Paper';
+import { withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
 import ActivityProgress from 'oldComponents/activityProgress/ActivityProgressComponent';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -63,7 +63,7 @@ export class BountyBoxComponent extends Component<
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Function) => {
     return {
         setHeaderTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title)),
     };

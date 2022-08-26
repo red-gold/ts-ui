@@ -7,9 +7,9 @@ import { createLogger } from 'redux-logger';
 import createSagaMiddleware, { END } from 'redux-saga';
 import thunk from 'redux-thunk';
 import { rootReducer } from 'redux/reducers/rootReducer';
-import { cacheEnhancer } from '../utils/redux-cache';
 import { useDispatch as useReduxDispatch, useSelector as useReduxSelector } from 'react-redux';
 import { promiseMiddleware } from '@adobe/redux-saga-promise';
+import { cacheEnhancer } from '../utils/redux-cache';
 
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createBrowserHistory();
@@ -26,13 +26,13 @@ const token = localStorage.getItem('red-gold.scure.token');
 let uid = '';
 let authed = false;
 if (token) {
-    uid = (jwtDecode(token) as any)['user_id'];
+    uid = (jwtDecode(token) as any).user_id;
     authed = true;
 }
 // - initial state
 const initialState = {
     authorize: {
-        authed: authed,
+        authed,
         guest: !authed,
         uid,
     },

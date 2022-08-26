@@ -10,6 +10,7 @@ import LogoOnlyLayout from 'layouts/LogoOnlyLayout';
 import LoadingScreen from 'components/LoadingScreen';
 
 const Loadable = (Component: React.ComponentType) => (props: any) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { pathname } = useLocation();
     const isDashboard =
         !pathname.includes('/auth') &&
@@ -53,6 +54,7 @@ const AsyncSignup = Loadable(lazy(() => import('pages/SignupPage')));
 const AsyncEmailVerification = Loadable(lazy(() => import('pages/EmailVerifyPage')));
 const AsyncResetPassword = Loadable(lazy(() => import('pages/ResetPasswordPage')));
 const AsyncLogin = Loadable(lazy(() => import('pages/LoginPage')));
+const AsyncLoginSession = Loadable(lazy(() => import('pages/LoginSessionPage')));
 
 export default function Router() {
     return useRoutes([
@@ -65,6 +67,14 @@ export default function Router() {
                     element: (
                         <GuestGuard>
                             <AsyncLogin />
+                        </GuestGuard>
+                    ),
+                },
+                {
+                    path: 'session',
+                    element: (
+                        <GuestGuard>
+                            <AsyncLoginSession />
                         </GuestGuard>
                     ),
                 },

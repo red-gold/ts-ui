@@ -31,3 +31,4 @@ docker/minio-persistence/*
 
 .firebase/*
 ts-frontend/dist/*
+firebase-debug.log

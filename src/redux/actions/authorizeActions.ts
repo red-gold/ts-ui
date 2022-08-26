@@ -8,12 +8,12 @@ import { SocialProviderTypes } from 'core/socialProviderTypes';
 
 import { UserRegisterModel } from 'models/users/userRegisterModel';
 import { SignupStepEnum } from 'models/authorize/signupStepEnum';
-import { provider } from '../../socialEngine';
 import * as globalActions from 'redux/actions/globalActions';
 import config from 'config';
 import { UserClaim } from 'core/domain/authorize/userClaim';
 import { AuthorizeState } from 'models/authorize/authorizeState';
 import { createPromiseAction } from '@adobe/redux-saga-promise';
+import { provider } from '../../socialEngine';
 
 /**
  * Loing user

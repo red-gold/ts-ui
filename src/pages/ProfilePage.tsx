@@ -2,8 +2,7 @@ import ImgCover from 'components/imgCover';
 import UserActivity from 'components/userActivity';
 import React from 'react';
 import config from 'config';
-import Grid from '@material-ui/core/Grid';
-import PostStreamComponent from '../containers/postStream';
+import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 
 import StringAPI from 'api/StringAPI';
@@ -20,9 +19,10 @@ import { userSelector } from 'redux/reducers/users/userSelector';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import RightPanel from 'components/profileRightPanel';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { createStyles, makeStyles } from '@material-ui/styles';
+import CircularProgress from '@mui/material/CircularProgress';
+import { experimentalStyled as styled } from '@mui/material/styles';
+import { createStyles, makeStyles } from '@mui/styles';
+import PostStreamComponent from '../containers/postStream';
 
 const LoadingRoot = styled('div')({
     display: 'flex',
@@ -48,11 +48,14 @@ export default function ProfilePage() {
     const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
     // Select the user profile
     const profile: Map<string, any> = useSelector(
-        (state: Map<string, any>) => selectProfileBySocialName(state, { socialName }) as any,
+        (state: Map<string, any>) => selectProfileBySocialName(state, { socialName: socialName as string }) as any,
     );
     const currentUserId = currentUser.get('userId');
     const requestId = StringAPI.createServerRequestId(ServerRequestType.ProfileGetPosts, profile.get('id'));
-    const postsRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId }));
+    const postsRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId })) as Map<
+        string,
+        any
+    >;
     const postsRequestStatus: ServerRequestStatusType = postsRequest.get('status', ServerRequestStatusType.NoAction);
     const hasMorePosts: boolean = useSelector((state: Map<string, any>) =>
         selectHasMorePostProfile(state, { userId: profile.get('id') }),
@@ -61,14 +64,14 @@ export default function ProfilePage() {
 
     // Dispatcher
     const dispatch = useDispatch();
-    const setHeaderTitle = (title: string) => dispatch(globalActions.setHeaderTitle(title));
+    const setHeaderTitle = (title: string) => dispatch<any>(globalActions.setHeaderTitle(title));
 
     const isCurrentUser = profile.get('id') === currentUserId;
 
     React.useEffect(() => {
         if (socialName) {
             setHeaderTitle(profile.get('fullName'));
-            dispatch(userActions.fetchProfileBySocialName(socialName));
+            dispatch<any>(userActions.fetchProfileBySocialName(socialName));
         }
     }, [socialName, dispatch]);
     return profile.size > 0 ? (
@@ -87,16 +90,14 @@ export default function ProfilePage() {
                     <RightPanel isCurrentUser={isCurrentUser} profile={profile} />
                 </Grid>
 
-                {/* <ProfileAlbumComponent userId={userId} isOwner={isCurrentUser}/> */}
-
                 <Grid className={classNames(classes.gridItem, classes.postGrid)} xs={12} md={8} item>
-                    <div style={{ height: '24px' }}></div>
+                    <div style={{ height: '24px' }} />
                     {!profile.isEmpty() ? (
                         <PostStreamComponent
                             posts={posts}
                             requestId={requestId}
                             loadStream={(page: number) =>
-                                dispatch(postActions.dbGetPostsByUserId(profile.get('id'), page)) as any
+                                dispatch<any>(postActions.dbGetPostsByUserId(profile.get('id'), page)) as any
                             }
                             hasMorePosts={hasMorePosts}
                             requestStatus={postsRequestStatus}

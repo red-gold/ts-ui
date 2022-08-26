@@ -5,8 +5,8 @@ import isEmpty from 'validator/lib/isEmpty';
 import { userGetters } from '../users/userGetters';
 
 const getCurrentUser = (state: Map<any, string>) => {
-    const uid = state.getIn(['authorize', 'uid']);
-    const email = state.getIn(['authorize', 'email']);
+    const uid = state.getIn(['authorize', 'uid']) as string;
+    const email = state.getIn(['authorize', 'email']) as string;
     return userGetters.getUserProfileById(state, { userId: uid }).set('email', email);
 };
 
@@ -19,11 +19,11 @@ const getSignupStep = (state: Map<any, string>) => {
 };
 
 const getUserRegisterToken = (state: Map<any, string>) => {
-    return state.getIn(['authorize', 'ui', 'registerToken'], '');
+    return state.getIn(['authorize', 'ui', 'registerToken'], '') as string;
 };
 
 const getUserAuthStatus = (state: Map<any, string>): boolean => {
-    return state.getIn(['authorize', 'authed'], false);
+    return state.getIn(['authorize', 'authed'], false) as boolean;
 };
 
 // Selectros //
@@ -49,7 +49,7 @@ const selectUserAuthStatus = () => {
 };
 
 const selectUserFromRegisterToken = () => {
-    return createSelector([getUserRegisterToken], (token) => (isEmpty(token) ? {} : (JwtDecode(token) as any).claim));
+    return createSelector([getUserRegisterToken], (token: string) => (isEmpty(token) ? {} : (JwtDecode(token) as any).claim));
 };
 
 export const authorizeSelector = {

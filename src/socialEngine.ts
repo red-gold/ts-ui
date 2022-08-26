@@ -1,6 +1,6 @@
 import { useHttpService } from 'data/webAPI/dependecyRegisterar';
 import { Container } from 'inversify';
-import { useOpenFaaS } from './data/openFaaSClient/dependecyRegisterar';
+import { useMicros } from './data/microClient/dependecyRegisterar';
 
 /**
  * Initialize container
@@ -8,9 +8,11 @@ import { useOpenFaaS } from './data/openFaaSClient/dependecyRegisterar';
 export const provider = new Container();
 
 // useAws(provider)
+// eslint-disable-next-line react-hooks/rules-of-hooks
 useHttpService(provider);
 // useFirestore(provider)
-useOpenFaaS(provider);
+// eslint-disable-next-line react-hooks/rules-of-hooks
+useMicros(provider);
 
 // Features on the roadmap
 // useAzure(provider)

@@ -1,13 +1,14 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import withStyles from '@material-ui/styles/withStyles/withStyles';
+import withStyles from '@mui/styles/withStyles/withStyles';
 import * as commentActions from 'redux/actions/commentActions';
 import * as userActions from 'redux/actions/userActions';
 import { userSelector } from 'redux/reducers/users/userSelector';
 import { Map } from 'immutable';
+import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { ICommentComponentProps } from './ICommentComponentProps';
 import { commentStyles } from './commentStyles';
-import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 
 /**
  * Map dispatch to props

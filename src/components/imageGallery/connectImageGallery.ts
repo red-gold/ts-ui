@@ -2,13 +2,13 @@ import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { IImageGalleryProps, IDispatchProps, IOwnProps, IStateProps } from './IImageGalleryProps';
-import { imageGalleryStyles } from './imageGalleryStyles';
 import { globalSelector } from 'redux/reducers/global/globalSelector';
 import { serverSelector } from 'redux/reducers/server/serverSelector';
 import { gallerySelector } from 'redux/reducers/imageGallery/gallerySelector';
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@mui/styles';
 import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
+import { imageGalleryStyles } from './imageGalleryStyles';
+import { IImageGalleryProps, IDispatchProps, IOwnProps, IStateProps } from './IImageGalleryProps';
 
 /**
  * Map dispatch to props
@@ -33,10 +33,10 @@ const makeMapStateToProps = () => {
     const selectRequests = serverSelector.selectRequests();
     const selectGallery = gallerySelector.selectGallery();
     const mapStateToProps = (state: Map<string, any>) => {
-        const progress = getProgress(state);
-        const currentUser = selectCurrentUser(state);
-        const requests = selectRequests(state);
-        const gallery = selectGallery(state);
+        const progress = getProgress(state) as  Map<string, any>;
+        const currentUser = selectCurrentUser(state) as  Map<string, any>;
+        const requests = selectRequests(state) as  Map<string, any>;
+        const gallery = selectGallery(state) as Map<string, Map<string, any>>;
         return {
             progress,
             currentUser,
@@ -52,5 +52,5 @@ export const connectImageGallery = (component: React.ComponentType<IImageGallery
     return connect<IStateProps, IDispatchProps, IOwnProps, any>(
         makeMapStateToProps,
         mapDispatchToProps,
-    )(withStyles(imageGalleryStyles)(translateWrapper));
+    )(withStyles(imageGalleryStyles)(translateWrapper) as React.ComponentType<IImageGalleryProps>);
 };

@@ -1,6 +1,6 @@
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
+import Button from '@mui/material/Button';
+import { withStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

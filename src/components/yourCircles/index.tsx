@@ -1,4 +1,4 @@
-import List from '@material-ui/core/List';
+import List from '@mui/material/List';
 import CircleComponent from 'components/circle/CircleComponent';
 import { Map } from 'immutable';
 import React, { Component } from 'react';
@@ -56,7 +56,7 @@ export class YourCirclesComponent extends Component<
                     <div>
                         <div className="profile__title">{t('yourCircles.title')}</div>
                         <List>{circleItems}</List>
-                        <div style={{ height: '24px' }}></div>
+                        <div style={{ height: '24px' }} />
                     </div>
                 ) : (
                     ''
@@ -78,7 +78,7 @@ const mapDispatchToProps = () => {
  */
 const mapStateToProps = (state: Map<string, any>) => {
     const uid = state.getIn(['authorize', 'uid']);
-    const circles: Map<string, Map<string, any>> = state.getIn(['circle', 'circleList'], {});
+    const circles = state.getIn(['circle', 'circleList'], Map({})) as Map<string, Map<string, any>>;
     return {
         uid,
         circles,

@@ -1,8 +1,8 @@
-import { Grid } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/styles';
-import TextField from '@material-ui/core/TextField';
+import { Grid } from '@mui/material';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import { withStyles } from '@mui/styles';
+import TextField from '@mui/material/TextField';
 import classNames from 'classnames';
 import Footer from 'oldComponents/footer';
 import React, { Component } from 'react';
@@ -201,7 +201,7 @@ export class NewPasswordComponent extends Component<
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Function) => {
     return {
         updatePassword: (newPassword: string, confirmPassword: string) => {
             dispatch(authorizeActions.dbUpdatePassword(confirmPassword, newPassword));

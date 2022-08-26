@@ -2,7 +2,6 @@ import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { IGalleryProps, IDispatchProps, IOwnProps, IStateProps } from './IGalleryProps';
 import { globalSelector } from 'redux/reducers/global/globalSelector';
 import { serverSelector } from 'redux/reducers/server/serverSelector';
 import { gallerySelector } from 'redux/reducers/imageGallery/gallerySelector';
@@ -10,6 +9,7 @@ import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
+import { IGalleryProps, IDispatchProps, IOwnProps, IStateProps } from './IGalleryProps';
 
 /**
  * Map dispatch to props
@@ -44,7 +44,7 @@ const makeMapStateToProps = () => {
             ServerRequestType.UploadFileInGallery,
             currentUser.get('userId'),
         );
-        const request = selectRequest(state, { requestId });
+        const request = selectRequest(state, { requestId }) as Map<string, ServerRequestStatusType>;
         const uploadRequestStatus = request.get('status', ServerRequestStatusType.NoAction);
         const gallery = selectGallery(state);
 

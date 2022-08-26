@@ -1,47 +1,43 @@
 import React from 'react';
 // material
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Tooltip from '@material-ui/core/Tooltip';
-import BackIcon from '@material-ui/icons/ArrowBackRounded';
-import SvgDehaze from '@material-ui/icons/DehazeRounded';
-import NotificationsIcon from '@material-ui/icons/NotificationsRounded';
-import SearchIcon from '@material-ui/icons/SearchRounded';
-import ChatIcon from '@material-ui/icons/ChatRounded';
-import HomeIcon from '@material-ui/icons/HomeRounded';
-import ProfileIcon from '@material-ui/icons/AssignmentIndRounded';
-import SettingIcon from '@material-ui/icons/SettingsRounded';
+import AppBar from '@mui/material/AppBar';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import BackIcon from '@mui/icons-material/ArrowBackRounded';
+import SvgDehaze from '@mui/icons-material/DehazeRounded';
+import NotificationsIcon from '@mui/icons-material/NotificationsRounded';
+import SearchIcon from '@mui/icons-material/SearchRounded';
+import HomeIcon from '@mui/icons-material/HomeRounded';
+import ProfileIcon from '@mui/icons-material/AssignmentIndRounded';
+import SettingIcon from '@mui/icons-material/SettingsRounded';
 import classNames from 'classnames';
 import Notify from 'components/notify';
 import SearchBoxComponent from 'components/SearchBox';
 import EditProfile from 'components/editProfile/EditProfileComponent';
 import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
-import Badge from '@material-ui/core/Badge';
-import Grid from '@material-ui/core/Grid';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import useTheme from '@material-ui/core/styles/useTheme';
-import { Theme } from '@material-ui/core/styles/createTheme';
-import Divider from '@material-ui/core/Divider';
-import { makeStyles, createStyles } from '@material-ui/styles';
+import Badge from '@mui/material/Badge';
+import Grid from '@mui/material/Grid';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import useTheme from '@mui/material/styles/useTheme';
+import { Theme } from '@mui/material/styles/createTheme';
+import Divider from '@mui/material/Divider';
+import { makeStyles, createStyles } from '@mui/styles';
 //
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate, Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 import TelarSocialLogo from 'oldComponents/telarSocialLogoWhite';
-import RoomListComponent from './roomList';
 import PostWrite from 'components/postWrite';
-import Button, { ButtonProps } from '@material-ui/core/Button';
+import Button, { ButtonProps } from '@mui/material/Button';
 import { notificationSelector } from 'redux/reducers/notifications/notificationSelector';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { globalSelector } from 'redux/reducers/global/globalSelector';
 import { userSelector } from 'redux/reducers/users/userSelector';
-import { chatSelector } from 'redux/reducers/chat/chatSelector';
 import { Map } from 'immutable';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { experimentalStyled as styled } from '@mui/material/styles';
 import { DialogType } from 'models/common/dialogType';
-import Typography from '@material-ui/core/Typography';
-import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
 import MyAvatar from 'components/MyAvatar';
 import { PATH_MAIN } from 'routes/paths';
 import { useSelector } from 'redux/store';
@@ -80,13 +76,11 @@ const selectNotificationsCount = notificationSelector.selectNotificationsCount()
 const selectCurrentUser = authorizeSelector.selectCurrentUser();
 const selectHeaderTitle = globalSelector.selectHeaderTitle();
 const selectOpenEditProfile = userSelector.selectOpenEditProfile();
-const selectUnreadRoomsCount = chatSelector.selectUnreadRoomsCount();
 const selectDialogState = globalSelector.selectDialogState();
 
 export interface HomeHeaderProps {
     drawerStatus: boolean;
     onToggleDrawer: () => void;
-    onToggleMessenger: () => void;
 }
 
 export default function HomeHeader(props: HomeHeaderProps) {
@@ -102,16 +96,14 @@ export default function HomeHeader(props: HomeHeaderProps) {
     const [openNotifyMenu, setOpenNotifyMenu] = React.useState(false);
     const [isSearchPage, setIsSearchPage] = React.useState(true);
     const [previousLocation, setPreviousLocation] = React.useState('');
-    const [anchorElRoomList, setAnchorElRoomList] = React.useState(null);
     const [anchorElNotify, setAnchorElNotify] = React.useState(null);
     const [anchorElAvatar, setAnchorElAvatar] = React.useState(null);
 
     // Selectors
     const notifyCount = useSelector((state: Map<string, any>) => selectNotificationsCount(state));
     const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
-    const title = useSelector((state: Map<string, any>) => selectHeaderTitle(state));
+    const title = useSelector((state: Map<string, any>) => selectHeaderTitle(state)) as string;
     const myProfileAccountOpen = useSelector((state: Map<string, any>) => selectOpenEditProfile(state));
-    const unreadRoomsCount = useSelector((state: Map<string, any>) => selectUnreadRoomsCount(state));
     const postWriteOpen = useSelector((state: Map<string, any>) =>
         selectDialogState(state, { type: DialogType.PostWrite }),
     );
@@ -122,13 +114,6 @@ export default function HomeHeader(props: HomeHeaderProps) {
     const handleCloseNotify = () => {
         setAnchorElNotify(null);
         setOpenNotifyMenu(false);
-    };
-
-    /**
-     * Handle close room list
-     */
-    const handleCloseRoomList = () => {
-        setAnchorElRoomList(null);
     };
 
     /**
@@ -154,16 +139,6 @@ export default function HomeHeader(props: HomeHeaderProps) {
 
         setOpenNotifyMenu(true);
         setAnchorElNotify(event.currentTarget);
-    };
-
-    /**
-     * Handle room list touch
-     */
-    const handlRoomListTouchTap = (event: any) => {
-        // This prevents ghost click.
-        event.preventDefault();
-
-        setAnchorElRoomList(event.currentTarget);
     };
 
     /**
@@ -231,17 +206,6 @@ export default function HomeHeader(props: HomeHeaderProps) {
                 <SearchIcon style={{ color: theme.palette.common.white }} />
             </IconButton>
 
-            {/* Messenger */}
-            <Tooltip title={t('header.messengerTooltip') as string}>
-                <IconButton onClick={handlRoomListTouchTap} onMouseDown={handleMouseDown}>
-                    <Badge badgeContent={unreadRoomsCount} color="error">
-                        <ChatIcon style={{ color: theme.palette.common.white }} />
-                    </Badge>
-                </IconButton>
-            </Tooltip>
-
-            <RoomListComponent open={!!anchorElRoomList} anchorEl={anchorElRoomList} onClose={handleCloseRoomList} />
-
             {/* Notification */}
 
             <Tooltip title={t('header.notificationTooltip') as string}>
@@ -254,7 +218,7 @@ export default function HomeHeader(props: HomeHeaderProps) {
 
             <Notify open={openNotifyMenu} anchorEl={anchorElNotify} onClose={handleCloseNotify} />
 
-            {/* User avatar*/}
+            {/* User avatar */}
             <MyAvatar onClick={handleAvatarTouchTap} size={32} className={classes.avatar} />
 
             <Menu
@@ -330,51 +294,53 @@ export default function HomeHeader(props: HomeHeaderProps) {
 
     return (
         <AppBar className={classes.appBar} position="fixed">
-            <Toolbar>
-                {/* Left side */}
-                {!isSearchPage ? (
-                    <IconButton onClick={onToggleSidebar}>
-                        <SvgDehaze style={{ cursor: 'pointer', color: theme.palette.common.white }} />
-                    </IconButton>
-                ) : (
-                    <NavLink to={previousLocation}>
-                        <IconButton>
-                            <BackIcon style={{ cursor: 'pointer', color: theme.palette.common.white }} />
+            <>
+                <Toolbar>
+                    {/* Left side */}
+                    {!isSearchPage ? (
+                        <IconButton onClick={onToggleSidebar}>
+                            <SvgDehaze style={{ cursor: 'pointer', color: theme.palette.common.white }} />
                         </IconButton>
-                    </NavLink>
-                )}
+                    ) : (
+                        <NavLink to={previousLocation}>
+                            <IconButton>
+                                <BackIcon style={{ cursor: 'pointer', color: theme.palette.common.white }} />
+                            </IconButton>
+                        </NavLink>
+                    )}
 
-                {/* Header title */}
-                {smDownHidden && isSearchPage ? '' : <TelarSocialLogo className={classes.appIcon} />}
+                    {/* Header title */}
+                    {smDownHidden && isSearchPage ? '' : <TelarSocialLogo className={classes.appIcon} />}
 
-                <div className="homeHeader__title-root">
-                    <Grid
-                        className={classNames(classes.pageTitle, {
-                            'homeHeader__title-left': anchor === 'left',
-                            'homeHeader__title-right': anchor === 'right',
-                        })}
-                        style={{ display: smDownHidden ? 'none' : 'block' }}
-                    >
-                        {title}
-                    </Grid>
-                </div>
-                <div className={classes.fullBox}>
-                    <div className={classes.searchBox} style={{ display: smDownHidden ? 'none' : 'block' }}>
-                        <SearchBoxComponent />
+                    <div className="homeHeader__title-root">
+                        <Grid
+                            className={classNames(classes.pageTitle, {
+                                'homeHeader__title-left': anchor === 'left',
+                                'homeHeader__title-right': anchor === 'right',
+                            })}
+                            style={{ display: smDownHidden ? 'none' : 'block' }}
+                        >
+                            {title}
+                        </Grid>
                     </div>
-
-                    {smDownHidden && isSearchPage ? (
-                        <div className={classes.smallSearchBox}>
+                    <div className={classes.fullBox}>
+                        <div className={classes.searchBox} style={{ display: smDownHidden ? 'none' : 'block' }}>
                             <SearchBoxComponent />
                         </div>
-                    ) : (
-                        ''
-                    )}
-                </div>
 
-                {smDownHidden && isSearchPage ? '' : rightHeader}
-            </Toolbar>
-            {postWriteOpen && <PostWrite />}
+                        {smDownHidden && isSearchPage ? (
+                            <div className={classes.smallSearchBox}>
+                                <SearchBoxComponent />
+                            </div>
+                        ) : (
+                            ''
+                        )}
+                    </div>
+
+                    {smDownHidden && isSearchPage ? '' : rightHeader}
+                </Toolbar>
+                {postWriteOpen && <PostWrite />}
+            </>
         </AppBar>
     );
 }
@@ -413,7 +379,7 @@ export const useStyles = makeStyles((theme: Theme) =>
             marginRight: 25,
         },
         appBar: {
-            'z-index': theme.zIndex.drawer + 1 + ' !important',
+            'z-index': `${theme.zIndex.drawer + 1} !important`,
         },
     }),
 );

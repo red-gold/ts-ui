@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 // - Material-UI
-import { withStyles } from '@material-ui/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@mui/styles';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
 import { activityProgressStyles } from './activityProgressStyles';
 
 import { IActivityProgressComponentProps } from './IActivityProgressComponentProps';

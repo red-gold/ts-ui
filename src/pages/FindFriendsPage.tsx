@@ -1,4 +1,4 @@
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import FindPeople from 'components/findPeople/FindPeopleComponent';
@@ -36,9 +36,9 @@ export function FindFriendsPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const goTo = (url: string) => navigate(url);
-    const setHeaderTitle = (title: string) => dispatch(globalActions.setHeaderTitle(title));
+    const setHeaderTitle = (title: string) => dispatch<any>(globalActions.setHeaderTitle(title));
     const circlesLoaded = useSelector(circleSelector.selectCirclesLoaded());
-    const [tabIndex, setTabIndex] = React.useState(getTabIndexByNav(tab));
+    const [tabIndex, setTabIndex] = React.useState(getTabIndexByNav(tab as string));
 
     /**
      * Hadle on tab change
