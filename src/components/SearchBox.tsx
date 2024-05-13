@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { PATH_MAIN } from 'routes/paths';
@@ -15,6 +14,7 @@ import StringAPI from 'api/StringAPI';
 import Card from '@mui/material/Card';
 import { Theme } from '@mui/material/styles';
 import { makeStyles, createStyles } from '@mui/styles';
+import React from 'react';
 
 export default function SearchBoxComponent() {
     const [searchText, setSearchText] = React.useState('');
@@ -153,7 +153,7 @@ export const useStyles = makeStyles((theme: Theme) =>
         },
         searchInput: {
             backgroundColor: 'rgba(255, 255, 255, 0.15)',
-            color: `${theme.palette.common.white  } !important`,
+            color: `${theme.palette.common.white} !important`,
             padding: 5,
             borderRadius: 4,
         },

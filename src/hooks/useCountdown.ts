@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -9,13 +9,7 @@ export default function useCountdown(date: Date) {
         minutes: '00',
         seconds: '00',
     });
-
-    useEffect(() => {
-        const interval = setInterval(() => setNewTime(), 1000);
-        return () => clearInterval(interval);
-    }, []);
-
-    const setNewTime = () => {
+    const setNewTime = useCallback(() => {
         const startTime = date;
         const endTime = new Date();
         const distanceToNow = startTime.getTime() - endTime.getTime();
@@ -31,7 +25,14 @@ export default function useCountdown(date: Date) {
             minutes: getMinutes || '000',
             seconds: getSeconds || '000',
         });
-    };
+    },[date])
+    
+    useEffect(() => {
+        const interval = setInterval(() => setNewTime(), 1000);
+        return () => clearInterval(interval);
+    }, [setNewTime]);
+
+   
 
     return countdown;
 }

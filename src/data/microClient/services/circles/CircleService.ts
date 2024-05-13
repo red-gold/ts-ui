@@ -9,9 +9,13 @@ import { SocialProviderTypes } from 'core/socialProviderTypes';
 /**
  * Firbase circle service
  */
-@injectable()
+
 export class CircleService implements ICircleService {
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
+    private _httpService: IHttpService;
+
+    constructor(httpService: IHttpService) {
+        this._httpService = httpService;
+    }
 
     public addCircle = async (userId: string, circle: Circle) => {
         try {

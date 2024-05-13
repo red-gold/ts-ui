@@ -5,6 +5,7 @@ export interface State {
     [x: string]: any;
 }
 
+// eslint-disable-next-line no-unused-vars
 export type AccessStrategy = (state: State, reducerKey: string, cacheKey: string) => number | null | undefined;
 const defaultAccessStrategy: AccessStrategy = (state, reducerKey, cacheKey) => {
     return state && state[reducerKey] && state[reducerKey][cacheKey];

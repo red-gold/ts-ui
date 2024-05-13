@@ -1,7 +1,7 @@
 import CommentComponent from 'components/comment/CommentComponent';
 import { Map } from 'immutable';
-import React from 'react';
 
+import React from 'react';
 import { ICommentListProps } from './ICommentListProps';
 
 export function CommentListComponent(props: ICommentListProps) {
@@ -28,6 +28,7 @@ export function CommentListComponent(props: ICommentListProps) {
             });
             return parsedElemetList;
         }
+        return []
     };
 
     React.useEffect(() => {

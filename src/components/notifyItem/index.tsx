@@ -2,7 +2,7 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListItemText from '@mui/material/ListItemText';
 import SvgClose from '@mui/icons-material/Close';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
-import React from 'react';
+
 import classNames from 'classnames';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 

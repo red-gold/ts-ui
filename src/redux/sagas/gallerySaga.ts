@@ -21,7 +21,7 @@ import * as postActions from 'redux/actions/postActions';
 import * as serverActions from 'redux/actions/serverActions';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { log } from 'utils/log';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
@@ -200,7 +200,7 @@ function* dbUploadVideoThumbnail(file: any, fileName: string): any {
                 yield put(globalActions.showMessage(error.message));
                 yield put(globalActions.progressChange(100, false));
                 yield put(globalActions.hideTopLoading());
-                return;
+                return error;
             }
 
             if (success) {
@@ -214,6 +214,7 @@ function* dbUploadVideoThumbnail(file: any, fileName: string): any {
             yield put(globalActions.progressChange(progress, true));
         }
     }
+    return false;
 }
 
 /**
@@ -263,6 +264,7 @@ export function* uploadImage(file: any, rootName: string, fileName: string) {
             yield put(globalActions.progressChangeWithKey(progress, true, fileName));
         }
     }
+    return false;
 }
 
 /**
@@ -370,7 +372,7 @@ function* watchUploadVideo(action: { type: ImageGalleryActionType; payload: any 
 /**
  * Watch fetch album images
  */
-function* watchFetchAlbumImages(action: { type: ImageGalleryActionType; payload: any }) : any{
+function* watchFetchAlbumImages(action: { type: ImageGalleryActionType; payload: any }): any {
     const { userId, albumId } = action.payload;
     const lastImageId: string = yield select(galleryGetters.getAlbumLastImageId, { albumId });
     yield call(fetchAlbumImages, userId, albumId, lastImageId, 10);

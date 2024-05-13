@@ -1,4 +1,3 @@
-import React from 'react';
 import { Map } from 'immutable';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -11,6 +10,7 @@ import * as userActions from 'redux/actions/userActions';
 import { userSelector } from 'redux/reducers/users/userSelector';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import React, { useCallback } from 'react';
 import UserItem from '../userItem';
 import { useStyles } from './peopleBoxStyles';
 
@@ -23,14 +23,14 @@ export function PeopleBox() {
 
     // Dispatcher
     const dispatch = useDispatch();
-    const fetchUserSuggestions = () => dispatch<any>(userActions.fetchUserSuggestions());
+    const fetchUserSuggestions = useCallback(() => dispatch<any>(userActions.fetchUserSuggestions()),[dispatch]);
 
     // Selectors
     const userSuggestions = useSelector((state: Map<string, any>) => selectUserSuggestions(state));
 
     React.useEffect(() => {
         fetchUserSuggestions();
-    }, []);
+    }, [fetchUserSuggestions]);
 
     return (
         <Card className={classes.root}>

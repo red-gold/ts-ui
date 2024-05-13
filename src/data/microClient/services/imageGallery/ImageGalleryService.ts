@@ -15,15 +15,18 @@ import type { IPostService } from 'core/services/posts/IPostService';
 /**
  * OpenFaaS image gallery service
  */
-@injectable()
+
 export class ImageGalleryService implements IImageGalleryService {
-    @inject(SocialProviderTypes.StorageService) private _storageService: IStorageService;
+    private _storageService: IStorageService;
 
-    @inject(SocialProviderTypes.PostService) private _postService: IPostService;
+    private _postService: IPostService;
 
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
+    private _httpService: IHttpService;
 
-    constructor() {
+    constructor(httpService: IHttpService, storageService: IStorageService, postService: IPostService) {
+        this._httpService = httpService;
+        this._storageService = storageService;
+        this._postService = postService;
         this.uploadFile = this.uploadFile.bind(this);
     }
 

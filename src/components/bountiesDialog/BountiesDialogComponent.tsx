@@ -42,7 +42,6 @@ export class BountiesDialogComponent extends Component<
     constructor(props: IBountiesDialogComponentProps & WithTranslation) {
         super(props);
         this.state = {
-            completed: 50,
             open: false,
         };
     }

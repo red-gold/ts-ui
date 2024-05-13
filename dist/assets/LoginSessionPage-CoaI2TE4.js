@@ -1,0 +1,1 @@
+import{ct as a,r as c,cu as o,j as r,cp as n}from"./index-BnH1FrvR.js";function u(){const[e]=a();return c.useEffect(()=>{const s=e.get("access_token"),t=e.get("r")||document.domain;s&&o(s),window.location.replace(t)},[e]),r.jsx(n,{children:void 0})}export{u as default};

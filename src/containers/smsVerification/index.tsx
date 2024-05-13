@@ -120,9 +120,8 @@ export class SmsVerificationComponent extends Component<
      */
     handleInputChange = (event: any) => {
         const { t } = this.props;
-        const target = event.target;
-        let value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+        const {checked, type, name} = event.target;
+        let value = type === 'checkbox' ? checked : event.target.value;
         const asYouType = new AsYouType();
         if (!t) {
             return;

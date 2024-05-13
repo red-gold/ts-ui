@@ -8,10 +8,11 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Paper from '@mui/material/Paper';
 import Switch from '@mui/material/Switch';
 import { Map } from 'immutable';
-import React from 'react';
+
 import { WithTranslation, withTranslation } from 'react-i18next';
 
 import { UserSettingEnum } from 'constants/userSettingEnum';
+import React from 'react';
 import { INotificationSettingProps } from './INotificationSettingProps';
 import { useStyles } from './notificationSettingStyles';
 

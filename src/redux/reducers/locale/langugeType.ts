@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * ISO 639-1 defines abbreviations for languages.
  * Reference for country codes

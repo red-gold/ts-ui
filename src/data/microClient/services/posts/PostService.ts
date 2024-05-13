@@ -10,11 +10,13 @@ import { Map, fromJS } from 'immutable';
 /**
  * Firbase post service
  */
-@injectable()
-export class PostService implements IPostService {
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
 
-    constructor() {
+export class PostService implements IPostService {
+    private _httpService: IHttpService;
+
+    constructor(httpService: IHttpService) {
+        this._httpService = httpService;
+
         this.getSearchKey = this.getSearchKey.bind(this);
         this.searchPosts = this.searchPosts.bind(this);
         this.getAlbumPosts = this.getAlbumPosts.bind(this);

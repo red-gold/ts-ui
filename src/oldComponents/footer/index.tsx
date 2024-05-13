@@ -1,8 +1,7 @@
 import Grid from '@mui/material/Grid';
 import { withStyles } from '@mui/styles';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import config from 'config';
 
@@ -16,15 +15,11 @@ export class FooterComponent extends Component<IFooterComponentProps & WithTrans
 
         // Defaul state
         this.state = {};
-
-        // Binding functions to `this`
     }
 
     render() {
         const { classes, t } = this.props;
-        if (!t) {
-            return <div />;
-        }
+
         return (
             <div className={classes.root}>
                 {/* {CommonAPI.isMobile() ? <div style={{height: 90}}></div> : mobileElement} */}
@@ -37,7 +32,7 @@ export class FooterComponent extends Component<IFooterComponentProps & WithTrans
                                     <NavLink to={`/terms`}>{t('terms.privacyTitle')}</NavLink>
                                 </li>
                                 <li className={classes.item}>
-                                    <a href={`mailto:${config.settings.supportEmail}?Subject=Hola`} target="_top">
+                                    <a href={`mailto:${config.settings.supportEmail}?Subject=Hello`} target="_top">
                                         {t('footer.supportEmail')}
                                     </a>
                                 </li>
@@ -53,23 +48,6 @@ export class FooterComponent extends Component<IFooterComponentProps & WithTrans
     }
 }
 
-/**
- * Map dispatch to props
- */
-const mapDispatchToProps = () => {
-    return {};
-};
-
-/**
- * Map state to props
- */
-const mapStateToProps = () => {
-    return {};
-};
-
 const translateWrapper = withTranslation('translations')(FooterComponent);
 
-export default connect<{}, {}, any, any>(
-    mapStateToProps,
-    mapDispatchToProps,
-)(withStyles(footerStyles as any)(translateWrapper as any) as any);
+export default withStyles(footerStyles as any)(translateWrapper as any);

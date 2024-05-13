@@ -34,6 +34,11 @@ export class ProfileHeaderComponent extends Component<
         // Binding functions to `this`
     }
 
+    componentDidMount() {
+        this.handleResize();
+    }
+
+
     /**
      * Handle resize event for window to change sidebar status
      * @param  {event} evt is the event is passed by winodw resize event
@@ -53,10 +58,7 @@ export class ProfileHeaderComponent extends Component<
         }
     };
 
-    componentDidMount() {
-        this.handleResize();
-    }
-
+   
     render() {
         const { t, isAuthedUser, editProfileOpen } = this.props;
         const styles = {

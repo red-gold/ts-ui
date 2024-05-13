@@ -9,13 +9,14 @@ import { inject, injectable } from 'inversify';
 /**
  * Firbase user service
  */
-@injectable()
-export class UserService implements IUserService {
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
 
-    constructor() {
+export class UserService implements IUserService {
+    private _httpService: IHttpService;
+
+    constructor(httpService: IHttpService) {
         this.getSearchKey = this.getSearchKey.bind(this);
         this.searchUser = this.searchUser.bind(this);
+        this._httpService = httpService;
     }
 
     /**
@@ -51,6 +52,7 @@ export class UserService implements IUserService {
 
             return { ...result, userId: result.objectId, creationDate: result.created_date } as User;
         } catch (error: any) {
+            console.error(error);
             throw new SocialError(error.code, `service/getUserProfile :${error.message}`);
         }
     };

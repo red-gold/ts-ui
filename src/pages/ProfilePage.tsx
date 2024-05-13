@@ -1,6 +1,6 @@
 import ImgCover from 'components/imgCover';
 import UserActivity from 'components/userActivity';
-import React from 'react';
+import React, { useCallback } from 'react';
 import config from 'config';
 import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +22,7 @@ import RightPanel from 'components/profileRightPanel';
 import CircularProgress from '@mui/material/CircularProgress';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import { createStyles, makeStyles } from '@mui/styles';
-import PostStreamComponent from '../containers/postStream';
+import PostStreamComponent from '../containers/PostStream';
 
 const LoadingRoot = styled('div')({
     display: 'flex',
@@ -56,7 +56,6 @@ export default function ProfilePage() {
         string,
         any
     >;
-    const postsRequestStatus: ServerRequestStatusType = postsRequest.get('status', ServerRequestStatusType.NoAction);
     const hasMorePosts: boolean = useSelector((state: Map<string, any>) =>
         selectHasMorePostProfile(state, { userId: profile.get('id') }),
     );
@@ -64,7 +63,10 @@ export default function ProfilePage() {
 
     // Dispatcher
     const dispatch = useDispatch();
-    const setHeaderTitle = (title: string) => dispatch<any>(globalActions.setHeaderTitle(title));
+    const setHeaderTitle = useCallback(
+        (title: string) => dispatch<any>(globalActions.setHeaderTitle(title)),
+        [dispatch],
+    );
 
     const isCurrentUser = profile.get('id') === currentUserId;
 
@@ -73,7 +75,7 @@ export default function ProfilePage() {
             setHeaderTitle(profile.get('fullName'));
             dispatch<any>(userActions.fetchProfileBySocialName(socialName));
         }
-    }, [socialName, dispatch]);
+    }, [socialName, dispatch, profile, setHeaderTitle]);
     return profile.size > 0 ? (
         <>
             <div className={classes.bannerContainer}>
@@ -95,12 +97,10 @@ export default function ProfilePage() {
                     {!profile.isEmpty() ? (
                         <PostStreamComponent
                             posts={posts}
-                            requestId={requestId}
                             loadStream={(page: number) =>
                                 dispatch<any>(postActions.dbGetPostsByUserId(profile.get('id'), page)) as any
                             }
                             hasMorePosts={hasMorePosts}
-                            requestStatus={postsRequestStatus}
                         />
                     ) : (
                         <></>

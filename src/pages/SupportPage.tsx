@@ -20,7 +20,7 @@ export function SupportComponent() {
 
     React.useEffect(() => {
         dispatch<any>(globalActions.setHeaderTitle(t('header.support')));
-    }, []);
+    });
 
     return (
         <Container maxWidth="md">

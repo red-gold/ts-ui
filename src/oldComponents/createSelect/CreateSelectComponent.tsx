@@ -1,4 +1,3 @@
-import React from 'react';
 import CreatableSelect from 'react-select/lib/Creatable';
 
 // - Material-UI
@@ -14,6 +13,7 @@ import Chip from '@mui/material/Chip';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 
+import React from 'react';
 import { ICreateSelectProps } from './ICreateSelectProps';
 import { createSelectStyles } from './createSelectStyles';
 

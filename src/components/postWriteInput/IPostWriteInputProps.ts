@@ -6,6 +6,7 @@
 import { PostType } from 'core/domain/posts/postType';
 import { PhotoGalleryFile } from 'models/gallery/photoGalleryFile';
 import { Map } from 'immutable';
+import React from 'react';
 
 export interface IPostWriteInputProps {
     text: string;

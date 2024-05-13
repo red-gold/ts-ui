@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as postActions from 'redux/actions/postActions';
 import { useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
@@ -66,7 +66,7 @@ export default function PostPage() {
         selectProfileById(state, { userId: post.get('ownerUserId') }),
     );
 
-    const loadPost = async () => {
+    const loadPost = useCallback(async () => {
         setLoading(true);
         try {
             await dispatch<any>(postActions.fetchPostByURLKey(urlKey as string));
@@ -75,19 +75,19 @@ export default function PostPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [urlKey, dispatch,enqueueSnackbar]);
 
     useEffect(() => {
         if (urlKey) {
             loadPost();
         }
-    }, [urlKey, dispatch]);
+    }, [urlKey, dispatch, loadPost]);
 
     useEffect(() => {
         if (post && post.get('ownerUserId')) {
             dispatch<any>(fetchProfileById(post.get('ownerUserId')));
         }
-    }, [post.get('ownerUserId'), dispatch]);
+    }, [post, dispatch]);
 
     return (
         <ContainerStyle>

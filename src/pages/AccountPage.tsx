@@ -41,7 +41,7 @@ export default function AccountPage() {
     useEffect(() => {
         dispatch<any>(setHeaderTitle(t('header.account')));
         dispatch<any>(dbFetchUserSetting());
-    }, []);
+    }, [dispatch, t]);
 
     return (
         <RootStyle>

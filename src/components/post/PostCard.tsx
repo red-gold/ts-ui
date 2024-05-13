@@ -1,5 +1,5 @@
-import React from 'react';
 import { List, Map } from 'immutable';
+import { useCallback, useState } from 'react';
 // material
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -30,7 +30,7 @@ import ShareDialog from 'components/shareDialog';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import { UserPermissionType } from 'core/domain/common/userPermissionType';
 import { PostType } from 'core/domain/posts/postType';
-import PostAlbumComponent from 'oldComponents/postAlbum';
+import PostAlbumComponent from 'components/PostAlbum';
 import moment from 'moment/moment';
 import Linkify from 'react-linkify';
 import ReactPlayer from 'react-player';
@@ -73,18 +73,30 @@ export default function PostCard({ post }: PostComponentProps) {
     const classes = useStyles();
 
     // states
-    const [isCommentDisabled, setIsCommentDisabled] = React.useState(post.get('disableComments'));
-    const [isSharingDisabled, setIsSharingDisabled] = React.useState(post.get('disableSharing'));
-    const [openComments, setOpenComments] = React.useState(false);
-    const [shareOpen, setShareOpen] = React.useState(false);
-    const [openCopyLink, setOpenCopyLink] = React.useState(false);
-    const [postMenuAnchorEl, setPostMenuAnchorEl] = React.useState<any>(null);
-    const [showVideo, setShowVideo] = React.useState(false);
-    const [isLiked, setLiked] = React.useState(!!post.getIn(['votes', user?.id]));
+    const [isCommentDisabled, setIsCommentDisabled] = useState(post.get('disableComments'));
+    const [isSharingDisabled, setIsSharingDisabled] = useState(post.get('disableSharing'));
+    const [openComments, setOpenComments] = useState(false);
+    const [shareOpen, setShareOpen] = useState(false);
+    const [openCopyLink, setOpenCopyLink] = useState(false);
+    const [postMenuAnchorEl, setPostMenuAnchorEl] = useState<any>(null);
+    const [showVideo, setShowVideo] = useState(false);
+    const [isLiked, setLiked] = useState(!!post.getIn(['votes', user?.id]));
     const isPostOwner = post.get('ownerUserId') === user?.id;
 
     // selectors
     const commentList = useSelector((state: Map<string, any>) => selectComments(state, { postId: post.get('id') }));
+
+    // map Post fields
+    const ownerUserId = post.get('ownerUserId');
+    const ownerDisplayName = post.get('ownerDisplayName');
+    const creationDate = post.get('creationDate');
+    const ownerAvatar = post.get('ownerAvatar');
+    const body = post.get('body');
+    const video = post.get('video');
+    const id = post.get('id');
+    const commentCounter = post.get('commentCounter');
+    const score = post.get('score');
+    const version = post.get('version');
 
     /**
      * Toggle on show/hide comment
@@ -233,25 +245,14 @@ export default function PostCard({ post }: PostComponentProps) {
         );
     };
 
-    const getAlbum = () => {
+    const getAlbum = useCallback(() => {
         const photos: List<string> = post.getIn(['album', 'photos'], List([])) as List<string>;
         return <PostAlbumComponent key={`post-album-grid-${id}`} currentAlbum={post} images={photos} />;
-    };
-
-    const ownerUserId = post.get('ownerUserId');
-    const ownerDisplayName = post.get('ownerDisplayName');
-    const creationDate = post.get('creationDate');
-    const ownerAvatar = post.get('ownerAvatar');
-    const body = post.get('body');
-    const video = post.get('video');
-    const id = post.get('id');
-    const commentCounter = post.get('commentCounter');
-    const score = post.get('score');
-    const version = post.get('version');
+    }, [id, post]);
 
     // Define variables
     return (
-        <Card key={`${id  }post-card`} className={classNames(classes.postBox, 'animate-top')}>
+        <Card key={`${id}post-card`} className={classNames(classes.postBox, 'animate-top')}>
             <CardHeader
                 title={
                     <DisplayName to={PATH_MAIN.user.profile.replace(':socialName', post.get('socialName'))}>
@@ -260,9 +261,11 @@ export default function PostCard({ post }: PostComponentProps) {
                 }
                 subheader={
                     creationDate ? (
-                        `${version === config.dataFormat.postVersion
-                            ? moment(creationDate).local().fromNow()
-                            : moment(creationDate).local().fromNow()  } | ${getPermissionLabel()}`
+                        `${
+                            version === config.dataFormat.postVersion
+                                ? moment(creationDate).local().fromNow()
+                                : moment(creationDate).local().fromNow()
+                        } | ${getPermissionLabel()}`
                     ) : (
                         <LinearProgress color="primary" />
                     )
@@ -273,14 +276,14 @@ export default function PostCard({ post }: PostComponentProps) {
                     </DisplayName>
                 }
                 action={isPostOwner ? rightIconMenu() : ''}
-             />
+            />
             <CardContent className={classes.postBody}>
                 <ReadMoreComponent body={body}>
                     <Linkify
                         properties={{
                             target: '_blank',
                             style: { color: 'blue' },
-                            onClick: (event: React.MouseEvent<HTMLAnchorElement>) => event.stopPropagation(),
+                            onClick: (event: MouseEvent) => event.stopPropagation(),
                         }}
                     >
                         {reactStringReplace(body, /#(\w+)/g, (match: string, i: number) => (

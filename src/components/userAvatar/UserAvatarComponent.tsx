@@ -1,4 +1,3 @@
-import React from 'react';
 // material
 import Avatar from '@mui/material/Avatar';
 // utils

@@ -10,10 +10,7 @@ import axiosInstance from 'utils/axios';
 
 axios.defaults.withCredentials = true;
 
-@injectable()
 export class HttpService implements IHttpService {
-    @inject(SocialProviderTypes.PermissionService) private _permissionService: IPermissionService;
-
     constructor() {
         this.get = this.get.bind(this);
         this.post = this.post.bind(this);
@@ -152,7 +149,6 @@ export class HttpService implements IHttpService {
      */
     public async getWithoutAuth(url: string) {
         url = this.parseURL(url);
-        await this._permissionService.getIdToken();
         const validURL = config.rewrites[url] || url;
         const result = await axios.get(`${config.gateway.gateway_uri}/${validURL}`);
         return result.data;

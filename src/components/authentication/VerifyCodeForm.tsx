@@ -1,21 +1,16 @@
-import React from 'react';
 import * as Yup from 'yup';
-import { Form, FormikProvider, useFormik } from 'formik';
 // material
-import { TextField, FormHelperText, Stack } from '@mui/material';
+import { FormHelperText, Stack, OutlinedInput } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { SocialError } from 'core/domain/common/socialError';
 import useLocales from 'hooks/useLocales';
+import { FormProvider } from 'components/hook-form';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router';
+import { useSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
-
-// eslint-disable-next-line consistent-return
-function maxLength(object: any) {
-    if (object.target.value.length > object.target.maxLength) {
-        object.target.value = object.target.value.slice(0, object.target.maxLength);
-        return object.target.value;
-    }
-}
 
 export interface VerifyCodeFormProps {
     verify: (code: string) => Promise<void>;
@@ -25,54 +20,84 @@ export interface VerifyCodeFormProps {
 
 export default function VerifyCodeForm({ verify, onSuccess, onError }: VerifyCodeFormProps) {
     const { t } = useLocales();
+    const navigate = useNavigate();
+
+    const { enqueueSnackbar } = useSnackbar();
+
     const VerifyCodeSchema = Yup.object().shape({
-        code: Yup.number().required(t('emailVerification.requiredCodeError')),
+        code: Yup.number().required(t('emailVerification.requiredCodeError')).min(6),
     });
 
-    const formik = useFormik({
-        initialValues: {
-            code: '',
-        },
-        validationSchema: VerifyCodeSchema,
-        onSubmit: async (values) => {
-            try {
-                await verify(`${values.code}`);
-                onSuccess();
-            } catch (error: any) {
-                onError(error);
-            }
-        },
+    const defaultValues: any = {
+        code: '',
+    };
+
+    const methods = useForm({
+        mode: 'all',
+        resolver: yupResolver(VerifyCodeSchema),
+        defaultValues,
     });
 
-    const { errors, isValid, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
+    const {
+        watch,
+        control,
+        setValue,
+        handleSubmit,
+        formState: { isSubmitting, errors },
+    } = methods;
+
+    const values = watch();
+
+    const onSubmit = async (data: { code: string }) => {
+        try {
+            await verify(`${data.code}`);
+            onSuccess();
+        } catch (error: any) {
+            onError(new SocialError('verifycode', error.message));
+        }
+    };
 
     return (
-        <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Stack direction="row" spacing={2} justifyContent="center">
-                    <TextField
-                        {...getFieldProps('code')}
-                        type="number"
-                        onInput={maxLength}
-                        error={Boolean(touched.code && errors.code)}
-                        label={t('signup.codeLabel')}
-                        fullWidth
-                    />
-                </Stack>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <Stack direction="row" spacing={2} justifyContent="center">
+                <Controller
+                    key={'code'}
+                    name={`code`}
+                    control={control}
+                    render={({ field, fieldState: { error } }) => (
+                        <OutlinedInput
+                            {...field}
+                            error={!!error}
+                            autoFocus
+                            placeholder="-"
+                            onChange={field.onChange}
+                            fullWidth
+                            inputProps={{
+                                className: 'field-code',
+                                maxLength: 6,
+                            }}
+                        />
+                    )}
+                />
+            </Stack>
 
-                <FormHelperText error={!isValid}>{!isValid && t('emailVerification.requiredCodeError')}</FormHelperText>
+            {!!errors.code && (
+                <FormHelperText error={!!errors.code}>
+                    {t('emailVerification.requiredCodeError')} e.g. 123456
+                </FormHelperText>
+            )}
 
-                <LoadingButton
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                    loading={isSubmitting}
-                    sx={{ mt: 3 }}
-                >
-                    {t('signup.verifyButton')}
-                </LoadingButton>
-            </Form>
-        </FormikProvider>
+            <LoadingButton
+                fullWidth
+                size="large"
+                type="submit"
+                variant="contained"
+                loading={isSubmitting}
+                sx={{ mt: 3 }}
+                disabled={!!errors.code}
+            >
+                {t('signup.verifyButton')}
+            </LoadingButton>
+        </FormProvider>
     );
 }

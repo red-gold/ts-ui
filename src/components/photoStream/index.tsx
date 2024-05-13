@@ -18,8 +18,6 @@ export class PhotoStreamComponent extends Component<IPhotoStreamProps & WithTran
 
         // Defaul state
         this.state = {
-            lightboxIsOpen: false,
-            currentImage: 0,
             width: -1,
         };
 

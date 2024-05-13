@@ -1,4 +1,3 @@
-import React from 'react';
 import * as Yup from 'yup';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
@@ -182,6 +181,7 @@ export default function SignupComponent() {
                             autoComplete="current-password"
                             label={t('signup.passwordLabel')}
                             {...getFieldProps('password')}
+                            type="password"
                             error={Boolean(touched.password && errors.password)}
                             helperText={touched.password && errors.password}
                         />

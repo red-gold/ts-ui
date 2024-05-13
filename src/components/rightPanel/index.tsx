@@ -1,4 +1,3 @@
-import React from 'react';
 import PeopleBox from '../peopleBox';
 
 export function RightPanel() {

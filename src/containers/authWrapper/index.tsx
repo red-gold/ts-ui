@@ -1,20 +1,20 @@
-import React from 'react';
 import Footer from 'oldComponents/footer';
 import { styled } from '@mui/material/styles';
 import Logo from 'components/Logo';
+import React from 'react';
 
 // ----------------------------------------------------------------------
 
-const AppbarStyle = styled('div')(() => ({
+const LogoWrapperStyle = styled('div')(() => ({
     position: 'relative',
     display: 'flex',
     justifyContent: 'center',
     marginTop: 15,
     '& > div': {
-        width: '100%',
+        width: '420px',
         height: '510px',
         position: 'absolute',
-        left: '40%',
+        right: 0,
         opacity: 0.2,
     },
 }));
@@ -49,7 +49,7 @@ const ContainerStyle = styled('div')(({ theme }) => ({
 
 const CenterRootStyle = styled('div')(({ theme }) => ({
     maxWidth: 1240,
-    height: 519,
+    minHeight: 'calc(100vh - 157px);',
     width: '100%',
     margin: '0 auto',
     padding: '0 20px',
@@ -108,9 +108,9 @@ export interface AuthWrapperProps {
 export default function AuthWrapper({ children }: AuthWrapperProps) {
     return (
         <>
-            <AppbarStyle>
+            <LogoWrapperStyle>
                 <Logo />
-            </AppbarStyle>
+            </LogoWrapperStyle>
             <ContainerStyle>
                 <CenterRootStyle>
                     <CenterContainerStyle>

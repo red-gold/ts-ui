@@ -1,10 +1,8 @@
 import { OAuthType } from 'core/domain/authorize/oauthType';
 import { IAuthorizeService } from 'core/services/authorize/IAuthorizeService';
-import { inject, injectable } from 'inversify';
 import type { IHttpService } from 'core/services/webAPI/IHttpService';
-import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { AuthAPI } from 'api/AuthAPI';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { log } from 'utils/log';
 import { SocialError } from 'core/domain/common/socialError';
 import config from 'config/index';
@@ -13,11 +11,13 @@ import { UserRegisterModel } from 'models/users/userRegisterModel';
 /**
  * Authorize service
  */
-@injectable()
+
 export class AuthorizeService implements IAuthorizeService {
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
+    private _httpService: IHttpService;
     // eslint-disable-next-line
-    constructor() {}
+    constructor(httpService: IHttpService) {
+        this._httpService = httpService;
+    }
 
     /**
      * Login the user

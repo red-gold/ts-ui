@@ -1,4 +1,3 @@
-import React from 'react';
 // material
 import { Paper, Typography } from '@mui/material';
 import { SxProps } from '@mui/system';

@@ -1,9 +1,9 @@
-import React from 'react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { styled } from '@mui/material/styles';
 import { Box, Grid, CircularProgress } from '@mui/material';
 import SearchNotFound from 'components/SearchNotFound';
 import { List, Map } from 'immutable';
+import React from 'react';
 import PostCard from './PostCard';
 
 // ----------------------------------------------------------------------

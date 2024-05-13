@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import ImageList from '@mui/material/ImageList';
 import Button from '@mui/material/Button';
 import config from 'config';
@@ -59,11 +59,11 @@ export function GalleryComponent(props: IGalleryProps & WithTranslation) {
     /**
      * Handle send image resize event that pass the resized image
      */
-    const handleSendResizedImage = (event: any) => {
+    const handleSendResizedImage = useCallback((event: any) => {
         const { resizedImage, fileName } = event.detail;
         const { uploadOneImage, folder } = props;
         uploadOneImage(resizedImage, fileName, folder);
-    };
+    },[props]);
 
     /**
      * Handle on change file upload
@@ -157,7 +157,7 @@ export function GalleryComponent(props: IGalleryProps & WithTranslation) {
         return () => {
             window.removeEventListener('onSendResizedImage', handleSendResizedImage);
         };
-    }, []);
+    }, [handleSendResizedImage, loadImageGallery]);
 
     return (
         <div className={classNames(classes.root, { inprogress })}>

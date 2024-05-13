@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import withStyles from '@mui/styles/withStyles/withStyles';
@@ -7,6 +6,7 @@ import * as userActions from 'redux/actions/userActions';
 import { userSelector } from 'redux/reducers/users/userSelector';
 import { Map } from 'immutable';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
+import React from 'react';
 import { ICommentComponentProps } from './ICommentComponentProps';
 import { commentStyles } from './commentStyles';
 
@@ -61,5 +61,5 @@ export const connectComment = (component: React.ComponentType<ICommentComponentP
     return connect<{}, {}, any, any>(
         makeMapStateToProps,
         mapDispatchToProps,
-    )(withStyles(commentStyles as any)(translateWrapper as any));
+    )(withStyles(commentStyles as any)(translateWrapper as any) as any);
 };

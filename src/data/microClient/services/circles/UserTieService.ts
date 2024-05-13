@@ -11,11 +11,13 @@ import { throwNoValue } from 'utils/errorHandling';
 /**
  * Firbase user service
  */
-@injectable()
+
 export class UserTieService implements IUserTieService {
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
-    // eslint-disable-next-line
-    constructor() {}
+    private _httpService: IHttpService;
+
+    constructor(httpService: IHttpService) {
+        this._httpService = httpService;
+    }
 
     /**
      * Tie users

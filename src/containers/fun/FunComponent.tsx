@@ -8,14 +8,9 @@ import { IFunProps } from './IFunProps';
 import { IFunState } from './IFunState';
 
 export class HelpComponent extends Component<IFunProps & WithTranslation, IFunState> {
-    /**
-     * Fields
-     */
-    iframeRef: React.RefObject<HTMLIFrameElement>;
 
     constructor(props: IFunProps & WithTranslation) {
         super(props);
-        this.iframeRef = React.createRef();
 
         // Defaul state
         this.state = {};

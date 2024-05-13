@@ -1,4 +1,3 @@
-import React from 'react';
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Grid, CircularProgress } from '@mui/material';

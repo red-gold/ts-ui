@@ -5,9 +5,13 @@ import { ICommonService } from 'core/services/common/ICommonService';
 /**
  * Firbase comment service
  */
-@injectable()
+
 export class CommonService implements ICommonService {
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
+    private _httpService: IHttpService;
+
+    constructor(httpService: IHttpService) {
+        this._httpService = httpService;
+    }
 
     /**
      * Get twitter media

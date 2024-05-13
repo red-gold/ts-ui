@@ -1,6 +1,6 @@
 import LinearProgress from '@mui/material/LinearProgress';
 import Snackbar from '@mui/material/Snackbar';
-import React from 'react';
+
 import { Helmet } from 'react-helmet';
 import MasterLoading from 'components/masterLoading';
 import SendFeedback from 'components/sendFeedback';
@@ -12,6 +12,7 @@ import { userSelector } from 'redux/reducers/users/userSelector';
 import { useDispatch, useSelector } from 'redux/store';
 // actions
 import * as globalActions from 'redux/actions/globalActions';
+import React from 'react';
 // selctors
 const selectProgress = globalSelector.selectProgress();
 const selectFeedbackStatus = globalSelector.selectFeedbackStatus();

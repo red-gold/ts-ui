@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PostStream from 'containers/postStream';
+import PostStream from 'containers/PostStream';
 import Grid from '@mui/material/Grid';
 
 import PostWriteButton from 'components/postWriteButton';
@@ -16,7 +16,7 @@ import { serverSelector } from 'redux/reducers/server/serverSelector';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { Map } from 'immutable';
-import useMediaQuery from '@mui/material/useMediaQuery/useMediaQuery';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { Theme } from '@mui/material/styles/createTheme';
 import { createStyles, makeStyles } from '@mui/styles';
 
@@ -49,18 +49,16 @@ export default function StreamPage() {
 
     React.useEffect(() => {
         setHomeTitle(t('header.home'));
-    }, []);
+    });
 
     return (
         <Grid container justifyContent="space-around" spacing={3}>
             <Grid className={classNames(classes.gridItem, classes.postGrid)} xs={12} md={8} item>
                 <PostWriteButton displayWriting />
                 <PostStream
-                    requestId={requestId}
                     posts={posts}
-                    loadStream={(page: number) => dispatch<any>(postActions.fetchStreamPosts(page, 10)) as any}
+                    loadStream={(page: number) => dispatch<any>(postActions.fetchStreamPosts(page, 10))}
                     hasMorePosts={hasMorePosts}
-                    requestStatus={streamRequestStatus}
                 />
             </Grid>
             {!mdDownHidden && (

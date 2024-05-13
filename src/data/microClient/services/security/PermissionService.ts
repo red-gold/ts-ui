@@ -3,7 +3,7 @@ import type { IPermissionService } from 'core/services/security/IPermissionServi
 /**
  * Permission service
  */
-@injectable()
+
 export class PermissionService implements IPermissionService {
     constructor() {
         this.getIdToken = this.getIdToken.bind(this);

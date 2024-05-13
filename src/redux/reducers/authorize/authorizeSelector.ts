@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import JwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { createSelector } from 'reselect';
 import isEmpty from 'validator/lib/isEmpty';
 import { userGetters } from '../users/userGetters';
@@ -49,7 +49,9 @@ const selectUserAuthStatus = () => {
 };
 
 const selectUserFromRegisterToken = () => {
-    return createSelector([getUserRegisterToken], (token: string) => (isEmpty(token) ? {} : (JwtDecode(token) as any).claim));
+    return createSelector([getUserRegisterToken], (token: string) =>
+        isEmpty(token) ? {} : (jwtDecode(token) as any).claim,
+    );
 };
 
 export const authorizeSelector = {

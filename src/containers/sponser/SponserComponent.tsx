@@ -8,14 +8,9 @@ import { ISponserState } from './ISponserState';
 import { sponserStyles } from './sponserStyles';
 
 export class SponserComponent extends Component<ISponserProps & WithTranslation, ISponserState> {
-    /**
-     * Fields
-     */
-    iframeRef: React.RefObject<HTMLIFrameElement>;
-
+  
     constructor(props: ISponserProps & WithTranslation) {
         super(props);
-        this.iframeRef = React.createRef();
 
         // Defaul state
         this.state = {};

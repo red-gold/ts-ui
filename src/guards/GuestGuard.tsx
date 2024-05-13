@@ -1,6 +1,6 @@
-import React from 'react';
 import { Navigate } from 'react-router-dom';
 // hooks
+import React from 'react';
 import useAuth from '../hooks/useAuth';
 // routes
 import { PATH_MAIN } from '../routes/paths';

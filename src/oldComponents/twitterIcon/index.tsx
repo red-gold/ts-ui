@@ -1,4 +1,3 @@
-import React from 'react';
 import { SvgAPI } from 'api/SvgAPI';
 
 export default SvgAPI.createSvgIcon(

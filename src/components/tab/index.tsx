@@ -2,12 +2,13 @@
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
-import React from 'react';
+
 import { createStyles, makeStyles, withStyles } from '@mui/styles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
+import React from 'react';
 
 export const AntTabs = withStyles({
     root: {
@@ -25,7 +26,7 @@ export const AntTab = withStyles((theme: Theme) => ({
         minWidth: 72,
         position: 'relative',
         flexShrink: 0,
-        'min-height': '48px !important',
+        minHeight: '48px !important',
         padding: '0px',
         fontWeight: theme.typography.fontWeightRegular,
         marginRight: theme.spacing(4),

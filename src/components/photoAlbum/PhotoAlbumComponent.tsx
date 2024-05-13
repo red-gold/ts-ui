@@ -28,24 +28,7 @@ export class PhotoAlbumComponent extends Component<IPhotoAlbumProps & WithTransl
         this.searchParam = this.searchParam.bind(this);
     }
 
-    searchQuery() {
-        const { location } = this.props;
-        this.executeSearch(location);
-    }
-
-    executeSearch(location: any) {
-        const { search } = this.props;
-        const params: { q: string } = queryString.parse(location.search) as any;
-
-        search(params.q, this.currentPage, 10);
-        this.currentPage++;
-    }
-
-    searchParam = () => {
-        const params: { q: string } = queryString.parse(window.location.search) as any;
-        return params.q;
-    };
-
+    
     componentDidMount() {
         const { history } = this.props;
         // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -60,6 +43,26 @@ export class PhotoAlbumComponent extends Component<IPhotoAlbumProps & WithTransl
         this.unlisten();
     }
 
+    searchParam = () => {
+        const params: { q: string } = queryString.parse(window.location.search) as any;
+        return params.q;
+    };
+
+    
+    executeSearch(location: any) {
+        const { search } = this.props;
+        const params: { q: string } = queryString.parse(location.search) as any;
+
+        search(params.q, this.currentPage, 10);
+        this.currentPage++;
+    }
+
+    searchQuery() {
+        const { location } = this.props;
+        this.executeSearch(location);
+    }
+
+
     render() {
         return <div />;
     }
@@ -68,4 +71,4 @@ export class PhotoAlbumComponent extends Component<IPhotoAlbumProps & WithTransl
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(PhotoAlbumComponent);
 
-export default connectPhotoAlbum(withStyles(photoAlbumStyles as any)(translateWrapper) as any);
+export default connectPhotoAlbum(withStyles(photoAlbumStyles as any)(translateWrapper as any) as any);

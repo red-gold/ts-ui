@@ -7,6 +7,7 @@ import { serverSelector } from 'redux/reducers/server/serverSelector';
 import { gallerySelector } from 'redux/reducers/imageGallery/gallerySelector';
 import { withStyles } from '@mui/styles';
 import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
+import React from 'react';
 import { imageGalleryStyles } from './imageGalleryStyles';
 import { IImageGalleryProps, IDispatchProps, IOwnProps, IStateProps } from './IImageGalleryProps';
 
@@ -52,5 +53,5 @@ export const connectImageGallery = (component: React.ComponentType<IImageGallery
     return connect<IStateProps, IDispatchProps, IOwnProps, any>(
         makeMapStateToProps,
         mapDispatchToProps,
-    )(withStyles(imageGalleryStyles)(translateWrapper) as React.ComponentType<IImageGalleryProps>);
+    )(withStyles(imageGalleryStyles)(translateWrapper as any) as React.ComponentType<IImageGalleryProps>);
 };

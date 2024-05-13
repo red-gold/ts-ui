@@ -1,10 +1,10 @@
 import { createBrowserHistory } from 'history';
 import { fromJS } from 'immutable';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { applyMiddleware, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware, { END } from 'redux-saga';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { rootReducer } from 'redux/reducers/rootReducer';
 import { useDispatch as useReduxDispatch, useSelector as useReduxSelector } from 'react-redux';
 import { promiseMiddleware } from '@adobe/redux-saga-promise';

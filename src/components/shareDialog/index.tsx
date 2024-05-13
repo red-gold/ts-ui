@@ -1,4 +1,3 @@
-import React from 'react';
 import copy from 'copy-to-clipboard';
 // material
 import { Dialog, ListItemIcon, ListItemText, MenuItem, Stack, TextField, Typography } from '@mui/material';

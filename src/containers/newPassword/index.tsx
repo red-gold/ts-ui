@@ -75,9 +75,8 @@ export class NewPasswordComponent extends Component<
      * @param  {event} evt is an event of inputs of element on change
      */
     handleInputChange = (event: any) => {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+        const {type, name, checked} = event.target;
+        const value = type === 'checkbox' ? checked : event.target.value;
         this.setState({
             [name]: value,
         });
@@ -225,4 +224,4 @@ const translateWrapper = withTranslation('translations')(NewPasswordComponent);
 export default connect<any>(
     mapStateToProps as any,
     mapDispatchToProps,
-)(withStyles(styles as any)(translateWrapper as any));
+)(withStyles(styles as any)(translateWrapper as any) as any);

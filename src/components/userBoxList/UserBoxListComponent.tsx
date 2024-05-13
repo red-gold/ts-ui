@@ -1,5 +1,5 @@
 import UserCard from 'components/user/UserCard';
-import React from 'react';
+
 import { useSelector } from 'react-redux';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { IUserBoxListProps } from './IUserBoxListProps';
@@ -11,7 +11,7 @@ export function UserBoxListComponent(props: IUserBoxListProps) {
 
     const uid = currentUser.get('userId');
     const userList = () => {
-        const users = props.users;
+        const { users } = props;
         const userBoxList: any[] = [];
         if (users) {
             users.forEach((user) => {

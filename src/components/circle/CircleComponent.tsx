@@ -20,13 +20,14 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import { Circle } from 'core/domain/circles/circle';
 import { Map } from 'immutable';
-import React from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import * as circleActions from 'redux/actions/circleActions';
 import { circleSelector } from 'redux/reducers/circles/circleSelector';
 import { PATH_MAIN } from 'routes/paths';
+import React from 'react';
 import { useStyles } from './circleStyles';
 import { ICircleProps } from './ICircleProps';
 
@@ -138,6 +139,7 @@ export function CircleComponent(props: ICircleProps) {
             });
             return usersParsed;
         }
+        return []
     };
 
     /**
@@ -197,7 +199,7 @@ export function CircleComponent(props: ICircleProps) {
     );
     return (
         <div>
-            <ListItem className={classes.root} key={`${id  }-CircleComponent`} onClick={handleToggleCircle}>
+            <ListItem className={classes.root} key={`${id}-CircleComponent`} onClick={handleToggleCircle}>
                 <ListItemIcon>
                     <SvgGroup />
                 </ListItemIcon>

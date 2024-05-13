@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const Favico = require('favico.js');
+import * as Favico from 'favico.js';
 
 export const addBadge = (amount: number) => {
     const favicon = new Favico({

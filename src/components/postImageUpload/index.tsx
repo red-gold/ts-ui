@@ -1,10 +1,10 @@
 import IconButton from '@mui/material/IconButton';
 import SvgDelete from '@mui/icons-material/Delete';
-import React from 'react';
 
 import { PhotoGalleryFile } from 'models/gallery/photoGalleryFile';
 import Stack from '@mui/material/Stack';
 import { experimentalStyled as styled } from '@mui/material/styles';
+import React from 'react';
 import { useStyles } from './postImageUploadStyles';
 import { IPostImageUploadProps } from './IPostImageUploadProps';
 
@@ -78,7 +78,7 @@ export function PostImageUploadComponent(props: IPostImageUploadProps) {
 
     React.useEffect(() => {
         setSelectedPhotos(props.photos);
-    }, [props.photos.length]);
+    }, [props.photos, props.photos.length]);
 
     /**
      * Delete selected photo

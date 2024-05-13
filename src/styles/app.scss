@@ -1,7 +1,7 @@
-@import "~react-image-lightbox/style.css";
-@import "../lib/react-lit/css/index.css";
+@import '~yet-another-react-lightbox/styles.css';
+@import '../lib/react-lit/css/index.css';
 
-@import "base/variables";
+@import 'base/variables';
 @import 'base/grid';
 @import 'base/animate';
 @import 'base/icon';
@@ -27,5 +27,5 @@
 @import 'components/settings';
 
 .infinite-scroll-component {
-    overflow: unset  !important;
+    overflow: unset !important;
 }

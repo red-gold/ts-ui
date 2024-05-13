@@ -1,5 +1,5 @@
 import { ICircleService } from 'core/services/circles/ICircleService';
-import { Container } from 'inversify';
+import { Container, decorate, inject, injectable } from 'inversify';
 import { IUserService } from 'core/services/users/IUserService';
 import { IUserSettingService } from 'core/services/users/IUserSettingService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
@@ -36,8 +36,54 @@ import { VangService } from './services/vang/VangService';
  * Register telar microservice dependecies
  */
 export const useMicros = (container: Container) => {
-    container.bind<IPermissionService>(SocialProviderTypes.PermissionService).to(PermissionService);
+    decorateAll();
+    bindAll(container);
+};
+
+const decorateAll = () => {
+    // injectable
+    decorate(injectable(), PermissionService);
+    decorate(injectable(), AuthorizeService);
+    decorate(injectable(), CircleService);
+    decorate(injectable(), CommentService);
+    decorate(injectable(), CommonService);
+    decorate(injectable(), ImageGalleryService);
+    decorate(injectable(), StorageService);
+    decorate(injectable(), NotificationService);
+    decorate(injectable(), PostService);
+    decorate(injectable(), UserService);
+    decorate(injectable(), VoteService);
+    decorate(injectable(), GraphService);
+    decorate(injectable(), UserTieService);
+    decorate(injectable(), UserSettingService);
+    decorate(injectable(), VangService);
+
+    // inject http service for constructor of main services
+    decorate(inject(SocialProviderTypes.HttpService), AuthorizeService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), VangService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), CircleService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), UserTieService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), CommentService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), CommonService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), ImageGalleryService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), NotificationService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), PostService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), StorageService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), UserService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), UserSettingService, 0);
+    decorate(inject(SocialProviderTypes.HttpService), VoteService, 0);
+
+    // inject main services constructor
+    // ImageGalleryService
+    decorate(inject(SocialProviderTypes.StorageService), ImageGalleryService, 1);
+    decorate(inject(SocialProviderTypes.PostService), ImageGalleryService, 2);
+    // VangService
+    decorate(inject(SocialProviderTypes.AuthorizeService), VangService, 1);
+};
+
+const bindAll = (container: Container) => {
     container.bind<IAuthorizeService>(SocialProviderTypes.AuthorizeService).to(AuthorizeService);
+    container.bind<IPermissionService>(SocialProviderTypes.PermissionService).to(PermissionService);
     container.bind<ICircleService>(SocialProviderTypes.CircleService).to(CircleService);
     container.bind<ICommentService>(SocialProviderTypes.CommentService).to(CommentService);
     container.bind<ICommonService>(SocialProviderTypes.CommonService).to(CommonService).inSingletonScope();

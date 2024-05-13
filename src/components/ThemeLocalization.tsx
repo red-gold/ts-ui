@@ -1,7 +1,7 @@
-import React from 'react';
 // material
 import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
 // hooks
+import React from 'react';
 import useLocales from '../hooks/useLocales';
 
 // ----------------------------------------------------------------------

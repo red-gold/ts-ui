@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import React from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 import FindPeople from 'components/findPeople/FindPeopleComponent';
 import Followers from 'components/followers';
@@ -11,6 +11,7 @@ import { AntTab, AntTabs } from 'components/tab';
 import { useNavigate, useParams } from 'react-router';
 import { circleSelector } from 'redux/reducers/circles/circleSelector';
 import { PATH_MAIN } from 'routes/paths';
+import React, { useCallback } from 'react';
 
 const TabContainer = (props: any) => {
     return (
@@ -36,7 +37,10 @@ export function FindFriendsPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const goTo = (url: string) => navigate(url);
-    const setHeaderTitle = (title: string) => dispatch<any>(globalActions.setHeaderTitle(title));
+    const setHeaderTitle = useCallback(
+        (title: string) => dispatch<any>(globalActions.setHeaderTitle(title)),
+        [dispatch],
+    );
     const circlesLoaded = useSelector(circleSelector.selectCirclesLoaded());
     const [tabIndex, setTabIndex] = React.useState(getTabIndexByNav(tab as string));
 
@@ -77,7 +81,7 @@ export function FindFriendsPage() {
             default:
                 break;
         }
-    }, [tab]);
+    }, [tab, setHeaderTitle, t]);
 
     const styles = {
         people: {

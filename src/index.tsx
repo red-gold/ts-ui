@@ -2,14 +2,13 @@
 import 'reflect-metadata';
 import './socialEngine';
 import './styles/app.css';
+import 'simplebar-react/dist/simplebar.min.css';
 import i18n from 'locales/i18n';
 import 'typeface-roboto';
-
 import { BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import * as authorizeActions from 'redux/actions/authorizeActions';
 import * as userSettingActions from 'redux/actions/userSettingActions';
 import * as globalActions from 'redux/actions/globalActions';
@@ -36,14 +35,9 @@ store.subscribe(() => {});
 store.dispatch(authorizeActions.asyncSetUserLogin());
 // - Initialize languages
 store.dispatch(globalActions.initLocale());
-// Needed for onClick
-// http://stackoverflow.com/a/34015469/988941
-try {
-    injectTapEventPlugin();
-} catch (e) {
-    console.error(e);
-}
+
 const container = document.getElementById('app') as HTMLElement;
+
 const root = createRoot(container!);
 
 root.render(

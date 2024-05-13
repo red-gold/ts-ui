@@ -1,6 +1,5 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
-import { lazy } from '@loadable/component';
 import { useLocation, useRoutes } from 'react-router';
 import Page404 from 'pages/Page404';
 import GuestGuard from 'guards/GuestGuard';

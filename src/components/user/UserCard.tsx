@@ -1,4 +1,3 @@
-import React from 'react';
 import FollowButton from 'components/user/FollowButton';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 import { PATH_MAIN } from 'routes/paths';

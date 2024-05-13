@@ -2,7 +2,6 @@ import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import { createStyles, makeStyles } from '@mui/styles';
 import classNames from 'classnames';
-import React from 'react';
 
 const useStyles = makeStyles((theme: any) =>
     createStyles({

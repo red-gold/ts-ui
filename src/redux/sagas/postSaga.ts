@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 import { PostAPI } from 'api/PostAPI';
 import { PostActionType } from 'constants/postActionType';
 import { UserActionType } from 'constants/userActionType';
@@ -361,7 +362,7 @@ function* watchCreatePost(action: {
 /**
  * Fetch posts by user identifier from server
  */
-function* watchFetchPostByUserId(action: { type: PostActionType; payload: any }) : any{
+function* watchFetchPostByUserId(action: { type: PostActionType; payload: any }): any {
     yield call(implementPromiseAction, action, function* () {
         const { payload } = action;
         const { page, limit, userId } = payload;

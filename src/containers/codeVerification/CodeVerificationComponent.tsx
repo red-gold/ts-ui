@@ -51,9 +51,9 @@ export class CodeVerificationComponent extends Component<
         if (!t) {
             return;
         }
-        const target = event.target;
+        const {target} = event;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+        const {name} = target;
         this.setState({
             [name]: value,
         });
@@ -68,7 +68,6 @@ export class CodeVerificationComponent extends Component<
             this.setState({
                 code,
                 codeError,
-                isVerifyDisabled: codeError !== '',
             });
         }
     };
@@ -153,11 +152,9 @@ const mapDispatchToProps = (dispatch: any) => {
         verifyRegister: (code: string) => {
             dispatch(authorizeActions.asyncVerifyUserRegisterCode(code));
         },
-        loginPage: () => {
-            {
-                location.href = '/login';
-            }
-        },
+        loginPage: () => { location.href = '/login'}
+            
+    
     };
 };
 

@@ -46,10 +46,10 @@ export const dbDeletePost: (id: string) => any = createPromiseAction(PostActionT
 /**
  * Get all user posts from data base
  */
-export const fetchStreamPosts: (
-    page: number,
-    limit: number,
-) => any = createPromiseAction(PostActionType.FETCH_STREAM_POSTS, (page = 0, limit = 10) => ({ page, limit }));
+export const fetchStreamPosts: (page: number, limit: number) => any = createPromiseAction(
+    PostActionType.FETCH_STREAM_POSTS,
+    (page = 0, limit = 10) => ({ page, limit }),
+);
 
 /**
  * Fetch post by URL key
@@ -109,6 +109,7 @@ export const dbGetPostById = (uid: string, postId: string) => {
                     dispatch(globalActions.showMessage(error.message));
                 });
         }
+        return Promise.resolve();
     };
 };
 

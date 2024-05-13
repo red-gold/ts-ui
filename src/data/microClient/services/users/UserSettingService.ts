@@ -9,9 +9,13 @@ import { Map } from 'immutable';
 /**
  * Firbase userSetting service
  */
-@injectable()
+
 export class UserSettingService implements IUserSettingService {
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
+    private _httpService: IHttpService;
+
+    constructor(httpService: IHttpService) {
+        this._httpService = httpService;
+    }
 
     public updateUserSetting = async (userSetting: UserSetting) => {
         try {

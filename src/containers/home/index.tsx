@@ -5,7 +5,7 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import classNames from 'classnames';
-import React from 'react';
+
 import CookieConsent from 'react-cookie-consent';
 import { useIdleTimer } from 'react-idle-timer';
 import HomeHeader from 'components/HomeHeader';
@@ -18,9 +18,10 @@ import { Map, List } from 'immutable';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import useTheme from '@mui/material/styles/useTheme';
 import { Theme } from '@mui/material/styles/createTheme';
-import useMediaQuery from '@mui/material/useMediaQuery/useMediaQuery';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import NavItem from 'components/navItem';
 import TelarSocialLogo from 'oldComponents/telarSocialLogo';
+import React from 'react';
 import { useStyles } from './homeStyles';
 import { menuItems } from './menuItems';
 // selectors
@@ -63,7 +64,6 @@ export function HomeComponent({ children }: HomeProps) {
         );
     }, []);
 
-
     const handleOnIdle = () => {
         log.info('last active', getLastActiveTime());
     };
@@ -91,7 +91,8 @@ export function HomeComponent({ children }: HomeProps) {
                     return (
                         <NavItem key={`home-nav-item-${index}`} icon={item.icon} href={item.path} title={item.label} />
                     );
-                } if (item.onClick) {
+                }
+                if (item.onClick) {
                     return (
                         <MenuItem
                             key={`home-menu-${index}`}
@@ -102,9 +103,8 @@ export function HomeComponent({ children }: HomeProps) {
                             <ListItemText primary={item.label} />
                         </MenuItem>
                     );
-                } 
-                    return <Divider key={`home-menu-divider${index}`} />;
-                
+                }
+                return <Divider key={`home-menu-divider${index}`} />;
             })}
             <div className={classes.info}>
                 <Typography color="textSecondary">
@@ -132,10 +132,7 @@ export function HomeComponent({ children }: HomeProps) {
     return (
         <div className={classes.root}>
             <div className={classes.appFrame}>
-                <HomeHeader
-                    onToggleDrawer={handleDrawerToggle}
-                    drawerStatus={drawerOpen}
-                />
+                <HomeHeader onToggleDrawer={handleDrawerToggle} />
                 {!mdUpHidden && (
                     <Drawer
                         variant="temporary"

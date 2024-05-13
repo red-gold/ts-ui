@@ -8,7 +8,7 @@ import { DialogType } from 'models/common/dialogType';
 import { Post } from 'core/domain/posts/post';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { globalSelector } from 'redux/reducers/global/globalSelector';
-import React from 'react';
+
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { withStyles } from '@mui/styles';
 import { serverSelector } from 'redux/reducers/server/serverSelector';
@@ -16,6 +16,7 @@ import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { postSelector } from 'redux/reducers/posts/postSelector';
+import React from 'react';
 import { postWriteStyles } from './postWriteStyles';
 import { IDispatchProps, IOwnProps, IPostWriteProps, IStateProps } from './IPostWriteProps';
 

@@ -32,22 +32,35 @@ import { IPhotoMasterState } from './IPhotoMasterState';
 import { photoMasterStyles } from './photoMasterStyles';
 
 export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTranslation, IPhotoMasterState> {
-    static propTypes = {
-        /**
-         * A list of post
-         */
-        posts: PropTypes.object,
-
-        /**
-         * The title of home header
-         */
-        homeTitle: PropTypes.string,
-    };
-
+   
     /**
      * Selected photos
      */
     selectedPhotos: { src: string; file: any; fileName: string }[] = [];
+
+    constructor(props: IPhotoMasterProps & WithTranslation) {
+        super(props);
+
+        this.state = {
+            anchorElMenu: null,
+        };
+
+        // Binding functions to `this`
+        this.loadData = this.loadData.bind(this);
+        this.handleCloseMenu = this.handleCloseMenu.bind(this);
+        this.handleOpenMenu = this.handleOpenMenu.bind(this);
+        this.handleDeleteAlbum = this.handleDeleteAlbum.bind(this);
+        this.handleDeleteImage = this.handleDeleteImage.bind(this);
+    }
+
+    componentDidMount() {
+        const { setHomeTitle, t } = this.props;
+        if (setHomeTitle && t) {
+            setHomeTitle(t('header.home'));
+        }
+        this.loadData();
+    }
+
 
     /**
      * Handle close menu
@@ -93,7 +106,7 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
     onUploadAlbumChange = (event: any) => {
         const { uploadImage } = this.props;
         if (uploadImage) {
-            const files: File[] = event.currentTarget.files;
+            const {files} = event.currentTarget;
             const parsedFiles: { src: string; file: any; fileName: string }[] = [];
             for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
                 const file = files[fileIndex];
@@ -106,21 +119,6 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
             event.currentTarget.value = null;
         }
     };
-
-    constructor(props: IPhotoMasterProps & WithTranslation) {
-        super(props);
-
-        this.state = {
-            anchorElMenu: null,
-        };
-
-        // Binding functions to `this`
-        this.loadData = this.loadData.bind(this);
-        this.handleCloseMenu = this.handleCloseMenu.bind(this);
-        this.handleOpenMenu = this.handleOpenMenu.bind(this);
-        this.handleDeleteAlbum = this.handleDeleteAlbum.bind(this);
-        this.handleDeleteImage = this.handleDeleteImage.bind(this);
-    }
 
     /**
      * Handle delete image
@@ -185,13 +183,6 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
         }
     }
 
-    componentDidMount() {
-        const { setHomeTitle, t } = this.props;
-        if (setHomeTitle && t) {
-            setHomeTitle(t('header.home'));
-        }
-        this.loadData();
-    }
 
     render() {
         const { images, t, classes, currentAlbum, albumDialogOpen, isOwner, progress } = this.props;
@@ -309,4 +300,4 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps & WithTran
 // - Connect component to redux store
 const translateWrapper = withTranslation('translations')(PhotoMasterComponent);
 
-export default connectPhotoMaster(withStyles(photoMasterStyles)(translateWrapper));
+export default connectPhotoMaster(withStyles(photoMasterStyles)(translateWrapper as any) as any);

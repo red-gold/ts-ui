@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '@mui/material/Button';
 import { grey } from '@mui/material/colors';
 import TextField from '@mui/material/TextField';
@@ -11,6 +10,7 @@ import StringAPI from 'api/StringAPI';
 import MobileDialog from 'components/mobileDialog';
 import config from 'config';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 import { IAddVideoProps } from './IAddVideoProps';
 
 export function AddVideoComponent(props: IAddVideoProps) {
@@ -36,7 +36,7 @@ export function AddVideoComponent(props: IAddVideoProps) {
      * Handle data on input change
      */
     const handleInputChange = (event: any) => {
-        const target = event.target;
+        const { target } = event;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         validateInputLink(value);
         setLink(value);
@@ -79,22 +79,10 @@ export function AddVideoComponent(props: IAddVideoProps) {
                 />
             </DialogContent>
             <DialogActions>
-                <Button
-                    color="primary"
-                    disableFocusRipple
-                    disableRipple
-                    onClick={onClose}
-                    style={{ color: grey[800] }}
-                >
+                <Button color="primary" disableFocusRipple disableRipple onClick={onClose} style={{ color: grey[800] }}>
                     {t('post.cancelButton')}
                 </Button>
-                <Button
-                    color="primary"
-                    disableFocusRipple
-                    disableRipple
-                    onClick={handleAddLink}
-                    disabled={disabledOk}
-                >
+                <Button color="primary" disableFocusRipple disableRipple onClick={handleAddLink} disabled={disabledOk}>
                     {t('post.addVideoButton')}
                 </Button>
             </DialogActions>

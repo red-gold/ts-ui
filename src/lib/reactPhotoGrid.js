@@ -437,7 +437,7 @@ var ReactPhotoGrid =
     _temp);
 
 ReactPhotoGrid.propTypes =
-    process.env.NODE_ENV !== 'production'
+    import.meta.env.NODE_ENV !== 'production'
         ? {
               data: _propTypes2.default.array.isRequired,
               gridSize: _propTypes2.default.string,

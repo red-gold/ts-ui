@@ -1,4 +1,3 @@
-import React from 'react';
 import { Map } from 'immutable';
 import { DialogType } from 'models/common/dialogType';
 import { connect } from 'react-redux';
@@ -7,6 +6,7 @@ import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
 import { globalSelector } from 'redux/reducers/global/globalSelector';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { withStyles } from '@mui/styles';
+import React from 'react';
 import { IPostWriteButtonProps } from './IPostWriteButtonProps';
 import { postWriteButtonStyles } from './postWriteButtonStyles';
 
@@ -47,5 +47,5 @@ export const connectPostWriteButton = (component: React.ComponentType<IPostWrite
     return connect<{}, {}, IPostWriteButtonProps, any>(
         makeMapStateToProps,
         mapDispatchToProps,
-    )(withStyles(postWriteButtonStyles)(translateWrapper));
+    )(withStyles(postWriteButtonStyles)(translateWrapper as any) as any);
 };

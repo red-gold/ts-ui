@@ -1,8 +1,6 @@
 import FollowDialogComponent from 'components/user/FollowButton';
 import UserAvatar from 'components/userAvatar/UserAvatarComponent';
 
-import React from 'react';
-
 import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router';

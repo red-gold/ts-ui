@@ -12,7 +12,7 @@ import TimelineComponent from 'oldComponents/timeline';
 import React, { Component } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import PictureDialogComponent from 'oldComponents/pictureDialog';
+import PictureDialogComponent from 'oldComponents/PictureDialog';
 import * as globalActions from 'redux/actions/globalActions';
 import * as userActions from 'redux/actions/userActions';
 

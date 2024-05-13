@@ -1,4 +1,3 @@
-import React from 'react';
 // material
 import AppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';
@@ -42,6 +41,7 @@ import MyAvatar from 'components/MyAvatar';
 import { PATH_MAIN } from 'routes/paths';
 import { useSelector } from 'redux/store';
 import useAuth from 'hooks/useAuth';
+import React, { useCallback } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -79,7 +79,6 @@ const selectOpenEditProfile = userSelector.selectOpenEditProfile();
 const selectDialogState = globalSelector.selectDialogState();
 
 export interface HomeHeaderProps {
-    drawerStatus: boolean;
     onToggleDrawer: () => void;
 }
 
@@ -103,7 +102,7 @@ export default function HomeHeader(props: HomeHeaderProps) {
     const notifyCount = useSelector((state: Map<string, any>) => selectNotificationsCount(state));
     const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
     const title = useSelector((state: Map<string, any>) => selectHeaderTitle(state)) as string;
-    const myProfileAccountOpen = useSelector((state: Map<string, any>) => selectOpenEditProfile(state));
+    const myProfileAccountOpen = useSelector((state: Map<string, any>) => selectOpenEditProfile(state as never));
     const postWriteOpen = useSelector((state: Map<string, any>) =>
         selectDialogState(state, { type: DialogType.PostWrite }),
     );
@@ -169,7 +168,7 @@ export default function HomeHeader(props: HomeHeaderProps) {
     /**
      * Check page location
      */
-    const checkPageLocation = (nextLocation: any) => {
+    const checkPageLocation = useCallback((nextLocation: any) => {
         const nextParams: { q: string } = queryString.parse(nextLocation.search) as any;
         const params: { q: string } = queryString.parse(location.search) as any;
         const isPreviousSearch = params !== undefined && params.q !== undefined;
@@ -179,7 +178,7 @@ export default function HomeHeader(props: HomeHeaderProps) {
         if (!isPreviousSearch) {
             setPreviousLocation(location.pathname);
         }
-    };
+    },[location.pathname, location.search])
     /**
      * Handle mouse down prevent default
      */
@@ -189,7 +188,7 @@ export default function HomeHeader(props: HomeHeaderProps) {
 
     React.useEffect(() => {
         checkPageLocation(location);
-    }, [location]);
+    }, [checkPageLocation, location]);
 
     const anchor = theme.direction === 'rtl' ? 'right' : 'left';
     const smUpHidden = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));

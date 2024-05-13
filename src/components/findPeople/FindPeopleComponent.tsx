@@ -1,5 +1,5 @@
 import UserBoxList from 'components/userBoxList/UserBoxListComponent';
-import React from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from 'redux/actions/userActions';
@@ -35,7 +35,10 @@ export function FindPeopleComponent() {
     const peopleInfo = useSelector((state: Map<string, any>) => selectFindPeople(state));
     const page = useSelector((state: Map<string, any>) => selectPage(state));
     const requestId = StringAPI.createServerRequestId(ServerRequestType.UserFetchRequest, currentUserId);
-    const findRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId })) as Map<string,any>;
+    const findRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId })) as Map<
+        string,
+        any
+    >;
     const findRequestStatus: ServerRequestStatusType = findRequest.get('status', ServerRequestStatusType.NoAction);
 
     /**

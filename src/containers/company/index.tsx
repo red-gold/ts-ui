@@ -8,14 +8,9 @@ import { ICompanyProps } from './ICompanyProps';
 import { ICompanyState } from './ICompanyState';
 
 export class CompanyComponent extends Component<ICompanyProps & WithTranslation, ICompanyState> {
-    /**
-     * Fields
-     */
-    iframeRef: React.RefObject<HTMLIFrameElement>;
-
+  
     constructor(props: ICompanyProps & WithTranslation) {
         super(props);
-        this.iframeRef = React.createRef();
 
         // Defaul state
         this.state = {};

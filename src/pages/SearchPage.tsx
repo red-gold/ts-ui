@@ -80,7 +80,7 @@ export default function SearchPage() {
         dispatch<any>(resetSearchPost());
         setLoading(false);
         dispatch<any>(setHeaderTitle(t(`search.${  params.category}`)));
-    }, [location, dispatch]);
+    }, [location, dispatch, params.category,t]);
 
     /**
      * Hadle on tab change

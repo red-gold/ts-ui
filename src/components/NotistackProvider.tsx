@@ -1,4 +1,3 @@
-import React from 'react';
 import { SnackbarProvider } from 'notistack';
 import infoFill from '@mui/icons-material/InfoRounded';
 import alertCircleFill from '@mui/icons-material/ErrorRounded';
@@ -8,6 +7,7 @@ import checkmarkCircle2Fill from '@mui/icons-material/CheckCircleOutlineRounded'
 import { makeStyles, createStyles } from '@mui/styles';
 import { alpha, Theme } from '@mui/material/styles';
 import { Box, SvgIcon } from '@mui/material';
+import React from 'react';
 
 // ----------------------------------------------------------------------
 

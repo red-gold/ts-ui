@@ -1,5 +1,6 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import classNames from 'classnames';
+
 import React from 'react';
 import { IImgCoverProps } from './IImgCoverProps';
 
@@ -74,14 +75,13 @@ export function ImgCoverComponent(props: IImgCoverProps) {
                 style={
                     !isImageLoaded
                         ? { display: 'none' }
-                        : (({
-                              
-                              backgroundImage: `url(${  src || 'https://picsum.photos/id/41/900/300/?blur'  })`,
-                                  width: props.width,
-                                  height: props.height,
-                                  borderRadius: props.borderRadius || 20,
+                        : ({
+                              backgroundImage: `url(${src || 'https://picsum.photos/id/41/900/300/?blur'})`,
+                              width: props.width,
+                              height: props.height,
+                              borderRadius: props.borderRadius || 20,
                               ...style,
-                          }) as any)
+                          } as any)
                 }
             >
                 {props.children}
@@ -89,7 +89,7 @@ export function ImgCoverComponent(props: IImgCoverProps) {
             <div
                 className={classNames({ [classes.noDisplay]: isImageLoaded, [classes.loading]: !isImageLoaded })}
                 style={{ borderRadius: props.borderRadius || 20 }}
-             />
+            />
             <img
                 alt="..."
                 onLoad={handleLoadImage}

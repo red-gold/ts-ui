@@ -1,4 +1,3 @@
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';

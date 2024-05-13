@@ -5,7 +5,7 @@ const config = {
     // Add common config values here
 };
 
-const configEnv = process.env.NODE_ENV === 'production' ? prod : dev;
+const configEnv = import.meta.env.NODE_ENV === 'production' ? prod : dev;
 
 export default {
     // Add common config values here

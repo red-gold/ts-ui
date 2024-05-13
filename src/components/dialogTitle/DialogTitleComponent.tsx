@@ -7,28 +7,7 @@ import { IDialogTitleComponentProps } from './IDialogTitleComponentProps';
 import { IDialogTitleComponentState } from './IDialogTitleComponentState';
 
 export default class DialogTitleComponent extends Component<IDialogTitleComponentProps, IDialogTitleComponentState> {
-    static propTypes = {
-        /**
-         * The label of right button
-         */
-        buttonLabel: PropTypes.string,
-        /**
-         * If it's true button will be disabled
-         */
-        disabledButton: PropTypes.bool,
-        /**
-         * Call the funtion the time is clicked on right button
-         */
-        onClickButton: PropTypes.func,
-        /**
-         * The function will be called the time is clicked on close
-         */
-        onRequestClose: PropTypes.func.isRequired,
-        /**
-         * The title of dialog box
-         */
-        title: PropTypes.string,
-    };
+   
 
     styles = {
         contain: {

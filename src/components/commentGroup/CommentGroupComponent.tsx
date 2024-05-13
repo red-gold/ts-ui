@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -17,6 +16,7 @@ import { experimentalStyled as styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { commentSelector } from 'redux/reducers/comments/commentSelector';
+import React from 'react';
 import { useStyles } from './commentGroupStyles';
 import { ICommentGroupProps } from './ICommentGroupProps';
 
@@ -49,7 +49,10 @@ export function CommentGroupComponent(props: ICommentGroupProps) {
     // Selectors
     const requestId = StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId);
     const currentUser = useSelector((state: Map<string, any>) => selectCurrentUser(state));
-    const commentsRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId })) as Map<string,any>;
+    const commentsRequest = useSelector((state: Map<string, any>) => selectRequest(state, { requestId })) as Map<
+        string,
+        any
+    >;
     const commentsRequestStatus: ServerRequestStatusType = commentsRequest.get(
         'status',
         ServerRequestStatusType.NoAction,
@@ -101,7 +104,7 @@ export function CommentGroupComponent(props: ICommentGroupProps) {
      * Return Elements
      */
     return (
-        <div key={`${postId  }-comments-group`}>
+        <div key={`${postId}-comments-group`}>
             {comments && comments.size > 0 && <Divider />}
             <div style={open ? { display: 'block' } : { display: 'none' }}>
                 <Paper elevation={0} className="animate-top" style={!open ? { display: 'block' } : { display: 'none' }}>

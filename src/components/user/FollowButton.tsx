@@ -201,6 +201,7 @@ export class FollowButton extends Component<IFollowDialogProps & WithTranslation
 
             return circleDomList;
         }
+        return []
     };
 
     /**
@@ -210,7 +211,7 @@ export class FollowButton extends Component<IFollowDialogProps & WithTranslation
         let isChanged = false;
         const { userBelongCircles } = this.props;
         if (!userBelongCircles || !selectedCircles) {
-            return;
+            return false;
         }
         if (selectedCircles.count() === userBelongCircles.count()) {
             for (let circleIndex = 0; circleIndex < selectedCircles.count(); circleIndex++) {

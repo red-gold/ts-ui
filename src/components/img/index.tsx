@@ -2,9 +2,10 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import SvgImage from '@mui/icons-material/Image';
 import classNames from 'classnames';
-import React from 'react';
+
 import { useTranslation } from 'react-i18next';
 
+import React from 'react';
 import { IImgComponentProps } from './IImgComponentProps';
 
 const useStyles = makeStyles(() =>

@@ -5,7 +5,7 @@ import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
 import * as globalActions from 'redux/actions/globalActions';
 import { Post } from 'core/domain/posts/post';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
-import React from 'react';
+
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { withStyles } from '@mui/styles';
 import { serverSelector } from 'redux/reducers/server/serverSelector';
@@ -14,6 +14,7 @@ import { ServerRequestType } from 'constants/serverRequestType';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
 import { Media } from 'core/domain/imageGallery/media';
 import config from 'config';
+import React from 'react';
 import { albumDialogStyles } from './albumDialogStyles';
 import { IDispatchProps, IOwnProps, IAlbumDialogProps, IStateProps } from './IAlbumDialogProps';
 
@@ -61,5 +62,5 @@ export const connectAlbumDialog = (component: React.ComponentType<IAlbumDialogPr
     return connect<IStateProps, IDispatchProps, IOwnProps, any>(
         makeMapStateToProps,
         mapDispatchToProps,
-    )(withStyles(albumDialogStyles)(translateWrapper) as React.ComponentType<IAlbumDialogProps>);
+    )(withStyles(albumDialogStyles)(translateWrapper as any) as React.ComponentType<IAlbumDialogProps>);
 };

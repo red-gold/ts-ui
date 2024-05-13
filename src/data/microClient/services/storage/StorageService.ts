@@ -5,9 +5,12 @@ import type { IHttpService } from 'core/services/webAPI/IHttpService';
 import { SocialProviderTypes } from 'core/socialProviderTypes';
 import { log } from 'utils/log';
 
-@injectable()
 export class StorageService implements IStorageService {
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
+    private _httpService: IHttpService;
+
+    constructor(httpService: IHttpService) {
+        this._httpService = httpService;
+    }
 
     /**
      * Upload file on the server

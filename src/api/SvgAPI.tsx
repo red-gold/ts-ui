@@ -1,5 +1,5 @@
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
-import React from 'react';
+
 import { pure } from 'recompose';
 
 // eslint-disable-next-line no-mixed-operators

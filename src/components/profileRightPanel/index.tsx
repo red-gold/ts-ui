@@ -1,5 +1,5 @@
 import About from 'components/about';
-import React from 'react';
+
 import { IProfileRightPanelProps } from './IProfileRightPanelProps';
 
 export function ProfileRightPanel(props: IProfileRightPanelProps) {

@@ -1,4 +1,3 @@
-import React from 'react';
 import classNames from 'classnames';
 import SimpleBar from 'simplebar-react';
 import List from '@mui/material/List';
@@ -6,7 +5,6 @@ import Popover from '@mui/material/Popover';
 import NotifyItem from 'components/notifyItem';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import 'simplebar/dist/simplebar.min.css';
 import { Map } from 'immutable';
 
 import CommonAPI from 'api/CommonAPI';

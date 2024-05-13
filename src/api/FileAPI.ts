@@ -57,8 +57,7 @@ const constraintImage = (file: File, fileName: string) => {
                 // Resize the image
                 const canvas: HTMLCanvasElement = document.createElement('canvas');
                 const maxSize = 986; // TODO : pull max size from a site config
-                let width: number = image.width;
-                let height: number = image.height;
+                let {width,height} = image;
                 if (width > height) {
                     if (width > maxSize) {
                         height *= maxSize / width;

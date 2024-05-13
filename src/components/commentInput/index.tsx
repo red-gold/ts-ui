@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 import Button from '@mui/material/Button/Button';
-import React from 'react';
+
 import { Comment } from 'core/domain/comments/comment';
 import { Map } from 'immutable';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +15,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import EmojiPopover from 'components/emojiPopover';
+import React from 'react';
 import { ICommentInputProps } from './ICommentInputProps';
 
 const AvatarRoot = styled('div')({

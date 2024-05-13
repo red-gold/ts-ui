@@ -38,6 +38,18 @@ export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTr
         isPhotoSelected = false;
     }
 
+
+    componentDidMount() {
+        window.addEventListener('onSendResizedImage', this.handleSendResizedImage);
+        const { loadData } = this.props;
+        loadData();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('onSendResizedImage', this.handleSendResizedImage);
+    }
+
+    
     /**
      * Handle set image
      */
@@ -57,16 +69,6 @@ export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTr
         const { deleteImage } = this.props;
         deleteImage(id, fileName);
     };
-
-    componentDidMount() {
-        window.addEventListener('onSendResizedImage', this.handleSendResizedImage);
-        const { loadData } = this.props;
-        loadData();
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('onSendResizedImage', this.handleSendResizedImage);
-    }
 
     /**
      * Handle send image resize event that pass the resized image
@@ -95,9 +97,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryProps & WithTr
         isPhotoSelected = true;
         const parsedFiles: { file: any; fileName: string }[] = [];
         parsedFiles.push({ file: URL.createObjectURL(file), fileName });
-        this.setState({
-            selectedPhotos: parsedFiles,
-        });
+       
 
         const newAvatar = new Media(
             fileId,

@@ -1,4 +1,4 @@
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 // routes
 import { PATH_AUTH } from '../routes/paths';
 //

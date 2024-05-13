@@ -10,9 +10,13 @@ import { throwNoValue } from 'utils/errorHandling';
 /**
  * Firbase comment service
  */
-@injectable()
+
 export class CommentService implements ICommentService {
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
+    private _httpService: IHttpService;
+
+    constructor(httpService: IHttpService) {
+        this._httpService = httpService;
+    }
 
     /**
      * Add comment

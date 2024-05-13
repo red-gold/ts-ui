@@ -2,7 +2,6 @@ import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
 import Paper from '@mui/material/Paper';
 import { Map } from 'immutable';
-import React from 'react';
 
 import FormControl from '@mui/material/FormControl/FormControl';
 import InputLabel from '@mui/material/InputLabel/InputLabel';
@@ -12,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import * as userSettingActions from 'redux/actions/userSettingActions';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import React from 'react';
 import { useStyles } from './langSettingStyles';
 import { ILangSettingProps } from './ILangSettingProps';
 

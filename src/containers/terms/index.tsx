@@ -24,15 +24,8 @@ export class TermsComponent extends Component<ITermsProps & WithTranslation, ITe
         };
     }
 
-    handleChange = (value: number, text: string) => {
-        this.setState({
-            selectedItem: value,
-            selectedText: text,
-        });
-    };
-
     handleDrawerToggle = () => {
-        this.setState({ mobileOpen: !this.state.mobileOpen });
+        this.setState(prevState =>({ mobileOpen: !prevState.mobileOpen }));
     };
 
     /**
@@ -108,4 +101,4 @@ const translateWrapper = withTranslation('translations')(TermsComponent);
 export default connect<{}, {}, any, any>(
     mapStateToProps,
     mapDispatchToProps,
-)(withStyles(termsStyles as any, { withTheme: true })(translateWrapper as any));
+)(withStyles(termsStyles as any, { withTheme: true })(translateWrapper as any) as any);

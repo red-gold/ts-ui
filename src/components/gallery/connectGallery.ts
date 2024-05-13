@@ -1,4 +1,3 @@
-import React from 'react';
 import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { authorizeSelector } from 'redux/reducers/authorize/authorizeSelector';
@@ -10,6 +9,7 @@ import * as imageGalleryActions from 'redux/actions/imageGalleryActions';
 import StringAPI from 'api/StringAPI';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { ServerRequestStatusType } from 'redux/actions/serverRequestStatusType';
+import React from 'react';
 import { IGalleryProps, IDispatchProps, IOwnProps, IStateProps } from './IGalleryProps';
 
 /**

@@ -1,4 +1,3 @@
-import React from 'react';
 import AuthWrapper from 'containers/authWrapper';
 import VerifyCodeForm from 'components/authentication/VerifyCodeForm';
 import { useNavigate } from 'react-router';

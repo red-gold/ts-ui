@@ -9,7 +9,7 @@ import { IGraphService } from './IGraphService';
  * @class GraphService
  * @implements {IGraphService}
  */
-@injectable()
+
 export class GraphService implements IGraphService {
     /**
      * Add graph

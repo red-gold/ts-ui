@@ -294,6 +294,7 @@ export class PostWriteComponent extends Component<IPostWriteProps & WithTranslat
 
             update(updatedPost, files);
         }
+        return newPost
     };
 
     /**

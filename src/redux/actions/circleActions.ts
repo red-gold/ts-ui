@@ -308,6 +308,7 @@ export const dbGetCirclesByUserId = (uid: string) => {
                     dispatch(globalActions.showMessage(error.message));
                 });
         }
+        return Promise.resolve();
     };
 };
 

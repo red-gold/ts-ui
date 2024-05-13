@@ -8,9 +8,13 @@ import type { IHttpService } from 'core/services/webAPI/IHttpService';
  *
  * @export
  */
-@injectable()
+
 export class NotificationService implements INotificationService {
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
+    private _httpService: IHttpService;
+
+    constructor(httpService: IHttpService) {
+        this._httpService = httpService;
+    }
 
     public addNotification = () => {
         return ' Not implemented!' as any;

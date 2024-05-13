@@ -43,13 +43,14 @@ function CallSnackComponent(props: ICallSnackProps) {
         if (!init) {
             try {
                 const elementId = `audio${  new Date().valueOf().toString()}`;
+                // eslint-disable-next-line react-hooks/exhaustive-deps
                 audio = document.createElement('audio');
                 audio.setAttribute('id', elementId);
                 audio.setAttribute('src', soundURL);
                 document.body.appendChild(audio);
                 audio.loop = true;
                 audio.play();
-            } catch (error: any) {}
+            } catch (error: any) {console.error(error)}
             setInit(true);
         }
         return () => {

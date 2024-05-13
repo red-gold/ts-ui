@@ -1,4 +1,3 @@
-import React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -14,6 +13,7 @@ import moment from 'moment/moment';
 import { Link } from '@mui/material';
 import { SocialIcon } from 'react-social-icons';
 import { experimentalStyled as styled } from '@mui/material/styles';
+import React, { useCallback } from 'react';
 import { IAboutProps } from './IAboutProps';
 import { useStyles } from './peopleBoxStyles';
 
@@ -27,12 +27,12 @@ export function About({ profile, isCurrentUser }: IAboutProps) {
 
     // Dispatcher
     const dispatch = useDispatch();
-    const fetchUserSuggestions = () => dispatch<any>(userActions.fetchUserSuggestions());
+    const fetchUserSuggestions = useCallback(() => dispatch<any>(userActions.fetchUserSuggestions()), [dispatch]);
     const openEditor = () => dispatch<any>(userActions.openEditProfile());
 
     React.useEffect(() => {
         fetchUserSuggestions();
-    }, []);
+    }, [fetchUserSuggestions]);
     let bio = profile.get('tagLine', t('profile.noBio'));
     bio = bio === '' ? t('profile.noBio') : bio;
 
@@ -81,10 +81,10 @@ export function About({ profile, isCurrentUser }: IAboutProps) {
             </CardContent>
             <CardActions sx={{ justifyContent: 'center' }}>
                 {facebookId !== '' && (
-                    <SocialIcon className={classes.socialIcon} url={`https://www.facebook.com/${  facebookId}`} />
+                    <SocialIcon className={classes.socialIcon} url={`https://www.facebook.com/${facebookId}`} />
                 )}
                 {twitterId !== '' && (
-                    <SocialIcon className={classes.socialIcon} url={`https://twitter.com/${  twitterId}`} />
+                    <SocialIcon className={classes.socialIcon} url={`https://twitter.com/${twitterId}`} />
                 )}
             </CardActions>
             {isCurrentUser && (

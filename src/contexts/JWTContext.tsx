@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useCallback, useEffect, useReducer } from 'react';
 import { Map } from 'immutable';
 // utils
 
@@ -11,7 +11,7 @@ import * as globalActions from 'redux/actions/globalActions';
 import * as authorizeActions from 'redux/actions/authorizeActions';
 import { UserModel } from 'models/users/UserModel';
 import { useDispatch } from 'redux/store';
-import JwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { OAuthType } from 'core/domain/authorize/oauthType';
 import { UserClaim } from 'core/domain/authorize/userClaim';
 import { isValidToken, setSession } from '../utils/jwt';
@@ -106,25 +106,29 @@ export interface AuthProviderProps {
 function AuthProvider({ children }: AuthProviderProps) {
     const [state, dispatch] = useReducer(reducer, initialState);
     const dispatchStore = useDispatch();
-    const initializeUser = async (claim: UserClaim, user: Record<string, any>) => {
-        dispatchStore(authorizeActions.asyncSetUserLogin(claim));
-        dispatchStore(userActions.addUserInfo(user.objectId, Map({ ...user, userId: user.objectId })));
+    const initializeUser = useCallback(
+        async (claim: UserClaim, user: Record<string, any>) => {
+            dispatchStore(authorizeActions.asyncSetUserLogin(claim));
+            dispatchStore(userActions.addUserInfo(user.objectId, Map({ ...user, userId: user.objectId })));
 
-        await dispatchStore(globalActions.loadInitialData());
-        dispatch({
-            type: 'INITIALIZE',
-            payload: {
-                isAuthenticated: true,
-                user,
-            },
-        });
-    };
-    const initializeAuth = async () => {
+            await dispatchStore(globalActions.loadInitialData());
+            dispatch({
+                type: 'INITIALIZE',
+                payload: {
+                    isAuthenticated: true,
+                    user,
+                },
+            });
+        },
+        [dispatchStore],
+    );
+
+    const initializeAuth = useCallback(async () => {
         try {
             const accessToken = authorizeService.getAccessToken();
             if (accessToken && isValidToken(accessToken)) {
                 setSession(accessToken);
-                const userAuth: any = JwtDecode(accessToken);
+                const userAuth: any = jwtDecode(accessToken);
                 const { displayName, email } = userAuth.claim;
                 const user = await userService.getCurrentUserProfile();
                 user.displayName = displayName;
@@ -154,10 +158,11 @@ function AuthProvider({ children }: AuthProviderProps) {
                 },
             });
         }
-    };
+    }, [initializeUser]);
+
     useEffect(() => {
         initializeAuth();
-    }, []);
+    }, [initializeAuth]);
 
     const loginWithGithub = () => {
         return dispatchStore<any>(authorizeActions.dbLoginWithOAuth(OAuthType.GITHUB));

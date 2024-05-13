@@ -9,9 +9,13 @@ import { Map } from 'immutable';
 /**
  * Firbase vote service
  */
-@injectable()
+
 export class VoteService implements IVoteService {
-    @inject(SocialProviderTypes.HttpService) private _httpService: IHttpService;
+    private _httpService: IHttpService;
+
+    constructor(httpService: IHttpService) {
+        this._httpService = httpService;
+    }
 
     /**
      * Add vote
