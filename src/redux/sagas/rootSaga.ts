@@ -1,4 +1,5 @@
 import { all } from 'redux-saga/effects';
+import config from 'config';
 
 import authorizeSaga from './authorizeSaga';
 import circleSaga from './circleSaga';
@@ -14,7 +15,7 @@ import userSettingSaga from './userSettingSaga';
 import vangSaga from './vangSaga';
 
 export default function* root() {
-    yield all([
+    const allSaga = [
         authorizeSaga(),
         localeSaga(),
         commentSaga(),
@@ -26,6 +27,9 @@ export default function* root() {
         gallerySaga(),
         notificationSaga(),
         circleSaga(),
-        vangSaga(),
-    ]);
+    ];
+    if (config.gateway.websocket_url) {
+        allSaga.push(vangSaga());
+    }
+    yield all(allSaga);
 }
